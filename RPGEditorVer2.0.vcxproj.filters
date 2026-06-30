@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{5e00b7c7-8c8f-4880-a7ed-afad5c73be68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Main">
+      <UniqueIdentifier>{5c4859d7-d7eb-46a0-ac16-9b5e934de7b3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scripts\Main\WinMain.cpp">
+      <Filter>Scripts\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
