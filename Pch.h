@@ -27,26 +27,29 @@
 // DirectWrite
 #include <dwrite_3.h>
 
+// 数学
+#include <cmath>
+// コンセプト
+#include <concepts>
 // 文字列
 #include <string>
-// スマートポインタ
-#include <memory>
-// 可変長配列
+// ベクトル
 #include <vector>
 // 配列
 #include <array>
-// キュー
-#include <queue>
-// マップ
+// 辞書
 #include <unordered_map>
 // 集合
 #include <unordered_set>
-// 便利
-#include <utility>
-// 関数
-#include <functional>
-// インデックス型
+// 型インデックス
 #include <typeindex>
+// エラー処理
+#include <exception>
+// ファイルストリーム
+#include <fstream>
+// 文字列ストリーム
+#include <sstream>
+
 
 // DirectXTK
 #include "BufferHelpers.h"
@@ -74,3 +77,39 @@
 // TがUを継承しているかどうか
 template<typename T, typename U>
 concept IsDerived = std::derived_from<T, U> && !std::same_as<T, U>;
+
+
+// 便利関数群
+#include "Scripts/Commons/Libraries/Utility.h"
+// 数学関係
+#include "Scripts/Commons/Libraries/Math/Math.h"
+#include "Scripts/Commons/Libraries/Math/Vector2Int.h"
+#include "Scripts/Commons/Libraries/Math/Vector3Int.h"
+#include "Scripts/Commons/Libraries/Math/Rect.h"
+#include "Scripts/Commons/Libraries/Math/NonRotatingBox.h"
+#include "Scripts/Commons/Libraries/Math/Sphere.h"
+#include "Scripts/Commons/Libraries/Math/Circle.h"
+#include "Scripts/Commons/Libraries/Math/Line.h"
+#include "Scripts/Commons/Libraries/Math/Triangle.h"
+#include "Scripts/Commons/Libraries/Math/Box.h"
+#include "Scripts/Commons/Libraries/Math/Euler.h"
+#include "Scripts/Commons/Libraries/Math/Geometry.h"
+// カメラ
+#include "Scripts/Commons/Libraries/Camera/QuaternionCamera.h"
+#include "Scripts/Commons/Libraries/Camera/QuaternionTargetCamera.h"
+#include "Scripts/Commons/Libraries/Camera/EulerCamera.h"
+#include "Scripts/Commons/Libraries/Camera/EulerTargetCamera.h"
+// 範囲値
+#include "Scripts/Commons/Libraries/Limited.h"
+// ループ値
+#include "Scripts/Commons/Libraries/Cycled.h"
+// イージング
+#include "Scripts/Commons/Libraries/Easing.h"
+// ばね
+#include "Scripts/Commons/Libraries/Spring.h"
+// メッシュ
+#include "Scripts/Commons/Libraries/Mesh.h"
+using namespace Libraries;
+
+namespace Objects {}
+using namespace Objects;

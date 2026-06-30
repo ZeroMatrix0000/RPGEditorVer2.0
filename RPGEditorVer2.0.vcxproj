@@ -145,13 +145,61 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerCamera.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerTargetCamera.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\QuaternionCamera.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\QuaternionTargetCamera.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Cycled.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Limited.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Box.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Euler.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Geometry.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Triangle.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Mesh.cpp" />
+    <ClCompile Include="Scripts\Commons\Objects\GameObject.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\DeviceResources.cpp" />
+    <ClCompile Include="Scripts\Commons\Systems\OnlyOne.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Utility.cpp" />
+    <ClCompile Include="Scripts\Main\Game.cpp" />
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\EulerCamera.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\EulerTargetCamera.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\QuaternionCamera.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\QuaternionTargetCamera.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Cycled.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Easing.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Limited.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Box.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Circle.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Euler.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Geometry.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Line.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Math.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\NonRotatingBox.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Rect.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Sphere.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Triangle.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Vector2Int.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Vector3Int.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Mesh.h" />
+    <ClInclude Include="Scripts\Commons\Systems\ComponentCreatePermit.h" />
+    <ClInclude Include="Scripts\Commons\Objects\Scene.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\DeviceResources.h" />
+    <ClInclude Include="Scripts\Commons\Objects\Component.h" />
+    <ClInclude Include="Scripts\Commons\Systems\ComponentFactory.h" />
+    <ClInclude Include="Scripts\Commons\Objects\GameObject.h" />
+    <ClInclude Include="Scripts\Commons\Objects\Observer.h" />
+    <ClInclude Include="Scripts\Commons\Systems\OnlyOne.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Spring.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Utility.h" />
+    <ClInclude Include="Scripts\Main\Game.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

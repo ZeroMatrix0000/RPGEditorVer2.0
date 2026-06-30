@@ -7,17 +7,178 @@
     <Filter Include="Scripts\Main">
       <UniqueIdentifier>{5c4859d7-d7eb-46a0-ac16-9b5e934de7b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Commons">
+      <UniqueIdentifier>{c325fdeb-4ab9-4ec5-aa51-b6f139bb992f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Libraries">
+      <UniqueIdentifier>{0a002aac-42e1-4d68-a1b5-dde2160e5976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Libraries\Math">
+      <UniqueIdentifier>{17abbf5b-7be4-44e6-9518-936139468130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Libraries\Camera">
+      <UniqueIdentifier>{55b2f34f-63f9-42f6-8eb2-4c04594d884a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Systems">
+      <UniqueIdentifier>{66546df1-2f4c-4007-815a-b61069529457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Renderings">
+      <UniqueIdentifier>{6cb372c5-b0a7-42f3-bc35-2d09e30c10f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Objects">
+      <UniqueIdentifier>{d1b82248-7f1d-4f53-b2a6-d371a58b73fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
       <Filter>Scripts\Main</Filter>
     </ClCompile>
     <ClCompile Include="Pch.cpp" />
+    <ClCompile Include="Scripts\Commons\Libraries\Utility.cpp">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Triangle.cpp">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Box.cpp">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Euler.cpp">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Math\Geometry.cpp">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerCamera.cpp">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerTargetCamera.cpp">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\QuaternionCamera.cpp">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Camera\QuaternionTargetCamera.cpp">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Cycled.cpp">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Limited.cpp">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Libraries\Mesh.cpp">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Main\Game.cpp">
+      <Filter>Scripts\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\DeviceResources.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Objects\GameObject.cpp" />
+    <ClCompile Include="Scripts\Commons\Systems\OnlyOne.cpp">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
+    <ClInclude Include="Scripts\Commons\Libraries\Utility.h">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Math.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Vector2Int.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Vector3Int.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Rect.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Sphere.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Circle.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Line.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Triangle.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\NonRotatingBox.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Box.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Euler.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Math\Geometry.h">
+      <Filter>Scripts\Commons\Libraries\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\EulerCamera.h">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\EulerTargetCamera.h">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\QuaternionCamera.h">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Camera\QuaternionTargetCamera.h">
+      <Filter>Scripts\Commons\Libraries\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Cycled.h">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Limited.h">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Easing.h">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Spring.h">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Libraries\Mesh.h">
+      <Filter>Scripts\Commons\Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Main\Game.h">
+      <Filter>Scripts\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\DeviceResources.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\ComponentFactory.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Objects\GameObject.h">
+      <Filter>Scripts\Commons\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Objects\Observer.h">
+      <Filter>Scripts\Commons\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Objects\Component.h">
+      <Filter>Scripts\Commons\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Objects\Scene.h">
+      <Filter>Scripts\Commons\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\ComponentCreatePermit.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\OnlyOne.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Readme.md" />
   </ItemGroup>
 </Project>

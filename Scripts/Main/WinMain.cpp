@@ -8,6 +8,8 @@
 
 #include "Pch.h"
 
+#include "Game.h"
+
 /* 前方宣言 */
 
 // ウィンドウプロシージャ
@@ -36,10 +38,10 @@ int WINAPI wWinMain
 )
 {
 	// ゲーム
-	//Game game{};
+	Game game{};
 
 	// ウィンドウ
-	HWND hWnd{};
+	HWND hWindow{};
 	// ウィンドウを作成
 	{
 		// ウィンドウクラス
@@ -72,7 +74,7 @@ int WINAPI wWinMain
 
 		// ウィンドウを作成
 		// ワークエリアの中央にウィンドウを配置する
-		hWnd = CreateWindowExW
+		hWindow = CreateWindowExW
 		(
 			0,
 			WINDOW_CLASS_NAME,
@@ -85,20 +87,19 @@ int WINAPI wWinMain
 			nullptr,
 			nullptr,
 			hInstance,
-			//&game
-			nullptr
+			&game
 		);
-		if (!hWnd)
+		if (!hWindow)
 		{
 			return 1;
 		}
 
 		// ウィンドウを表示
-		ShowWindow(hWnd, SW_SHOW);
+		ShowWindow(hWindow, SW_SHOW);
 	}
 
 	// ゲームの初期化
-	//game.Initialize(hWnd);
+	game.Initialize(hWindow);
 
 	// メッセージ情報
 	MSG msg{};
@@ -113,11 +114,11 @@ int WINAPI wWinMain
 		}
 
 		// ゲームの更新
-		//game.Tick();
+		game.Tick();
 	}
 
 	// ゲームの終了
-	//game.Finalize();
+	game.Finalize();
 
 	return static_cast<int>(msg.wParam);
 }
@@ -132,7 +133,7 @@ LRESULT CALLBACK WndProcW
 )
 {
 	// ゲームへのポインタ
-	//static Game* s_game{};
+	static Game* s_game{};
 
 	switch (message)
 	{
@@ -144,7 +145,7 @@ LRESULT CALLBACK WndProcW
 			SetWindowLongPtrW(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(cs->lpCreateParams));
 
 			// ゲームへのポインタ
-			//s_game = reinterpret_cast<Game*>(GetWindowLongPtrW(hWnd, GWLP_USERDATA));
+			s_game = reinterpret_cast<Game*>(GetWindowLongPtrW(hWnd, GWLP_USERDATA));
 
 			// 1秒毎に処理を実行
 			SetTimer(hWnd, 1, 500, nullptr);
@@ -164,13 +165,8 @@ LRESULT CALLBACK WndProcW
 		break;
 	// ウィンドウサイズ変更
 	case WM_SIZE:
-		// 最小化でなければ
-		if (wParam != SIZE_MINIMIZED)
-		{
-			// ウィンドウサイズを取得し適用
-			//s_game->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
-			//s_game->Tick();
-		}
+		// ウィンドウサイズを取得し適用
+		s_game->OnWindowSizeChanged(Math::Vector2Int{ LOWORD(lParam), HIWORD(lParam) });
 		break;
 	// ウィンドウの背景削除
 	case WM_ERASEBKGND:
