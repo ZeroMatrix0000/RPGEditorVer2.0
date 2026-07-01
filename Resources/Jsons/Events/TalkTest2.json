@@ -1,0 +1,21 @@
+[
+	{
+		"ActionType": "OpenDialogBox",
+		"Parameter": {
+			"IsWait": true
+		}
+	},
+	{
+		"ActionType": "SetDialogBoxText",
+		"Parameter": {
+			"Text": "Test",
+			"Character": "Test"
+		}
+	},
+	{
+		"ActionType": "CloseDialogBox",
+		"Parameter": {
+			"IsWait": true
+		}
+	}
+]

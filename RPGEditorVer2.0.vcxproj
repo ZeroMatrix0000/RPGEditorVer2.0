@@ -145,6 +145,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\GameObjects\Transform.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerCamera.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerTargetCamera.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Camera\QuaternionCamera.cpp" />
@@ -156,12 +157,27 @@
     <ClCompile Include="Scripts\Commons\Libraries\Math\Geometry.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Math\Triangle.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Mesh.cpp" />
-    <ClCompile Include="Scripts\Commons\Objects\GameObject.cpp" />
+    <ClCompile Include="Scripts\Commons\GameObjects\GameObject.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\DeviceResources.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\Model3D.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\Model3DRenderer.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\Model3DSource.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\RenderingResources.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\OnlyOne.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Utility.cpp" />
+    <ClCompile Include="Scripts\Commons\Systems\Resources.cpp" />
     <ClCompile Include="Scripts\Main\Game.cpp" />
+    <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
+    <ClCompile Include="Scripts\Scenes\SampleScene.cpp" />
+    <ClInclude Include="Scripts\Commons\GameObjects\Transform.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\Model3D.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\Model3DRenderer.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\Model3DSource.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\RenderingResources.h" />
+    <ClInclude Include="Scripts\Commons\Systems\IResources.h" />
+    <ClInclude Include="Scripts\Commons\Systems\Resources.h" />
+    <ClInclude Include="Scripts\Scenes\SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -185,21 +201,29 @@
     <ClInclude Include="Scripts\Commons\Libraries\Math\Vector2Int.h" />
     <ClInclude Include="Scripts\Commons\Libraries\Math\Vector3Int.h" />
     <ClInclude Include="Scripts\Commons\Libraries\Mesh.h" />
-    <ClInclude Include="Scripts\Commons\Systems\ComponentCreatePermit.h" />
-    <ClInclude Include="Scripts\Commons\Objects\Scene.h" />
+    <ClInclude Include="Scripts\Commons\GameObjects\ComponentCreatePermit.h" />
+    <ClInclude Include="Scripts\Commons\Scenes\ISceneManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Scenes\Scene.h" />
     <ClInclude Include="Scripts\Commons\Renderings\DeviceResources.h" />
-    <ClInclude Include="Scripts\Commons\Objects\Component.h" />
-    <ClInclude Include="Scripts\Commons\Systems\ComponentFactory.h" />
-    <ClInclude Include="Scripts\Commons\Objects\GameObject.h" />
-    <ClInclude Include="Scripts\Commons\Objects\Observer.h" />
+    <ClInclude Include="Scripts\Commons\GameObjects\Component.h" />
+    <ClInclude Include="Scripts\Commons\GameObjects\ComponentFactory.h" />
+    <ClInclude Include="Scripts\Commons\GameObjects\GameObject.h" />
+    <ClInclude Include="Scripts\Commons\GameObjects\Observer.h" />
+    <ClInclude Include="Scripts\Commons\Scenes\SceneManager.h" />
     <ClInclude Include="Scripts\Commons\Systems\OnlyOne.h" />
     <ClInclude Include="Scripts\Commons\Libraries\Spring.h" />
     <ClInclude Include="Scripts\Commons\Libraries\Utility.h" />
     <ClInclude Include="Scripts\Main\Game.h" />
+    <ClInclude Include="Scripts\Main\GameContext.h" />
+    <ClInclude Include="Scripts\Main\SceneTransitionData.h" />
+    <ClInclude Include="Scripts\Scenes\SampleScene.h" />
+    <ClInclude Include="Scripts\Scenes\Scenes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Readme.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

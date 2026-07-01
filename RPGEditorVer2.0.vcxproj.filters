@@ -25,8 +25,14 @@
     <Filter Include="Scripts\Commons\Renderings">
       <UniqueIdentifier>{6cb372c5-b0a7-42f3-bc35-2d09e30c10f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Commons\Objects">
+    <Filter Include="Scripts\Commons\GameObjects">
       <UniqueIdentifier>{d1b82248-7f1d-4f53-b2a6-d371a58b73fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Commons\Scenes">
+      <UniqueIdentifier>{a0a1f88d-939b-49ac-847f-ec9f24fda4ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Scenes">
+      <UniqueIdentifier>{7dbd01f2-59ac-4cc1-8f44-cc2f06c1715d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,10 +82,32 @@
     <ClCompile Include="Scripts\Commons\Renderings\DeviceResources.cpp">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Commons\Objects\GameObject.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\OnlyOne.cpp">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\GameObjects\GameObject.cpp">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Main\GameContext.cpp">
+      <Filter>Scripts\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\SampleScene.cpp">
+      <Filter>Scripts\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\RenderingResources.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\Model3DSource.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Systems\Resources.cpp">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\Model3D.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\GameObjects\Transform.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\Model3DRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -155,30 +183,71 @@
     <ClInclude Include="Scripts\Commons\Renderings\DeviceResources.h">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Commons\Systems\ComponentFactory.h">
-      <Filter>Scripts\Commons\Systems</Filter>
+    <ClInclude Include="Scripts\Commons\GameObjects\GameObject.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Commons\Objects\GameObject.h">
-      <Filter>Scripts\Commons\Objects</Filter>
+    <ClInclude Include="Scripts\Commons\GameObjects\Observer.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Commons\Objects\Observer.h">
-      <Filter>Scripts\Commons\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Commons\Objects\Component.h">
-      <Filter>Scripts\Commons\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Commons\Objects\Scene.h">
-      <Filter>Scripts\Commons\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Commons\Systems\ComponentCreatePermit.h">
-      <Filter>Scripts\Commons\Systems</Filter>
+    <ClInclude Include="Scripts\Commons\GameObjects\Component.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Systems\OnlyOne.h">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Commons\Scenes\Scene.h">
+      <Filter>Scripts\Commons\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\ComponentFactory.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\ComponentCreatePermit.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Scenes\SceneManager.h">
+      <Filter>Scripts\Commons\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Scenes\ISceneManager.h">
+      <Filter>Scripts\Commons\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Main\GameContext.h">
+      <Filter>Scripts\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Main\SceneTransitionData.h">
+      <Filter>Scripts\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\SampleScene.h">
+      <Filter>Scripts\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\Scenes.h">
+      <Filter>Scripts\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\SceneFactory.h">
+      <Filter>Scripts\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\Transform.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\RenderingResources.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\Model3DSource.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\IResources.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\Resources.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\Model3D.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\Model3DRenderer.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Readme.md" />
   </ItemGroup>
 </Project>

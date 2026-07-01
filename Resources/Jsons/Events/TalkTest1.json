@@ -1,0 +1,28 @@
+[
+	{
+		"ActionType": "OpenDialogBox",
+		"Parameter": {
+			"IsWait": true
+		}
+	},
+	{
+		"ActionType": "SetDialogBoxText",
+		"Parameter": {
+			"Text": "テスト",
+			"Character": "テスト"
+		}
+	},
+	{
+		"ActionType": "SetDialogBoxText",
+		"Parameter": {
+			"Text": "です。\nYeah",
+			"Character": "テスト"
+		}
+	},
+	{
+		"ActionType": "CloseDialogBox",
+		"Parameter": {
+			"IsWait": true
+		}
+	}
+]

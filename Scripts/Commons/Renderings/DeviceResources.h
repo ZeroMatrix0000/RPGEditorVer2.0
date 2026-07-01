@@ -34,6 +34,14 @@ namespace Renderings
 		// ウィンドウサイズ変更時の処理
 		void OnWindowSizeChanged(const Math::Vector2Int& outputSize);
 
+		// デバイスの取得
+		auto* GetD3DDevice()  const { return m_d3dDevice.Get(); }
+		// デバイスコンテキストの取得
+		auto* GetD3DContext() const { return m_d3dContext.Get(); }
+
+		// スワップチェインの取得
+		auto* GetSwapChain() const { return m_swapChain.Get(); }
+
 
 	private:
 

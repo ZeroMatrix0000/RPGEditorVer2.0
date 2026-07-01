@@ -1,0 +1,30 @@
+{
+	"NPCFocusDistance": 3.0,
+	"NPCSize": {
+		"X": 1.0,
+		"Y": 2.0,
+		"Z": 1.0
+	},
+	"InteractCursorImageSize": 0.5,
+	"InteractCursorDelay": {
+		"X": 0.0,
+		"Y": -40.0
+	},
+	"InteractCursorTextDelay": {
+		"X": 0.0,
+		"Y": -30.0
+	},
+	"InteractCursorTextRectSize": {
+		"X": 1000.0,
+		"Y": 50.0
+	},
+	"InteractCursorTextFontName": "GenEi",
+	"InteractCursorTextFontSize": 24.0,
+	"InteractCursorColor": {
+		"R": 1.0,
+		"G": 0.95,
+		"B": 0.8,
+		"A": 1.0
+	},
+	"InteractCursorAlphaVelocty": 8.0
+}

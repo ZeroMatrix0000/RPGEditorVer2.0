@@ -1,16 +1,21 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/01
  *
  * ゲーム
  */
 
 #pragma once
 
-#include "Scripts/Commons/Renderings/DeviceResources.h"
 #include "Scripts/Commons/Systems/OnlyOne.h"
-#include "Scripts/Commons/Systems/ComponentFactory.h"
+#include "Scripts/Commons/Renderings/DeviceResources.h"
+#include "Scripts/Commons/Renderings/RenderingResources.h"
+#include "Scripts/Commons/Systems/Resources.h"
+#include "Scripts/Commons/GameObjects/ComponentFactory.h"
+#include "Scripts/Commons/Scenes/SceneManager.h"
+#include "SceneTransitionData.h"
+#include "GameContext.h"
 
 class Game : public Systems::OnlyOne
 {
@@ -44,6 +49,9 @@ private:
 	// 描画処理
 	void Render();
 
+	// リソースの追加
+	void AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx);
+
 
 	/* メンバ変数 */
 
@@ -52,8 +60,19 @@ private:
 
 	// デバイスリソース
 	Renderings::DeviceResources m_deviceResources;
+	// 描画リソース
+	Renderings::RenderingResources m_renderingResources;
+
+	// リソース
+	Systems::Resources m_resources;
 
 	// コンポーネント作成
-	Systems::ComponentFactory m_componentFactory;
+	ComponentFactory m_componentFactory;
+
+	// シーン管理
+	Scenes::SceneManager<SceneTransitionData, GameContext> m_sceneManager;
+
+	// ゲームコンテキスト
+	GameContext m_context;
 
 };

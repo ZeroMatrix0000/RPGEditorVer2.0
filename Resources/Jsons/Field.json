@@ -1,0 +1,41 @@
+{
+	"Player": {
+		"Position": {
+			"X": 0.0,
+			"Y": 0.0,
+			"Z": 0.0
+		}
+	},
+	"NPCList": [
+		{
+			"Position": {
+				"X": 5.0,
+				"Y": 1.0,
+				"Z": 5.0
+			},
+			"RotationYDeg": 30.0,
+			"Name": "テスト",
+			"Event": "Talkテスト"
+		},
+		{
+			"Position": {
+				"X": 4.0,
+				"Y": 1.0,
+				"Z": 6.0
+			},
+			"RotationYDeg": 30.0,
+			"Name": "Test",
+			"Event": "TalkTest"
+		},
+		{
+			"Position": {
+				"X": -5.0,
+				"Y": -0.5,
+				"Z": 5.0
+			},
+			"RotationYDeg": 120.0,
+			"Name": "테스트",
+			"Event": "Talk테스트"
+		}
+	]
+}
