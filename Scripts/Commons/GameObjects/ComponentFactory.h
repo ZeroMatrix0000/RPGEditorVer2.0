@@ -48,9 +48,9 @@ namespace GameObjects
 
 	// トランスフォームコンポーネントを作成
 	template<>
-	inline std::unique_ptr<Transform> ComponentFactory::Create(GameObject*) const
+	inline std::unique_ptr<Transform> ComponentFactory::Create(GameObject* pOwner) const
 	{
-		return std::make_unique<Transform>(m_permit);
+		return std::make_unique<Transform>(m_permit, pOwner);
 	}
 	// 3Dモデルコンポーネントを作成
 	template<>

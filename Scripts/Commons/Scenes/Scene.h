@@ -23,7 +23,7 @@ namespace Scenes
 
 		// コンストラクタ
 		Scene(const ComponentCreatePermit& permit)
-			: Component{ permit }
+			: Component{ permit, nullptr }
 			, m_pContext{}
 		{
 		}

@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/02
  *
  * 3Dモデル
  */
@@ -12,6 +12,9 @@
 
 namespace Renderings
 {
+	// 前方宣言
+	class IModel3DRenderer;
+
 	class Model3D : public Component
 	{
 
@@ -34,6 +37,9 @@ namespace Renderings
 
 		// モデル名
 		std::string m_modelName;
+
+		// モデル描画インタフェースのポインタ
+		IModel3DRenderer* m_pIModelRenderer;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/02
  *
  * ゲーム
  */
@@ -11,6 +11,7 @@
 #include "Scripts/Commons/Systems/OnlyOne.h"
 #include "Scripts/Commons/Renderings/DeviceResources.h"
 #include "Scripts/Commons/Renderings/RenderingResources.h"
+#include "Scripts/Commons/Renderings/Model3DRenderer.h"
 #include "Scripts/Commons/Systems/Resources.h"
 #include "Scripts/Commons/GameObjects/ComponentFactory.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
@@ -62,6 +63,9 @@ private:
 	Renderings::DeviceResources m_deviceResources;
 	// 描画リソース
 	Renderings::RenderingResources m_renderingResources;
+
+	// モデル描画
+	Renderings::Model3DRenderer m_modelRenderer;
 
 	// リソース
 	Systems::Resources m_resources;

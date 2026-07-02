@@ -25,7 +25,7 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Component(const ComponentCreatePermit&, GameObject* pOwner = nullptr)
+		Component(const ComponentCreatePermit&, GameObject* pOwner)
 			: m_pOwner{ pOwner }
 		{
 		}

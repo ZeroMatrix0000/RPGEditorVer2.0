@@ -31,7 +31,7 @@ namespace GameObjects
 		TComponent* AddComponent(const ComponentFactory& componentFactory)
 		{
 			m_components.emplace(typeid(TComponent), componentFactory.Create<TComponent>(this));
-			return dynamic_cast<TComponent*>(m_components.at(typeid(TComponent)).get());
+			return static_cast<TComponent*>(m_components.at(typeid(TComponent)).get());
 		}
 
 

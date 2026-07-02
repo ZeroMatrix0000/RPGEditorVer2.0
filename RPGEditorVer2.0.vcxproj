@@ -171,6 +171,7 @@
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
     <ClCompile Include="Scripts\Scenes\SampleScene.cpp" />
     <ClInclude Include="Scripts\Commons\GameObjects\Transform.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\IModel3DRenderer.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Model3D.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Model3DRenderer.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Model3DSource.h" />

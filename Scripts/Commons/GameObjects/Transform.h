@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/02
  *
  * トランスフォーム
  */
@@ -21,7 +21,7 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Transform(const ComponentCreatePermit& permit);
+		Transform(const ComponentCreatePermit& permit, GameObject* pOwner);
 
 
 	private:

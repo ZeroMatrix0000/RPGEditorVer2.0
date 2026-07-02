@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/02
  *
  * サンプルシーン
  */
@@ -22,8 +22,11 @@ SampleScene::SampleScene(const ComponentCreatePermit& permit)
 // 初期化処理
 void SampleScene::Initialize(const SceneTransitionData& data)
 {
+	// コンポーネント工場
+	const auto& componentFactory = GetContext().GetComponentFactory();
+
 	// コンポーネントをアタッチ
-	m_test.AddComponent<Transform>(GetContext().GetComponentFactory());
-	auto* pModel3D = m_test.AddComponent<Renderings::Model3D>(GetContext().GetComponentFactory());
+	m_test.AddComponent<Transform>(componentFactory);
+	auto* pModel3D = m_test.AddComponent<Renderings::Model3D>(componentFactory);
 	pModel3D->SetModelName("Player");
 }

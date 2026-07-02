@@ -14,15 +14,6 @@ namespace Renderings
 	class Model3DSource
 	{
 
-	private:
-
-
-		/* メンバ変数 */
-
-		// モデル
-		std::unique_ptr<DirectX::Model> m_model;
-
-
 	public:
 
 
@@ -45,6 +36,15 @@ namespace Renderings
 
 		// 生成
 		static Model3DSource Create(ID3D11Device* device, DirectX::EffectFactory* fx, const std::wstring& filePath);
+
+
+	private:
+
+
+		/* メンバ変数 */
+
+		// モデル
+		std::unique_ptr<DirectX::Model> m_model;
 
 	};
 }

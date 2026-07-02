@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/02
  *
  * ゲーム
  */
@@ -17,6 +17,7 @@ Game::Game()
 	, m_hWindow{}
 	, m_deviceResources{}
 	, m_renderingResources{}
+	, m_modelRenderer{ m_resources }
 	, m_resources{}
 	, m_componentFactory{}
 	, m_sceneManager{ m_context }
@@ -48,6 +49,9 @@ void Game::Initialize(const HWND& hWindow)
 	const auto& commonStates = m_renderingResources.GetCommonStates();
 	// エフェクトファクトリー
 	auto* fx = m_renderingResources.GetEffectFactory();
+
+	// モデル描画の初期化
+	m_modelRenderer.Initialize(context, commonStates);
 
 	// リソースの追加
 	AddResources(device, fx);
