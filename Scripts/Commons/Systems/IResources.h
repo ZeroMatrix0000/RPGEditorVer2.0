@@ -1,7 +1,7 @@
 /*
  * FileName:     IResources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/03
  *
  * リソースのインタフェース
  */
@@ -30,7 +30,7 @@ namespace Systems
 		virtual ~IResources() = default;
 
 		// モデルの取得
-		virtual const Renderings::Model3DSource* GetModel3D(const std::string& modelName) const = 0;
+		virtual const Renderings::Model3DSource* GetModelSource(const std::string& modelName) const = 0;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObject.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/03
  *
  * ゲームオブジェクト
  */
@@ -26,12 +26,38 @@ namespace GameObjects
 		// コンストラクタ
 		GameObject();
 
+		// 更新処理
+		void Update(float elapsedTime);
+
+		// コンポーネントを取得
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		TComponent* GetComponent()
+		{
+			auto it = m_components.find(typeid(TComponent));
+			if (it == m_components.end())
+			{
+				return nullptr;
+			}
+			return static_cast<TComponent*>(it->second.get());
+		}
+		// 変更不可コンポーネントを取得
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		const TComponent* GetConstComponent() const
+		{
+			auto it = m_components.find(typeid(TComponent));
+			if (it == m_components.end())
+			{
+				return nullptr;
+			}
+			return static_cast<TComponent*>(it->second.get());
+		}
+
 		// コンポーネントを追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		TComponent* AddComponent(const ComponentFactory& componentFactory)
 		{
 			m_components.emplace(typeid(TComponent), componentFactory.Create<TComponent>(this));
-			return static_cast<TComponent*>(m_components.at(typeid(TComponent)).get());
+			return GetComponent<TComponent>();
 		}
 
 

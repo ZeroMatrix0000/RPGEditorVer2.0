@@ -23,6 +23,12 @@ namespace GameObjects
 		// コンストラクタ
 		Transform(const ComponentCreatePermit& permit, GameObject* pOwner);
 
+		// 座標を設定
+		void SetPosition(const Math::Vector3& position) { m_position = position; }
+
+		// 座標を取得
+		const Math::Vector3& GetPosition() const { return m_position; }
+
 
 	private:
 
@@ -30,11 +36,11 @@ namespace GameObjects
 		/* メンバ変数 */
 
 		// 座標
-		Math::Vector3 position;
+		Math::Vector3 m_position;
 		// 回転
-		Math::Quaternion rotation;
+		Math::Quaternion m_rotation;
 		// 拡大率
-		Math::Vector3 scale;
+		Math::Vector3 m_scale;
 
 	};
 }

@@ -3,6 +3,8 @@
 classDiagram
 
 namespace Renderings{
+    class ICameraScreen
+    class CameraScreen
     class DeviceResources
     class RenderingResources
     class Model3DSource
@@ -39,10 +41,15 @@ namespace Scenes{
 <<OnlyOne>> ComponentFactory
 <<OnlyOne>> ISceneManager
 
+Component <|-- ICameraScreen
+ICameraScreen <|-- CameraScreen
+ICameraScreen --o Model3D
 Model3DSource "*" --* "1" Resources
+Model3D o-- IModel3DRenderer
 Model3D "*" --o "1" Model3DRenderer
 Component <|-- Model3D
 IModel3DRenderer <|-- Model3DRenderer
+IModel3DRenderer --o ComponentFactory
 IResources --o Model3DRenderer
 IResources <|-- Resources
 Observer <|-- Component
@@ -93,6 +100,8 @@ class SampleScene
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> Model3DRenderer
 <<OnlyOne>> ComponentFactory
+<<OnlyOne>> ISceneManager
+<<OnlyOne>> SceneManager
 <<OnlyOne>> GameContext
 <<OnlyOne>> Game
 
@@ -102,9 +111,9 @@ Model3DRenderer --* Game
 Resources --* Game
 ComponentFactory --o GameContext
 ComponentFactory --* Game
-GameObject --* SampleScene
+GameObject "*" --* "1" SampleScene
 Scene <|-- SampleScene
-SceneManager --o GameContext
+ISceneManager --o GameContext
 SceneManager --* Game
 GameContext --* Game
 GameContext <.. SampleScene

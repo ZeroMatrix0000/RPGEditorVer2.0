@@ -1,7 +1,7 @@
 /*
  * FileName:     Scene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/03
  *
  * シーン
  */
@@ -22,16 +22,16 @@ namespace Scenes
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Scene(const ComponentCreatePermit& permit)
-			: Component{ permit, nullptr }
+		Scene(const ComponentCreatePermit& permit, GameObject* pOwner)
+			: Component{ permit, pOwner }
 			, m_pContext{}
 		{
 		}
 
 		// 初期化処理
-		virtual void Initialize(const TTransitionData& data) {};
+		virtual void Initialize(const TTransitionData& data) = 0;
 		// 終了処理
-		virtual void Finalize() {};
+		virtual void Finalize() = 0;
 
 		// コンテキストを設定
 		void SetContext(const TContext& context) { m_pContext = &context; }

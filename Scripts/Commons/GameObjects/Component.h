@@ -35,6 +35,9 @@ namespace GameObjects
 		// 更新処理
 		virtual void Update(float elapsedTime) {};
 
+		// 所有者を取得
+		const GameObject* GetPOwner() const { return m_pOwner; }
+
 
 	private:
 

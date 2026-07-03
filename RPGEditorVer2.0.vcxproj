@@ -145,6 +145,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\GameObjects\ComponentFactory.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\Transform.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerCamera.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Camera\EulerTargetCamera.cpp" />
@@ -171,6 +172,8 @@
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
     <ClCompile Include="Scripts\Scenes\SampleScene.cpp" />
     <ClInclude Include="Scripts\Commons\GameObjects\Transform.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\CameraScreen.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\ICameraScreen.h" />
     <ClInclude Include="Scripts\Commons\Renderings\IModel3DRenderer.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Model3D.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Model3DRenderer.h" />
@@ -178,7 +181,6 @@
     <ClInclude Include="Scripts\Commons\Renderings\RenderingResources.h" />
     <ClInclude Include="Scripts\Commons\Systems\IResources.h" />
     <ClInclude Include="Scripts\Commons\Systems\Resources.h" />
-    <ClInclude Include="Scripts\Scenes\SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />

@@ -10,6 +10,9 @@
 #include "Model3DRenderer.h"
 
 #include "Model3D.h"
+#include "ICameraScreen.h"
+#include "../GameObjects/GameObject.h"
+#include "../GameObjects/Transform.h"
 #include "../Systems/IResources.h"
 
  // コンストラクタ
@@ -27,6 +30,43 @@ void Renderings::Model3DRenderer::Initialize(ID3D11DeviceContext4* pContext, con
 {
 	m_pContext = pContext;
 	m_pCommonStates = &commonStates;
+}
+
+// 描画処理
+void Renderings::Model3DRenderer::Render()
+{
+	for (const auto* pModel : m_pModels)
+	{
+		// モデルソース
+		const Model3DSource* modelSource = m_refIResources.GetModelSource(pModel->GetModelSourceName());
+		if (!modelSource)
+		{
+			return;
+		}
+
+		// カメラ画面のインタフェース
+		const ICameraScreen* pICameraScreen = pModel->GetPICameraScreen();
+		if (!pICameraScreen)
+		{
+			return;
+		}
+
+		// モデルの所有者のトランスフォーム
+		const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
+		if (!pTransform)
+		{
+			return;
+		}
+
+		modelSource->GetModel().Draw
+		(
+			m_pContext,
+			*m_pCommonStates,
+			Math::Matrix::CreateTranslation(pTransform->GetPosition()),
+			pICameraScreen->GetViewMatrix(),
+			pICameraScreen->GetProjectionMatrix()
+		);
+	}
 }
 
 // モデルのポインタを追加

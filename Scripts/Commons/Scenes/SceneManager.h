@@ -48,6 +48,12 @@ namespace Scenes
 			m_currentScene->Finalize();
 		}
 
+		// ウィンドウサイズ変更時の処理
+		void OnWindowSizeChanged()
+		{
+			m_currentScene->AcceptMessage("WindowSizeChanged");
+		}
+
 		// シーンを追加
 		void AddScene(const std::string& sceneName, const std::function<std::unique_ptr<Scene>()>& CreateComponent)
 		{

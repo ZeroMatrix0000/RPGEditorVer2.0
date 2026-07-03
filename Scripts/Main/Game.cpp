@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/02
+ * Last Updated: 2026/07/03
  *
  * ゲーム
  */
@@ -56,8 +56,18 @@ void Game::Initialize(const HWND& hWindow)
 	// リソースの追加
 	AddResources(device, fx);
 
+	// コンポーネント工場の初期化
+	m_componentFactory.SetPIModelRenderer(&m_modelRenderer);
+
 	// シーンの追加
 	m_sceneManager.AddScene("Sample", [&] { return m_componentFactory.Create<SampleScene>(); });
+
+	// コンテキストの初期化
+	m_context.Initialize
+	(
+		&m_componentFactory,
+		&m_sceneManager
+	);
 
 	// 最初のシーンを設定
 	m_sceneManager.SetFirstScene("Sample");
@@ -89,6 +99,7 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	}
 
 	m_deviceResources.OnWindowSizeChanged(outputSize);
+	m_sceneManager.OnWindowSizeChanged();
 }
 
 // 更新処理
@@ -104,6 +115,9 @@ void Game::Render()
 	// 画面の初期化
 	m_deviceResources.Clear();
 
+	// モデルの描画
+	m_modelRenderer.Render();
+
 	// 画面の表示
 	m_deviceResources.Present();
 }
@@ -111,8 +125,8 @@ void Game::Render()
 // リソースの追加
 void Game::AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx)
 {
-	// モデルの追加
-	m_resources.AddModel3D("Player", device, fx, L"Resources/Models/Player.cmo");
-	m_resources.AddModel3D("NPC"   , device, fx, L"Resources/Models/NPC.cmo");
-	m_resources.AddModel3D("Ground", device, fx, L"Resources/Models/Ground.cmo");
+	// モデルソースの追加
+	m_resources.AddModelSource("Player", device, fx, L"Resources/Models/Player.cmo");
+	m_resources.AddModelSource("NPC"   , device, fx, L"Resources/Models/NPC.cmo");
+	m_resources.AddModelSource("Ground", device, fx, L"Resources/Models/Ground.cmo");
 }

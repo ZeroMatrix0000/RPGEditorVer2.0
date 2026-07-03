@@ -9,4 +9,3 @@
 #pragma once
 
 #include "SampleScene.h"
-#include "SceneFactory.h"

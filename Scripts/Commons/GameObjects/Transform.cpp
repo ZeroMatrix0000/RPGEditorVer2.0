@@ -11,8 +11,8 @@
 
 GameObjects::Transform::Transform(const ComponentCreatePermit& permit, GameObject* pOwner)
 	: Component{ permit, pOwner }
-	, position{ Math::Vector3::Zero }
-	, rotation{ Math::Quaternion::Identity }
-	, scale{ Math::Vector3::One }
+	, m_position{ Math::Vector3::Zero }
+	, m_rotation{ Math::Quaternion::Identity }
+	, m_scale{ Math::Vector3::One }
 {
 }

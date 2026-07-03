@@ -31,6 +31,8 @@ namespace Renderings
 
 		// 初期化処理
 		void Initialize(ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
+		// 描画処理
+		void Render();
 
 		// モデルのポインタを追加
 		void AddModel(const Model3D* pModel) override;
