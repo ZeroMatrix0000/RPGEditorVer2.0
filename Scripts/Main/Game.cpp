@@ -19,6 +19,7 @@ Game::Game()
 	, m_renderingResources{}
 	, m_modelRenderer{ m_resources }
 	, m_resources{}
+	, m_windowController{}
 	, m_componentFactory{}
 	, m_sceneManager{ m_context }
 	, m_context{}
@@ -55,8 +56,10 @@ void Game::Initialize(const HWND& hWindow)
 
 	// リソースの追加
 	AddResources(device, fx);
+	// ウィンドウ管理の初期化
+	m_windowController.Initialize(hWindow);
 
-	// コンポーネント工場の初期化
+	// コンポーネント工場にモデル描画インタフェースを設定
 	m_componentFactory.SetPIModelRenderer(&m_modelRenderer);
 
 	// シーンの追加
@@ -65,6 +68,7 @@ void Game::Initialize(const HWND& hWindow)
 	// コンテキストの初期化
 	m_context.Initialize
 	(
+		&m_windowController,
 		&m_componentFactory,
 		&m_sceneManager
 	);
@@ -99,6 +103,7 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	}
 
 	m_deviceResources.OnWindowSizeChanged(outputSize);
+	m_windowController.SetOutputSize(outputSize);
 	m_sceneManager.OnWindowSizeChanged();
 }
 

@@ -34,7 +34,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pModel->SetModelSourceName("Player");
 	auto* cameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(componentFactory);
 	cameraScreen->GetRefCamera() = Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f };
-	cameraScreen->SetProjectionMatrix(45.0f, Math::Vector2{ 1600.0f, 900.0f });
+	cameraScreen->SetProjectionMatrix(45.0f, GetContext().GetIWindowController().GetOutputSize());
 
 	// モデルにカメラ画面を設定
 	pModel->SetICameraScreen(*cameraScreen);
@@ -57,9 +57,12 @@ void SampleScene::Finalize()
 // メッセージを受け取る
 void SampleScene::AcceptMessage(const std::string& message)
 {
+	// 出力サイズ
+	const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
+
 	if (message == "WindowSizeChanged")
 	{
 		// プロジェクション行列を設定
-		m_camera.GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>()->SetProjectionMatrix(45.0f, Math::Vector2{ 1600.0f, 900.0f });
+		m_camera.GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>()->SetProjectionMatrix(45.0f, outputSize);
 	}
 }

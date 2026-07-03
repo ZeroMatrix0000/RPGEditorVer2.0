@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/02
+ * Last Updated: 2026/07/03
  *
  * ゲーム
  */
@@ -13,6 +13,7 @@
 #include "Scripts/Commons/Renderings/RenderingResources.h"
 #include "Scripts/Commons/Renderings/Model3DRenderer.h"
 #include "Scripts/Commons/Systems/Resources.h"
+#include "Scripts/Commons/Systems/WindowController.h"
 #include "Scripts/Commons/GameObjects/ComponentFactory.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
 #include "SceneTransitionData.h"
@@ -69,6 +70,8 @@ private:
 
 	// リソース
 	Systems::Resources m_resources;
+	// ウィンドウ管理
+	Systems::WindowController m_windowController;
 
 	// コンポーネント作成
 	ComponentFactory m_componentFactory;

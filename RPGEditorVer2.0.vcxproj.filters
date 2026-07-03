@@ -115,6 +115,9 @@
     <ClCompile Include="Scripts\Commons\GameObjects\ComponentFactory.cpp">
       <Filter>Scripts\Commons\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\Systems\WindowController.cpp">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -258,6 +261,12 @@
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Renderings\ICameraScreen.h">
       <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\IWindowController.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\WindowController.h">
+      <Filter>Scripts\Commons\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

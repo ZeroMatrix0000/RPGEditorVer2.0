@@ -16,6 +16,8 @@ namespace Renderings{
 namespace Systems{
     class IResources
     class Resources
+    class IWindowController
+    class WindowController
 }
 
 namespace GameObjects{
@@ -37,6 +39,7 @@ namespace Scenes{
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> IModel3DRenderer
 <<OnlyOne>> IResources
+<<OnlyOne>> IWindowController
 <<OnlyOne>> ComponentCreatePermit
 <<OnlyOne>> ComponentFactory
 <<OnlyOne>> ISceneManager
@@ -52,6 +55,7 @@ IModel3DRenderer <|-- Model3DRenderer
 IModel3DRenderer --o ComponentFactory
 IResources --o Model3DRenderer
 IResources <|-- Resources
+IWindowController <|-- WindowController
 Observer <|-- Component
 ComponentCreatePermit --* ComponentFactory
 ComponentCreatePermit <.. Component

@@ -1,7 +1,7 @@
 /*
  * FileName:     DeviceResources.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/03
  *
  * Direct3D 11に必要なリソース
  */
@@ -28,7 +28,6 @@ Renderings::DeviceResources::DeviceResources()
 // 初期化処理
 void Renderings::DeviceResources::Initialize(const HWND& hWindow)
 {
-	// ウィンドウを設定
 	m_hWindow = hWindow;
 
 	// クライアントサイズ
