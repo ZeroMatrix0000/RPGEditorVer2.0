@@ -10,6 +10,7 @@
 
 #include "OnlyOne.h"
 #include "../Renderings/Model3DSource.h"
+#include "../Renderings/ImageSource.h"
 
 namespace Systems
 {
@@ -31,6 +32,8 @@ namespace Systems
 
 		// モデルの取得
 		virtual const Renderings::Model3DSource* GetModelSource(const std::string& modelName) const = 0;
+		// 画像の取得
+		virtual const Renderings::ImageSource* GetImageSource(const std::string& imageName)   const = 0;
 
 	};
 }

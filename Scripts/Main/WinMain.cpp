@@ -1,7 +1,7 @@
 /*
  * FileName:     WinMain.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/03
  *
  * メイン
  */

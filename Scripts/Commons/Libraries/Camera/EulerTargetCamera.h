@@ -1,7 +1,7 @@
 /*
  * FileName:     EulerTargetCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/03
  *
  * カメラ（オイラー）
  */
@@ -34,6 +34,9 @@ namespace Libraries
 
 			// ビュー行列を作成
 			Math::Matrix CreateViewMatrix() const;
+
+			// 目線の位置を取得
+			Math::Vector3 GetEyePosition() const;
 
 
 			/* 静的関数 */

@@ -11,6 +11,7 @@ namespace Renderings{
     class Model3D
     class IModel3DRenderer
     class Model3DRenderer
+    class ImageSource
 }
 
 namespace Systems{
@@ -59,6 +60,7 @@ Model3D "*" --o "1" Model3DRenderer
 Component <|-- Model3D
 IModel3DRenderer <|-- Model3DRenderer
 IModel3DRenderer --o ComponentFactory
+ImageSource "*" --* "1" Resources
 IResources --o Model3DRenderer
 IResources <|-- Resources
 ITimer <|-- Timer

@@ -150,8 +150,15 @@ void Game::Render()
 // リソースの追加
 void Game::AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx)
 {
+	// 画像の追加
+	m_resources.AddImage("Box"           , device, L"Resources/Images/Box.dds"        );
+	m_resources.AddImage("InteractCursor", device, L"Resources/Images/FocusCursor.dds");
+	m_resources.AddImage("DialogBoxUI"   , device, L"Resources/Images/DialogBox.dds"  );
+	m_resources.AddImage("MenuDown"      , device, L"Resources/Images/MenuDown.dds"   );
+	m_resources.AddImage("MenuUp"        , device, L"Resources/Images/MenuUp.dds"     );
+	m_resources.AddImage("MenuRight"     , device, L"Resources/Images/MenuRight.dds"  );
 	// モデルソースの追加
 	m_resources.AddModelSource("Player", device, fx, L"Resources/Models/Player.cmo");
-	m_resources.AddModelSource("NPC"   , device, fx, L"Resources/Models/NPC.cmo");
+	m_resources.AddModelSource("NPC"   , device, fx, L"Resources/Models/NPC.cmo"   );
 	m_resources.AddModelSource("Ground", device, fx, L"Resources/Models/Ground.cmo");
 }

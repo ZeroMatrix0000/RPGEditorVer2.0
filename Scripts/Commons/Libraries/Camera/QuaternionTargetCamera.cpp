@@ -1,7 +1,7 @@
 /*
  * FileName:     QuaternionTargetCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/03
  *
  * ターゲットカメラ（四元数）
  */
@@ -16,4 +16,13 @@ Math::Matrix Libraries::Camera::QuaternionTargetCamera::CreateViewMatrix() const
 	Math::Vector3 up        = Math::Vector3::Transform(Math::Vector3::Up, rotation);
 
 	return Math::Matrix::CreateLookAt(position - direction * distance, position, up);
+}
+
+// 目線の位置を取得
+Math::Vector3 Libraries::Camera::QuaternionTargetCamera::GetEyePosition() const
+{
+	// カメラの向き
+	Math::Vector3    direction = Math::Vector3::Transform(Math::Vector3::Forward, rotation);
+
+	return position - direction * distance;
 }

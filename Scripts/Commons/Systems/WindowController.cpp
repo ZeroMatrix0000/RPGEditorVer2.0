@@ -29,8 +29,8 @@ void Systems::WindowController::Initialize(const HWND& hWindow)
 	GetClientRect(hWindow, &clientRect);
 
 	// 出力サイズを設定
-	m_outputSize.x = clientRect.right - clientRect.left;
-	m_outputSize.y = clientRect.bottom - clientRect.top;
+	m_outputSize.x = static_cast<float>(clientRect.right - clientRect.left);
+	m_outputSize.y = static_cast<float>(clientRect.bottom - clientRect.top);
 }
 
 // フルスクリーン表示切り替え

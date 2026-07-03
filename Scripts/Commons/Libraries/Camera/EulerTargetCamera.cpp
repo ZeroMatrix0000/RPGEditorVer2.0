@@ -1,7 +1,7 @@
 /*
  * FileName:     EulerTargetCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/03
  *
  * カメラ（オイラー）
  */
@@ -19,4 +19,15 @@ Math::Matrix Libraries::Camera::EulerTargetCamera::CreateViewMatrix() const
 	Math::Vector3    up        = Math::Vector3::Transform(Math::Vector3::Up, q);
 
 	return Math::Matrix::CreateLookAt(position - direction * distance, position, up);
+}
+
+// 目線の位置を取得
+Math::Vector3 Libraries::Camera::EulerTargetCamera::GetEyePosition() const
+{
+	// 四元数
+	Math::Quaternion q = rotation.CreateQuaternion();
+	// カメラの向き
+	Math::Vector3    direction = Math::Vector3::Transform(Math::Vector3::Forward, q);
+
+	return position - direction * distance;
 }
