@@ -19,7 +19,9 @@ Game::Game()
 	, m_renderingResources{}
 	, m_modelRenderer{ m_resources }
 	, m_resources{}
+	, m_timer{}
 	, m_windowController{}
+	, m_input{}
 	, m_componentFactory{}
 	, m_sceneManager{ m_context }
 	, m_context{}
@@ -56,8 +58,13 @@ void Game::Initialize(const HWND& hWindow)
 
 	// リソースの追加
 	AddResources(device, fx);
+	// タイマーの初期化
+	m_timer.Initialize();
+
 	// ウィンドウ管理の初期化
 	m_windowController.Initialize(hWindow);
+	// 入力の初期化
+	m_input.Initialize();
 
 	// コンポーネント工場にモデル描画インタフェースを設定
 	m_componentFactory.SetPIModelRenderer(&m_modelRenderer);
@@ -69,6 +76,7 @@ void Game::Initialize(const HWND& hWindow)
 	m_context.Initialize
 	(
 		&m_windowController,
+		&m_input,
 		&m_componentFactory,
 		&m_sceneManager
 	);
@@ -110,8 +118,20 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 // 更新処理
 void Game::Update()
 {
+	// タイマーの更新
+	m_timer.Update();
+
+	// 入力の更新
+	m_input.Update();
+
+	// F4でフルスクリーン表示切り替え
+	if (m_input.GetKeyDown(KeyName::F4))
+	{
+		m_windowController.ChangeFullScreen();
+	}
+
 	// シーン管理の更新
-	m_sceneManager.Update(0.0f);
+	m_sceneManager.Update(m_timer.GetDeltaTime());
 }
 
 // 描画処理

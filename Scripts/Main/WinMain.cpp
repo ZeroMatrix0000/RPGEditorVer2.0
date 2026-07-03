@@ -176,19 +176,9 @@ LRESULT CALLBACK WndProcW
 		{
 			// ウィンドウに表示するテキスト
 			std::wstring text = WINDOW_NAME;
-			//text += Utility::FormatWString(L" | FPS: %.2f", 1.0f / s_game->GetTimer().GetDeltaTime());
+			text += Utility::FormatWString(L" | FPS: %.2f", 1.0f / s_game->GetDeltaTime());
 			// テキストを変更
 			SetWindowTextW(hWnd, text.c_str());
-		}
-		break;
-	// 最大サイズ変更
-	case WM_GETMINMAXINFO:
-		{
-			// 最小最大情報のポインタを取得
-			LPMINMAXINFO pMMI = (LPMINMAXINFO)lParam;
-			// 最大サイズを大きくする
-			pMMI->ptMaxTrackSize.x = 10000;
-			pMMI->ptMaxTrackSize.y = 10000;
 		}
 		break;
 	// ウィンドウのアクティブ状態変更時

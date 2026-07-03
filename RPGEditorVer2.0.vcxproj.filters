@@ -118,6 +118,12 @@
     <ClCompile Include="Scripts\Commons\Systems\WindowController.cpp">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\Systems\Input.cpp">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Systems\Timer.cpp">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -266,6 +272,18 @@
       <Filter>Scripts\Commons\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Systems\WindowController.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\IInput.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\Input.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\ITimer.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\Timer.h">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClInclude>
   </ItemGroup>

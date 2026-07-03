@@ -4,7 +4,7 @@ classDiagram
 
 namespace Renderings{
     class ICameraScreen
-    class CameraScreen
+    class CameraScreen["CameraScreen&lt;TCamera>"]
     class DeviceResources
     class RenderingResources
     class Model3DSource
@@ -16,8 +16,12 @@ namespace Renderings{
 namespace Systems{
     class IResources
     class Resources
+    class ITimer
+    class Timer
     class IWindowController
     class WindowController
+    class IInput
+    class Input
 }
 
 namespace GameObjects{
@@ -39,7 +43,9 @@ namespace Scenes{
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> IModel3DRenderer
 <<OnlyOne>> IResources
+<<OnlyOne>> ITimer
 <<OnlyOne>> IWindowController
+<<OnlyOne>> IInput
 <<OnlyOne>> ComponentCreatePermit
 <<OnlyOne>> ComponentFactory
 <<OnlyOne>> ISceneManager
@@ -55,7 +61,9 @@ IModel3DRenderer <|-- Model3DRenderer
 IModel3DRenderer --o ComponentFactory
 IResources --o Model3DRenderer
 IResources <|-- Resources
+ITimer <|-- Timer
 IWindowController <|-- WindowController
+IInput <|-- Input
 Observer <|-- Component
 ComponentCreatePermit --* ComponentFactory
 ComponentCreatePermit <.. Component
@@ -81,6 +89,11 @@ namespace Renderings{
 
 namespace Systems{
     class Resources
+    class Timer
+    class IWindowController
+    class WindowController
+    class IInput
+    class Input
 }
 
 namespace GameObjects{
@@ -103,6 +116,12 @@ class SampleScene
 <<OnlyOne>> DeviceResources
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> Model3DRenderer
+<<OnlyOne>> Resources
+<<OnlyOne>> Timer
+<<OnlyOne>> IWindowController
+<<OnlyOne>> WindowController
+<<OnlyOne>> IInput
+<<OnlyOne>> Input
 <<OnlyOne>> ComponentFactory
 <<OnlyOne>> ISceneManager
 <<OnlyOne>> SceneManager
@@ -113,6 +132,11 @@ DeviceResources --* Game
 RenderingResources --* Game
 Model3DRenderer --* Game
 Resources --* Game
+Timer --* Game
+IWindowController --o GameContext
+WindowController --* Game
+IInput --o GameContext
+Input --* Game
 ComponentFactory --o GameContext
 ComponentFactory --* Game
 GameObject "*" --* "1" SampleScene

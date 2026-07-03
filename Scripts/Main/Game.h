@@ -14,6 +14,8 @@
 #include "Scripts/Commons/Renderings/Model3DRenderer.h"
 #include "Scripts/Commons/Systems/Resources.h"
 #include "Scripts/Commons/Systems/WindowController.h"
+#include "Scripts/Commons/Systems/Input.h"
+#include "Scripts/Commons/Systems/Timer.h"
 #include "Scripts/Commons/GameObjects/ComponentFactory.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
 #include "SceneTransitionData.h"
@@ -40,6 +42,9 @@ public:
 
 	// ウィンドウサイズ変更時の処理
 	void OnWindowSizeChanged(const Math::Vector2Int& outputSize);
+
+	// 1F間の経過時間を取得
+	float GetDeltaTime() const { return m_timer.GetDeltaTime(); }
 
 private:
 
@@ -70,8 +75,13 @@ private:
 
 	// リソース
 	Systems::Resources m_resources;
+	// タイマー
+	Systems::Timer m_timer;
+
 	// ウィンドウ管理
 	Systems::WindowController m_windowController;
+	// 入力管理
+	Systems::Input m_input;
 
 	// コンポーネント作成
 	ComponentFactory m_componentFactory;
