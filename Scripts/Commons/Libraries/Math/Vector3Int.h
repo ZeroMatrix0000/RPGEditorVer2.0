@@ -1,7 +1,7 @@
 /*
  * FileName:     Vector3Int.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 整数の3次元座標
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 整数の3次元座標
 		struct Vector3Int
 		{
 

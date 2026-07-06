@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Camera
 	{
+		// ターゲットカメラ（四元数）
 		struct QuaternionTargetCamera
 		{
 

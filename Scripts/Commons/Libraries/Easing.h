@@ -1,7 +1,7 @@
 /*
  * FileName:     Easing.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * イージング
  */
@@ -37,7 +37,7 @@ namespace Libraries
 			OutIn,
 		};
 
-		// イージングで変化する値
+		// イージング
 		template<typename T> requires
 			std::same_as<T, float>                          ||
 			std::same_as<T, Math::Vector2>                  ||

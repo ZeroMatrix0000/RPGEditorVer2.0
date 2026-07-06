@@ -1,7 +1,7 @@
 /*
  * FileName:     Euler.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * オイラー角
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// オイラー角
 		struct Euler
 		{
 

@@ -1,7 +1,7 @@
 /*
  * FileName:     RenderingResources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/06
  *
  * 描画リソース
  */
@@ -12,6 +12,7 @@
 
 namespace Renderings
 {
+	// 描画リソース
 	class RenderingResources : public Systems::OnlyOne
 	{
 

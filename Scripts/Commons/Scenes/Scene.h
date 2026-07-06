@@ -1,7 +1,7 @@
 /*
  * FileName:     Scene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * シーン
  */
@@ -12,6 +12,7 @@
 
 namespace Scenes
 {
+	// シーン
 	template<typename TTransitionData, typename TContext>
 	class Scene : public Component
 	{

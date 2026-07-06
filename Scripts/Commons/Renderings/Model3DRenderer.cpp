@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/02
+ * Last Updated: 2026/07/06
  *
  * 3Dモデル描画
  */
@@ -18,7 +18,7 @@
  // コンストラクタ
 Renderings::Model3DRenderer::Model3DRenderer(const Systems::IResources& iResources)
 	: IModel3DRenderer{}
-	, m_pModels{}
+	, m_pICameraScreens{}
 	, m_pContext{}
 	, m_pCommonStates{}
 	, m_refIResources{ iResources }
@@ -35,48 +35,44 @@ void Renderings::Model3DRenderer::Initialize(ID3D11DeviceContext4* pContext, con
 // 描画処理
 void Renderings::Model3DRenderer::Render()
 {
-	for (const auto* pModel : m_pModels)
+	for (const auto* pICameraScreen : m_pICameraScreens)
 	{
-		// モデルソース
-		const Model3DSource* modelSource = m_refIResources.GetModelSource(pModel->GetModelSourceName());
-		if (!modelSource)
+		for (const auto* pModel : pICameraScreen->GetPModels())
 		{
-			return;
-		}
+			// モデルソース
+			const Model3DSource* modelSource = m_refIResources.GetModelSource(pModel->GetModelSourceName());
+			if (!modelSource)
+			{
+				return;
+			}
 
-		// カメラ画面のインタフェース
-		const ICameraScreen* pICameraScreen = pModel->GetPICameraScreen();
-		if (!pICameraScreen)
-		{
-			return;
-		}
+			// モデルの所有者のトランスフォーム
+			const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
+			if (!pTransform)
+			{
+				return;
+			}
 
-		// モデルの所有者のトランスフォーム
-		const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
-		if (!pTransform)
-		{
-			return;
+			modelSource->GetModel().Draw
+			(
+				m_pContext,
+				*m_pCommonStates,
+				Math::Matrix::CreateTranslation(pTransform->GetPosition()),
+				pICameraScreen->GetViewMatrix(),
+				pICameraScreen->GetProjectionMatrix()
+			);
 		}
-
-		modelSource->GetModel().Draw
-		(
-			m_pContext,
-			*m_pCommonStates,
-			Math::Matrix::CreateTranslation(pTransform->GetPosition()),
-			pICameraScreen->GetViewMatrix(),
-			pICameraScreen->GetProjectionMatrix()
-		);
 	}
 }
 
-// モデルのポインタを追加
-void Renderings::Model3DRenderer::AddModel(const Model3D* pModel)
+// カメラ画面インタフェースのポインタを追加
+void Renderings::Model3DRenderer::AddPICameraScreen(const ICameraScreen* pICameraScreen)
 {
-	m_pModels.emplace(pModel);
+	m_pICameraScreens.emplace(pICameraScreen);
 }
 
-// モデルのポインタを削除
-void Renderings::Model3DRenderer::RemoveModel(const Model3D* pModel)
+// カメラ画面インタフェースのポインタを削除
+void Renderings::Model3DRenderer::RemovePICameraScreen(const ICameraScreen* pICameraScreen)
 {
-	m_pModels.erase(pModel);
+	m_pICameraScreens.emplace(pICameraScreen);
 }

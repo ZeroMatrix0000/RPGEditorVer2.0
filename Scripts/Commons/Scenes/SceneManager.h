@@ -1,7 +1,7 @@
 /*
  * FileName:     SceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/06
  *
  * シーン管理
  */
@@ -13,6 +13,7 @@
 
 namespace Scenes
 {
+	// シーン管理
 	template<typename TTransitionData, typename TContext>
 	class SceneManager : public ISceneManager<TTransitionData>
 	{

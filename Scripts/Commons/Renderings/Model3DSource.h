@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DSource.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/06
  *
  * 3Dモデルのソース
  */
@@ -10,7 +10,7 @@
 
 namespace Renderings
 {
-	// 3Dモデル
+	// 3Dモデルのソース
 	class Model3DSource
 	{
 

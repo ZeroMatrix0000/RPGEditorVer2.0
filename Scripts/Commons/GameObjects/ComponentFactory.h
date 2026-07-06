@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentFactory.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * コンポーネント工場
  */
@@ -9,23 +9,23 @@
 #pragma once
 
 #include "../Systems/OnlyOne.h"
-#include "../Renderings/Model3D.h"
 #include "../Renderings/CameraScreen.h"
+#include "../Renderings/Image.h"
 #include "ComponentCreatePermit.h"
 #include "Transform.h"
 
-// 前方宣言
 namespace Renderings
 {
 	class IModel3DRenderer;
+	class IImageRenderer;
 }
 
 namespace GameObjects
 {
-	// 前方宣言
 	class Component;
 	class GameObject;
 
+	// コンポーネント工場
 	class ComponentFactory : public Systems::OnlyOne
 	{
 
@@ -39,6 +39,8 @@ namespace GameObjects
 
 		// モデル描画インタフェースのポインタを設定
 		void SetPIModelRenderer(Renderings::IModel3DRenderer* pIModelRenderer) { m_pIModelRenderer = pIModelRenderer; }
+		// 画像描画インタフェースのポインタを設定
+		void SetPIImageRenderer(Renderings::IImageRenderer* pIImageRenderer) { m_pIImageRenderer = pIImageRenderer; }
 
 		// コンポーネントを作成
 		template<typename TComponent> requires IsDerived<TComponent, Component>
@@ -52,13 +54,40 @@ namespace GameObjects
 
 		// モデル描画インタフェースのポインタ
 		Renderings::IModel3DRenderer* m_pIModelRenderer;
+		// 画像描画インタフェースのポインタ
+		Renderings::IImageRenderer* m_pIImageRenderer;
 
 	};
 
-	// 3Dモデルコンポーネントを作成
+	// カメラコンポーネントを作成
 	template<>
-	inline std::unique_ptr<Renderings::Model3D> ComponentFactory::Create(GameObject* pOwner) const
+	inline std::unique_ptr<Renderings::CameraScreen<Camera::EulerCamera>> ComponentFactory::Create(GameObject* pOwner) const
 	{
-		return std::make_unique<Renderings::Model3D>(m_permit, pOwner, m_pIModelRenderer);
+		return std::make_unique<Renderings::CameraScreen<Camera::EulerCamera>>(m_permit, pOwner, m_pIModelRenderer);
+	}
+	// カメラコンポーネントを作成
+	template<>
+	inline std::unique_ptr<Renderings::CameraScreen<Camera::EulerTargetCamera>> ComponentFactory::Create(GameObject* pOwner) const
+	{
+		return std::make_unique<Renderings::CameraScreen<Camera::EulerTargetCamera>>(m_permit, pOwner, m_pIModelRenderer);
+	}
+	// カメラコンポーネントを作成
+	template<>
+	inline std::unique_ptr<Renderings::CameraScreen<Camera::QuaternionCamera>> ComponentFactory::Create(GameObject* pOwner) const
+	{
+		return std::make_unique<Renderings::CameraScreen<Camera::QuaternionCamera>>(m_permit, pOwner, m_pIModelRenderer);
+	}
+	// カメラコンポーネントを作成
+	template<>
+	inline std::unique_ptr<Renderings::CameraScreen<Camera::QuaternionTargetCamera>> ComponentFactory::Create(GameObject* pOwner) const
+	{
+		return std::make_unique<Renderings::CameraScreen<Camera::QuaternionTargetCamera>>(m_permit, pOwner, m_pIModelRenderer);
+	}
+
+	// 画像コンポーネントを作成
+	template<>
+	inline std::unique_ptr<Renderings::Image> ComponentFactory::Create(GameObject* pOwner) const
+	{
+		return std::make_unique<Renderings::Image>(m_permit, pOwner, m_pIImageRenderer);
 	}
 }

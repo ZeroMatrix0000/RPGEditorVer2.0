@@ -8,6 +8,7 @@
 
 #pragma once
 
+// シーン遷移情報
 class SceneTransitionData
 {
 };

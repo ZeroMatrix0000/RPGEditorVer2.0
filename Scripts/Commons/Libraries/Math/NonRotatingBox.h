@@ -1,7 +1,7 @@
 /*
  * FileName:     NonRotatingBox.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 非回転直方体
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 非回転直方体
 		struct NonRotatingBox
 		{
 

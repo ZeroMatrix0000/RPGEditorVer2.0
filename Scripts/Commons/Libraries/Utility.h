@@ -1,7 +1,7 @@
 /*
  * FileName:     Utility.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 便利関数群
  */
@@ -12,18 +12,18 @@ namespace Libraries
 {
 	namespace Utility
 	{
-		// ピボット
-		enum class Pivot
+		// 位置合わせ点
+		enum class AlignmentPoint
 		{
-			leftTop,
-			centerTop,
-			rightTop,
-			leftMiddle,
-			centerMiddle,
-			rightMiddle,
-			leftBottom,
-			centerBottom,
-			rightBottom
+			TopLeft,
+			TopCenter,
+			TopRight,
+			MiddleLeft,
+			MiddleCenter,
+			MiddleRight,
+			BottomLeft,
+			BottomCenter,
+			BottomRight,
 		};
 
 		// 条件を満たしたら例外処理

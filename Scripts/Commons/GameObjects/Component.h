@@ -1,7 +1,7 @@
 /*
  * FileName:     Component.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/06
  *
  * コンポーネント
  */
@@ -12,10 +12,10 @@
 
 namespace GameObjects
 {
-	// 前方宣言
 	class GameObject;
 	class ComponentCreatePermit;
 
+	// コンポーネント
 	class Component : public Observer
 	{
 

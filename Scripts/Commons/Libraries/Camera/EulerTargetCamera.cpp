@@ -1,9 +1,9 @@
 /*
  * FileName:     EulerTargetCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
- * カメラ（オイラー）
+ * ターゲットカメラ（オイラー角）
  */
 
 #include "Pch.h"

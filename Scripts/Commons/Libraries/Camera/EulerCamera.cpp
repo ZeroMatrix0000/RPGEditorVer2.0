@@ -1,9 +1,9 @@
 /*
  * FileName:     EulerCamera.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
- * カメラ（オイラー）
+ * カメラ（オイラー角）
  */
 
 #include "Pch.h"

@@ -1,7 +1,7 @@
 /*
  * FileName:     Limited.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 範囲値
  */
@@ -10,6 +10,7 @@
 
 namespace Libraries
 {
+	// 範囲値
 	class Limited
 	{
 

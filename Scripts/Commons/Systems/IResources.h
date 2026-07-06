@@ -1,7 +1,7 @@
 /*
  * FileName:     IResources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * リソースのインタフェース
  */
@@ -14,6 +14,7 @@
 
 namespace Systems
 {
+	// リソースのインタフェース
 	class IResources : public OnlyOne
 	{
 

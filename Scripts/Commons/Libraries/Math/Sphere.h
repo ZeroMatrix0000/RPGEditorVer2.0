@@ -1,7 +1,7 @@
 /*
  * FileName:     Sphere.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 球
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 球
 		struct Sphere
 		{
 

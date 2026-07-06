@@ -1,7 +1,7 @@
 /*
  * FileName:     IInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * 入力管理のインタフェース
  */
@@ -12,6 +12,7 @@
 
 namespace Systems
 {
+	// 入力管理のインタフェース
 	class IInput : public OnlyOne
 	{
 

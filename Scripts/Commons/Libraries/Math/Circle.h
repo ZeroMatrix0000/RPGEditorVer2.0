@@ -1,7 +1,7 @@
 /*
  * FileName:     Circle.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 円
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 円
 		struct Circle
 		{
 

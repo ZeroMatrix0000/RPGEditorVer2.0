@@ -1,7 +1,7 @@
 /*
  * FileName:     Cycled.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * ループ値
  */
@@ -10,6 +10,7 @@
 
 namespace Libraries
 {
+	// ループ値
 	class Cycled
 	{
 

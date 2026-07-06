@@ -31,6 +31,8 @@
 #include <cmath>
 // コンセプト
 #include <concepts>
+// アルゴリズム
+#include <algorithm>
 // 文字列
 #include <string>
 // ベクトル

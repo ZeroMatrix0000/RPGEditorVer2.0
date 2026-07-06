@@ -1,7 +1,7 @@
 /*
  * FileName:     Line.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 線分
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 線分
 		struct Line
 		{
 

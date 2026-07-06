@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * 3Dモデル
  */
@@ -12,10 +12,7 @@
 
 namespace Renderings
 {
-	// 前方宣言
-	class ICameraScreen;
-	class IModel3DRenderer;
-
+	// 3Dモデル
 	class Model3D : public Component
 	{
 
@@ -25,19 +22,13 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Model3D(const ComponentCreatePermit& permit, GameObject* pOwner, IModel3DRenderer* pIModelRenderer);
-		// デストラクタ
-		~Model3D();
+		Model3D(const ComponentCreatePermit& permit, GameObject* pOwner);
 
-		// モデル名を設定
+		// モデルソース名を設定
 		void SetModelSourceName(const std::string& modelSourceName) { m_modelSourceName = modelSourceName; }
-		// カメラ画面インタフェースを設定
-		void SetICameraScreen(const ICameraScreen& iCameraScreen) { m_pICameraScreen = &iCameraScreen; }
 
-		// モデル名を取得
+		// モデルソース名を取得
 		const std::string& GetModelSourceName() const { return m_modelSourceName; }
-		// カメラ画面インタフェースを取得
-		const ICameraScreen* GetPICameraScreen() const { return m_pICameraScreen; }
 
 
 	private:
@@ -47,12 +38,6 @@ namespace Renderings
 
 		// モデルソース名
 		std::string m_modelSourceName;
-
-		// モデル描画インタフェースのポインタ
-		IModel3DRenderer* m_pIModelRenderer;
-
-		// カメラ画面インタフェースのポインタ
-		const ICameraScreen* m_pICameraScreen;
 
 	};
 }

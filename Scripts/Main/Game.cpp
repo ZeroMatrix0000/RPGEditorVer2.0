@@ -18,6 +18,7 @@ Game::Game()
 	, m_deviceResources{}
 	, m_renderingResources{}
 	, m_modelRenderer{ m_resources }
+	, m_imageRenderer{ m_resources }
 	, m_resources{}
 	, m_timer{}
 	, m_windowController{}
@@ -55,6 +56,8 @@ void Game::Initialize(const HWND& hWindow)
 
 	// モデル描画の初期化
 	m_modelRenderer.Initialize(context, commonStates);
+	// 画像描画の初期化
+	m_imageRenderer.Initialize(context, commonStates);
 
 	// リソースの追加
 	AddResources(device, fx);
@@ -66,8 +69,9 @@ void Game::Initialize(const HWND& hWindow)
 	// 入力の初期化
 	m_input.Initialize();
 
-	// コンポーネント工場にモデル描画インタフェースを設定
+	// コンポーネント工場の初期化
 	m_componentFactory.SetPIModelRenderer(&m_modelRenderer);
+	m_componentFactory.SetPIImageRenderer(&m_imageRenderer);
 
 	// シーンの追加
 	m_sceneManager.AddScene("Sample", [&] { return m_componentFactory.Create<SampleScene>(); });
@@ -142,6 +146,8 @@ void Game::Render()
 
 	// モデルの描画
 	m_modelRenderer.Render();
+	// 画像の描画
+	m_imageRenderer.Render();
 
 	// 画面の表示
 	m_deviceResources.Present();

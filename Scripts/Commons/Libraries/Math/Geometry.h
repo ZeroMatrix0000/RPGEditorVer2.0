@@ -1,9 +1,9 @@
 /*
  * FileName:     Geometry.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
- * 数学関係
+ * 幾何学関係
  */
 
 #pragma once

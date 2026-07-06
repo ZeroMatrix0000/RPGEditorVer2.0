@@ -1,7 +1,7 @@
 /*
  * FileName:     Box.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 直方体
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 直方体
 		struct Box
 		{
 

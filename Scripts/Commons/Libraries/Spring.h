@@ -1,13 +1,14 @@
 /*
  * FileName:     Spring.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * ばね
  */
 
 namespace Libraries
 {
+	// ばね
 	template<typename T> requires
 		std::same_as<T, float>                          ||
 		std::same_as<T, Math::Vector2>                  ||

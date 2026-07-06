@@ -1,9 +1,9 @@
 /*
  * FileName:     EulerCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
- * カメラ（オイラー）
+ * カメラ（オイラー角）
  */
 
 #pragma once
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Camera
 	{
+		// カメラ（オイラー角）
 		struct EulerCamera
 		{
 

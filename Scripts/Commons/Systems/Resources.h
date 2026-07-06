@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * リソース管理
  */
@@ -12,6 +12,7 @@
 
 namespace Systems
 {
+	// リソース管理
 	class Resources : public IResources
 	{
 

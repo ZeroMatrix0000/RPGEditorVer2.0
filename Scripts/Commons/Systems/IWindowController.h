@@ -1,7 +1,7 @@
 /*
  * FileName:     IWindowController.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * ウィンドウ管理のインタフェース
  */
@@ -12,6 +12,7 @@
 
 namespace Systems
 {
+	// ウィンドウ管理のインタフェース
 	class IWindowController : public OnlyOne
 	{
 

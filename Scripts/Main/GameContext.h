@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * ゲームコンテキスト
  */
@@ -15,6 +15,7 @@
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "SceneTransitionData.h"
 
+// ゲームコンテキスト
 class GameContext : public Systems::OnlyOne
 {
 

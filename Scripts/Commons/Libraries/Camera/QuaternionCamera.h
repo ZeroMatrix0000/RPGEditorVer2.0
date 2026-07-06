@@ -1,7 +1,7 @@
 /*
  * FileName:     QuaternionCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * カメラ（四元数）
  */
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Camera
 	{
+		// カメラ（四元数）
 		struct QuaternionCamera
 		{
 

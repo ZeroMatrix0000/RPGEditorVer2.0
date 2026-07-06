@@ -1,7 +1,7 @@
 /*
  * FileName:     ISceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/06
  * 
  * シーン管理のインタフェース
  */
@@ -12,9 +12,7 @@
 
 namespace Scenes
 {
-	// 前方宣言
-
-
+	// シーン管理のインタフェース
 	template<typename TTransitionData>
 	class ISceneManager : public Systems::OnlyOne
 	{

@@ -1,7 +1,7 @@
 /*
  * FileName:     Mesh.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * メッシュ
  */
@@ -10,6 +10,7 @@
 
 namespace Libraries
 {
+	// メッシュ
 	struct Mesh
 	{
 

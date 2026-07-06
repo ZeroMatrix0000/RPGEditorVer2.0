@@ -1,9 +1,9 @@
 /*
  * FileName:     Rect.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
- * 整数の3次元座標
+ * 長方形
  */
 
 #pragma once
@@ -12,6 +12,7 @@ namespace Libraries
 {
 	namespace Math
 	{
+		// 長方形
 		struct Rect
 		{
 

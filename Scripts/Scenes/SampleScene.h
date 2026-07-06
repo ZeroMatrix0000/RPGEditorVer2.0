@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * サンプルシーン
  */
@@ -13,6 +13,7 @@
 #include "Scripts/Main/SceneTransitionData.h"
 #include "Scripts/Main/GameContext.h"
 
+// サンプルシーン
 class SampleScene : public Scenes::Scene<SceneTransitionData, GameContext>
 {
 
@@ -44,9 +45,14 @@ private:
 	/* メンバ変数 */
 
 	// テスト
-	GameObject m_test;
+	GameObject m_test3D;
+	// テスト
+	GameObject m_test2D;
 
 	// カメラ
 	GameObject m_camera;
+
+	// キャンバス
+	GameObject m_canvas;
 
 };

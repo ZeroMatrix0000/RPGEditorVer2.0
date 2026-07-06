@@ -1,9 +1,9 @@
 /*
  * FileName:     ImageSource.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
- * 画像
+ * 画像ソース
  */
 
 #include "Pch.h"

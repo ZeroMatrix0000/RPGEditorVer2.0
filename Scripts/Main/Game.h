@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/06
  *
  * ゲーム
  */
@@ -12,6 +12,7 @@
 #include "Scripts/Commons/Renderings/DeviceResources.h"
 #include "Scripts/Commons/Renderings/RenderingResources.h"
 #include "Scripts/Commons/Renderings/Model3DRenderer.h"
+#include "Scripts/Commons/Renderings/ImageRenderer.h"
 #include "Scripts/Commons/Systems/Resources.h"
 #include "Scripts/Commons/Systems/WindowController.h"
 #include "Scripts/Commons/Systems/Input.h"
@@ -21,6 +22,7 @@
 #include "SceneTransitionData.h"
 #include "GameContext.h"
 
+// ゲーム
 class Game : public Systems::OnlyOne
 {
 
@@ -72,6 +74,8 @@ private:
 
 	// モデル描画
 	Renderings::Model3DRenderer m_modelRenderer;
+	// 画像描画
+	Renderings::ImageRenderer m_imageRenderer;
 
 	// リソース
 	Systems::Resources m_resources;

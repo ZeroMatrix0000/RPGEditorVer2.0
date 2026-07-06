@@ -1,7 +1,7 @@
 /*
  * FileName:     OnlyOne.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/06
  *
  * 2つ以上実体を生成するとエラーを吐くクラス
  */
@@ -10,6 +10,7 @@
 
 namespace Systems
 {
+	// 2つ以上実体を生成するとエラーを吐くクラス
 	class OnlyOne
 	{
 

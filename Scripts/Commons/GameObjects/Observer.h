@@ -1,7 +1,7 @@
 /*
  * FileName:     Observer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/06
  *
  * メッセージを受け取るクラス
  */
@@ -10,6 +10,7 @@
 
 namespace GameObjects
 {
+	// メッセージを受け取るクラス
 	class Observer
 	{
 
