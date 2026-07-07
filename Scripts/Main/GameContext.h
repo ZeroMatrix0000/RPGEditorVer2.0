@@ -11,7 +11,7 @@
 #include "Scripts/Commons/Systems/OnlyOne.h"
 #include "Scripts/Commons/Systems/IWindowController.h"
 #include "Scripts/Commons/Systems/IInput.h"
-#include "Scripts/Commons/GameObjects/ComponentFactory.h"
+#include "Scripts/Commons/GameObjects/IComponentManager.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "SceneTransitionData.h"
 
@@ -35,7 +35,7 @@ public:
 	(
 		Systems::IWindowController* pIWindowController,
 		Systems::IInput*            pIInput,
-		ComponentFactory*           pComponentFactory,
+		IComponentManager*          pIComponentManager,
 		ISceneManager*              pISceneManager
 	);
 
@@ -45,7 +45,7 @@ public:
 	const Systems::IInput& GetIInput() const { return *m_pIInput; }
 
 	// コンポーネント工場を取得
-	const ComponentFactory& GetComponentFactory() const { return *m_pComponentFactory; }
+	const IComponentManager& GetIComponentManager() const { return *m_pIComponentManager; }
 
 	// シーン管理インタフェースを取得
 	ISceneManager& GetISceneManager() const { return *m_pISceneManager; }
@@ -61,8 +61,8 @@ private:
 	// 入力管理インタフェースのポインタ
 	Systems::IInput* m_pIInput;
 
-	// コンポーネント工場のポインタ
-	ComponentFactory* m_pComponentFactory;
+	// コンポーネント管理インタフェースのポインタ
+	IComponentManager* m_pIComponentManager;
 
 	// シーン管理インタフェースのポインタ
 	ISceneManager* m_pISceneManager;

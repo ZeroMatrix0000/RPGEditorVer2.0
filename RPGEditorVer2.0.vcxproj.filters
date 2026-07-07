@@ -145,7 +145,12 @@
     <ClCompile Include="Scripts\Commons\Renderings\TextRenderer.cpp">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Commons\Renderings\Renderer.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\Renderer.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\GameObjects\ComponentManager.cpp">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -337,6 +342,12 @@
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Renderings\Renderer.h">
       <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\IComponentManager.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\ComponentManager.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 #include "Game.h"
 
 #include "Scripts/Scenes/Scenes.h"
+#include "Scripts/Commons/GameObjects/Transform.h"
 
 // コンストラクタ
 Game::Game()
@@ -22,7 +23,7 @@ Game::Game()
 	, m_timer{}
 	, m_windowController{}
 	, m_input{}
-	, m_componentFactory{}
+	, m_componentManager{}
 	, m_sceneManager{ m_context }
 	, m_context{}
 {
@@ -72,22 +73,18 @@ void Game::Initialize(const HWND& hWindow)
 	m_input.Initialize();
 
 	// コンポーネント工場の初期化
-	m_componentFactory.Initialize
-	(
-		&m_renderer.GetIModelRenderer(),
-		&m_renderer.GetIImageRenderer(),
-		&m_renderer.GetITextRenderer()
-	);
+	AddComponents();
 
 	// シーンの追加
-	m_sceneManager.AddScene<SampleScene>([&] { return m_componentFactory.Create<SampleScene>(); });
+	const IComponentManager& iComponentManager = m_componentManager;
+	m_sceneManager.AddScene<SampleScene>([&] { return iComponentManager.Create<SampleScene>(); });
 
 	// コンテキストの初期化
 	m_context.Initialize
 	(
 		&m_windowController,
 		&m_input,
-		&m_componentFactory,
+		&m_componentManager,
 		&m_sceneManager
 	);
 
@@ -175,4 +172,13 @@ void Game::AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx)
 	m_resources.AddModelSource("Player", device, fx, L"Resources/Models/Player.cmo");
 	m_resources.AddModelSource("NPC"   , device, fx, L"Resources/Models/NPC.cmo"   );
 	m_resources.AddModelSource("Ground", device, fx, L"Resources/Models/Ground.cmo");
+}
+
+// コンポーネントの追加
+void Game::AddComponents()
+{
+	m_componentManager.AddComponent<Transform>([](ComponentCreatePermit permit, GameObject* pOwner)
+	{
+		return std::make_unique<Transform>(permit, pOwner);
+	});
 }

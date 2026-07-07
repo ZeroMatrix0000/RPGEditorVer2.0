@@ -1,14 +1,14 @@
 /*
  * FileName:     GameObject.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * ゲームオブジェクト
  */
 
 #pragma once
 
-#include "ComponentFactory.h"
+#include "IComponentManager.h"
 
 namespace GameObjects
 {
@@ -54,9 +54,9 @@ namespace GameObjects
 
 		// コンポーネントを追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
-		TComponent* AddComponent(const ComponentFactory& componentFactory)
+		TComponent* AddComponent(const IComponentManager& iComponentManager)
 		{
-			m_components.emplace(typeid(TComponent), componentFactory.Create<TComponent>(this));
+			m_components.emplace(typeid(TComponent), iComponentManager.Create<TComponent>(this));
 			return GetComponent<TComponent>();
 		}
 

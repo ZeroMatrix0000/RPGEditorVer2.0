@@ -14,7 +14,7 @@ GameContext::GameContext()
 	: OnlyOne{ typeid(GameContext) }
 	, m_pIWindowController{}
 	, m_pIInput{}
-	, m_pComponentFactory{}
+	, m_pIComponentManager{}
 	, m_pISceneManager{}
 {
 }
@@ -24,12 +24,12 @@ void GameContext::Initialize
 (
 	Systems::IWindowController* pIWindowController,
 	Systems::IInput*            pIInput,
-	ComponentFactory*           pComponentFactory,
+	IComponentManager*          pIComponentManager,
 	ISceneManager*              pISceneManager
 )
 {
 	m_pIWindowController = pIWindowController;
 	m_pIInput            = pIInput;
-	m_pComponentFactory  = pComponentFactory;
+	m_pIComponentManager = pIComponentManager;
 	m_pISceneManager     = pISceneManager;
 }

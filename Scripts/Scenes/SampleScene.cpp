@@ -35,23 +35,23 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
 
 	// コンポーネント工場
-	const auto& componentFactory = GetContext().GetComponentFactory();
+	const auto& iComponentManager = GetContext().GetIComponentManager();
 
-	auto* pTransform = m_test3D.AddComponent<Transform>(componentFactory);
+	auto* pTransform = m_test3D.AddComponent<Transform>(iComponentManager);
 	pTransform->SetPosition(Math::Vector3::Left * 5.0f);
 	pTransform->SetRotation(Math::Euler{ 0.0f, 45.0f, 0.0f }.CreateQuaternion());
 	pTransform->SetScale(Math::Vector3{ 2.0f, 3.0f, 1.0f });
-	auto* pModel = m_test3D.AddComponent<Renderings::Model3D>(componentFactory);
+	auto* pModel = m_test3D.AddComponent<Renderings::Model3D>(iComponentManager);
 	pModel->SetModelSourceName("Player");
 
-	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(componentFactory);
+	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(iComponentManager);
 	pRectTransform->SetPivot(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform->SetAngle(-30.0f);
-	auto* pImage = m_test2D.AddComponent<Renderings::Image>(componentFactory);
+	auto* pImage = m_test2D.AddComponent<Renderings::Image>(iComponentManager);
 	pImage->SetImageSourceName("DialogBoxUI");
 	pRectTransform->SetSize(pImage->GetSize() / 2.0f);
-	auto* pText = m_test2D.AddComponent<Renderings::Text>(componentFactory);
+	auto* pText = m_test2D.AddComponent<Renderings::Text>(iComponentManager);
 	pText->SetStr(L"あいうえお");
 	pText->SetFontName(L"GenEi M Gothic v2");
 	pText->SetFontSize(128.0f);
@@ -59,21 +59,21 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 	pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 
-	auto* pRectTransform2 = m_test2D2.AddComponent<RectTransform>(componentFactory);
+	auto* pRectTransform2 = m_test2D2.AddComponent<RectTransform>(iComponentManager);
 	pRectTransform2->SetPivot(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform2->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform2->SetAngle(45.0f);
-	auto* pImage2 = m_test2D2.AddComponent<Renderings::Image>(componentFactory);
+	auto* pImage2 = m_test2D2.AddComponent<Renderings::Image>(iComponentManager);
 	pImage2->SetImageSourceName("DialogBoxUI");
 	pImage2->SetOrderInLayer(1);
 	pImage2->SetColor(DirectX::Colors::Red);
 	pRectTransform2->SetSize(pImage2->GetSize() / 2.0f);
 
-	auto* cameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(componentFactory);
+	auto* cameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
 	cameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
 	cameraScreen->SetProjectionMatrix(45.0f, outputSize);
 
-	auto* canvas = m_canvas.AddComponent<Renderings::Canvas>(componentFactory);
+	auto* canvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
 	canvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
 
 	// カメラにモデルを映す

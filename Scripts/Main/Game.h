@@ -16,7 +16,7 @@
 #include "Scripts/Commons/Systems/WindowController.h"
 #include "Scripts/Commons/Systems/Input.h"
 #include "Scripts/Commons/Systems/Timer.h"
-#include "Scripts/Commons/GameObjects/ComponentFactory.h"
+#include "Scripts/Commons/GameObjects/ComponentManager.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
 #include "SceneTransitionData.h"
 #include "GameContext.h"
@@ -55,6 +55,8 @@ private:
 
 	// リソースの追加
 	void AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx);
+	// コンポーネントの追加
+	void AddComponents();
 
 
 	/* メンバ変数 */
@@ -80,8 +82,8 @@ private:
 	// 入力管理
 	Systems::Input m_input;
 
-	// コンポーネント作成
-	ComponentFactory m_componentFactory;
+	// コンポーネント管理
+	ComponentManager m_componentManager;
 
 	// シーン管理
 	Scenes::SceneManager<SceneTransitionData, GameContext> m_sceneManager;
