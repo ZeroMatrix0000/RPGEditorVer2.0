@@ -1,7 +1,7 @@
 /*
  * FileName:     ISceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  * 
  * シーン管理のインタフェース
  */
@@ -12,10 +12,16 @@
 
 namespace Scenes
 {
+	template<typename TTransitionData, typename TContext>
+	class Scene;
+
 	// シーン管理のインタフェース
-	template<typename TTransitionData>
+	template<typename TTransitionData, typename TContext>
 	class ISceneManager : public Systems::OnlyOne
 	{
+
+		typedef Scene<TTransitionData, TContext> Scene;
+
 
 	public:
 
@@ -31,7 +37,14 @@ namespace Scenes
 		virtual ~ISceneManager() = default;
 
 		// 次のシーンを設定
-		virtual void SetNextScene(const std::string& sceneName, const TTransitionData& data = TTransitionData{}) = 0;
+		template<typename TScene> requires IsDerived<TScene, Scene>
+		void SetNextScene(const TTransitionData& data = TTransitionData{})
+		{
+			SetNextScene(typeid(TScene), data);
+		}
+
+		// 次のシーンを設定
+		virtual void SetNextScene(const std::type_index& index, const TTransitionData& data) = 0;
 
 		// シーン切り替え中かどうか
 		virtual bool IsChanging() const = 0;

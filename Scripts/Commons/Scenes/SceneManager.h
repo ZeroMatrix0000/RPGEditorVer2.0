@@ -1,7 +1,7 @@
 /*
  * FileName:     SceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * シーン管理
  */
@@ -15,7 +15,7 @@ namespace Scenes
 {
 	// シーン管理
 	template<typename TTransitionData, typename TContext>
-	class SceneManager : public ISceneManager<TTransitionData>
+	class SceneManager : public ISceneManager<TTransitionData, TContext>
 	{
 
 		typedef Scene<TTransitionData, TContext> Scene;
@@ -28,7 +28,7 @@ namespace Scenes
 
 		// コンストラクタ
 		SceneManager(const TContext& context)
-			: ISceneManager<TTransitionData>{}
+			: ISceneManager<TTransitionData, TContext>{}
 			, m_currentScene{}
 			, m_nextScene{}
 			, m_CreateComponentList{}
@@ -56,24 +56,26 @@ namespace Scenes
 		}
 
 		// シーンを追加
-		void AddScene(const std::string& sceneName, const std::function<std::unique_ptr<Scene>()>& CreateComponent)
+		template<typename TScene> requires IsDerived<TScene, Scene>
+		void AddScene(const std::function<std::unique_ptr<Scene>()>& CreateComponent)
 		{
-			m_CreateComponentList.emplace(sceneName, CreateComponent);
+			m_CreateComponentList.emplace(typeid(TScene), CreateComponent);
 		}
 
 		// はじめのシーンを設定
-		void SetFirstScene(const std::string& sceneName, const TTransitionData& data = TTransitionData{})
+		template<typename TScene> requires IsDerived<TScene, Scene>
+		void SetFirstScene(const TTransitionData& data = TTransitionData{})
 		{
 			// シーンの初期化
-			m_currentScene = m_CreateComponentList.at(sceneName)();
+			m_currentScene = m_CreateComponentList.at(typeid(TScene))();
 			m_currentScene->SetContext(m_refContext);
 			m_currentScene->Initialize(data);
 		}
 
 		// 次のシーンを設定
-		void SetNextScene(const std::string& sceneName, const TTransitionData& data = TTransitionData{}) override
+		void SetNextScene(const std::type_index& index, const TTransitionData& data) override
 		{
-			m_nextScene = m_CreateComponentList.at(sceneName)();
+			m_nextScene = m_CreateComponentList.at(index)();
 		}
 
 		// シーン切り替え中かどうか
@@ -91,7 +93,7 @@ namespace Scenes
 		std::unique_ptr<Scene> m_nextScene;
 
 		// コンポーネント作成関数
-		std::unordered_map<std::string, std::function<std::unique_ptr<Scene>()>> m_CreateComponentList;
+		std::unordered_map<std::type_index, std::function<std::unique_ptr<Scene>()>> m_CreateComponentList;
 
 		// コンテキスト
 		const TContext& m_refContext;

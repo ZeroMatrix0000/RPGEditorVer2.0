@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * ゲームコンテキスト
  */
@@ -19,6 +19,9 @@
 class GameContext : public Systems::OnlyOne
 {
 
+	typedef Scenes::ISceneManager<SceneTransitionData, GameContext> ISceneManager;
+
+
 public:
 
 
@@ -30,10 +33,10 @@ public:
 	// 初期化処理
 	void Initialize
 	(
-		Systems::IWindowController*                 pIWindowController,
-		Systems::IInput*                            pIInput,
-		ComponentFactory*                           pComponentFactory,
-		Scenes::ISceneManager<SceneTransitionData>* pISceneManager
+		Systems::IWindowController* pIWindowController,
+		Systems::IInput*            pIInput,
+		ComponentFactory*           pComponentFactory,
+		ISceneManager*              pISceneManager
 	);
 
 	// ウィンドウ管理インタフェースを取得
@@ -45,7 +48,7 @@ public:
 	const ComponentFactory& GetComponentFactory() const { return *m_pComponentFactory; }
 
 	// シーン管理インタフェースを取得
-	Scenes::ISceneManager<SceneTransitionData>& GetISceneManager() const { return *m_pISceneManager; }
+	ISceneManager& GetISceneManager() const { return *m_pISceneManager; }
 
 
 private:
@@ -62,6 +65,6 @@ private:
 	ComponentFactory* m_pComponentFactory;
 
 	// シーン管理インタフェースのポインタ
-	Scenes::ISceneManager<SceneTransitionData>* m_pISceneManager;
+	ISceneManager* m_pISceneManager;
 
 };

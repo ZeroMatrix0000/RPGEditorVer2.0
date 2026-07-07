@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/07
  *
  * ゲームコンテキスト
  */
@@ -22,10 +22,10 @@ GameContext::GameContext()
 // 初期化処理
 void GameContext::Initialize
 (
-	Systems::IWindowController*                 pIWindowController,
-	Systems::IInput*                            pIInput,
-	ComponentFactory*                           pComponentFactory,
-	Scenes::ISceneManager<SceneTransitionData>* pISceneManager
+	Systems::IWindowController* pIWindowController,
+	Systems::IInput*            pIInput,
+	ComponentFactory*           pComponentFactory,
+	ISceneManager*              pISceneManager
 )
 {
 	m_pIWindowController = pIWindowController;

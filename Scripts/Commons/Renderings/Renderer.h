@@ -42,6 +42,8 @@ namespace Renderings
 		// 描画処理
 		void Render();
 
+		// フォントコレクションの作成
+		void CreateFontCollection(const std::vector<std::wstring>& filePaths) { m_textRenderer.CreateFontCollection(filePaths); }
 		// テキスト描画のリセット
 		void ResetTextRenderer();
 		// テキスト描画の初期化

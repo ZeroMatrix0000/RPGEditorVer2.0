@@ -55,6 +55,11 @@ void Game::Initialize(const HWND& hWindow)
 
 	// 描画の初期化
 	m_renderer.Initialize(context, swapChain, commonStates);
+	m_renderer.CreateFontCollection(std::vector<std::wstring>
+	{
+		L"Resources/Fonts/Makinas-4-Flat.otf",
+		L"Resources/Fonts/GenEiMGothic2-Medium.ttf"
+	});
 
 	// リソースの追加
 	AddResources(device, fx);
@@ -75,7 +80,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// シーンの追加
-	m_sceneManager.AddScene("Sample", [&] { return m_componentFactory.Create<SampleScene>(); });
+	m_sceneManager.AddScene<SampleScene>([&] { return m_componentFactory.Create<SampleScene>(); });
 
 	// コンテキストの初期化
 	m_context.Initialize
@@ -87,7 +92,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// 最初のシーンを設定
-	m_sceneManager.SetFirstScene("Sample");
+	m_sceneManager.SetFirstScene<SampleScene>();
 }
 
 // 更新処理

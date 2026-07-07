@@ -52,7 +52,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pImage->SetImageSourceName("DialogBoxUI");
 	pRectTransform->SetSize(pImage->GetSize() / 2.0f);
 	auto* pText = m_test2D.AddComponent<Renderings::Text>(componentFactory);
-	pText->SetStr(L"テスト");
+	pText->SetStr(L"あいうえお");
 	pText->SetFontName(L"GenEi M Gothic v2");
 	pText->SetFontSize(128.0f);
 	pText->SetFontColor(DirectX::Colors::White);
