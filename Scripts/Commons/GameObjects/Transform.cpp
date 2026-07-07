@@ -16,3 +16,9 @@ GameObjects::Transform::Transform(const ComponentCreatePermit& permit, GameObjec
 	, m_scale{ Math::Vector3::One }
 {
 }
+
+// ワールド行列を作成
+Math::Matrix GameObjects::Transform::CreateWorldMatrix() const
+{
+	return Math::Matrix::CreateScale(m_scale) * Math::Matrix::CreateFromQuaternion(m_rotation) * Math::Matrix::CreateTranslation(m_position);
+}

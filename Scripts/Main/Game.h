@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * ゲーム
  */
@@ -36,11 +36,12 @@ public:
 
 	// 初期化処理
 	void Initialize(const HWND& hWindow);
+	// 更新処理
+	void Update();
+	// 描画処理
+	void Render();
 	// 終了処理
 	void Finalize();
-
-	// 毎フレーム呼ぶ処理
-	void Tick();
 
 	// ウィンドウサイズ変更時の処理
 	void OnWindowSizeChanged(const Math::Vector2Int& outputSize);
@@ -52,11 +53,6 @@ private:
 
 
 	/* メンバ関数 */
-
-	// 更新処理
-	void Update();
-	// 描画処理
-	void Render();
 
 	// リソースの追加
 	void AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx);

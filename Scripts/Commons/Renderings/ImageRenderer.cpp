@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * 画像描画
  */
@@ -49,8 +49,8 @@ void Renderings::ImageRenderer::Render()
 	for (const auto* pImage : m_pImages)
 	{
 		// 画像ソース
-		const ImageSource* imageSource = m_refIResources.GetImageSource(pImage->GetImageSourceName());
-		if (!imageSource)
+		const ImageSource* pImageSource = m_refIResources.GetImageSource(pImage->GetImageSourceName());
+		if (!pImageSource)
 		{
 			return;
 		}
@@ -69,15 +69,113 @@ void Renderings::ImageRenderer::Render()
 			return;
 		}
 
-		// テクスチャの設定
+		// テクスチャの詳細
 		D3D11_TEXTURE2D_DESC textureDesc;
-		imageSource->GetResource()->GetDesc(&textureDesc);
+		pImageSource->GetResource()->GetDesc(&textureDesc);
+
+		// テクスチャの中心
+		Math::Vector2 origin = Math::Vector2
+		{
+			static_cast<float>(textureDesc.Width),
+			static_cast<float>(textureDesc.Height)
+		};
+
+		// ピボットにあわせて画像の中心を移動
+		switch (pRectTransform->GetPivot())
+		{
+		case Utility::AlignmentPoint::TopLeft:
+			origin.x = 0.0f;
+			origin.y = 0.0f;
+			break;
+		case Utility::AlignmentPoint::TopCenter:
+			origin.x /= 2.0f;
+			origin.y = 0.0f;
+			break;
+		case Utility::AlignmentPoint::TopRight:
+			origin.y = 0.0f;
+			break;
+		case Utility::AlignmentPoint::MiddleLeft:
+			origin.x = 0.0f;
+			origin.y /= 2.0f;
+			break;
+		case Utility::AlignmentPoint::MiddleCenter:
+			origin.x /= 2.0f;
+			origin.y /= 2.0f;
+			break;
+		case Utility::AlignmentPoint::MiddleRight:
+			origin.y /= 2.0f;
+			break;
+		case Utility::AlignmentPoint::BottomLeft:
+			origin.x = 0.0f;
+			break;
+		case Utility::AlignmentPoint::BottomCenter:
+			origin.x /= 2.0f;
+			break;
+		default:
+			break;
+		}
+
+		// 長方形
+		Math::Rect rect = pRectTransform->GetRect();
+		// キャンバスサイズ
+		Math::Vector2 canvasSize = pCanvas->GetSize();
+
+		// アンカーに合わせて画像を移動
+		switch (pRectTransform->GetAnchor())
+		{
+		case Utility::AlignmentPoint::TopCenter:
+			rect.position.x += canvasSize.x / 2.0f;
+			break;
+		case Utility::AlignmentPoint::TopRight:
+			rect.position.x += canvasSize.x;
+			break;
+		case Utility::AlignmentPoint::MiddleLeft:
+			rect.position.y += canvasSize.y / 2.0f;
+			break;
+		case Utility::AlignmentPoint::MiddleCenter:
+			rect.position.x += canvasSize.x / 2.0f;
+			rect.position.y += canvasSize.y / 2.0f;
+			break;
+		case Utility::AlignmentPoint::MiddleRight:
+			rect.position.x += canvasSize.x;
+			rect.position.y += canvasSize.y / 2.0f;
+			break;
+		case Utility::AlignmentPoint::BottomLeft:
+			rect.position.y += canvasSize.y;
+			break;
+		case Utility::AlignmentPoint::BottomCenter:
+			rect.position.x += canvasSize.x / 2.0f;
+			rect.position.y += canvasSize.y;
+			break;
+		case Utility::AlignmentPoint::BottomRight:
+			rect.position.x += canvasSize.x;
+			rect.position.y += canvasSize.y;
+			break;
+		default:
+			break;
+		}
+
+		// キャンバスの表示倍率
+		float canvasRatio = pCanvas->GetRatio();
+		// 表示倍率を適用
+		rect.position *= canvasRatio;
+		rect.size     *= canvasRatio;
 
 		// 描画 TODO
 		m_spriteBatch->Draw
 		(
-			imageSource->GetTexture(),
-			Math::Vector2::Zero
+			pImageSource->GetTexture(),
+			RECT
+			{
+				Math::RoundInt(rect.position.x),
+				Math::RoundInt(rect.position.y),
+				Math::RoundInt(rect.position.x + rect.size.x),
+				Math::RoundInt(rect.position.y + rect.size.y),
+			},
+			nullptr,
+			pImage->GetColor(),
+			Math::Deg2Rad(pRectTransform->GetAngle()),
+			origin
 		);
 	}
 
@@ -99,4 +197,25 @@ void Renderings::ImageRenderer::RemovePImage(const Image* pImage)
 	{
 		m_pImages.erase(it);
 	}
+}
+
+// 画像の大きさを取得
+Math::Vector2 Renderings::ImageRenderer::GetImageSize(const Image* pImage) const
+{
+	// 画像ソース
+	const ImageSource* pImageSource = m_refIResources.GetImageSource(pImage->GetImageSourceName());
+	if (!pImageSource)
+	{
+		return Math::Vector2::Zero;
+	}
+
+	// テクスチャの詳細
+	D3D11_TEXTURE2D_DESC textureDesc;
+	pImageSource->GetResource()->GetDesc(&textureDesc);
+
+	return Math::Vector2
+	{
+		static_cast<float>(textureDesc.Width),
+		static_cast<float>(textureDesc.Height)
+	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     RectTransform.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * 2D用トランスフォーム
  */
@@ -27,7 +27,24 @@ namespace GameObjects
 		// 座標を設定
 		void SetPosition(const Math::Vector2& position) { m_rect.position = position; }
 		// 大きさを設定
-		void SetSize(const Math::Vector2& size) { m_rect.size = size; }
+		void SetSize(const Math::Vector2& size)         { m_rect.size = size; }
+		// 角度を設定
+		void SetAngle(float angle)                      { m_angle = angle; }
+
+		// ピボットを設定
+		void SetPivot(Utility::AlignmentPoint pivot)   { m_pivot = pivot; }
+		// アンカーを設定
+		void SetAnchor(Utility::AlignmentPoint anchor) { m_anchor = anchor; }
+
+		// 長方形を取得
+		const Math::Rect& GetRect()  const { return m_rect; }
+		// 角度を取得
+		float             GetAngle() const { return m_angle; }
+		
+		// ピボットを取得
+		Utility::AlignmentPoint GetPivot()  const { return m_pivot; }
+		// アンカーを取得
+		Utility::AlignmentPoint GetAnchor() const { return m_anchor; }
 
 
 	private:

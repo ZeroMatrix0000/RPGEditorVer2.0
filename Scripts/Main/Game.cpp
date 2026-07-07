@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/07
  *
  * ゲーム
  */
@@ -89,36 +89,6 @@ void Game::Initialize(const HWND& hWindow)
 	m_sceneManager.SetFirstScene("Sample");
 }
 
-// 終了処理
-void Game::Finalize()
-{
-	// シーン管理の終了
-	m_sceneManager.Finalize();
-}
-
-// 毎フレーム呼ぶ処理
-void Game::Tick()
-{
-	// 更新処理
-	Update();
-	// 描画処理
-	Render();
-}
-
-// ウィンドウサイズ変更時の処理
-void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
-{
-	// ウィンドウを受け取っていないなら何もしない
-	if (!m_hWindow)
-	{
-		return;
-	}
-
-	m_deviceResources.OnWindowSizeChanged(outputSize);
-	m_windowController.SetOutputSize(outputSize);
-	m_sceneManager.OnWindowSizeChanged();
-}
-
 // 更新処理
 void Game::Update()
 {
@@ -141,6 +111,12 @@ void Game::Update()
 // 描画処理
 void Game::Render()
 {
+	// ウィンドウを受け取っていないなら何もしない
+	if (!m_hWindow)
+	{
+		return;
+	}
+
 	// 画面の初期化
 	m_deviceResources.Clear();
 
@@ -151,6 +127,27 @@ void Game::Render()
 
 	// 画面の表示
 	m_deviceResources.Present();
+}
+
+// 終了処理
+void Game::Finalize()
+{
+	// シーン管理の終了
+	m_sceneManager.Finalize();
+}
+
+// ウィンドウサイズ変更時の処理
+void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
+{
+	// ウィンドウを受け取っていないなら何もしない
+	if (!m_hWindow)
+	{
+		return;
+	}
+
+	m_deviceResources.OnWindowSizeChanged(outputSize);
+	m_windowController.SetOutputSize(outputSize);
+	m_sceneManager.OnWindowSizeChanged();
 }
 
 // リソースの追加

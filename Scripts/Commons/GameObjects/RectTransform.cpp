@@ -1,7 +1,7 @@
 /*
  * FileName:     RectTransform.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * 2D用トランスフォーム
  */
@@ -14,7 +14,7 @@ GameObjects::RectTransform::RectTransform(const ComponentCreatePermit& permit, G
 	: Component{ permit, pOwner }
 	, m_rect{}
 	, m_angle{}
-	, m_pivot{}
-	, m_anchor{}
+	, m_pivot{ Utility::AlignmentPoint::MiddleCenter }
+	, m_anchor{ Utility::AlignmentPoint::MiddleCenter }
 {
 }

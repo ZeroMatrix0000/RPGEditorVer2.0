@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * 画像描画
  */
@@ -38,6 +38,9 @@ namespace Renderings
 		void AddPImage(const Image* pImage) override;
 		// 画像のポインタを削除
 		void RemovePImage(const Image* pImage) override;
+
+		// 画像の大きさを取得
+		Math::Vector2 GetImageSize(const Image* pImage) const override;
 
 
 	private:

@@ -1,7 +1,7 @@
 /*
  * FileName:     Canvas.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * カメラ画面
  */
@@ -35,11 +35,16 @@ namespace Renderings
 		// コンストラクタ
 		Canvas(const ComponentCreatePermit& permit, GameObject* pOwner);
 
-		// キャンバスサイズの設定方法を設定
-		void SetFixedState(FixedSize fixedState) { m_fixedSize = fixedState; }
+		// 初期化処理
+		void Initialize(FixedSize fixedSize, const Math::Vector2& outputSize);
 		
 		// サイズを設定
 		void SetSize(const Math::Vector2& outputSize);
+
+		// キャンバスの表示倍率を取得
+		const Math::Vector2& GetSize() const { return m_size; }
+		// キャンバスの表示倍率を取得
+		float GetRatio() const { return m_ratio; }
 
 
 	private:
@@ -58,6 +63,8 @@ namespace Renderings
 
 		// キャンバスサイズ
 		Math::Vector2 m_size;
+		// キャンバスの表示倍率
+		float m_ratio;
 
 	};
 }

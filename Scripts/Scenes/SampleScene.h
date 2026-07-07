@@ -48,6 +48,8 @@ private:
 	GameObject m_test3D;
 	// テスト
 	GameObject m_test2D;
+	// テスト
+	GameObject m_test2D2;
 
 	// カメラ
 	GameObject m_camera;

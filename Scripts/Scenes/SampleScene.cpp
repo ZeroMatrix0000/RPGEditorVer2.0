@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * サンプルシーン
  */
@@ -21,6 +21,7 @@ SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner
 	: Scene{ permit, pOwner }
 	, m_test3D{}
 	, m_test2D{}
+	, m_test2D2{}
 	, m_camera{}
 	, m_canvas{}
 {
@@ -37,34 +38,48 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 
 	auto* pTransform = m_test3D.AddComponent<Transform>(componentFactory);
 	pTransform->SetPosition(Math::Vector3::Left * 5.0f);
+	pTransform->SetRotation(Math::Euler{ 0.0f, 45.0f, 0.0f }.CreateQuaternion());
+	pTransform->SetScale(Math::Vector3{ 2.0f, 3.0f, 1.0f });
 	auto* pModel = m_test3D.AddComponent<Renderings::Model3D>(componentFactory);
 	pModel->SetModelSourceName("Player");
 
-	auto* pRectTransform = m_test3D.AddComponent<RectTransform>(componentFactory);
-	pRectTransform->SetPosition(outputSize / 2.0f);
-	pRectTransform->SetSize(outputSize / 2.0f);
-	auto* pImage = m_test3D.AddComponent<Renderings::Image>(componentFactory);
+	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(componentFactory);
+	pRectTransform->SetPivot(Utility::AlignmentPoint::MiddleCenter);
+	pRectTransform->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
+	auto* pImage = m_test2D.AddComponent<Renderings::Image>(componentFactory);
 	pImage->SetImageSourceName("DialogBoxUI");
+	pRectTransform->SetSize(pImage->GetSize() / 2.0f);
+
+	auto* pRectTransform2 = m_test2D2.AddComponent<RectTransform>(componentFactory);
+	pRectTransform2->SetPivot(Utility::AlignmentPoint::MiddleCenter);
+	pRectTransform2->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
+	pRectTransform2->SetAngle(45.0f);
+	auto* pImage2 = m_test2D2.AddComponent<Renderings::Image>(componentFactory);
+	pImage2->SetImageSourceName("DialogBoxUI");
+	pImage2->SetOrderInLayer(-1);
+	pImage2->SetColor(Math::Color{ DirectX::Colors::Red });
+	pRectTransform2->SetSize(pImage2->GetSize() / 2.0f);
 
 	auto* cameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(componentFactory);
-	cameraScreen->GetRefCamera() = Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f };
+	cameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
 	cameraScreen->SetProjectionMatrix(45.0f, outputSize);
 
 	auto* canvas = m_canvas.AddComponent<Renderings::Canvas>(componentFactory);
-	canvas->SetFixedState(Renderings::Canvas::FixedSize::Vertical);
-	canvas->SetSize(outputSize);
+	canvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
 
 	// カメラにモデルを映す
 	cameraScreen->AddModel(*pModel);
 
 	// キャンバスにUIを映す
 	pImage->SetCanvas(*canvas);
+	pImage2->SetCanvas(*canvas);
 }
 
 // 更新処理
 void SampleScene::Update(float elapsedTime)
 {
 	m_test3D.Update(elapsedTime);
+	m_test2D.Update(elapsedTime);
 
 	// カメラの更新
 	m_camera.Update(elapsedTime);

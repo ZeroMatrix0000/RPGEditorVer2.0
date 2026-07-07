@@ -1,7 +1,7 @@
 /*
  * FileName:     WinMain.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/07
  *
  * メイン
  */
@@ -114,7 +114,9 @@ int WINAPI wWinMain
 		}
 
 		// ゲームの更新
-		game.Tick();
+		game.Update();
+		// ゲームの描画
+		game.Render();
 	}
 
 	// ゲームの終了
@@ -167,6 +169,8 @@ LRESULT CALLBACK WndProcW
 	case WM_SIZE:
 		// ウィンドウサイズを取得し適用
 		s_game->OnWindowSizeChanged(Math::Vector2Int{ LOWORD(lParam), HIWORD(lParam) });
+		// ゲームの描画
+		s_game->Render();
 		break;
 	// ウィンドウの背景削除
 	case WM_ERASEBKGND:

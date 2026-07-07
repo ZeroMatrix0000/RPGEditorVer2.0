@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * 3Dモデル描画
  */
@@ -57,7 +57,7 @@ void Renderings::Model3DRenderer::Render()
 			(
 				m_pContext,
 				*m_pCommonStates,
-				Math::Matrix::CreateTranslation(pTransform->GetPosition()),
+				pTransform->CreateWorldMatrix(),
 				pICameraScreen->GetViewMatrix(),
 				pICameraScreen->GetProjectionMatrix()
 			);
