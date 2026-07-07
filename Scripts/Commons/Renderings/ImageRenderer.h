@@ -31,8 +31,13 @@ namespace Renderings
 
 		// 初期化処理
 		void Initialize(ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
+
+		// 描画開始
+		void Begin();
 		// 描画処理
-		void Render();
+		void Draw(const Image* pImage);
+		// 描画終了
+		void End();
 
 		// 画像のポインタを追加
 		void AddPImage(const Image* pImage) override;
@@ -41,6 +46,12 @@ namespace Renderings
 
 		// 画像の大きさを取得
 		Math::Vector2 GetImageSize(const Image* pImage) const override;
+
+		// 画像のポインタリストのソート
+		void SortPImages();
+
+		// 画像のポインタリストを取得
+		const std::vector<const Image*> GetPImages() const { return m_pImages; }
 
 
 	private:

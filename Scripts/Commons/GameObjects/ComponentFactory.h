@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentFactory.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/07
  *
  * コンポーネント工場
  */
@@ -11,6 +11,7 @@
 #include "../Systems/OnlyOne.h"
 #include "../Renderings/CameraScreen.h"
 #include "../Renderings/Image.h"
+#include "../Renderings/Text.h"
 #include "ComponentCreatePermit.h"
 #include "Transform.h"
 
@@ -18,6 +19,7 @@ namespace Renderings
 {
 	class IModel3DRenderer;
 	class IImageRenderer;
+	class ITextRenderer;
 }
 
 namespace GameObjects
@@ -37,10 +39,13 @@ namespace GameObjects
 		// コンストラクタ
 		ComponentFactory();
 
-		// モデル描画インタフェースのポインタを設定
-		void SetPIModelRenderer(Renderings::IModel3DRenderer* pIModelRenderer) { m_pIModelRenderer = pIModelRenderer; }
-		// 画像描画インタフェースのポインタを設定
-		void SetPIImageRenderer(Renderings::IImageRenderer* pIImageRenderer) { m_pIImageRenderer = pIImageRenderer; }
+		// 初期化処理
+		void Initialize
+		(
+			Renderings::IModel3DRenderer* pIModelRenderer,
+			Renderings::IImageRenderer*   pIImageRenderer,
+			Renderings::ITextRenderer*    pITextRenderer
+		);
 
 		// コンポーネントを作成
 		template<typename TComponent> requires IsDerived<TComponent, Component>
@@ -55,7 +60,9 @@ namespace GameObjects
 		// モデル描画インタフェースのポインタ
 		Renderings::IModel3DRenderer* m_pIModelRenderer;
 		// 画像描画インタフェースのポインタ
-		Renderings::IImageRenderer* m_pIImageRenderer;
+		Renderings::IImageRenderer*   m_pIImageRenderer;
+		// テキスト描画インタフェースのポインタ
+		Renderings::ITextRenderer*    m_pITextRenderer;
 
 	};
 
@@ -89,5 +96,11 @@ namespace GameObjects
 	inline std::unique_ptr<Renderings::Image> ComponentFactory::Create(GameObject* pOwner) const
 	{
 		return std::make_unique<Renderings::Image>(m_permit, pOwner, m_pIImageRenderer);
+	}
+	// テキスト描画コンポーネントを作成
+	template<>
+	inline std::unique_ptr<Renderings::Text> ComponentFactory::Create(GameObject* pOwner) const
+	{
+		return std::make_unique<Renderings::Text>(m_permit, pOwner, m_pITextRenderer);
 	}
 }

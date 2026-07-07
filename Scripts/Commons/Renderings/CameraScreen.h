@@ -77,7 +77,13 @@ namespace Renderings
 		// プロジェクション行列を設定
 		void SetProjectionMatrix(float viewAngle, const Math::Vector2& outputSize)
 		{
-			m_projection = Math::Matrix::CreatePerspectiveFieldOfView(Math::Deg2Rad(viewAngle), static_cast<float>(outputSize.x) / outputSize.y, 0.1f, 1000.0f);
+			m_projection = Math::Matrix::CreatePerspectiveFieldOfView
+			(
+				Math::Deg2Rad(viewAngle),
+				static_cast<float>(outputSize.x) / outputSize.y,
+				0.1f,
+				1000.0f
+			);
 		}
 
 

@@ -12,10 +12,13 @@ namespace Renderings{
     class IModel3DRenderer
     class Model3DRenderer
     class ImageSource
-    class Image
     class Canvas
+    class Image
     class IImageRenderer
     class ImageRenderer
+    class Text
+    class ITextRenderer
+    class TextRenderer
 }
 
 namespace Systems{
@@ -49,6 +52,7 @@ namespace Scenes{
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> IModel3DRenderer
 <<OnlyOne>> IImageRenderer
+<<OnlyOne>> ITextRenderer
 <<OnlyOne>> IResources
 <<OnlyOne>> ITimer
 <<OnlyOne>> IWindowController
@@ -59,8 +63,9 @@ namespace Scenes{
 
 <<Component>> Model3D
 <<Component>> ICameraScreen
-<<Component>> Image
 <<Component>> Canvas
+<<Component>> Image
+<<Component>> Text
 <<Component>> Transform
 <<Component>> RectTransform
 <<Component>> Scene
@@ -77,6 +82,10 @@ Image "*" --o "1" ImageRenderer
 Image o-- IImageRenderer
 IImageRenderer <|-- ImageRenderer
 IImageRenderer --o ComponentFactory
+Text "*" --o "1" TextRenderer
+Text o-- ITextRenderer
+ITextRenderer <|-- TextRenderer
+ITextRenderer --o ComponentFactory
 IResources --o Model3DRenderer
 IResources --o ImageRenderer
 IResources <|-- Resources
@@ -103,6 +112,7 @@ namespace Renderings{
     class RenderingResources
     class Model3DRenderer
     class ImageRenderer
+    class TextRenderer
 }
 
 namespace Systems{
@@ -135,6 +145,7 @@ class SampleScene
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> Model3DRenderer
 <<OnlyOne>> ImageRenderer
+<<OnlyOne>> TextRenderer
 <<OnlyOne>> Resources
 <<OnlyOne>> Timer
 <<OnlyOne>> IWindowController
@@ -153,6 +164,7 @@ DeviceResources --* Game
 RenderingResources --* Game
 Model3DRenderer --* Game
 ImageRenderer --* Game
+TextRenderer --* Game
 Resources --* Game
 Timer --* Game
 IWindowController --o GameContext

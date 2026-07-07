@@ -33,6 +33,8 @@ namespace Renderings
 		void SetImageSourceName(const std::string& imageSourceName) { m_imageSourceName = imageSourceName; }
 		// 色を設定
 		void SetColor(const Math::Color& color) { m_color = color; }
+		// 色を設定
+		void SetColor(const DirectX::XMVECTORF32& color) { m_color = color; }
 
 		// レイヤー順を設定
 		void SetOrderInLayer(int orderInLayer) { m_orderInLayer = orderInLayer; }
@@ -71,7 +73,7 @@ namespace Renderings
 		// キャンバスのポインタ
 		const Canvas* m_pCanvas;
 
-		// 画像インタフェースのポインタ
+		// 画像描画インタフェースのポインタ
 		IImageRenderer* m_pIImageRenderer;
 
 	};

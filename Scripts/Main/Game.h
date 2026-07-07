@@ -11,8 +11,7 @@
 #include "Scripts/Commons/Systems/OnlyOne.h"
 #include "Scripts/Commons/Renderings/DeviceResources.h"
 #include "Scripts/Commons/Renderings/RenderingResources.h"
-#include "Scripts/Commons/Renderings/Model3DRenderer.h"
-#include "Scripts/Commons/Renderings/ImageRenderer.h"
+#include "Scripts/Commons/Renderings/Renderer.h"
 #include "Scripts/Commons/Systems/Resources.h"
 #include "Scripts/Commons/Systems/WindowController.h"
 #include "Scripts/Commons/Systems/Input.h"
@@ -68,10 +67,8 @@ private:
 	// 描画リソース
 	Renderings::RenderingResources m_renderingResources;
 
-	// モデル描画
-	Renderings::Model3DRenderer m_modelRenderer;
-	// 画像描画
-	Renderings::ImageRenderer m_imageRenderer;
+	// 描画
+	Renderings::Renderer m_renderer;
 
 	// リソース
 	Systems::Resources m_resources;

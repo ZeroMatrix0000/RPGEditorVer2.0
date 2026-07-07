@@ -13,6 +13,7 @@
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Renderings/Image.h"
+#include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
 
@@ -46,9 +47,17 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(componentFactory);
 	pRectTransform->SetPivot(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
+	pRectTransform->SetAngle(-30.0f);
 	auto* pImage = m_test2D.AddComponent<Renderings::Image>(componentFactory);
 	pImage->SetImageSourceName("DialogBoxUI");
 	pRectTransform->SetSize(pImage->GetSize() / 2.0f);
+	auto* pText = m_test2D.AddComponent<Renderings::Text>(componentFactory);
+	pText->SetStr(L"テスト");
+	pText->SetFontName(L"GenEi M Gothic v2");
+	pText->SetFontSize(128.0f);
+	pText->SetFontColor(DirectX::Colors::White);
+	pText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+	pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 
 	auto* pRectTransform2 = m_test2D2.AddComponent<RectTransform>(componentFactory);
 	pRectTransform2->SetPivot(Utility::AlignmentPoint::MiddleCenter);
@@ -56,8 +65,8 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pRectTransform2->SetAngle(45.0f);
 	auto* pImage2 = m_test2D2.AddComponent<Renderings::Image>(componentFactory);
 	pImage2->SetImageSourceName("DialogBoxUI");
-	pImage2->SetOrderInLayer(-1);
-	pImage2->SetColor(Math::Color{ DirectX::Colors::Red });
+	pImage2->SetOrderInLayer(1);
+	pImage2->SetColor(DirectX::Colors::Red);
 	pRectTransform2->SetSize(pImage2->GetSize() / 2.0f);
 
 	auto* cameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(componentFactory);
@@ -72,6 +81,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 
 	// キャンバスにUIを映す
 	pImage->SetCanvas(*canvas);
+	pText->SetCanvas(*canvas);
 	pImage2->SetCanvas(*canvas);
 }
 

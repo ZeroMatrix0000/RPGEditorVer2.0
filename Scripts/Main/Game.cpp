@@ -17,8 +17,7 @@ Game::Game()
 	, m_hWindow{}
 	, m_deviceResources{}
 	, m_renderingResources{}
-	, m_modelRenderer{ m_resources }
-	, m_imageRenderer{ m_resources }
+	, m_renderer{ m_resources }
 	, m_resources{}
 	, m_timer{}
 	, m_windowController{}
@@ -54,10 +53,8 @@ void Game::Initialize(const HWND& hWindow)
 	// エフェクトファクトリー
 	auto* fx = m_renderingResources.GetEffectFactory();
 
-	// モデル描画の初期化
-	m_modelRenderer.Initialize(context, commonStates);
-	// 画像描画の初期化
-	m_imageRenderer.Initialize(context, commonStates);
+	// 描画の初期化
+	m_renderer.Initialize(context, swapChain, commonStates);
 
 	// リソースの追加
 	AddResources(device, fx);
@@ -70,8 +67,12 @@ void Game::Initialize(const HWND& hWindow)
 	m_input.Initialize();
 
 	// コンポーネント工場の初期化
-	m_componentFactory.SetPIModelRenderer(&m_modelRenderer);
-	m_componentFactory.SetPIImageRenderer(&m_imageRenderer);
+	m_componentFactory.Initialize
+	(
+		&m_renderer.GetIModelRenderer(),
+		&m_renderer.GetIImageRenderer(),
+		&m_renderer.GetITextRenderer()
+	);
 
 	// シーンの追加
 	m_sceneManager.AddScene("Sample", [&] { return m_componentFactory.Create<SampleScene>(); });
@@ -120,10 +121,8 @@ void Game::Render()
 	// 画面の初期化
 	m_deviceResources.Clear();
 
-	// モデルの描画
-	m_modelRenderer.Render();
-	// 画像の描画
-	m_imageRenderer.Render();
+	// 描画
+	m_renderer.Render();
 
 	// 画面の表示
 	m_deviceResources.Present();
@@ -145,8 +144,15 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 		return;
 	}
 
+	// テキスト描画をリセット
+	m_renderer.ResetTextRenderer();
+
 	m_deviceResources.OnWindowSizeChanged(outputSize);
 	m_windowController.SetOutputSize(outputSize);
+
+	// テキスト描画を初期化
+	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain());
+
 	m_sceneManager.OnWindowSizeChanged();
 }
 
