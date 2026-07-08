@@ -87,6 +87,8 @@ void Game::Initialize(const HWND& hWindow)
 	{
 		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(iComponentManager.Create<SampleScene>().release()) };
 	});
+	// シーン管理の初期化
+	m_sceneManager.Initialize(m_windowController.GetOutputSize(), iComponentManager);
 
 	// コンテキストの初期化
 	m_context.Initialize
@@ -164,7 +166,7 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	// テキスト描画を初期化
 	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain());
 
-	m_sceneManager.OnWindowSizeChanged();
+	m_sceneManager.OnWindowSizeChanged(outputSize);
 }
 
 // リソースの追加

@@ -1,7 +1,7 @@
 /*
  * FileName:     ISceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  * 
  * シーン管理のインタフェース
  */
@@ -43,11 +43,18 @@ namespace Scenes
 			SetNextScene(typeid(TScene), data);
 		}
 
+		// シーン切り替え中かどうか
+		virtual bool IsChanging() const = 0;
+
+
+	private:
+
+
+		/* メンバ関数 */
+
 		// 次のシーンを設定
 		virtual void SetNextScene(const std::type_index& index, const TTransitionData& data) = 0;
 
-		// シーン切り替え中かどうか
-		virtual bool IsChanging() const = 0;
 
 	};
 }

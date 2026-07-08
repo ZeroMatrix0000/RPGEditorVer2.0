@@ -45,8 +45,6 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pModel->SetModelSourceName("Player");
 
 	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(iComponentManager);
-	pRectTransform->SetPivot(Utility::AlignmentPoint::MiddleCenter);
-	pRectTransform->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform->SetAngle(-30.0f);
 	auto* pImage = m_test2D.AddComponent<Renderings::Image>(iComponentManager);
 	pImage->SetImageSourceName("DialogBoxUI");
@@ -60,8 +58,6 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 
 	auto* pRectTransform2 = m_test2D2.AddComponent<RectTransform>(iComponentManager);
-	pRectTransform2->SetPivot(Utility::AlignmentPoint::MiddleCenter);
-	pRectTransform2->SetAnchor(Utility::AlignmentPoint::MiddleCenter);
 	pRectTransform2->SetAngle(45.0f);
 	auto* pImage2 = m_test2D2.AddComponent<Renderings::Image>(iComponentManager);
 	pImage2->SetImageSourceName("DialogBoxUI");
@@ -88,6 +84,16 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 // 更新処理
 void SampleScene::Update(float elapsedTime)
 {
+	// 入力管理
+	const auto& iInput = GetContext().GetIInput();
+
+	// F5でシーン移動
+	if (iInput.GetKeyDown(KeyName::F5))
+	{
+		GetContext().GetISceneManager().SetNextScene<SampleScene>();
+		return;
+	}
+
 	m_test3D.Update(elapsedTime);
 	m_test2D.Update(elapsedTime);
 

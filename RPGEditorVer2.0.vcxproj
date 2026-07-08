@@ -172,6 +172,7 @@
     <ClCompile Include="Scripts\Commons\Renderings\RenderingResources.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\Text.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\TextRenderer.cpp" />
+    <ClCompile Include="Scripts\Commons\Scenes\SceneTransitionAnimation.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\Input.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\OnlyOne.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Utility.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Scripts\Commons\Renderings\Text.h" />
     <ClInclude Include="Scripts\Commons\Renderings\TextRenderer.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Renderer.h" />
+    <ClInclude Include="Scripts\Commons\Scenes\SceneTransitionAnimation.h" />
     <ClInclude Include="Scripts\Commons\Systems\IInput.h" />
     <ClInclude Include="Scripts\Commons\Systems\Input.h" />
     <ClInclude Include="Scripts\Commons\Systems\IResources.h" />
@@ -255,6 +257,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Jsons\Constants.json" />
+    <None Include="Resources\Jsons\EventList.json" />
+    <None Include="Resources\Jsons\Events\TalkTest1.json" />
+    <None Include="Resources\Jsons\Events\TalkTest2.json" />
+    <None Include="Resources\Jsons\Events\TalkTest3.json" />
+    <None Include="Resources\Jsons\Field.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
