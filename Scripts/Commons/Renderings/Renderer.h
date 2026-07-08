@@ -51,6 +51,9 @@ namespace Renderings
 		// テキスト描画の初期化
 		void InitializeTextRenderer(IDXGISwapChain4* pSwapChain);
 
+		// 描画モードを返る
+		void ChangeRenderMode();
+
 		// モデル描画インタフェースを取得
 		Renderings::IModel3DRenderer&  GetIModelRenderer()    { return m_modelRenderer; }
 		// 画像描画インタフェースを取得
@@ -64,6 +67,18 @@ namespace Renderings
 	private:
 
 
+		/* 列挙型 */
+
+		// 描画モード
+		enum class RenderMode
+		{
+			Model,
+			Both,
+			Collider,
+			Length
+		};
+
+
 		/* メンバ変数 */
 
 		// モデル描画
@@ -74,6 +89,9 @@ namespace Renderings
 		Renderings::TextRenderer     m_textRenderer;
 		// 当たり判定描画
 		Renderings::ColliderRenderer m_colliderRenderer;
+
+		// 描画モード
+		RenderMode m_renderMode;
 
 	};
 }

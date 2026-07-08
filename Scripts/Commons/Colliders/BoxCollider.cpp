@@ -3,7 +3,7 @@
  * Author:       Takao Hayata
  * Last Updated: 2026/07/08
  *
- * 長方形当たり判定
+ * 長方形の当たり判定
  */
 
 #include "Pch.h"

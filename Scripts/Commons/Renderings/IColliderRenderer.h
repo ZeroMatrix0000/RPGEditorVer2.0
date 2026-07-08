@@ -13,6 +13,7 @@
 namespace Colliders
 {
 	class BoxCollider;
+	class SphereCollider;
 }
 
 namespace Renderings
@@ -33,10 +34,15 @@ namespace Renderings
 		// デストラクタ
 		virtual ~IColliderRenderer() = default;
 
-		// 長方形当たり判定のポインタを追加
+		// 長方形の当たり判定のポインタを追加
 		virtual void AddPBoxCollider(const Colliders::BoxCollider* pBoxCollider) = 0;
-		// 長方形当たり判定のポインタを削除
+		// 長方形の当たり判定のポインタを削除
 		virtual void RemovePBoxCollider(const Colliders::BoxCollider* pBoxCollider) = 0;
+
+		// 球の当たり判定のポインタを追加
+		virtual void AddPSphereCollider(const Colliders::SphereCollider* pSphereCollider) = 0;
+		// 球の当たり判定のポインタを削除
+		virtual void RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider) = 0;
 
 	};
 }

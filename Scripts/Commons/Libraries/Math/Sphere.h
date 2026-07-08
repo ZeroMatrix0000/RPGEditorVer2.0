@@ -21,7 +21,7 @@ namespace Libraries
 			// コンストラクタ
 			constexpr Sphere()
 				: centerPosition{ Vector3::Zero }
-				, radius{ 0.0f }
+				, radius{ 0.5f }
 			{
 			}
 

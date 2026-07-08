@@ -19,6 +19,8 @@ namespace Renderings{
     class Text
     class ITextRenderer
     class TextRenderer
+    class IColliderRenderer
+    class ColliderRenderer
     class Renderer
 }
 
@@ -48,6 +50,7 @@ namespace GameObjects{
 
 namespace Colliders{
     class BoxCollider
+    class SphereCollider
 }
 
 namespace Scenes{
@@ -62,6 +65,7 @@ namespace Scenes{
 <<OnlyOne>> IModel3DRenderer
 <<OnlyOne>> IImageRenderer
 <<OnlyOne>> ITextRenderer
+<<OnlyOne>> IColliderRenderer
 <<OnlyOne>> Renderer
 <<OnlyOne>> IErrorMessage
 <<OnlyOne>> IResources
@@ -80,12 +84,15 @@ namespace Scenes{
 <<Component>> Transform
 <<Component>> RectTransform
 <<Component>> BoxCollider
+<<Component>> SphereCollider
 <<Component>> Scene
 
 Model3DSource "*" --* "1" Resources
 ImageSource "*" --* "1" Resources
 ICameraScreen <|-- CameraScreen
 ICameraScreen "*" --o "1" Model3D
+ICameraScreen "*" --o "1" BoxCollider
+ICameraScreen "*" --o "1" SphereCollider
 Model3D "*" --o "1" Model3DRenderer
 Model3D o-- IModel3DRenderer
 IModel3DRenderer <|-- Model3DRenderer
@@ -101,8 +108,9 @@ Text o-- ITextRenderer
 Text --o ErrorMessage
 ITextRenderer <|-- TextRenderer
 TextRenderer --* Renderer
+IColliderRenderer <|-- ColliderRenderer
+ColliderRenderer --* Renderer
 IErrorMessage <|-- ErrorMessage
-GameObject --* ErrorMessage
 IComponentManager <.. ErrorMessage
 IResources --o Model3DRenderer
 IResources --o ImageRenderer
@@ -118,8 +126,13 @@ Component "*" --* "1" GameObject
 IComponentManager <|-- ComponentManager
 IComponentManager <.. GameObject
 IComponentManager <.. SceneTransitionAnimation
+GameObject --* ErrorMessage
 GameObject --* SceneTransitionAnimation
 RectTransform --o SceneTransitionAnimation
+BoxCollider "*" --o "1" ColliderRenderer
+BoxCollider o-- IColliderRenderer
+SphereCollider "*" --o "1" ColliderRenderer
+SphereCollider o-- IColliderRenderer
 SceneTransitionAnimation --* SceneManager
 Scene --o SceneManager
 ISceneManager <|-- SceneManager

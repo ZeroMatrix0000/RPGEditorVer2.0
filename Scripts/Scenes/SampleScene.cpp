@@ -17,6 +17,7 @@
 #include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
+#include "Scripts/Commons/Colliders/SphereCollider.h"
 
 // コンストラクタ
 SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner)
@@ -48,6 +49,10 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pBoxCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
 	pBoxCollider->SetSize(Math::Vector3{ 1.0f, 2.0f, 1.0f });
 	pBoxCollider->ApplyTransform();
+	auto* pSphereCollider = m_test3D.AddComponent<Colliders::SphereCollider>(iComponentManager);
+	pSphereCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
+	pSphereCollider->SetRadius(1.0f);
+	pSphereCollider->ApplyTransform();
 
 	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(iComponentManager);
 	pRectTransform->SetAngle(-30.0f);
@@ -80,6 +85,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	// カメラにモデルを映す
 	pModel->AddICameraScreen(*pCameraScreen);
 	pBoxCollider->AddICameraScreen(*pCameraScreen);
+	pSphereCollider->AddICameraScreen(*pCameraScreen);
 
 	// キャンバスにUIを映す
 	pImage->SetCanvas(*pCanvas);

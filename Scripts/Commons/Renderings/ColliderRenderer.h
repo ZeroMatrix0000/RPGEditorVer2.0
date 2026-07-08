@@ -29,10 +29,15 @@ namespace Renderings
 		// 描画処理
 		void Render();
 
-		// 長方形当たり判定のポインタを追加
+		// 長方形の当たり判定のポインタを追加
 		void AddPBoxCollider(const Colliders::BoxCollider* pBoxCollider) override;
-		// 長方形当たり判定のポインタを削除
+		// 長方形の当たり判定のポインタを削除
 		void RemovePBoxCollider(const Colliders::BoxCollider* pBoxCollider) override;
+
+		// 球の当たり判定のポインタを追加
+		void AddPSphereCollider(const Colliders::SphereCollider* pSphereCollider) override;
+		// 球の当たり判定のポインタを削除
+		void RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider) override;
 
 
 	private:
@@ -42,6 +47,10 @@ namespace Renderings
 
 		// 直方体を描画
 		void DrawBox(const Math::Box& box, const Math::Color& color) const;
+		// 球を描画
+		void DrawSphere(const Math::Sphere& sphere, const Math::Color& color, const Math::Vector3& eyePosition, int segmentCount = 24) const;
+		// 円を描画
+		void DrawCircle(const Math::Circle& circle, const Math::Color& color, int segmentCount = 64) const;
 
 
 		/* メンバ変数 */
@@ -51,8 +60,10 @@ namespace Renderings
 		// ベーシックエフェクト
 		std::unique_ptr<DirectX::BasicEffect>                                  m_basicEffect;
 
-		// 長方形当たり判定のポインタリスト
+		// 長方形の当たり判定のポインタリスト
 		std::unordered_set<const Colliders::BoxCollider*> m_pBoxColliders;
+		// 球の当たり判定のポインタリスト
+		std::unordered_set<const Colliders::SphereCollider*> m_pSphereColliders;
 
 		// デバイスコンテキスト
 		ID3D11DeviceContext4*        m_pContext;

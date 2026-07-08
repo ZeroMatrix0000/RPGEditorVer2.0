@@ -34,5 +34,8 @@ namespace Renderings
 		// プロジェクション行列を取得
 		virtual const Math::Matrix& GetProjectionMatrix() const = 0;
 
+		// 目の座標を取得
+		virtual const Math::Vector3 GetEyePosition() const = 0;
+
 	};
 }

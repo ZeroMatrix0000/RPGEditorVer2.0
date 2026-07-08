@@ -18,6 +18,7 @@
 #include "Scripts/Commons/GameObjects/Transform.h"
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
+#include "Scripts/Commons/Colliders/SphereCollider.h"
 
 // コンストラクタ
 Game::Game()
@@ -127,6 +128,11 @@ void Game::Update()
 	{
 		m_windowController.ChangeFullScreen();
 	}
+	// F3で描画モード切り替え
+	if (m_input.GetKeyDown(KeyName::F3))
+	{
+		m_renderer.ChangeRenderMode();
+	}
 
 	// シーン管理の更新
 	m_sceneManager.Update(m_timer.GetDeltaTime());
@@ -231,10 +237,15 @@ void Game::AddComponents()
 	// キャンバス
 	m_componentManager.AddComponent<Renderings::Canvas>();
 
-	// 長方形当たり判定
+	// 長方形の当たり判定
 	m_componentManager.AddComponent<Colliders::BoxCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
 		return std::make_unique<Colliders::BoxCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
+	});
+	// 球の当たり判定
+	m_componentManager.AddComponent<Colliders::SphereCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	{
+		return std::make_unique<Colliders::SphereCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
 	});
 
 	// サンプルシーン

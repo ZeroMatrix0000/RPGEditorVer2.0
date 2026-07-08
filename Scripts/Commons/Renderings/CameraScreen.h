@@ -51,6 +51,9 @@ namespace Renderings
 		// プロジェクション行列を取得
 		const Math::Matrix& GetProjectionMatrix() const override { return m_projection; }
 
+		// 目の座標を取得
+		const Math::Vector3 GetEyePosition() const override { return m_camera.GetEyePosition(); }
+
 		// カメラを設定
 		void SetCamera(const TCamera& camera) { m_camera = camera; }
 

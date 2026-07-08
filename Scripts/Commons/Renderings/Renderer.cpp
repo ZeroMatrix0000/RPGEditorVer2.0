@@ -19,6 +19,7 @@ Renderings::Renderer::Renderer(const Systems::IResources& iResources)
 	, m_imageRenderer{ iResources }
 	, m_textRenderer{}
 	, m_colliderRenderer{}
+	, m_renderMode{}
 {
 }
 
@@ -45,9 +46,15 @@ void Renderings::Renderer::Initialize
 void Renderings::Renderer::Render()
 {
 	// モデルの描画
-	m_modelRenderer.Render();
+	if (m_renderMode != RenderMode::Collider)
+	{
+		m_modelRenderer.Render();
+	}
 	// 当たり判定の描画
-	m_colliderRenderer.Render();
+	if (m_renderMode != RenderMode::Model)
+	{
+		m_colliderRenderer.Render();
+	}
 
 	// 画像のポインタリストをソート
 	m_imageRenderer.SortPImages();
@@ -142,4 +149,10 @@ void Renderings::Renderer::ResetTextRenderer()
 void Renderings::Renderer::InitializeTextRenderer(IDXGISwapChain4* pSwapChain)
 {
 	m_textRenderer.Initialize(pSwapChain);
+}
+
+// 描画モードを返る
+void Renderings::Renderer::ChangeRenderMode()
+{
+	m_renderMode = static_cast<RenderMode>((static_cast<int>(m_renderMode) + 1) % static_cast<int>(RenderMode::Length));
 }

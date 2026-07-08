@@ -10,6 +10,7 @@
 #include "ColliderRenderer.h"
 
 #include "../Colliders/BoxCollider.h"
+#include "../Colliders/SphereCollider.h"
 #include "../Renderings/ICameraScreen.h"
 
  // コンストラクタ
@@ -18,6 +19,7 @@ Renderings::ColliderRenderer::ColliderRenderer()
 	, m_primitiveBatch{}
 	, m_basicEffect{}
 	, m_pBoxColliders{}
+	, m_pSphereColliders{}
 	, m_pContext{}
 	, m_pCommonStates{}
 	, m_inputLayout{}
@@ -59,7 +61,19 @@ void Renderings::ColliderRenderer::Render()
 		for (const auto* pICameraScreen : pBoxCollider->GetPICameraScreens())
 		{
 			m_basicEffect->SetMatrices(Math::Matrix::Identity, pICameraScreen->GetViewMatrix(), pICameraScreen->GetProjectionMatrix());
+			m_basicEffect->Apply(m_pContext);
 			DrawBox(pBoxCollider->GetWorldBox(), pBoxCollider->GetColor());
+		}
+	}
+	// 球
+	for (const auto* pSphereCollider : m_pSphereColliders)
+	{
+		// カメラ画面
+		for (const auto* pICameraScreen : pSphereCollider->GetPICameraScreens())
+		{
+			m_basicEffect->SetMatrices(Math::Matrix::Identity, pICameraScreen->GetViewMatrix(), pICameraScreen->GetProjectionMatrix());
+			m_basicEffect->Apply(m_pContext);
+			DrawSphere(pSphereCollider->GetWorldSphere(), pSphereCollider->GetColor(), pICameraScreen->GetEyePosition());
 		}
 	}
 
@@ -67,16 +81,28 @@ void Renderings::ColliderRenderer::Render()
 	m_primitiveBatch->End();
 }
 
-// 長方形当たり判定のポインタを追加
+// 長方形の当たり判定のポインタを追加
 void Renderings::ColliderRenderer::AddPBoxCollider(const Colliders::BoxCollider* pBoxCollider)
 {
 	m_pBoxColliders.emplace(pBoxCollider);
 }
 
-// 長方形当たり判定のポインタを削除
+// 長方形の当たり判定のポインタを削除
 void Renderings::ColliderRenderer::RemovePBoxCollider(const Colliders::BoxCollider* pBoxCollider)
 {
 	m_pBoxColliders.erase(pBoxCollider);
+}
+
+// 球の当たり判定のポインタを追加
+void Renderings::ColliderRenderer::AddPSphereCollider(const Colliders::SphereCollider* pSphereCollider)
+{
+	m_pSphereColliders.emplace(pSphereCollider);
+}
+
+// 球の当たり判定のポインタを削除
+void Renderings::ColliderRenderer::RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider)
+{
+	m_pSphereColliders.erase(pSphereCollider);
 }
 
 // 直方体を描画
@@ -115,4 +141,119 @@ void Renderings::ColliderRenderer::DrawBox(const Math::Box& box, const Math::Col
 	}
 
 	m_primitiveBatch->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, indexes, 24, vertexes, 8);
+}
+
+// 球を描画
+void Renderings::ColliderRenderer::DrawSphere(const Math::Sphere& sphere, const Math::Color& color, const Math::Vector3& eyePosition, int segmentCount) const
+{
+	DirectX::VertexPositionColor* vertexes1 = new DirectX::VertexPositionColor[segmentCount * 2];
+	DirectX::VertexPositionColor* vertexes2 = new DirectX::VertexPositionColor[segmentCount * 2];
+	DirectX::VertexPositionColor* vertexes3 = new DirectX::VertexPositionColor[segmentCount * 2];
+	for (int i = 0; i < segmentCount; i++)
+	{
+		float angle1 = Math::Deg2Rad(i * 360.0f / segmentCount);
+		float angle2 = Math::Deg2Rad((i + 1) * 360.0f / segmentCount);
+
+		vertexes1[i * 2] = DirectX::VertexPositionColor
+		{
+			sphere.centerPosition + Math::Vector3{ 0.0f, Math::Cos(angle1), Math::Sin(angle1) } * sphere.radius,
+			color
+		};
+		vertexes2[i * 2] = DirectX::VertexPositionColor
+		{
+			sphere.centerPosition + Math::Vector3{ Math::Sin(angle1), 0.0f, Math::Cos(angle1) } * sphere.radius,
+			color
+		};
+		vertexes3[i * 2] = DirectX::VertexPositionColor
+		{
+			sphere.centerPosition + Math::Vector3{ Math::Cos(angle1), Math::Sin(angle1), 0.0f } * sphere.radius,
+			color
+		};
+		vertexes1[i * 2 + 1] = DirectX::VertexPositionColor
+		{
+			sphere.centerPosition + Math::Vector3{ 0.0f, Math::Cos(angle2), Math::Sin(angle2) } * sphere.radius,
+			color
+		};
+		vertexes2[i * 2 + 1] = DirectX::VertexPositionColor
+		{
+			sphere.centerPosition + Math::Vector3{ Math::Sin(angle2), 0.0f, Math::Cos(angle2) } * sphere.radius,
+			color
+		};
+		vertexes3[i * 2 + 1] = DirectX::VertexPositionColor
+		{
+			sphere.centerPosition + Math::Vector3{ Math::Cos(angle2), Math::Sin(angle2), 0.0f } * sphere.radius,
+			color
+		};
+	}
+	m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, vertexes1, static_cast<size_t>(segmentCount * 2));
+	m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, vertexes2, static_cast<size_t>(segmentCount * 2));
+	m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, vertexes3, static_cast<size_t>(segmentCount * 2));
+
+	delete[] vertexes1;
+	delete[] vertexes2;
+	delete[] vertexes3;
+
+	// 球の方向を指すベクトル
+	Math::Vector3 targetDirection = sphere.centerPosition - eyePosition;
+
+	// カメラが球の中にあれば何もしない
+	if (sphere.radius > targetDirection.Length())
+	{
+		return;
+	}
+	// カメラの位置を頂点とし球に接する円錐の頂角を2で割ったもの
+	float cornAngle = Math::Arcsin(sphere.radius / targetDirection.Length());
+
+	// 球の方向を指す単位ベクトル
+	Math::Vector3 unitZ = targetDirection;
+	unitZ.Normalize();
+
+	// カメラと描画する円の距離
+	float distance = targetDirection.Length();
+	distance *= Math::Cos(cornAngle);
+	distance *= Math::Cos(cornAngle);
+	// 描画する円の中心
+	Math::Vector3 centerPosition = eyePosition + unitZ * distance;
+	// 描画する円の半径
+	float radius = distance * Math::Tan(cornAngle);
+
+	DrawCircle(Math::Circle{ centerPosition, radius, unitZ }, color);
+}
+
+// 円を描画
+void Renderings::ColliderRenderer::DrawCircle(const Math::Circle& circle, const Math::Color& color, int segmentCount) const
+{
+	// 頂点情報
+	DirectX::VertexPositionColor* vertexes = new DirectX::VertexPositionColor[segmentCount * 2];
+
+	// 法線ベクトルX
+	Math::Vector3 unitX = circle.axis.Cross(Math::Vector3::UnitY);
+	// サイズが小さければ別のベクトルをもとに法線を求める
+	if (unitX.Length() < Math::EPSILON)
+	{
+		unitX = circle.axis.Cross(Math::Vector3::UnitZ);
+	}
+	unitX.Normalize();
+	// 法線ベクトルY
+	Math::Vector3 unitY = circle.axis.Cross(unitX);
+
+	for (int i = 0; i < segmentCount; i++)
+	{
+		float angle1 = Math::Deg2Rad(i * 360.0f / segmentCount);
+		float angle2 = Math::Deg2Rad((i + 1) * 360.0f / segmentCount);
+
+		vertexes[i * 2] = DirectX::VertexPositionColor
+		{
+			circle.centerPosition + (unitX * Math::Cos(angle1) + unitY * Math::Sin(angle1)) * circle.radius,
+			color
+		};
+		vertexes[i * 2 + 1] = DirectX::VertexPositionColor
+		{
+			circle.centerPosition + (unitX * Math::Cos(angle2) + unitY * Math::Sin(angle2)) * circle.radius,
+			color
+		};
+	}
+	m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, vertexes, static_cast<size_t>(segmentCount * 2));
+
+	delete[] vertexes;
 }

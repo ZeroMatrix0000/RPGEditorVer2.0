@@ -1,9 +1,9 @@
 /*
- * FileName:     BoxCollider.h
+ * FileName:     SphereCollider.h
  * Author:       Takao Hayata
  * Last Updated: 2026/07/08
  *
- * 長方形の当たり判定
+ * 球の当たり判定
  */
 
 #pragma once
@@ -18,8 +18,8 @@ namespace Renderings
 
 namespace Colliders
 {
-	// 長方形の当たり判定
-	class BoxCollider : public Component
+	// 長方形当たり判定
+	class SphereCollider : public Component
 	{
 
 	public:
@@ -28,14 +28,14 @@ namespace Colliders
 		/* メンバ関数 */
 
 		// コンストラクタ
-		BoxCollider(const ComponentCreatePermit& permit, GameObject* pOwner, Renderings::IColliderRenderer* pIColliderRenderer);
+		SphereCollider(const ComponentCreatePermit& permit, GameObject* pOwner, Renderings::IColliderRenderer* pIColliderRenderer);
 		// デストラクタ
-		~BoxCollider();
+		~SphereCollider();
 
 		// 座標を設定
-		void SetPosition(const Math::Vector3& position) { m_box.position = position; }
-		// 大きさを設定
-		void SetSize(const Math::Vector3& size) { m_box.size = size; }
+		void SetPosition(const Math::Vector3& position) { m_sphere.centerPosition = position; }
+		// 半径を設定
+		void SetRadius(float radius) { m_sphere.radius = radius; }
 		// 色を設定
 		void SetColor(const Math::Color& color) { m_color = color; }
 		// 色を設定
@@ -49,8 +49,8 @@ namespace Colliders
 		// トランスフォームを適用
 		void ApplyTransform();
 
-		// ワールド長方形を取得
-		const Math::Box& GetWorldBox() const { return m_worldBox; }
+		// ワールド球を取得
+		const Math::Sphere& GetWorldSphere() const { return m_worldSphere; }
 
 		// 色を取得
 		const Math::Color& GetColor() const { return m_color; }
@@ -64,10 +64,10 @@ namespace Colliders
 		/* メンバ変数 */
 
 		// 長方形
-		Math::NonRotatingBox m_box;
+		Math::Sphere m_sphere;
 
 		// ワールド長方形
-		Math::Box m_worldBox;
+		Math::Sphere m_worldSphere;
 
 		// 色
 		Math::Color m_color;
