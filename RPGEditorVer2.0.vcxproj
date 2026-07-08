@@ -186,6 +186,10 @@
     <ClCompile Include="Scripts\Main\Game.cpp" />
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
+    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCamera.cpp" />
+    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.cpp" />
+    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
+    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
     <ClCompile Include="Scripts\Scenes\SampleScene.cpp" />
     <ClInclude Include="Scripts\Commons\Colliders\BoxCollider.h" />
     <ClInclude Include="Scripts\Commons\Colliders\SphereCollider.h" />
@@ -257,11 +261,17 @@
     <ClInclude Include="Scripts\Commons\Systems\OnlyOne.h" />
     <ClInclude Include="Scripts\Commons\Libraries\Spring.h" />
     <ClInclude Include="Scripts\Commons\Libraries\Utility.h" />
+    <ClInclude Include="Scripts\Commons\Systems\State.h" />
     <ClInclude Include="Scripts\Commons\Systems\Timer.h" />
     <ClInclude Include="Scripts\Commons\Systems\WindowController.h" />
     <ClInclude Include="Scripts\Main\Game.h" />
     <ClInclude Include="Scripts\Main\GameContext.h" />
     <ClInclude Include="Scripts\Main\SceneTransitionData.h" />
+    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCamera.h" />
+    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraInternals.h" />
+    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.h" />
+    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.h" />
+    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.h" />
     <ClInclude Include="Scripts\Scenes\SampleScene.h" />
     <ClInclude Include="Scripts\Scenes\Scenes.h" />
   </ItemGroup>

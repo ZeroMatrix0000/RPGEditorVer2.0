@@ -40,8 +40,8 @@ namespace Renderings
 		{
 		}
 
-		// 更新処理
-		void Update(float elapsedTime) override
+		// ビュー行列を更新
+		void UpdateViewMatrix()
 		{
 			m_view = m_camera.CreateViewMatrix();
 		}
@@ -68,6 +68,9 @@ namespace Renderings
 				1000.0f
 			);
 		}
+
+		// カメラを取得
+		const TCamera& GetCamera() const { return m_camera; }
 
 
 	private:

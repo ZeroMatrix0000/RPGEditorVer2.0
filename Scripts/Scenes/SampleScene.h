@@ -10,8 +10,9 @@
 
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Scenes/Scene.h"
-#include "Scripts/Main/SceneTransitionData.h"
-#include "Scripts/Main/GameContext.h"
+
+class SceneTransitionData;
+class GameContext;
 
 // サンプルシーン
 class SampleScene : public Scenes::Scene<SceneTransitionData, GameContext>
@@ -50,6 +51,9 @@ private:
 	GameObject m_test2D;
 	// テスト
 	GameObject m_test2D2;
+
+	// 地面
+	GameObject m_ground;
 
 	// カメラ
 	GameObject m_camera;

@@ -18,7 +18,7 @@ namespace Renderings
 
 namespace Colliders
 {
-	// 長方形当たり判定
+	// 球の当たり判定
 	class SphereCollider : public Component
 	{
 

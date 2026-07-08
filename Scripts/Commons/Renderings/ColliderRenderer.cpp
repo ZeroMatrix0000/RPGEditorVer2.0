@@ -3,7 +3,7 @@
  * Author:       Takao Hayata
  * Last Updated: 2026/07/08
  *
- * 図形描画
+ * 当たり判定描画
  */
 
 #include "Pch.h"

@@ -18,6 +18,7 @@ namespace Colliders
 
 namespace Renderings
 {
+	// 当たり判定描画のインタフェース
 	class IColliderRenderer : public Systems::OnlyOne
 	{
 

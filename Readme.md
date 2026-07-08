@@ -35,6 +35,7 @@ namespace Systems{
     class WindowController
     class IInput
     class Input
+    class State["State&lt;TInternals>"]
 }
 
 namespace GameObjects{
@@ -147,6 +148,7 @@ namespace Renderings{
     class DeviceResources
     class RenderingResources
     class Renderer
+    class CameraScreen["CameraScreen&lt;TCamera>"]
 }
 
 namespace Systems{
@@ -157,6 +159,7 @@ namespace Systems{
     class WindowController
     class IInput
     class Input
+    class State["State&lt;TInternals>"]
 }
 
 namespace GameObjects{
@@ -177,6 +180,12 @@ class Game
 
 class SampleScene
 
+class DebugCameraInternals
+class DebugCameraStateIdle
+class DebugCameraStateRotate
+class DebugCameraStateMove
+class DebugCamera
+
 <<OnlyOne>> DeviceResources
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> Renderer
@@ -194,7 +203,9 @@ class SampleScene
 <<OnlyOne>> GameContext
 <<OnlyOne>> Game
 
+<<Component>> CameraScreen
 <<Component>> Scene
+<<Component>> DebugCamera
 
 DeviceResources --* Game
 RenderingResources --* Game
@@ -202,18 +213,28 @@ Renderer --* Game
 ErrorMessage --* Game
 Resources --* Game
 Timer --* Game
-IWindowController --o GameContext
 WindowController --* Game
-IInput --o GameContext
 Input --* Game
-IComponentManager --o GameContext
 ComponentManager --* Game
-GameObject "*" --* "1" SampleScene
-Scene <|-- SampleScene
-ISceneManager --o GameContext
 SceneManager --* Game
 GameContext --* Game
+IWindowController --o GameContext
+IInput --o GameContext
+IComponentManager --o GameContext
+ISceneManager --o GameContext
+GameObject "*" --* "1" SampleScene
+Scene <|-- SampleScene
 GameContext <.. SampleScene
 SceneTransitionData <.. SampleScene
+
+CameraScreen --o DebugCameraInternals
+DebugCameraInternals <.. DebugCameraStateIdle
+DebugCameraInternals <.. DebugCameraStateRotate
+DebugCameraInternals <.. DebugCameraStateMove
+State <|-- DebugCameraStateIdle
+State <|-- DebugCameraStateRotate
+State <|-- DebugCameraStateMove
+DebugCameraInternals --* DebugCamera
+DebugCameraInternals --* DebugCamera
 
 ```

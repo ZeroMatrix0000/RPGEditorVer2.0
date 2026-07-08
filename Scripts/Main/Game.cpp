@@ -19,6 +19,7 @@
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
+#include "../Objects/DebugCamera/DebugCamera.h"
 
 // コンストラクタ
 Game::Game()
@@ -250,4 +251,7 @@ void Game::AddComponents()
 
 	// サンプルシーン
 	m_componentManager.AddComponent<SampleScene>();
+
+	// デバッグ用カメラ
+	m_componentManager.AddComponent<DebugCamera>();
 }

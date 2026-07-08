@@ -3,7 +3,7 @@
  * Author:       Takao Hayata
  * Last Updated: 2026/07/08
  *
- * 図形描画
+ * 当たり判定描画
  */
 
 #pragma once
@@ -12,7 +12,7 @@
 
 namespace Renderings
 {
-	// 図形描画
+	// 当たり判定描画
 	class ColliderRenderer : public IColliderRenderer
 	{
 
