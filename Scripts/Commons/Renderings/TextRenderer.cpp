@@ -1,7 +1,7 @@
 /*
  * FileName:     TextRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * テキスト描画
  */
@@ -13,6 +13,7 @@
 #include "Canvas.h"
 #include "../GameObjects/GameObject.h"
 #include "../GameObjects/RectTransform.h"
+#include "../Systems/IErrorMessage.h"
 
 // コンストラクタ
 Renderings::TextRenderer::TextRenderer()
@@ -77,11 +78,11 @@ void Renderings::TextRenderer::CreateFontCollection(const std::vector<std::wstri
 		{
 			fontFiles.pop_back();
 			// エラーメッセージを追加
-			//GetInterface<Systems::IErrorMessage>().AddMessage(Utility::FormatWString
-			//(
-			//	L"フォントの読み込みに失敗しました。: %s",
-			//	filePath.c_str()
-			//));
+			Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+			(
+				L"フォントの読み込みに失敗しました。: %s",
+				filePath.c_str()
+			));
 		}
 	}
 

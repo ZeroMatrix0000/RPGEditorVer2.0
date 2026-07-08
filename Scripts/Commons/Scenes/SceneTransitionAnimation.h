@@ -54,11 +54,6 @@ namespace Scenes
 		// 切り替えにかける時間
 		static constexpr float CHANGE_TIME = 0.5f;
 
-		// 画像のレイヤー順
-		static constexpr int ORDER_IN_LAYER = 32767;
-		// 画像色
-		static constexpr Math::Color COLOR = Math::Color{ 0.0f, 0.0f, 0.0f, 1.0f };
-
 
 		/* メンバ変数 */
 

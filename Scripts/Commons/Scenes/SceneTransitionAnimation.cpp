@@ -34,8 +34,8 @@ void Scenes::SceneTransitionAnimation::Initialize(const Math::Vector2& outputSiz
 	m_imageRectTransform->SetAngle(CHANGE_ANGLE);
 	auto* pImage = m_image.AddComponent<Renderings::Image>(iComponentManager);
 	pImage->SetImageSourceName("Box");
-	pImage->SetColor(COLOR);
-	pImage->SetOrderInLayer(ORDER_IN_LAYER);
+	pImage->SetColor(DirectX::Colors::Black);
+	pImage->SetOrderInLayer(32767);
 	// キャンバスの設定
 	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
 	pCanvas->Initialize(Renderings::Canvas::FixedSize::None, outputSize);

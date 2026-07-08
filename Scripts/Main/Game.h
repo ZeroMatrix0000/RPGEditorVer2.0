@@ -16,6 +16,7 @@
 #include "Scripts/Commons/Systems/WindowController.h"
 #include "Scripts/Commons/Systems/Input.h"
 #include "Scripts/Commons/Systems/Timer.h"
+#include "Scripts/Commons/Systems/ErrorMessage.h"
 #include "Scripts/Commons/GameObjects/ComponentManager.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
 #include "SceneTransitionData.h"
@@ -81,6 +82,9 @@ private:
 	Systems::WindowController m_windowController;
 	// 入力管理
 	Systems::Input m_input;
+
+	// エラーメッセージ
+	Systems::ErrorMessage m_errorMessage;
 
 	// コンポーネント管理
 	ComponentManager m_componentManager;

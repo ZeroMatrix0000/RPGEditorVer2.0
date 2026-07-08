@@ -23,6 +23,8 @@ namespace Renderings{
 }
 
 namespace Systems{
+    class IErrorMessage
+    class ErrorMessage
     class IResources
     class Resources
     class ITimer
@@ -45,8 +47,9 @@ namespace GameObjects{
 }
 
 namespace Scenes{
+    class SceneTransitionAnimation
     class Scene["Scene&lt;TTransitionData, TContext>"]
-    class ISceneManager["ISceneManager&lt;TTransitionData>"]
+    class ISceneManager["ISceneManager&lt;TTransitionData, TContext>"]
     class SceneManager["SceneManager&lt;TTransitionData, TContext>"]
 }
 
@@ -56,6 +59,7 @@ namespace Scenes{
 <<OnlyOne>> IImageRenderer
 <<OnlyOne>> ITextRenderer
 <<OnlyOne>> Renderer
+<<OnlyOne>> IErrorMessage
 <<OnlyOne>> IResources
 <<OnlyOne>> ITimer
 <<OnlyOne>> IWindowController
@@ -90,8 +94,12 @@ IImageRenderer <|-- ImageRenderer
 ImageRenderer --* Renderer
 Text "*" --o "1" TextRenderer
 Text o-- ITextRenderer
+Text --o ErrorMessage
 ITextRenderer <|-- TextRenderer
 TextRenderer --* Renderer
+IErrorMessage <|-- ErrorMessage
+GameObject --* ErrorMessage
+IComponentManager <.. ErrorMessage
 IResources --o Model3DRenderer
 IResources --o ImageRenderer
 IResources <|-- Resources
@@ -104,6 +112,10 @@ ComponentCreatePermit <.. Component
 Component o-- GameObject
 Component "*" --* "1" GameObject
 IComponentManager <.. GameObject
+IComponentManager <.. SceneTransitionAnimation
+GameObject --* SceneTransitionAnimation
+RectTransform --o SceneTransitionAnimation
+SceneTransitionAnimation --* SceneManager
 Scene --o SceneManager
 ISceneManager <|-- SceneManager
 

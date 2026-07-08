@@ -29,6 +29,7 @@ Game::Game()
 	, m_timer{}
 	, m_windowController{}
 	, m_input{}
+	, m_errorMessage{}
 	, m_componentManager{}
 	, m_sceneManager{ m_context }
 	, m_context{}
@@ -40,6 +41,9 @@ void Game::Initialize(const HWND& hWindow)
 {
 	// ウィンドウハンドルを保持
 	m_hWindow = hWindow;
+
+	// エラーメッセージの初期化
+	m_errorMessage.Initialize(L"Makinas 4 Flat", 5.0f);
 
 	// デバイスリソースの初期化
 	m_deviceResources.Initialize(hWindow);
@@ -81,8 +85,13 @@ void Game::Initialize(const HWND& hWindow)
 	// コンポーネント工場の初期化
 	AddComponents();
 
-	// シーンの追加
+	// コンポーネント管理のインタフェース
 	const IComponentManager& iComponentManager = m_componentManager;
+
+	// エラーメッセージのオブジェクトを生成
+	m_errorMessage.CreateObjects(iComponentManager);
+
+	// シーンの追加
 	m_sceneManager.AddScene<SampleScene>([&]
 	{
 		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(iComponentManager.Create<SampleScene>().release()) };
@@ -120,6 +129,9 @@ void Game::Update()
 
 	// シーン管理の更新
 	m_sceneManager.Update(m_timer.GetDeltaTime());
+
+	// エラーメッセージの更新
+	m_errorMessage.Update(m_timer.GetDeltaTime());
 }
 
 // 描画処理

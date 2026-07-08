@@ -1,13 +1,15 @@
 /*
  * FileName:     Resources.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/03
+ * Last Updated: 2026/07/08
  *
  * リソース管理
  */
 
 #include "Pch.h"
 #include "Resources.h"
+
+#include "IErrorMessage.h"
 
 Systems::Resources::Resources()
 	: IResources{}
@@ -26,11 +28,11 @@ void Systems::Resources::AddModelSource(const std::string& modelSourceName, ID3D
 	catch (std::exception e)
 	{
 		// エラーメッセージを追加
-		//GetInterface<IErrorMessage>().AddMessage(Utility::FormatWString
-		//(
-		//	L"モデルの読み込みに失敗しました。: %s",
-		//	filePath.c_str()
-		//));
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"モデルの読み込みに失敗しました。: %s",
+			filePath.c_str()
+		));
 	}
 }
 
@@ -43,12 +45,12 @@ void Systems::Resources::AddImage(const std::string& imageName, ID3D11Device5* d
 	}
 	catch (std::exception e)
 	{
-		//// エラーメッセージを追加
-		//GetInterface<IErrorMessage>().AddMessage(Utility::FormatWString
-		//(
-		//	L"画像の読み込みに失敗しました。: %s",
-		//	filePath.c_str()
-		//));
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"画像の読み込みに失敗しました。: %s",
+			filePath.c_str()
+		));
 	}
 }
 
