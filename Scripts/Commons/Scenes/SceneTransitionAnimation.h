@@ -18,6 +18,7 @@ namespace GameObjects
 
 namespace Scenes
 {
+	// シーン遷移時のアニメーション
 	class SceneTransitionAnimation
 	{
 

@@ -46,6 +46,10 @@ namespace GameObjects{
     class RectTransform
 }
 
+namespace Colliders{
+    class BoxCollider
+}
+
 namespace Scenes{
     class SceneTransitionAnimation
     class Scene["Scene&lt;TTransitionData, TContext>"]
@@ -66,7 +70,6 @@ namespace Scenes{
 <<OnlyOne>> IInput
 <<OnlyOne>> ComponentCreatePermit
 <<OnlyOne>> IComponentManager
-<<OnlyOne>> ComponentManager
 <<OnlyOne>> ISceneManager
 
 <<Component>> ICameraScreen
@@ -76,6 +79,7 @@ namespace Scenes{
 <<Component>> Text
 <<Component>> Transform
 <<Component>> RectTransform
+<<Component>> BoxCollider
 <<Component>> Scene
 
 Model3DSource "*" --* "1" Resources
@@ -111,6 +115,7 @@ ComponentCreatePermit --* ComponentManager
 ComponentCreatePermit <.. Component
 Component o-- GameObject
 Component "*" --* "1" GameObject
+IComponentManager <|-- ComponentManager
 IComponentManager <.. GameObject
 IComponentManager <.. SceneTransitionAnimation
 GameObject --* SceneTransitionAnimation
@@ -132,6 +137,7 @@ namespace Renderings{
 }
 
 namespace Systems{
+    class ErrorMessage
     class Resources
     class Timer
     class IWindowController
@@ -161,6 +167,7 @@ class SampleScene
 <<OnlyOne>> DeviceResources
 <<OnlyOne>> RenderingResources
 <<OnlyOne>> Renderer
+<<OnlyOne>> ErrorMessage
 <<OnlyOne>> Resources
 <<OnlyOne>> Timer
 <<OnlyOne>> IWindowController
@@ -179,6 +186,7 @@ class SampleScene
 DeviceResources --* Game
 RenderingResources --* Game
 Renderer --* Game
+ErrorMessage --* Game
 Resources --* Game
 Timer --* Game
 IWindowController --o GameContext

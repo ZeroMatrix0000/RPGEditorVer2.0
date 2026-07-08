@@ -51,6 +51,7 @@ void Renderings::Model3DRenderer::Render()
 			continue;
 		}
 
+		// カメラ画面
 		for (const auto* pICameraScreen : pModel->GetPICameraScreens())
 		{
 			modelSource->GetModel().Draw

@@ -17,6 +17,7 @@
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/GameObjects/Transform.h"
 #include "Scripts/Commons/GameObjects/RectTransform.h"
+#include "Scripts/Commons/Colliders/BoxCollider.h"
 
 // コンストラクタ
 Game::Game()
@@ -65,7 +66,7 @@ void Game::Initialize(const HWND& hWindow)
 	auto* fx = m_renderingResources.GetEffectFactory();
 
 	// 描画の初期化
-	m_renderer.Initialize(context, swapChain, commonStates);
+	m_renderer.Initialize(device, context, swapChain, commonStates);
 	m_renderer.CreateFontCollection(std::vector<std::wstring>
 	{
 		L"Resources/Fonts/Makinas-4-Flat.otf",
@@ -229,6 +230,12 @@ void Game::AddComponents()
 	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
 	// キャンバス
 	m_componentManager.AddComponent<Renderings::Canvas>();
+
+	// 長方形当たり判定
+	m_componentManager.AddComponent<Colliders::BoxCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	{
+		return std::make_unique<Colliders::BoxCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
+	});
 
 	// サンプルシーン
 	m_componentManager.AddComponent<SampleScene>();

@@ -16,6 +16,7 @@
 #include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
+#include "Scripts/Commons/Colliders/BoxCollider.h"
 
 // コンストラクタ
 SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner)
@@ -40,9 +41,13 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	auto* pTransform = m_test3D.AddComponent<Transform>(iComponentManager);
 	pTransform->SetPosition(Math::Vector3::Left * 5.0f);
 	pTransform->SetRotation(Math::Euler{ 0.0f, 45.0f, 0.0f }.CreateQuaternion());
-	pTransform->SetScale(Math::Vector3{ 2.0f, 3.0f, 1.0f });
+	pTransform->SetScale(Math::Vector3{ 1.0f, 1.0f, 1.0f });
 	auto* pModel = m_test3D.AddComponent<Renderings::Model3D>(iComponentManager);
 	pModel->SetModelSourceName("Player");
+	auto* pBoxCollider = m_test3D.AddComponent<Colliders::BoxCollider>(iComponentManager);
+	pBoxCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
+	pBoxCollider->SetSize(Math::Vector3{ 1.0f, 2.0f, 1.0f });
+	pBoxCollider->ApplyTransform();
 
 	auto* pRectTransform = m_test2D.AddComponent<RectTransform>(iComponentManager);
 	pRectTransform->SetAngle(-30.0f);
@@ -74,6 +79,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 
 	// カメラにモデルを映す
 	pModel->AddICameraScreen(*pCameraScreen);
+	pBoxCollider->AddICameraScreen(*pCameraScreen);
 
 	// キャンバスにUIを映す
 	pImage->SetCanvas(*pCanvas);

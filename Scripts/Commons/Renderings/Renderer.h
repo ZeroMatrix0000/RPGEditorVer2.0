@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * 描画
  */
@@ -11,6 +11,7 @@
 #include "Model3DRenderer.h"
 #include "ImageRenderer.h"
 #include "TextRenderer.h"
+#include "ColliderRenderer.h"
 #include "../Systems/OnlyOne.h"
 
 namespace Systems
@@ -20,7 +21,7 @@ namespace Systems
 
 namespace Renderings
 {
-	// 画像描画
+	// 描画
 	class Renderer : public Systems::OnlyOne
 	{
 
@@ -35,6 +36,7 @@ namespace Renderings
 		// 初期化処理
 		void Initialize
 		(
+			ID3D11Device5*               pDevice,
 			ID3D11DeviceContext4*        pContext,
 			IDXGISwapChain4*             pSwapChain,
 			const DirectX::CommonStates& commonStates
@@ -50,11 +52,13 @@ namespace Renderings
 		void InitializeTextRenderer(IDXGISwapChain4* pSwapChain);
 
 		// モデル描画インタフェースを取得
-		Renderings::IModel3DRenderer& GetIModelRenderer() { return m_modelRenderer; }
+		Renderings::IModel3DRenderer&  GetIModelRenderer()    { return m_modelRenderer; }
 		// 画像描画インタフェースを取得
-		Renderings::IImageRenderer&   GetIImageRenderer() { return m_imageRenderer; }
+		Renderings::IImageRenderer&    GetIImageRenderer()    { return m_imageRenderer; }
 		// テキスト描画インタフェースを取得
-		Renderings::ITextRenderer&    GetITextRenderer()  { return m_textRenderer; }
+		Renderings::ITextRenderer&     GetITextRenderer()     { return m_textRenderer; }
+		// 当たり判定描画インタフェースを取得
+		Renderings::IColliderRenderer& GetIColliderRenderer() { return m_colliderRenderer; }
 
 
 	private:
@@ -63,11 +67,13 @@ namespace Renderings
 		/* メンバ変数 */
 
 		// モデル描画
-		Renderings::Model3DRenderer m_modelRenderer;
+		Renderings::Model3DRenderer  m_modelRenderer;
 		// 画像描画
-		Renderings::ImageRenderer   m_imageRenderer;
+		Renderings::ImageRenderer    m_imageRenderer;
 		// テキスト描画
-		Renderings::TextRenderer    m_textRenderer;
+		Renderings::TextRenderer     m_textRenderer;
+		// 当たり判定描画
+		Renderings::ColliderRenderer m_colliderRenderer;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * テキスト
  */
@@ -15,7 +15,7 @@ namespace Renderings
 	class Canvas;
 	class ITextRenderer;
 
-	// 画像
+	// テキスト
 	class Text : public Component
 	{
 

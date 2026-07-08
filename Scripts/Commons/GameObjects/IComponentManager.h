@@ -3,7 +3,7 @@
  * Author:       Takao Hayata
  * Last Updated: 2026/07/08
  *
- * コンポーネント工場
+ * コンポーネント管理のインタフェース
  */
 
 #pragma once
@@ -15,7 +15,7 @@ namespace GameObjects
 {
 	class GameObject;
 
-	// コンポーネント工場
+	// コンポーネント管理のインタフェース
 	class IComponentManager : public Systems::OnlyOne
 	{
 

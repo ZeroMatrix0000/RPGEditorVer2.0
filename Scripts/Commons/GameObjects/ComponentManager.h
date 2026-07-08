@@ -13,7 +13,7 @@
 
 namespace GameObjects
 {
-	// コンポーネント工場
+	// コンポーネント管理
 	class ComponentManager : public IComponentManager
 	{
 

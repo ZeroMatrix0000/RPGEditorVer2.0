@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * 描画
  */
@@ -18,11 +18,18 @@ Renderings::Renderer::Renderer(const Systems::IResources& iResources)
 	, m_modelRenderer{ iResources }
 	, m_imageRenderer{ iResources }
 	, m_textRenderer{}
+	, m_colliderRenderer{}
 {
 }
 
 // 初期化処理
-void Renderings::Renderer::Initialize(ID3D11DeviceContext4* pContext, IDXGISwapChain4* pSwapChain, const DirectX::CommonStates& commonStates)
+void Renderings::Renderer::Initialize
+(
+	ID3D11Device5*               pDevice,
+	ID3D11DeviceContext4*        pContext,
+	IDXGISwapChain4*             pSwapChain,
+	const DirectX::CommonStates& commonStates
+)
 {
 	// モデル描画の初期化
 	m_modelRenderer.Initialize(pContext, commonStates);
@@ -30,6 +37,8 @@ void Renderings::Renderer::Initialize(ID3D11DeviceContext4* pContext, IDXGISwapC
 	m_imageRenderer.Initialize(pContext, commonStates);
 	// テキスト描画の初期化
 	m_textRenderer.Initialize(pSwapChain);
+	// 当たり判定描画の初期化
+	m_colliderRenderer.Initialize(pDevice, pContext, commonStates);
 }
 
 // 描画処理
@@ -37,6 +46,8 @@ void Renderings::Renderer::Render()
 {
 	// モデルの描画
 	m_modelRenderer.Render();
+	// 当たり判定の描画
+	m_colliderRenderer.Render();
 
 	// 画像のポインタリストをソート
 	m_imageRenderer.SortPImages();

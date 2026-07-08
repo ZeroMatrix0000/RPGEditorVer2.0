@@ -1,0 +1,66 @@
+/*
+ * FileName:     ColliderRenderer.h
+ * Author:       Takao Hayata
+ * Last Updated: 2026/07/08
+ *
+ * 図形描画
+ */
+
+#pragma once
+
+#include "IColliderRenderer.h"
+
+namespace Renderings
+{
+	// 図形描画
+	class ColliderRenderer : public IColliderRenderer
+	{
+
+	public:
+
+
+		/* メンバ関数 */
+
+		// コンストラクタ
+		ColliderRenderer();
+
+		// 初期化処理
+		void Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
+		// 描画処理
+		void Render();
+
+		// 長方形当たり判定のポインタを追加
+		void AddPBoxCollider(const Colliders::BoxCollider* pBoxCollider) override;
+		// 長方形当たり判定のポインタを削除
+		void RemovePBoxCollider(const Colliders::BoxCollider* pBoxCollider) override;
+
+
+	private:
+
+
+		/* メンバ関数 */
+
+		// 直方体を描画
+		void DrawBox(const Math::Box& box, const Math::Color& color) const;
+
+
+		/* メンバ変数 */
+
+		// プリミティブバッチ
+		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_primitiveBatch;
+		// ベーシックエフェクト
+		std::unique_ptr<DirectX::BasicEffect>                                  m_basicEffect;
+
+		// 長方形当たり判定のポインタリスト
+		std::unordered_set<const Colliders::BoxCollider*> m_pBoxColliders;
+
+		// デバイスコンテキスト
+		ID3D11DeviceContext4*        m_pContext;
+		// コモンステート
+		const DirectX::CommonStates* m_pCommonStates;
+
+		// 入力レイアウト
+		Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+
+	};
+}

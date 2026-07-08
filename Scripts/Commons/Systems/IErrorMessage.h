@@ -12,6 +12,7 @@
 
 namespace Systems
 {
+	// エラーメッセージのインタフェース
 	class IErrorMessage : public OnlyOne
 	{
 

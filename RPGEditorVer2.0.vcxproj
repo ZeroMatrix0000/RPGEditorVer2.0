@@ -145,7 +145,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\Colliders\BoxCollider.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\ComponentManager.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\ColliderRenderer.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\Image.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\RectTransform.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\Transform.cpp" />
@@ -184,8 +186,11 @@
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
     <ClCompile Include="Scripts\Scenes\SampleScene.cpp" />
+    <ClInclude Include="Scripts\Commons\Colliders\BoxCollider.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\ComponentManager.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\IComponentManager.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\ColliderRenderer.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\IColliderRenderer.h" />
     <ClInclude Include="Scripts\Commons\Renderings\Image.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\RectTransform.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\Transform.h" />
