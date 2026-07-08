@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * 3Dモデル描画
  */
@@ -18,7 +18,7 @@
  // コンストラクタ
 Renderings::Model3DRenderer::Model3DRenderer(const Systems::IResources& iResources)
 	: IModel3DRenderer{}
-	, m_pICameraScreens{}
+	, m_pModels{}
 	, m_pContext{}
 	, m_pCommonStates{}
 	, m_refIResources{ iResources }
@@ -35,24 +35,24 @@ void Renderings::Model3DRenderer::Initialize(ID3D11DeviceContext4* pContext, con
 // 描画処理
 void Renderings::Model3DRenderer::Render()
 {
-	for (const auto* pICameraScreen : m_pICameraScreens)
+	for (const auto* pModel : m_pModels)
 	{
-		for (const auto* pModel : pICameraScreen->GetPModels())
+		// モデルソース
+		const Model3DSource* modelSource = m_refIResources.GetModelSource(pModel->GetModelSourceName());
+		if (!modelSource)
 		{
-			// モデルソース
-			const Model3DSource* modelSource = m_refIResources.GetModelSource(pModel->GetModelSourceName());
-			if (!modelSource)
-			{
-				continue;
-			}
+			continue;
+		}
 
-			// モデルの所有者のトランスフォーム
-			const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
-			if (!pTransform)
-			{
-				continue;
-			}
+		// モデルの所有者のトランスフォーム
+		const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
+		if (!pTransform)
+		{
+			continue;
+		}
 
+		for (const auto* pICameraScreen : pModel->GetPICameraScreens())
+		{
 			modelSource->GetModel().Draw
 			(
 				m_pContext,
@@ -65,14 +65,14 @@ void Renderings::Model3DRenderer::Render()
 	}
 }
 
-// カメラ画面インタフェースのポインタを追加
-void Renderings::Model3DRenderer::AddPICameraScreen(const ICameraScreen* pICameraScreen)
+// モデルのポインタを追加
+void Renderings::Model3DRenderer::AddPModel(const Model3D* pModel)
 {
-	m_pICameraScreens.emplace(pICameraScreen);
+	m_pModels.emplace(pModel);
 }
 
-// カメラ画面インタフェースのポインタを削除
-void Renderings::Model3DRenderer::RemovePICameraScreen(const ICameraScreen* pICameraScreen)
+// モデルのポインタを削除
+void Renderings::Model3DRenderer::RemovePModel(const Model3D* pModel)
 {
-	m_pICameraScreens.emplace(pICameraScreen);
+	m_pModels.erase(pModel);
 }

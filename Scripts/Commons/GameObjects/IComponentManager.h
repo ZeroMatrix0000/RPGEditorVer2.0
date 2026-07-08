@@ -1,18 +1,18 @@
 /*
  * FileName:     IComponentManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * コンポーネント工場
  */
 
 #pragma once
 
+#include "Component.h"
 #include "../Systems/OnlyOne.h"
 
 namespace GameObjects
 {
-	class Component;
 	class GameObject;
 
 	// コンポーネント工場

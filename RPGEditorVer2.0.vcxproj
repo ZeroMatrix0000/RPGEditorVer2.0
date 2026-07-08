@@ -145,7 +145,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Scripts\Commons\GameObjects\ComponentFactory.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\ComponentManager.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\Image.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\RectTransform.cpp" />
@@ -240,7 +239,6 @@
     <ClInclude Include="Scripts\Commons\Scenes\Scene.h" />
     <ClInclude Include="Scripts\Commons\Renderings\DeviceResources.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\Component.h" />
-    <ClInclude Include="Scripts\Commons\GameObjects\ComponentFactory.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\GameObject.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\Observer.h" />
     <ClInclude Include="Scripts\Commons\Scenes\SceneManager.h" />

@@ -57,7 +57,7 @@ namespace Scenes
 
 		// シーンを追加
 		template<typename TScene> requires IsDerived<TScene, Scene>
-		void AddScene(const std::function<std::unique_ptr<Component>()>& CreateComponent)
+		void AddScene(const std::function<std::unique_ptr<Scene>()>& CreateComponent)
 		{
 			m_CreateComponentList.emplace(typeid(TScene), CreateComponent);
 		}
@@ -67,7 +67,7 @@ namespace Scenes
 		void SetFirstScene(const TTransitionData& data = TTransitionData{})
 		{
 			// シーンの初期化
-			m_currentScene = std::unique_ptr<Scene>{ static_cast<Scene*>(m_CreateComponentList.at(typeid(TScene))().release()) };
+			m_currentScene = m_CreateComponentList.at(typeid(TScene))();
 			m_currentScene->SetContext(m_refContext);
 			m_currentScene->Initialize(data);
 		}
@@ -75,7 +75,7 @@ namespace Scenes
 		// 次のシーンを設定
 		void SetNextScene(const std::type_index& index, const TTransitionData& data) override
 		{
-			m_nextScene = std::unique_ptr<Scene>{ static_cast<Scene*>(m_CreateComponentList.at(index)().release()) };
+			m_nextScene = m_CreateComponentList.at(index)();
 		}
 
 		// シーン切り替え中かどうか
@@ -93,7 +93,7 @@ namespace Scenes
 		std::unique_ptr<Scene> m_nextScene;
 
 		// コンポーネント作成関数
-		std::unordered_map<std::type_index, std::function<std::unique_ptr<Component>()>> m_CreateComponentList;
+		std::unordered_map<std::type_index, std::function<std::unique_ptr<Scene>()>> m_CreateComponentList;
 
 		// コンテキスト
 		const TContext& m_refContext;

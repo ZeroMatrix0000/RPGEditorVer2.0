@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * コンポーネント管理
  */
@@ -33,6 +33,19 @@ namespace GameObjects
 		void AddComponent(const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent)
 		{
 			m_CreateComponentList.emplace(typeid(TComponent), CreateComponent);
+		}
+		// コンポーネントを追加
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		void AddComponent()
+		{
+			m_CreateComponentList.emplace
+			(
+				typeid(TComponent),
+				[&](ComponentCreatePermit permit, GameObject* pOwner)
+				{
+					return std::make_unique<TComponent>(permit, pOwner);
+				}
+			);
 		}
 
 

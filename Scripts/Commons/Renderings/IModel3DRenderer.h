@@ -1,7 +1,7 @@
 /*
  * FileName:     IModel3DRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/08
  *
  * 3Dモデル描画のインタフェース
  */
@@ -12,7 +12,7 @@
 
 namespace Renderings
 {
-	class ICameraScreen;
+	class Model3D;
 
 	// 3Dモデル描画のインタフェース
 	class IModel3DRenderer : public Systems::OnlyOne
@@ -31,10 +31,10 @@ namespace Renderings
 		// デストラクタ
 		virtual ~IModel3DRenderer() = default;
 
-		// カメラ画面インタフェースのポインタを追加
-		virtual void AddPICameraScreen(const ICameraScreen* pICameraScreen) = 0;
-		// カメラ画面インタフェースのポインタを削除
-		virtual void RemovePICameraScreen(const ICameraScreen* pICameraScreen) = 0;
+		// モデルのポインタを追加
+		virtual void AddPModel(const Model3D* pModel) = 0;
+		// モデルのポインタを削除
+		virtual void RemovePModel(const Model3D* pModel) = 0;
 
 	};
 }

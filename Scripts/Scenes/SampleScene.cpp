@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * サンプルシーン
  */
@@ -69,20 +69,20 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	pImage2->SetColor(DirectX::Colors::Red);
 	pRectTransform2->SetSize(pImage2->GetSize() / 2.0f);
 
-	auto* cameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
-	cameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
-	cameraScreen->SetProjectionMatrix(45.0f, outputSize);
+	auto* pCameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
+	pCameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
+	pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
 
-	auto* canvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
-	canvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
+	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
+	pCanvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
 
 	// カメラにモデルを映す
-	cameraScreen->AddModel(*pModel);
+	pModel->AddICameraScreen(*pCameraScreen);
 
 	// キャンバスにUIを映す
-	pImage->SetCanvas(*canvas);
-	pText->SetCanvas(*canvas);
-	pImage2->SetCanvas(*canvas);
+	pImage->SetCanvas(*pCanvas);
+	pText->SetCanvas(*pCanvas);
+	pImage2->SetCanvas(*pCanvas);
 }
 
 // 更新処理

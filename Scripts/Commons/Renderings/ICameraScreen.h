@@ -1,7 +1,7 @@
 /*
  * FileName:     ICameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/08
  *
  * カメラ画面のインタフェース
  */
@@ -33,9 +33,6 @@ namespace Renderings
 		virtual const Math::Matrix& GetViewMatrix() const = 0;
 		// プロジェクション行列を取得
 		virtual const Math::Matrix& GetProjectionMatrix() const = 0;
-
-		// 画面に映すモデルのポインタリストを取得
-		virtual const std::unordered_set<const Model3D*>& GetPModels() const = 0;
 
 	};
 }

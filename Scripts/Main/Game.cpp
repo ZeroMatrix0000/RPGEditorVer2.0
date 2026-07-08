@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/08
  *
  * ゲーム
  */
@@ -10,7 +10,13 @@
 #include "Game.h"
 
 #include "Scripts/Scenes/Scenes.h"
+#include "Scripts/Commons/Renderings/Model3D.h"
+#include "Scripts/Commons/Renderings/Image.h"
+#include "Scripts/Commons/Renderings/Text.h"
+#include "Scripts/Commons/Renderings/CameraScreen.h"
+#include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/GameObjects/Transform.h"
+#include "Scripts/Commons/GameObjects/RectTransform.h"
 
 // コンストラクタ
 Game::Game()
@@ -77,7 +83,10 @@ void Game::Initialize(const HWND& hWindow)
 
 	// シーンの追加
 	const IComponentManager& iComponentManager = m_componentManager;
-	m_sceneManager.AddScene<SampleScene>([&] { return iComponentManager.Create<SampleScene>(); });
+	m_sceneManager.AddScene<SampleScene>([&]
+	{
+		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(iComponentManager.Create<SampleScene>().release()) };
+	});
 
 	// コンテキストの初期化
 	m_context.Initialize
@@ -177,8 +186,36 @@ void Game::AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx)
 // コンポーネントの追加
 void Game::AddComponents()
 {
-	m_componentManager.AddComponent<Transform>([](ComponentCreatePermit permit, GameObject* pOwner)
+	// トランスフォーム
+	m_componentManager.AddComponent<Transform>();
+	// 2D用トランスフォーム
+	m_componentManager.AddComponent<RectTransform>();
+	// 3Dモデル
+	m_componentManager.AddComponent<Renderings::Model3D>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
-		return std::make_unique<Transform>(permit, pOwner);
+		return std::make_unique<Renderings::Model3D>(permit, pOwner, &m_renderer.GetIModelRenderer());
 	});
+	// 画像
+	m_componentManager.AddComponent<Renderings::Image>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	{
+		return std::make_unique<Renderings::Image>(permit, pOwner, &m_renderer.GetIImageRenderer());
+	});
+	// テキスト
+	m_componentManager.AddComponent<Renderings::Text>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	{
+		return std::make_unique<Renderings::Text>(permit, pOwner, &m_renderer.GetITextRenderer());
+	});
+	// カメラ画面
+	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::QuaternionCamera>>();
+	// カメラ画面
+	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::QuaternionTargetCamera>>();
+	// カメラ画面
+	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::EulerCamera>>();
+	// カメラ画面
+	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
+	// キャンバス
+	m_componentManager.AddComponent<Renderings::Canvas>();
+
+	// サンプルシーン
+	m_componentManager.AddComponent<SampleScene>();
 }

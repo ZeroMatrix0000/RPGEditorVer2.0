@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/08
  *
  * 3Dモデル描画
  */
@@ -34,10 +34,10 @@ namespace Renderings
 		// 描画処理
 		void Render();
 
-		// カメラ画面インタフェースのポインタを追加
-		void AddPICameraScreen(const ICameraScreen* pICameraScreen) override;
-		// カメラ画面インタフェースのポインタを削除
-		void RemovePICameraScreen(const ICameraScreen* pICameraScreen) override;
+		// モデルのポインタを追加
+		void AddPModel(const Model3D* pModel) override;
+		// モデルのポインタを削除
+		void RemovePModel(const Model3D* pModel) override;
 
 
 	private:
@@ -45,8 +45,8 @@ namespace Renderings
 
 		/* メンバ変数 */
 
-		// カメラ画面のポインタリスト
-		std::unordered_set<const ICameraScreen*> m_pICameraScreens;
+		// モデルのポインタリスト
+		std::unordered_set<const Model3D*> m_pModels;
 
 		// コンテキストのポインタ
 		ID3D11DeviceContext4* m_pContext;

@@ -6,12 +6,12 @@ namespace Renderings{
     class DeviceResources
     class RenderingResources
     class Model3DSource
-    class Model3D
+    class ImageSource
     class ICameraScreen
     class CameraScreen["CameraScreen&lt;TCamera>"]
+    class Model3D
     class IModel3DRenderer
     class Model3DRenderer
-    class ImageSource
     class Canvas
     class Image
     class IImageRenderer
@@ -19,6 +19,7 @@ namespace Renderings{
     class Text
     class ITextRenderer
     class TextRenderer
+    class Renderer
 }
 
 namespace Systems{
@@ -36,7 +37,8 @@ namespace GameObjects{
     class Observer
     class ComponentCreatePermit
     class Component
-    class ComponentFactory
+    class IComponentManager
+    class ComponentManager
     class GameObject
     class Transform
     class RectTransform
@@ -53,16 +55,18 @@ namespace Scenes{
 <<OnlyOne>> IModel3DRenderer
 <<OnlyOne>> IImageRenderer
 <<OnlyOne>> ITextRenderer
+<<OnlyOne>> Renderer
 <<OnlyOne>> IResources
 <<OnlyOne>> ITimer
 <<OnlyOne>> IWindowController
 <<OnlyOne>> IInput
 <<OnlyOne>> ComponentCreatePermit
-<<OnlyOne>> ComponentFactory
+<<OnlyOne>> IComponentManager
+<<OnlyOne>> ComponentManager
 <<OnlyOne>> ISceneManager
 
-<<Component>> Model3D
 <<Component>> ICameraScreen
+<<Component>> Model3D
 <<Component>> Canvas
 <<Component>> Image
 <<Component>> Text
@@ -71,21 +75,23 @@ namespace Scenes{
 <<Component>> Scene
 
 Model3DSource "*" --* "1" Resources
-Model3D "*" --o "1" CameraScreen
-ICameraScreen <|-- CameraScreen
-ICameraScreen "*" --o "1" Model3DRenderer
-CameraScreen o-- IModel3DRenderer
-IModel3DRenderer <|-- Model3DRenderer
-IModel3DRenderer --o ComponentFactory
 ImageSource "*" --* "1" Resources
+ICameraScreen <|-- CameraScreen
+ICameraScreen "*" --o "1" Model3D
+Model3D "*" --o "1" Model3DRenderer
+Model3D o-- IModel3DRenderer
+IModel3DRenderer <|-- Model3DRenderer
+Model3DRenderer --* Renderer
+Canvas --o Image
+Canvas --o Text
 Image "*" --o "1" ImageRenderer
 Image o-- IImageRenderer
 IImageRenderer <|-- ImageRenderer
-IImageRenderer --o ComponentFactory
+ImageRenderer --* Renderer
 Text "*" --o "1" TextRenderer
 Text o-- ITextRenderer
 ITextRenderer <|-- TextRenderer
-ITextRenderer --o ComponentFactory
+TextRenderer --* Renderer
 IResources --o Model3DRenderer
 IResources --o ImageRenderer
 IResources <|-- Resources
@@ -93,11 +99,11 @@ ITimer <|-- Timer
 IWindowController <|-- WindowController
 IInput <|-- Input
 Observer <|-- Component
-ComponentCreatePermit --* ComponentFactory
+ComponentCreatePermit --* ComponentManager
 ComponentCreatePermit <.. Component
 Component o-- GameObject
 Component "*" --* "1" GameObject
-ComponentFactory <.. GameObject
+IComponentManager <.. GameObject
 Scene --o SceneManager
 ISceneManager <|-- SceneManager
 
@@ -110,9 +116,7 @@ classDiagram
 namespace Renderings{
     class DeviceResources
     class RenderingResources
-    class Model3DRenderer
-    class ImageRenderer
-    class TextRenderer
+    class Renderer
 }
 
 namespace Systems{
@@ -125,7 +129,8 @@ namespace Systems{
 }
 
 namespace GameObjects{
-    class ComponentFactory
+    class IComponentManager
+    class ComponentManager
     class GameObject
 }
 
@@ -143,16 +148,15 @@ class SampleScene
 
 <<OnlyOne>> DeviceResources
 <<OnlyOne>> RenderingResources
-<<OnlyOne>> Model3DRenderer
-<<OnlyOne>> ImageRenderer
-<<OnlyOne>> TextRenderer
+<<OnlyOne>> Renderer
 <<OnlyOne>> Resources
 <<OnlyOne>> Timer
 <<OnlyOne>> IWindowController
 <<OnlyOne>> WindowController
 <<OnlyOne>> IInput
 <<OnlyOne>> Input
-<<OnlyOne>> ComponentFactory
+<<OnlyOne>> IComponentManager
+<<OnlyOne>> ComponentManager
 <<OnlyOne>> ISceneManager
 <<OnlyOne>> SceneManager
 <<OnlyOne>> GameContext
@@ -162,17 +166,15 @@ class SampleScene
 
 DeviceResources --* Game
 RenderingResources --* Game
-Model3DRenderer --* Game
-ImageRenderer --* Game
-TextRenderer --* Game
+Renderer --* Game
 Resources --* Game
 Timer --* Game
 IWindowController --o GameContext
 WindowController --* Game
 IInput --o GameContext
 Input --* Game
-ComponentFactory --o GameContext
-ComponentFactory --* Game
+IComponentManager --o GameContext
+ComponentManager --* Game
 GameObject "*" --* "1" SampleScene
 Scene <|-- SampleScene
 ISceneManager --o GameContext
