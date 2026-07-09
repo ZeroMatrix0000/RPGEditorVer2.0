@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/09
  *
  * サンプルシーン
  */
@@ -19,6 +19,7 @@
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
 #include "../Objects/DebugCamera/DebugCamera.h"
+#include "../Objects/DebugCamera/DebugCameraFactory.h"
 #include "../Main/GameContext.h"
 
 // コンストラクタ
@@ -42,9 +43,9 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	// コンポーネント工場
 	const auto& iComponentManager = GetContext().GetIComponentManager();
 
-	auto* pCameraScreen = m_camera.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
-	pCameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
-	pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
+	// デバッグカメラを作成
+	DebugCameraFactory::Create(iComponentManager, outputSize, &m_camera);
+	auto* pCameraScreen = m_camera.GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
 
 	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
 	pCanvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
@@ -107,11 +108,6 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 		pModel->SetModelSourceName("Ground");
 		// カメラにモデルを映す
 		pModel->AddICameraScreen(*pCameraScreen);
-	}
-
-	{
-		auto* pDebugCamera = m_camera.AddComponent<DebugCamera>(iComponentManager);
-		pDebugCamera->SetPCameraScreen(pCameraScreen);
 	}
 }
 

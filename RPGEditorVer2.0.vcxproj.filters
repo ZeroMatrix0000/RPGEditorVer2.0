@@ -34,6 +34,24 @@
     <Filter Include="Scripts\Scenes">
       <UniqueIdentifier>{7dbd01f2-59ac-4cc1-8f44-cc2f06c1715d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Commons\Colliders">
+      <UniqueIdentifier>{e0fa592f-69c8-4df9-a51c-e07818d92731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jsons">
+      <UniqueIdentifier>{1b631bb2-d185-4c6e-9bf8-0c5cb692728f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Objects">
+      <UniqueIdentifier>{4df238ea-e1b1-4ce0-9063-f03daeb557c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Objects\DebugCamera">
+      <UniqueIdentifier>{a48ed038-e529-4c02-83c0-a4a76d600d45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Objects\DebugCamera\State">
+      <UniqueIdentifier>{8173f202-512a-4872-98ad-25129a910c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jsons\Events">
+      <UniqueIdentifier>{f30ffaf3-9470-4a45-b07b-7e7ffc65f8ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -112,9 +130,6 @@
     <ClCompile Include="Scripts\Commons\GameObjects\Transform.cpp">
       <Filter>Scripts\Commons\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Commons\GameObjects\ComponentFactory.cpp">
-      <Filter>Scripts\Commons\GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="Scripts\Commons\Systems\WindowController.cpp">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClCompile>
@@ -150,6 +165,36 @@
     </ClCompile>
     <ClCompile Include="Scripts\Commons\GameObjects\ComponentManager.cpp">
       <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Colliders\BoxCollider.cpp">
+      <Filter>Scripts\Commons\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\ColliderRenderer.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCamera.cpp">
+      <Filter>Scripts\Objects\DebugCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.cpp">
+      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.cpp">
+      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.cpp">
+      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Systems\ErrorMessage.cpp">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Scenes\SceneTransitionAnimation.cpp">
+      <Filter>Scripts\Commons\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Colliders\SphereCollider.cpp">
+      <Filter>Scripts\Commons\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCameraFactory.cpp">
+      <Filter>Scripts\Objects\DebugCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,9 +285,6 @@
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Scenes\Scene.h">
       <Filter>Scripts\Commons\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\Commons\GameObjects\ComponentFactory.h">
-      <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Commons\GameObjects\ComponentCreatePermit.h">
       <Filter>Scripts\Commons\GameObjects</Filter>
@@ -349,8 +391,68 @@
     <ClInclude Include="Scripts\Commons\GameObjects\ComponentManager.h">
       <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Commons\Colliders\BoxCollider.h">
+      <Filter>Scripts\Commons\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\ColliderRenderer.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCamera.h">
+      <Filter>Scripts\Objects\DebugCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraInternals.h">
+      <Filter>Scripts\Objects\DebugCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.h">
+      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.h">
+      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.h">
+      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\ErrorMessage.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\IColliderRenderer.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\IErrorMessage.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Scenes\SceneTransitionAnimation.h">
+      <Filter>Scripts\Commons\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Colliders\SphereCollider.h">
+      <Filter>Scripts\Commons\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Systems\State.h">
+      <Filter>Scripts\Commons\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraFactory.h">
+      <Filter>Scripts\Objects\DebugCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\Jsons\Constants.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="Resources\Jsons\EventList.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="Resources\Jsons\Field.json">
+      <Filter>Jsons</Filter>
+    </None>
+    <None Include="Resources\Jsons\Events\TalkTest1.json">
+      <Filter>Jsons\Events</Filter>
+    </None>
+    <None Include="Resources\Jsons\Events\TalkTest2.json">
+      <Filter>Jsons\Events</Filter>
+    </None>
+    <None Include="Resources\Jsons\Events\TalkTest3.json">
+      <Filter>Jsons\Events</Filter>
+    </None>
   </ItemGroup>
 </Project>
