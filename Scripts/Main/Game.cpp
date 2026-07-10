@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * ゲーム
  */
@@ -69,14 +69,13 @@ void Game::Initialize(const HWND& hWindow)
 
 	// 描画の初期化
 	m_renderer.Initialize(device, context, swapChain, commonStates);
-	m_renderer.CreateFontCollection(std::vector<std::wstring>
-	{
-		L"Resources/Fonts/Makinas-4-Flat.otf",
-		L"Resources/Fonts/GenEiMGothic2-Medium.ttf"
-	});
+	m_renderer.CreateFontCollection("Resources/Fonts");
 
-	// リソースの追加
-	AddResources(device, fx);
+	// 画像の読み込み
+	m_resources.LoadImageSource(device, "Resources/Images");
+	// モデルソースの読み込み
+	m_resources.LoadModelSource(device, fx, "Resources/Models");
+
 	// タイマーの初期化
 	m_timer.Initialize();
 
@@ -187,22 +186,6 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain());
 
 	m_sceneManager.OnWindowSizeChanged(outputSize);
-}
-
-// リソースの追加
-void Game::AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx)
-{
-	// 画像の追加
-	m_resources.AddImage("Box"           , device, L"Resources/Images/Box.dds"        );
-	m_resources.AddImage("InteractCursor", device, L"Resources/Images/FocusCursor.dds");
-	m_resources.AddImage("DialogBoxUI"   , device, L"Resources/Images/DialogBox.dds"  );
-	m_resources.AddImage("MenuDown"      , device, L"Resources/Images/MenuDown.dds"   );
-	m_resources.AddImage("MenuUp"        , device, L"Resources/Images/MenuUp.dds"     );
-	m_resources.AddImage("MenuRight"     , device, L"Resources/Images/MenuRight.dds"  );
-	// モデルソースの追加
-	m_resources.AddModelSource("Player", device, fx, L"Resources/Models/Player.cmo");
-	m_resources.AddModelSource("NPC"   , device, fx, L"Resources/Models/NPC.cmo"   );
-	m_resources.AddModelSource("Ground", device, fx, L"Resources/Models/Ground.cmo");
 }
 
 // コンポーネントの追加

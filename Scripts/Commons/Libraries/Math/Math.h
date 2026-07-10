@@ -1,7 +1,7 @@
 /*
  * FileName:     Math.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/10
  *
  * 数学関係
  */
@@ -33,25 +33,25 @@ namespace Libraries
 		inline bool IsNaN(float x) { return std::isnan(x); }
 
 		// 絶対値を求める
-		template<typename T> requires (std::same_as<T, int> || std::same_as<T, float>)
+		template<typename T> requires IsSame<T, int ,float>
 		constexpr T Abs(T x) { return x < 0 ? x * -1 : x; }
 
 		// 最小値を求める
-		template<typename T> requires (std::same_as<T, int> || std::same_as<T, float>)
+		template<typename T> requires IsSame<T, int, float>
 		constexpr T Min(T x, T y) { return x < y ? x : y; }
 		// 最小値を求める
 		template<typename T, typename... Args> requires
-			(std::same_as<T, int> || std::same_as<T, float>) &&
+			IsSame<T, int, float> &&
 			(std::same_as<Args, T> && ...) &&
 			(sizeof...(Args) > 1)
 		constexpr T Min(T x, Args... args) { return Min(x, Min(args...)); }
 
 		// 最大値を求める
-		template<typename T> requires (std::same_as<T, int> || std::same_as<T, float>)
+		template<typename T> requires IsSame<T, int, float>
 		constexpr T Max(T x, T y) { return x > y ? x : y; }
 		// 最大値を求める
 		template<typename T, typename... Args> requires
-			(std::same_as<T, int> || std::same_as<T, float>) &&
+			IsSame<T, int, float> &&
 			(std::same_as<Args, T> && ...) &&
 			(sizeof...(Args) > 1)
 		constexpr T Max(T x, Args... args) { return Max(x, Max(args...)); }
@@ -72,7 +72,7 @@ namespace Libraries
 		inline int   CeilInt(float x) { return static_cast<int>(std::ceilf(x)); }
 
 		// 範囲内に収める
-		template<typename T> requires (std::same_as<T, int> || std::same_as<T, float>)
+		template<typename T> requires IsSame<T, int, float>
 		constexpr T Clamp(T x, T min, T max)
 		{
 			if (min > max) return Clamp(x, max, min);

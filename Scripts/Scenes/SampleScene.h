@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/10
  *
  * サンプルシーン
  */
@@ -11,8 +11,21 @@
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Scenes/Scene.h"
 
+namespace Renderings
+{
+	template<typename TCamera> requires IsSame
+	<
+		TCamera,
+		Camera::QuaternionCamera,
+		Camera::QuaternionTargetCamera,
+		Camera::EulerCamera,
+		Camera::EulerTargetCamera
+	>
+	class CameraScreen;
+}
 class SceneTransitionData;
 class GameContext;
+class DebugCamera;
 
 // サンプルシーン
 class SampleScene : public Scenes::Scene<SceneTransitionData, GameContext>
@@ -57,6 +70,10 @@ private:
 
 	// カメラ
 	GameObject m_camera;
+	// カメラ画面
+	Renderings::CameraScreen<Camera::EulerTargetCamera>* m_pCameraScreen;
+	// デバッグカメラ
+	DebugCamera* m_pDebugCamera;
 
 	// キャンバス
 	GameObject m_canvas;

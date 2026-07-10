@@ -1,7 +1,7 @@
 /*
  * FileName:     DebugCamera.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/09
+ * Last Updated: 2026/07/10
  *
  * デバッグ用カメラ工場
  */
@@ -14,11 +14,18 @@
 #include "DebugCamera.h"
 
 // デバッグ用カメラを作成
-void DebugCameraFactory::Create(const IComponentManager& iComponentManager, const Math::Vector2& outputSize, GameObject* pGameObject)
+void DebugCameraFactory::Create
+(
+	const IComponentManager&                              iComponentManager,
+	const Math::Vector2&                                  outputSize,
+	GameObject*                                           pGameObject,
+	Renderings::CameraScreen<Camera::EulerTargetCamera>** ppCameraScreen,
+	DebugCamera**                                         ppDebugCamera
+)
 {
-	auto* pCameraScreen = pGameObject->AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
-	pCameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
-	pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
-	auto* pDebugCamera = pGameObject->AddComponent<DebugCamera>(iComponentManager);
-	pDebugCamera->SetPCameraScreen(pCameraScreen);
+	*ppCameraScreen = pGameObject->AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
+	(*ppCameraScreen)->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
+	(*ppCameraScreen)->SetProjectionMatrix(45.0f, outputSize);
+	*ppDebugCamera = pGameObject->AddComponent<DebugCamera>(iComponentManager);
+	(*ppDebugCamera)->SetPCameraScreen(*ppCameraScreen);
 }

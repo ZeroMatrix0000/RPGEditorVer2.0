@@ -1,7 +1,7 @@
 /*
  * FileName:     IInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/10
  *
  * 入力管理のインタフェース
  */
@@ -70,6 +70,9 @@ namespace Systems
 		virtual Math::Vector2Int GetMouseMovement()   const = 0;
 		// マウスホイールの移動量を取得
 		virtual int              GetMouseWheelDelta() const = 0;
+
+		// マウス座標をループさせるかどうかを設定
+		virtual void SetMousePositionLoop(bool mousePositionLoop) = 0;
 
 	};
 }

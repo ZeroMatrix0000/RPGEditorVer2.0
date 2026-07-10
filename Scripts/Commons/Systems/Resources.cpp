@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * リソース管理
  */
@@ -19,38 +19,54 @@ Systems::Resources::Resources()
 }
 
 // モデルを追加
-void Systems::Resources::AddModelSource(const std::string& modelSourceName, ID3D11Device* device, DirectX::EffectFactory* fx, const std::wstring& filePath)
+void Systems::Resources::LoadModelSource(ID3D11Device* device, DirectX::EffectFactory* fx, const std::string& directoryPath)
 {
-	try
+	// ディレクトリ内を全て検索
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
 	{
-		m_modelSources.emplace(modelSourceName, Renderings::Model3DSource::Create(device, fx, filePath));
-	}
-	catch (std::exception e)
-	{
-		// エラーメッセージを追加
-		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
-		(
-			L"モデルの読み込みに失敗しました。: %s",
-			filePath.c_str()
-		));
+		// ファイルなら
+		if (entry.is_regular_file())
+		{
+			try
+			{
+				m_modelSources.emplace(entry.path().stem().string(), Renderings::Model3DSource::Create(device, fx, entry.path().wstring()));
+			}
+			catch (std::exception e)
+			{
+				// エラーメッセージを追加
+				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"モデルの読み込みに失敗しました。: %s",
+					entry.path().c_str()
+				));
+			}
+		}
 	}
 }
 
-// 画像を追加
-void Systems::Resources::AddImage(const std::string& imageName, ID3D11Device5* device, const std::wstring& filePath)
+// 画像を読み込む
+void Systems::Resources::LoadImageSource(ID3D11Device5* device, const std::string& directoryPath)
 {
-	try
+	// ディレクトリ内を全て検索
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
 	{
-		m_imageSources.emplace(imageName, Renderings::ImageSource::Create(device, filePath));
-	}
-	catch (std::exception e)
-	{
-		// エラーメッセージを追加
-		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
-		(
-			L"画像の読み込みに失敗しました。: %s",
-			filePath.c_str()
-		));
+		// ファイルなら
+		if (entry.is_regular_file())
+		{
+			try
+			{
+				m_imageSources.emplace(entry.path().stem().string(), Renderings::ImageSource::Create(device, entry.path().wstring()));
+			}
+			catch (std::exception e)
+			{
+				// エラーメッセージを追加
+				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"画像の読み込みに失敗しました。: %s",
+					entry.path().c_str()
+				));
+			}
+		}
 	}
 }
 

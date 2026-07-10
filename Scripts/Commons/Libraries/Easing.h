@@ -1,7 +1,7 @@
 /*
  * FileName:     Easing.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/10
  *
  * イージング
  */
@@ -38,17 +38,20 @@ namespace Libraries
 		};
 
 		// イージング
-		template<typename T> requires
-			std::same_as<T, float>                          ||
-			std::same_as<T, Math::Vector2>                  ||
-			std::same_as<T, Math::Vector3>                  ||
-			std::same_as<T, Math::Matrix>                   ||
-			std::same_as<T, Math::Quaternion>               ||
-			std::same_as<T, Math::Euler>                    ||
-			std::same_as<T, Camera::QuaternionCamera>       ||
-			std::same_as<T, Camera::QuaternionTargetCamera> ||
-			std::same_as<T, Camera::EulerCamera>            ||
-			std::same_as<T, Camera::EulerTargetCamera>
+		template<typename T> requires IsSame
+		<
+			T,
+			float,
+			Math::Vector2,
+			Math::Vector3,
+			Math::Matrix,
+			Math::Quaternion,
+			Math::Euler,
+			Camera::QuaternionCamera,
+			Camera::QuaternionTargetCamera,
+			Camera::EulerCamera,
+			Camera::EulerTargetCamera
+		>
 		class Value
 		{
 

@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/09
+ * Last Updated: 2026/07/10
  *
  * サンプルシーン
  */
@@ -30,6 +30,8 @@ SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner
 	, m_test2D2{}
 	, m_ground{}
 	, m_camera{}
+	, m_pCameraScreen{}
+	, m_pDebugCamera{}
 	, m_canvas{}
 {
 }
@@ -44,8 +46,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	const auto& iComponentManager = GetContext().GetIComponentManager();
 
 	// デバッグカメラを作成
-	DebugCameraFactory::Create(iComponentManager, outputSize, &m_camera);
-	auto* pCameraScreen = m_camera.GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
+	DebugCameraFactory::Create(iComponentManager, outputSize, &m_camera, &m_pCameraScreen, &m_pDebugCamera);
 
 	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
 	pCanvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
@@ -66,16 +67,16 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 		pSphereCollider->SetRadius(1.0f);
 		pSphereCollider->ApplyTransform();
 		// カメラにモデルを映す
-		pModel->AddICameraScreen(*pCameraScreen);
-		pBoxCollider->AddICameraScreen(*pCameraScreen);
-		pSphereCollider->AddICameraScreen(*pCameraScreen);
+		pModel->AddICameraScreen(*m_pCameraScreen);
+		pBoxCollider->AddICameraScreen(*m_pCameraScreen);
+		pSphereCollider->AddICameraScreen(*m_pCameraScreen);
 	}
 
 	{
 		auto* pRectTransform = m_test2D.AddComponent<RectTransform>(iComponentManager);
 		pRectTransform->SetAngle(-30.0f);
 		auto* pImage = m_test2D.AddComponent<Renderings::Image>(iComponentManager);
-		pImage->SetImageSourceName("DialogBoxUI");
+		pImage->SetImageSourceName("DialogBox");
 		pRectTransform->SetSize(pImage->GetSize() / 2.0f);
 		auto* pText = m_test2D.AddComponent<Renderings::Text>(iComponentManager);
 		pText->SetStr(L"あいうえお");
@@ -93,7 +94,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 		auto* pRectTransform = m_test2D2.AddComponent<RectTransform>(iComponentManager);
 		pRectTransform->SetAngle(45.0f);
 		auto* pImage = m_test2D2.AddComponent<Renderings::Image>(iComponentManager);
-		pImage->SetImageSourceName("DialogBoxUI");
+		pImage->SetImageSourceName("DialogBox");
 		pImage->SetOrderInLayer(1);
 		pImage->SetColor(DirectX::Colors::Red);
 		pRectTransform->SetSize(pImage->GetSize() / 2.0f);
@@ -107,7 +108,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 		auto* pModel = m_ground.AddComponent<Renderings::Model3D>(iComponentManager);
 		pModel->SetModelSourceName("Ground");
 		// カメラにモデルを映す
-		pModel->AddICameraScreen(*pCameraScreen);
+		pModel->AddICameraScreen(*m_pCameraScreen);
 	}
 }
 
@@ -128,7 +129,7 @@ void SampleScene::Update(float elapsedTime)
 	m_test2D.Update(elapsedTime);
 
 	// カメラの更新
-	m_camera.GetComponent<DebugCamera>()->SetInput
+	m_pDebugCamera->SetInput
 	(
 		iInput.GetMouseMovement(),
 		iInput.GetMouseButton(MouseButtonName::Right),
@@ -136,7 +137,7 @@ void SampleScene::Update(float elapsedTime)
 		iInput.GetMouseWheelDelta()
 	);
 	m_camera.Update(elapsedTime);
-	m_camera.GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>()->UpdateViewMatrix();
+	m_pCameraScreen->UpdateViewMatrix();
 }
 
 // 終了処理
@@ -147,13 +148,12 @@ void SampleScene::Finalize()
 // メッセージを受け取る
 void SampleScene::AcceptMessage(const std::string& message)
 {
-	// 出力サイズ
-	const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
-
 	if (message == "WindowSizeChanged")
 	{
+		// 出力サイズ
+		const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
 		// プロジェクション行列を設定
-		m_camera.GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>()->SetProjectionMatrix(45.0f, outputSize);
+		m_pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
 		// キャンバスのサイズを設定
 		m_canvas.GetComponent<Renderings::Canvas>()->SetSize(outputSize);
 	}

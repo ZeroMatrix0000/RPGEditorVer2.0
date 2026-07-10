@@ -1,7 +1,7 @@
 /*
  * FileName:     Pch.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/10
  * 
  * プリコンパイル済みヘッダファイル
  */
@@ -33,6 +33,8 @@
 #include <concepts>
 // アルゴリズム
 #include <algorithm>
+// ファイルシステム
+#include <filesystem>
 // 文字列
 #include <string>
 // ベクトル
@@ -79,6 +81,10 @@
 // TがUを継承しているかどうか
 template<typename T, typename U>
 concept IsDerived = std::derived_from<T, U> && !std::same_as<T, U>;
+
+// TがArgsのどれかと型が一致しているか
+template<typename T, typename... Args>
+concept IsSame = (std::same_as<T, Args> || ...);
 
 
 // 便利関数群

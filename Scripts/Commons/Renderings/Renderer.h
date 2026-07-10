@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * 描画
  */
@@ -45,7 +45,7 @@ namespace Renderings
 		void Render();
 
 		// フォントコレクションの作成
-		void CreateFontCollection(const std::vector<std::wstring>& filePaths) { m_textRenderer.CreateFontCollection(filePaths); }
+		void CreateFontCollection(const std::string& directoryPath) { m_textRenderer.CreateFontCollection(directoryPath); }
 		// テキスト描画のリセット
 		void ResetTextRenderer();
 		// テキスト描画の初期化

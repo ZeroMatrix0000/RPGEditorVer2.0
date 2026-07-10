@@ -1,7 +1,7 @@
 /*
  * FileName:     TextRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * テキスト描画
  */
@@ -27,7 +27,7 @@ namespace Renderings
 		// 初期化処理
 		void Initialize(IDXGISwapChain4* pSwapChain);
 		// フォントコレクションの作成
-		void CreateFontCollection(const std::vector<std::wstring>& filePaths);
+		void CreateFontCollection(const std::string& directoryPath);
 
 		// 描画開始
 		void Begin();

@@ -1,7 +1,7 @@
 /*
  * FileName:     Input.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/10
  *
  * 入力管理
  */
@@ -60,8 +60,17 @@ namespace Systems
 		// マウスホイールの移動量を取得
 		int GetMouseWheelDelta() const override { return m_mouseState.scrollWheelValue - m_mouseStateOld.scrollWheelValue; }
 
+		// マウス座標をループさせるかどうかを設定
+		void SetMousePositionLoop(bool mousePositionLoop) override { m_mousePositionLoop = mousePositionLoop; }
+
 
 	private:
+
+
+		/* メンバ関数 */
+
+		// マウスの座標の計算
+		void MousePositionCorrect();
 
 
 		/* メンバ変数 */
@@ -79,6 +88,9 @@ namespace Systems
 		DirectX::Mouse::State m_mouseState;
 		// 1F前のマウス状態
 		DirectX::Mouse::State m_mouseStateOld;
+
+		// マウスの座標をループさせるかどうか
+		bool m_mousePositionLoop;
 
 	};
 }

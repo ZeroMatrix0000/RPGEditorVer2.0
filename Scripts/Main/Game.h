@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/10
  *
  * ゲーム
  */
@@ -54,8 +54,6 @@ private:
 
 	/* メンバ関数 */
 
-	// リソースの追加
-	void AddResources(ID3D11Device5* device, DirectX::EffectFactory* fx);
 	// コンポーネントの追加
 	void AddComponents();
 

@@ -1,7 +1,7 @@
 /*
  * FileName:     CameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * カメラ画面
  */
@@ -14,11 +14,14 @@
 namespace Renderings
 {
 	// カメラ画面
-	template<typename TCamera> requires
-		std::same_as<TCamera, Camera::QuaternionCamera>       ||
-		std::same_as<TCamera, Camera::QuaternionTargetCamera> ||
-		std::same_as<TCamera, Camera::EulerCamera>            ||
-		std::same_as<TCamera, Camera::EulerTargetCamera>
+	template<typename TCamera> requires IsSame
+	<
+		TCamera,
+		Camera::QuaternionCamera,
+		Camera::QuaternionTargetCamera,
+		Camera::EulerCamera,
+		Camera::EulerTargetCamera
+	>
 	class CameraScreen : public ICameraScreen
 	{
 

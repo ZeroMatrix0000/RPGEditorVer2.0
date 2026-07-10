@@ -1,7 +1,7 @@
 /*
  * FileName:     TextRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * テキスト描画
  */
@@ -66,23 +66,28 @@ void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain)
 }
 
 // フォントコレクションの作成
-void Renderings::TextRenderer::CreateFontCollection(const std::vector<std::wstring>& filePaths)
+void Renderings::TextRenderer::CreateFontCollection(const std::string& directoryPath)
 {
 	// フォントファイル
 	std::vector<Microsoft::WRL::ComPtr<IDWriteFontFile>> fontFiles;
 
-	for (const auto& filePath : filePaths)
+	// ディレクトリ内を全て検索
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
 	{
-		fontFiles.push_back(Microsoft::WRL::ComPtr<IDWriteFontFile>{});
-		if (FAILED(m_dWriteFactory->CreateFontFileReference(filePath.c_str(), nullptr, &fontFiles.back())))
+		// ファイルなら
+		if (entry.is_regular_file())
 		{
-			fontFiles.pop_back();
-			// エラーメッセージを追加
-			Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
-			(
-				L"フォントの読み込みに失敗しました。: %s",
-				filePath.c_str()
-			));
+			fontFiles.push_back(Microsoft::WRL::ComPtr<IDWriteFontFile>{});
+			if (FAILED(m_dWriteFactory->CreateFontFileReference(entry.path().c_str(), nullptr, &fontFiles.back())))
+			{
+				fontFiles.pop_back();
+				// エラーメッセージを追加
+				Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"フォントの読み込みに失敗しました。: %s",
+					entry.path().c_str()
+				));
+			}
 		}
 	}
 
