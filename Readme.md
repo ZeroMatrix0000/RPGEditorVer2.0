@@ -148,7 +148,6 @@ namespace Renderings{
     class DeviceResources
     class RenderingResources
     class Renderer
-    class CameraScreen["CameraScreen&lt;TCamera>"]
 }
 
 namespace Systems{
@@ -159,32 +158,20 @@ namespace Systems{
     class WindowController
     class IInput
     class Input
-    class State["State&lt;TInternals>"]
 }
 
 namespace GameObjects{
     class IComponentManager
     class ComponentManager
-    class GameObject
 }
 
 namespace Scenes{
-    class Scene["Scene&lt;TTransitionData, TContext>"]
     class ISceneManager["ISceneManager&lt;TTransitionData>"]
     class SceneManager["SceneManager&lt;TTransitionData, TContext>"]
 }
 
 class GameContext
-class SceneTransitionData
 class Game
-
-class SampleScene
-
-class DebugCameraInternals
-class DebugCameraStateIdle
-class DebugCameraStateRotate
-class DebugCameraStateMove
-class DebugCamera
 
 <<OnlyOne>> DeviceResources
 <<OnlyOne>> RenderingResources
@@ -203,10 +190,6 @@ class DebugCamera
 <<OnlyOne>> GameContext
 <<OnlyOne>> Game
 
-<<Component>> CameraScreen
-<<Component>> Scene
-<<Component>> DebugCamera
-
 DeviceResources --* Game
 RenderingResources --* Game
 Renderer --* Game
@@ -222,19 +205,59 @@ IWindowController --o GameContext
 IInput --o GameContext
 IComponentManager --o GameContext
 ISceneManager --o GameContext
-GameObject "*" --* "1" SampleScene
+
+```
+
+``` mermaid
+
+classDiagram
+
+namespace Renderings{
+    class CameraScreen["CameraScreen&lt;TCamera>"]
+}
+
+namespace Systems{
+    class DebugCameraState["State&lt;DebugCameraInternals>"]
+}
+
+namespace GameObjects{
+    class GameObject
+}
+
+namespace Scenes{
+    class SceneTransitionData
+    class Scene["Scene&lt;SceneTransitionData, GameContext>"]
+}
+
+class GameContext
+
+class SampleScene
+class TitleScene
+
+class DebugCameraInternals
+class DebugCameraStateIdle
+class DebugCameraStateRotate
+class DebugCameraStateMove
+class DebugCamera
+
+<<OnlyOne>> GameContext
+
+<<Component>> CameraScreen
+
+GameContext --o Scene
+SceneTransitionData <.. Scene
+
 Scene <|-- SampleScene
-GameContext <.. SampleScene
-SceneTransitionData <.. SampleScene
+GameObject "*" --* "1" SampleScene
+Scene <|-- TitleScene
+GameObject "*" --* "1" TitleScene
 
 CameraScreen --o DebugCameraInternals
-DebugCameraInternals <.. DebugCameraStateIdle
-DebugCameraInternals <.. DebugCameraStateRotate
-DebugCameraInternals <.. DebugCameraStateMove
-State <|-- DebugCameraStateIdle
-State <|-- DebugCameraStateRotate
-State <|-- DebugCameraStateMove
-DebugCameraInternals --* DebugCamera
+DebugCameraInternals <.. DebugCameraState
+DebugCameraState <|-- DebugCameraStateIdle
+DebugCameraState <|-- DebugCameraStateRotate
+DebugCameraState <|-- DebugCameraStateMove
+DebugCameraState --o DebugCamera
 DebugCameraInternals --* DebugCamera
 
 ```

@@ -20,6 +20,7 @@
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
 #include "../Objects/DebugCamera/DebugCamera.h"
+#include "../UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
 Game::Game()
@@ -98,6 +99,10 @@ void Game::Initialize(const HWND& hWindow)
 	{
 		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(iComponentManager.Create<SampleScene>().release()) };
 	});
+	m_sceneManager.AddScene<TitleScene>([&]
+	{
+		return std::unique_ptr<TitleScene>{ static_cast<TitleScene*>(iComponentManager.Create<TitleScene>().release()) };
+	});
 	// シーン管理の初期化
 	m_sceneManager.Initialize(m_windowController.GetOutputSize(), iComponentManager);
 
@@ -111,7 +116,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// 最初のシーンを設定
-	m_sceneManager.SetFirstScene<SampleScene>();
+	m_sceneManager.SetFirstScene<TitleScene>();
 }
 
 // 更新処理
@@ -234,7 +239,11 @@ void Game::AddComponents()
 
 	// サンプルシーン
 	m_componentManager.AddComponent<SampleScene>();
+	// タイトルシーン
+	m_componentManager.AddComponent<TitleScene>();
 
 	// デバッグ用カメラ
 	m_componentManager.AddComponent<DebugCamera>();
+	// 選択メニュー
+	m_componentManager.AddComponent<SelectMenu>();
 }

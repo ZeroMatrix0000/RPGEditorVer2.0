@@ -52,6 +52,12 @@
     <Filter Include="Jsons\Events">
       <UniqueIdentifier>{f30ffaf3-9470-4a45-b07b-7e7ffc65f8ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\UIs">
+      <UniqueIdentifier>{87c1220b-6e4c-4331-abd8-69039d73acb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\UIs\SelectMenu">
+      <UniqueIdentifier>{92c2c21d-67e8-436b-bf55-9b0ce6cfab92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -196,6 +202,13 @@
     <ClCompile Include="Scripts\Objects\DebugCamera\DebugCameraFactory.cpp">
       <Filter>Scripts\Objects\DebugCamera</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\UIs\SelectMenu\SelectMenu.cpp">
+      <Filter>Scripts\UIs\SelectMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\TitleScene.cpp">
+      <Filter>Scripts\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\UIs\SelectMenu\SelectMenuFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -432,6 +445,15 @@
     </ClInclude>
     <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraFactory.h">
       <Filter>Scripts\Objects\DebugCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\TitleScene.h">
+      <Filter>Scripts\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\UIs\SelectMenu\SelectMenu.h">
+      <Filter>Scripts\UIs\SelectMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\UIs\SelectMenu\SelectMenuFactory.h">
+      <Filter>Scripts\UIs\SelectMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

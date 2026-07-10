@@ -1,7 +1,7 @@
 /*
  * FileName:     SceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/10
  *
  * シーン管理
  */
@@ -101,7 +101,7 @@ namespace Scenes
 		}
 
 		// シーン切り替え中かどうか
-		bool IsChanging() const override { return false; }
+		bool IsChanging() const override { return m_animation.IsChanging(); }
 
 
 	private:

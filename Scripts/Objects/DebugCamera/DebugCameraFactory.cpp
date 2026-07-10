@@ -23,9 +23,17 @@ void DebugCameraFactory::Create
 	DebugCamera**                                         ppDebugCamera
 )
 {
-	*ppCameraScreen = pGameObject->AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
-	(*ppCameraScreen)->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
-	(*ppCameraScreen)->SetProjectionMatrix(45.0f, outputSize);
-	*ppDebugCamera = pGameObject->AddComponent<DebugCamera>(iComponentManager);
-	(*ppDebugCamera)->SetPCameraScreen(*ppCameraScreen);
+	auto* pCameraScreen = pGameObject->AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>(iComponentManager);
+	pCameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
+	pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
+	if (ppCameraScreen)
+	{
+		*ppCameraScreen = pCameraScreen;
+	}
+	auto* pDebugCamera = pGameObject->AddComponent<DebugCamera>(iComponentManager);
+	pDebugCamera->SetPCameraScreen(pCameraScreen);
+	if (ppDebugCamera)
+	{
+		*ppDebugCamera = pDebugCamera;
+	}
 }
