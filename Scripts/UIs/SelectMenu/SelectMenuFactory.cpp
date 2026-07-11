@@ -25,18 +25,9 @@ void SelectMenuFactory::Create
 	Utility::AlignmentPoint   anchor,
 	const Renderings::Canvas& canvas,
 	GameObject*               pGameObject,
-	RectTransform**           ppRectTransform,
 	SelectMenu**              ppSelectMenu
 )
 {
-	auto* pRectTransform = pGameObject->AddComponent<RectTransform>(iComponentManager);
-	pRectTransform->SetPosition(position);
-	pRectTransform->SetPivot(pivot);
-	pRectTransform->SetAnchor(anchor);
-	if (ppRectTransform)
-	{
-		*ppRectTransform = pRectTransform;
-	}
 	auto* pSelectMenu = pGameObject->AddComponent<SelectMenu>(iComponentManager);
 	pSelectMenu->Initialize(iComponentManager, width, color, position, anchor, canvas);
 	if (ppSelectMenu)

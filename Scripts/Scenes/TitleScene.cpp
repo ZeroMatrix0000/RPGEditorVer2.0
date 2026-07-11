@@ -50,7 +50,6 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 		Utility::AlignmentPoint::MiddleCenter,
 		*pCanvas,
 		&m_selectMenu,
-		nullptr,
 		&m_pSelectMenu
 	);
 	m_pSelectMenu->AddOption(iComponentManager, L"スタート", [&] { gameContext.GetISceneManager().SetNextScene<TitleScene>(); });

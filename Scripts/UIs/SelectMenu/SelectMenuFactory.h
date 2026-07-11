@@ -35,7 +35,6 @@ namespace SelectMenuFactory
 		Utility::AlignmentPoint   anchor,
 		const Renderings::Canvas& canvas,
 		GameObject*               pGameObject,
-		RectTransform**           ppRectTransform,
 		SelectMenu**              ppSelectMenu
 	);
 }
