@@ -11,6 +11,10 @@
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Scenes/Scene.h"
 
+namespace Renderings
+{
+	class Canvas;
+}
 class SceneTransitionData;
 class GameContext;
 class SelectMenu;
@@ -47,7 +51,7 @@ private:
 	/* メンバ変数 */
 
 	// キャンバス
-	GameObject m_canvas;
+	Renderings::Canvas* m_pCanvas;
 
 	// 選択メニュー
 	GameObject m_selectMenu;

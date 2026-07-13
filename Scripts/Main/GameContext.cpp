@@ -15,6 +15,7 @@ GameContext::GameContext()
 	, m_pIWindowController{}
 	, m_pIInput{}
 	, m_pIComponentManager{}
+	, m_pIGameObjectManager{}
 	, m_pISceneManager{}
 {
 }
@@ -25,11 +26,13 @@ void GameContext::Initialize
 	Systems::IWindowController* pIWindowController,
 	Systems::IInput*            pIInput,
 	IComponentManager*          pIComponentManager,
+	IGameObjectManager*         pIGameObjectManager,
 	ISceneManager*              pISceneManager
 )
 {
-	m_pIWindowController = pIWindowController;
-	m_pIInput            = pIInput;
-	m_pIComponentManager = pIComponentManager;
-	m_pISceneManager     = pISceneManager;
+	m_pIWindowController  = pIWindowController;
+	m_pIInput             = pIInput;
+	m_pIComponentManager  = pIComponentManager;
+	m_pIGameObjectManager = pIGameObjectManager;
+	m_pISceneManager      = pISceneManager;
 }

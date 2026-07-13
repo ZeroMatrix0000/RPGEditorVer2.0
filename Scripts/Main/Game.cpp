@@ -13,14 +13,9 @@
 #include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
-#include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
-#include "Scripts/Commons/GameObjects/Transform.h"
-#include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
-#include "../GameObjects/Objects/DebugCamera/DebugCamera.h"
-#include "../GameObjects/UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
 Game::Game()
@@ -35,6 +30,7 @@ Game::Game()
 	, m_input{}
 	, m_errorMessage{}
 	, m_componentManager{}
+	, m_gameObjectManager{ m_resources }
 	, m_sceneManager{ m_context }
 	, m_context{}
 {
@@ -76,6 +72,8 @@ void Game::Initialize(const HWND& hWindow)
 	m_resources.LoadImageSources(device, L"Resources/Images");
 	// モデルソースの読み込み
 	m_resources.LoadModelSources(device, fx, L"Resources/Models");
+	// Jsonの読み込み
+	m_resources.LoadJsons(L"Resources/Jsons");
 
 	// タイマーの初期化
 	m_timer.Initialize();
@@ -85,8 +83,8 @@ void Game::Initialize(const HWND& hWindow)
 	// 入力の初期化
 	m_input.Initialize();
 
-	// コンポーネント工場の初期化
-	AddComponents();
+	// 対応付け
+	RegisterComponents();
 
 	// コンポーネント管理のインタフェース
 	const IComponentManager& iComponentManager = m_componentManager;
@@ -95,11 +93,11 @@ void Game::Initialize(const HWND& hWindow)
 	m_errorMessage.CreateObjects(iComponentManager);
 
 	// シーンの追加
-	m_sceneManager.AddScene<SampleScene>([&]
+	m_sceneManager.AddScene<SampleScene>([&iComponentManager]
 	{
 		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(iComponentManager.Create<SampleScene>().release()) };
 	});
-	m_sceneManager.AddScene<TitleScene>([&]
+	m_sceneManager.AddScene<TitleScene>([&iComponentManager]
 	{
 		return std::unique_ptr<TitleScene>{ static_cast<TitleScene*>(iComponentManager.Create<TitleScene>().release()) };
 	});
@@ -112,6 +110,7 @@ void Game::Initialize(const HWND& hWindow)
 		&m_windowController,
 		&m_input,
 		&m_componentManager,
+		&m_gameObjectManager,
 		&m_sceneManager
 	);
 
@@ -193,57 +192,36 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	m_sceneManager.OnWindowSizeChanged(outputSize);
 }
 
-// コンポーネントの追加
-void Game::AddComponents()
+// 対応付け
+void Game::RegisterComponents()
 {
-	// トランスフォーム
-	m_componentManager.AddComponent<Transform>();
-	// 2D用トランスフォーム
-	m_componentManager.AddComponent<RectTransform>();
 	// 3Dモデル
-	m_componentManager.AddComponent<Renderings::Model3D>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Renderings::Model3D>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
 		return std::make_unique<Renderings::Model3D>(permit, pOwner, &m_renderer.GetIModelRenderer());
 	});
 	// 画像
-	m_componentManager.AddComponent<Renderings::Image>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Renderings::Image>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
 		return std::make_unique<Renderings::Image>(permit, pOwner, &m_renderer.GetIImageRenderer());
 	});
 	// テキスト
-	m_componentManager.AddComponent<Renderings::Text>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Renderings::Text>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
 		return std::make_unique<Renderings::Text>(permit, pOwner, &m_renderer.GetITextRenderer());
 	});
-	// カメラ画面
-	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::QuaternionCamera>>();
-	// カメラ画面
-	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::QuaternionTargetCamera>>();
-	// カメラ画面
-	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::EulerCamera>>();
-	// カメラ画面
-	m_componentManager.AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
-	// キャンバス
-	m_componentManager.AddComponent<Renderings::Canvas>();
 
 	// 長方形の当たり判定
-	m_componentManager.AddComponent<Colliders::BoxCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Colliders::BoxCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
 		return std::make_unique<Colliders::BoxCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
 	});
 	// 球の当たり判定
-	m_componentManager.AddComponent<Colliders::SphereCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Colliders::SphereCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
 	{
 		return std::make_unique<Colliders::SphereCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
 	});
 
-	// サンプルシーン
-	m_componentManager.AddComponent<SampleScene>();
-	// タイトルシーン
-	m_componentManager.AddComponent<TitleScene>();
-
-	// デバッグ用カメラ
-	m_componentManager.AddComponent<DebugCamera>();
-	// 選択メニュー
-	m_componentManager.AddComponent<SelectMenu>();
+	// キャンバス
+	m_gameObjectManager.RegisterAdd<Renderings::Canvas>("Canvas");
 }

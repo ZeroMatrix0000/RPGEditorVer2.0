@@ -13,6 +13,7 @@
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
+#include "Scripts/Commons/GameObjects/IGameObjectManager.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenuFactory.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
@@ -20,7 +21,7 @@
 // コンストラクタ
 TitleScene::TitleScene(const ComponentCreatePermit& permit, GameObject* pOwner)
 	: Scene{ permit, pOwner }
-	, m_canvas{}
+	, m_pCanvas{}
 	, m_selectMenu{}
 	, m_pSelectMenu{}
 {
@@ -38,9 +39,11 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	// コンポーネント工場
 	const auto& iComponentManager = gameContext.GetIComponentManager();
 
-	// キャンバスを作成
-	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
-	pCanvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
+	gameContext.GetIGameObjectManager().Load(iComponentManager, "Scene_Title", GetPGameObjects());
+
+	// キャンバスを取得
+	m_pCanvas = GetPGameObjects()->find("Canvas")->second->GetComponent<Renderings::Canvas>();
+	m_pCanvas->SetSize(outputSize);
 
 	// 選択メニューを作成
 	SelectMenuFactory::Create
@@ -50,7 +53,7 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 		Math::Color{ 1.0f, 0.95f, 0.8f, 1.0f },
 		Math::Vector2{ 0.0f, 200.0f },
 		Utility::AlignmentPoint::MiddleCenter,
-		*pCanvas,
+		*m_pCanvas,
 		&m_selectMenu,
 		&m_pSelectMenu
 	);
@@ -102,6 +105,6 @@ void TitleScene::AcceptMessage(const std::string& message)
 		// 出力サイズ
 		const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
 		// キャンバスのサイズを設定
-		m_canvas.GetComponent<Renderings::Canvas>()->SetSize(outputSize);
+		m_pCanvas->SetSize(outputSize);
 	}
 }

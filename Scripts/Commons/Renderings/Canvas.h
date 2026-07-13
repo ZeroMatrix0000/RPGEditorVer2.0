@@ -1,7 +1,7 @@
 /*
  * FileName:     Canvas.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/13
  *
  * カメラ画面
  */
@@ -36,6 +36,8 @@ namespace Renderings
 		Canvas(const ComponentCreatePermit& permit, GameObject* pOwner);
 
 		// 初期化処理
+		void Initalize(const nlohmann::ordered_json& json) override;
+		// 初期化処理
 		void Initialize(FixedSize fixedSize, const Math::Vector2& outputSize);
 		
 		// サイズを設定
@@ -54,6 +56,9 @@ namespace Renderings
 
 		// キャンバスのデフォルトサイズ
 		static constexpr Math::Vector2 DEFAULT_SIZE = Math::Vector2{ 1600.0f, 900.0f };
+
+		// キャンバスサイズの設定方法の文字列
+		static const std::unordered_map<std::string, FixedSize> FIXED_SIZE;
 
 
 		/* メンバ変数 */

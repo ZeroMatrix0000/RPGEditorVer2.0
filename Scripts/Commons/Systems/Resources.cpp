@@ -94,6 +94,59 @@ void Systems::Resources::LoadImageSources(ID3D11Device5* device, const std::wstr
 	}
 }
 
+// Jsonを読み込む
+void Systems::Resources::LoadJsons(const std::wstring& directoryPath)
+{
+	// パスが存在しないなら
+	if (!std::filesystem::exists(directoryPath))
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"パスが間違っています。: %s",
+			directoryPath.c_str()
+		));
+		return;
+	}
+
+	// ディレクトリ内を全て検索
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
+	{
+		// ファイルなら
+		if (entry.is_regular_file())
+		{
+			std::ifstream fileStream{ entry.path() };
+			// 開けなかったら終了
+			if (!fileStream.is_open())
+			{
+				// エラーメッセージの追加
+				Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"JSONファイルを開くことが出来ませんでした。: %s",
+					entry.path().c_str()
+				));
+				fileStream.close();
+				continue;
+			}
+
+			try
+			{
+				m_jsons.emplace(entry.path().stem().string(), nlohmann::ordered_json::parse(fileStream));
+			}
+			catch (std::exception e)
+			{
+				// エラーメッセージを追加
+				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"JSONファイルのフォーマットが正しくありません。: %s",
+					entry.path().c_str()
+				));
+			}
+			fileStream.close();
+		}
+	}
+}
+
 // モデルの取得
 const Renderings::Model3DSource* Systems::Resources::GetModelSource(const std::string& modelName) const
 {
@@ -111,6 +164,18 @@ const Renderings::ImageSource* Systems::Resources::GetImageSource(const std::str
 {
 	auto it = m_imageSources.find(imageName);
 	if (it == m_imageSources.end())
+	{
+		return nullptr;
+	}
+
+	return &it->second;
+}
+
+// Jsonの取得
+const nlohmann::ordered_json* Systems::Resources::GetJson(const std::string& jsonName) const
+{
+	auto it = m_jsons.find(jsonName);
+	if (it == m_jsons.end())
 	{
 		return nullptr;
 	}

@@ -1,7 +1,7 @@
 /*
  * FileName:     Component.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/13
  *
  * コンポーネント
  */
@@ -32,6 +32,9 @@ namespace GameObjects
 		// デストラクタ
 		virtual ~Component() = default;
 
+		// TODO: 純粋仮想関数にする
+		// 初期化処理
+		virtual void Initalize(const nlohmann::ordered_json& json) {};
 		// 更新処理
 		virtual void Update(float elapsedTime) {};
 

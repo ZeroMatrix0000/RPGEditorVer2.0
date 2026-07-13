@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/13
  *
  * コンポーネント管理
  */
@@ -11,8 +11,9 @@
 
 // コンストラクタ
 GameObjects::ComponentManager::ComponentManager()
-	: IComponentManager{}
+	: IComponentManager{ m_permit }
 	, m_permit{}
+	, m_CreateComponentList{}
 {
 }
 

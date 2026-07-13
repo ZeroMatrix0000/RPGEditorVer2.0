@@ -1,13 +1,20 @@
 /*
  * FileName:     Canvas.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/13
  *
  * カメラ画面
  */
 
 #include "Pch.h"
 #include "Canvas.h"
+
+const std::unordered_map<std::string, Renderings::Canvas::FixedSize> Renderings::Canvas::FIXED_SIZE =
+{
+	{ "None"      , FixedSize::None       },
+	{ "Horizontal", FixedSize::Horizontal },
+	{ "Vertical"  , FixedSize::Vertical   }
+};
 
 // コンストラクタ
 Renderings::Canvas::Canvas(const ComponentCreatePermit& permit, GameObject* pOwner)
@@ -16,6 +23,12 @@ Renderings::Canvas::Canvas(const ComponentCreatePermit& permit, GameObject* pOwn
 	, m_size{}
 	, m_ratio{}
 {
+}
+
+// 初期化処理
+void Renderings::Canvas::Initalize(const nlohmann::ordered_json& json)
+{
+	m_fixedSize = FIXED_SIZE.at(json.at("FixedSize").get<std::string>());
 }
 
 // 初期化処理

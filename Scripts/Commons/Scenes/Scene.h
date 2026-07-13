@@ -1,7 +1,7 @@
 /*
  * FileName:     Scene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/13
  *
  * シーン
  */
@@ -9,6 +9,11 @@
 #pragma once
 
 #include "../GameObjects/Component.h"
+
+namespace GameObjects
+{
+	class GameObject;
+}
 
 namespace Scenes
 {
@@ -25,6 +30,7 @@ namespace Scenes
 		// コンストラクタ
 		Scene(const ComponentCreatePermit& permit, GameObject* pOwner)
 			: Component{ permit, pOwner }
+			, m_gameObjects{}
 			, m_pContext{}
 		{
 		}
@@ -43,6 +49,9 @@ namespace Scenes
 
 		/* メンバ関数 */
 
+		// ゲームオブジェクトリストを取得
+		std::unordered_map<std::string, std::unique_ptr<GameObject>>* GetPGameObjects() { return &m_gameObjects; }
+
 		// コンテキストを取得
 		const TContext& GetContext() const { return *m_pContext; }
 
@@ -51,6 +60,9 @@ namespace Scenes
 
 
 		/* メンバ変数 */
+
+		// ゲームオブジェクトリスト
+		std::unordered_map<std::string, std::unique_ptr<GameObject>> m_gameObjects;
 
 		// コンテキストのポインタ
 		const TContext* m_pContext;

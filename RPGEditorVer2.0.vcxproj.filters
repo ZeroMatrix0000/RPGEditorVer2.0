@@ -64,11 +64,11 @@
     <Filter Include="Scripts\Scenes\SampleScene">
       <UniqueIdentifier>{0689e455-3664-4aeb-8b3d-612040b319d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Scenes\NewFilter1">
-      <UniqueIdentifier>{7ca6286d-2e51-474b-a78b-903501c53d5b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts\Scenes\TitleScene">
       <UniqueIdentifier>{e000b26b-5af1-4b39-ab3d-0a9ad1b4e86f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Jsons\Scenes">
+      <UniqueIdentifier>{92ccfefb-6814-43f7-aada-d60a3844038d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -222,6 +222,9 @@
     </ClCompile>
     <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp">
       <Filter>Scripts\Scenes\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\GameObjects\GameObjectManager.cpp">
+      <Filter>Scripts\Commons\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +472,12 @@
     <ClInclude Include="Scripts\Scenes\TitleScene\TitleScene.h">
       <Filter>Scripts\Scenes\TitleScene</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\GameObjectManager.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\GameObjects\IGameObjectManager.h">
+      <Filter>Scripts\Commons\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -489,6 +498,9 @@
     </None>
     <None Include="Resources\Jsons\Events\TalkTest3.json">
       <Filter>Jsons\Events</Filter>
+    </None>
+    <None Include="Resources\Jsons\Scenes\Scene_Title.json">
+      <Filter>Jsons\Scenes</Filter>
     </None>
   </ItemGroup>
 </Project>

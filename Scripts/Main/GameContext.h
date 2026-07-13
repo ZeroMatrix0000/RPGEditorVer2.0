@@ -19,6 +19,7 @@ namespace Systems
 namespace GameObjects
 {
 	class IComponentManager;
+	class IGameObjectManager;
 }
 namespace Scenes
 {
@@ -48,6 +49,7 @@ public:
 		Systems::IWindowController* pIWindowController,
 		Systems::IInput*            pIInput,
 		IComponentManager*          pIComponentManager,
+		IGameObjectManager*         pIGameObjectManager,
 		ISceneManager*              pISceneManager
 	);
 
@@ -58,6 +60,8 @@ public:
 
 	// コンポーネント工場を取得
 	const IComponentManager& GetIComponentManager() const { return *m_pIComponentManager; }
+	// コンポーネント工場を取得
+	const IGameObjectManager& GetIGameObjectManager() const { return *m_pIGameObjectManager; }
 
 	// シーン管理インタフェースを取得
 	ISceneManager& GetISceneManager() const { return *m_pISceneManager; }
@@ -75,6 +79,8 @@ private:
 
 	// コンポーネント管理インタフェースのポインタ
 	IComponentManager* m_pIComponentManager;
+	// ゲームオブジェクト管理インタフェースのポインタ
+	IGameObjectManager* m_pIGameObjectManager;
 
 	// シーン管理インタフェースのポインタ
 	ISceneManager* m_pISceneManager;

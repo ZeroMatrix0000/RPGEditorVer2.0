@@ -18,6 +18,7 @@
 #include "Scripts/Commons/Systems/Timer.h"
 #include "Scripts/Commons/Systems/ErrorMessage.h"
 #include "Scripts/Commons/GameObjects/ComponentManager.h"
+#include "Scripts/Commons/GameObjects/GameObjectManager.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
 #include "SceneTransitionData.h"
 #include "GameContext.h"
@@ -54,8 +55,8 @@ private:
 
 	/* メンバ関数 */
 
-	// コンポーネントの追加
-	void AddComponents();
+	// 対応付け
+	void RegisterComponents();
 
 
 	/* メンバ変数 */
@@ -86,6 +87,8 @@ private:
 
 	// コンポーネント管理
 	ComponentManager m_componentManager;
+	// ゲームオブジェクト管理
+	GameObjectManager m_gameObjectManager;
 
 	// シーン管理
 	Scenes::SceneManager<SceneTransitionData, GameContext> m_sceneManager;
