@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * リソース管理
  */
@@ -25,9 +25,9 @@ namespace Systems
 		Resources();
 
 		// モデルを読み込む
-		void LoadModelSource(ID3D11Device* device, DirectX::EffectFactory* fx, const std::string& directoryPath);
+		void LoadModelSources(ID3D11Device* device, DirectX::EffectFactory* fx, const std::wstring& directoryPath);
 		// 画像を読み込む
-		void LoadImageSource(ID3D11Device5* device, const std::string& directoryPath);
+		void LoadImageSources(ID3D11Device5* device, const std::wstring& directoryPath);
 
 		// モデルの取得
 		const Renderings::Model3DSource* GetModelSource(const std::string& modelName) const override;

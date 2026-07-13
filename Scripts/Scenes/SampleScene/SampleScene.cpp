@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * サンプルシーン
  */
@@ -9,6 +9,9 @@
 #include "Pch.h"
 #include "SampleScene.h"
 
+#include "Scripts/Commons/Systems/IWindowController.h"
+#include "Scripts/Commons/Systems/IInput.h"
+#include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/GameObjects/Transform.h"
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
@@ -18,9 +21,9 @@
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
-#include "../Objects/DebugCamera/DebugCamera.h"
-#include "../Objects/DebugCamera/DebugCameraFactory.h"
-#include "../Main/GameContext.h"
+#include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
+#include "Scripts/GameObjects/Objects/DebugCamera/DebugCameraFactory.h"
+#include "Scripts/Main/GameContext.h"
 
 // コンストラクタ
 SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner)

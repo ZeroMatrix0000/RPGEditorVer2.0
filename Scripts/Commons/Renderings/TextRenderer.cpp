@@ -1,7 +1,7 @@
 /*
  * FileName:     TextRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * テキスト描画
  */
@@ -66,8 +66,20 @@ void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain)
 }
 
 // フォントコレクションの作成
-void Renderings::TextRenderer::CreateFontCollection(const std::string& directoryPath)
+void Renderings::TextRenderer::CreateFontCollection(const std::wstring& directoryPath)
 {
+	// パスが存在しないなら
+	if (!std::filesystem::exists(directoryPath))
+	{
+		// エラーメッセージを追加
+		Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"パスが間違っています。: %s",
+			directoryPath.c_str()
+		));
+		return;
+	}
+
 	// フォントファイル
 	std::vector<Microsoft::WRL::ComPtr<IDWriteFontFile>> fontFiles;
 

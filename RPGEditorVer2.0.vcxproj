@@ -186,15 +186,15 @@
     <ClCompile Include="Scripts\Main\Game.cpp" />
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
-    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCamera.cpp" />
-    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCameraFactory.cpp" />
-    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.cpp" />
-    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
-    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
-    <ClCompile Include="Scripts\Scenes\SampleScene.cpp" />
-    <ClCompile Include="Scripts\Scenes\TitleScene.cpp" />
-    <ClCompile Include="Scripts\UIs\SelectMenu\SelectMenu.cpp" />
-    <ClCompile Include="Scripts\UIs\SelectMenu\SelectMenuFactory.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCamera.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
+    <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp" />
+    <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp" />
+    <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp" />
+    <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuFactory.cpp" />
     <ClInclude Include="Scripts\Commons\Colliders\BoxCollider.h" />
     <ClInclude Include="Scripts\Commons\Colliders\SphereCollider.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\ComponentManager.h" />
@@ -228,9 +228,9 @@
     <ClInclude Include="Scripts\Commons\Systems\ITimer.h" />
     <ClInclude Include="Scripts\Commons\Systems\IWindowController.h" />
     <ClInclude Include="Scripts\Commons\Systems\Resources.h" />
-    <ClInclude Include="Scripts\Scenes\TitleScene.h" />
-    <ClInclude Include="Scripts\UIs\SelectMenu\SelectMenu.h" />
-    <ClInclude Include="Scripts\UIs\SelectMenu\SelectMenuFactory.h" />
+    <ClInclude Include="Scripts\Scenes\TitleScene\TitleScene.h" />
+    <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.h" />
+    <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -274,13 +274,13 @@
     <ClInclude Include="Scripts\Main\Game.h" />
     <ClInclude Include="Scripts\Main\GameContext.h" />
     <ClInclude Include="Scripts\Main\SceneTransitionData.h" />
-    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCamera.h" />
-    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraFactory.h" />
-    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraInternals.h" />
-    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.h" />
-    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.h" />
-    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.h" />
-    <ClInclude Include="Scripts\Scenes\SampleScene.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCamera.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraInternals.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.h" />
+    <ClInclude Include="Scripts\Scenes\SampleScene\SampleScene.h" />
     <ClInclude Include="Scripts\Scenes\Scenes.h" />
   </ItemGroup>
   <ItemGroup>
@@ -295,11 +295,13 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets" Condition="Exists('packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" />
+    <Import Project="packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets" Condition="Exists('packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>このプロジェクトは、このコンピューター上にない NuGet パッケージを参照しています。それらのパッケージをダウンロードするには、[NuGet パッケージの復元] を使用します。詳細については、http://go.microsoft.com/fwlink/?LinkID=322105 を参照してください。見つからないファイルは {0} です。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_desktop_win10.2026.5.8.1\build\native\directxtk_desktop_win10.targets'))" />
+    <Error Condition="!Exists('packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nlohmann.json.3.12.0\build\native\nlohmann.json.targets'))" />
   </Target>
 </Project>

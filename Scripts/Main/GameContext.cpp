@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/13
  *
  * ゲームコンテキスト
  */

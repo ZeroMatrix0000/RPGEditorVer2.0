@@ -1,12 +1,12 @@
 /*
  * FileName:     Scenes.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/01
+ * Last Updated: 2026/07/13
  *
  * シーンインクルード用
  */
 
 #pragma once
 
-#include "SampleScene.h"
-#include "TitleScene.h"
+#include "SampleScene/SampleScene.h"
+#include "TitleScene/TitleScene.h"

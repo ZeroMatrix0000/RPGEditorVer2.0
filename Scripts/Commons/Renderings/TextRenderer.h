@@ -27,7 +27,7 @@ namespace Renderings
 		// 初期化処理
 		void Initialize(IDXGISwapChain4* pSwapChain);
 		// フォントコレクションの作成
-		void CreateFontCollection(const std::string& directoryPath);
+		void CreateFontCollection(const std::wstring& directoryPath);
 
 		// 描画開始
 		void Begin();

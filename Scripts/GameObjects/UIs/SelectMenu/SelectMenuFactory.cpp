@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenuFactory.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * 選択メニュー工場
  */
@@ -21,7 +21,6 @@ void SelectMenuFactory::Create
 	float                     width,
 	const Math::Color&        color,
 	const Math::Vector2&      position,
-	Utility::AlignmentPoint   pivot,
 	Utility::AlignmentPoint   anchor,
 	const Renderings::Canvas& canvas,
 	GameObject*               pGameObject,

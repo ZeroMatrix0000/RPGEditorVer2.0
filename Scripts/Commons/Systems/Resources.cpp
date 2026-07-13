@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * リソース管理
  */
@@ -19,8 +19,20 @@ Systems::Resources::Resources()
 }
 
 // モデルを追加
-void Systems::Resources::LoadModelSource(ID3D11Device* device, DirectX::EffectFactory* fx, const std::string& directoryPath)
+void Systems::Resources::LoadModelSources(ID3D11Device* device, DirectX::EffectFactory* fx, const std::wstring& directoryPath)
 {
+	// パスが存在しないなら
+	if (!std::filesystem::exists(directoryPath))
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"パスが間違っています。: %s",
+			directoryPath.c_str()
+		));
+		return;
+	}
+	
 	// ディレクトリ内を全て検索
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
 	{
@@ -45,8 +57,20 @@ void Systems::Resources::LoadModelSource(ID3D11Device* device, DirectX::EffectFa
 }
 
 // 画像を読み込む
-void Systems::Resources::LoadImageSource(ID3D11Device5* device, const std::string& directoryPath)
+void Systems::Resources::LoadImageSources(ID3D11Device5* device, const std::wstring& directoryPath)
 {
+	// パスが存在しないなら
+	if (!std::filesystem::exists(directoryPath))
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"パスが間違っています。: %s",
+			directoryPath.c_str()
+		));
+		return;
+	}
+
 	// ディレクトリ内を全て検索
 	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
 	{

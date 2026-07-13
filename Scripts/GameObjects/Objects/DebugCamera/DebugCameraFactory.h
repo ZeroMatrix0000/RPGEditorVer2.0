@@ -1,7 +1,7 @@
 /*
- * FileName:     DebugCamera.h
+ * FileName:     DebugCameraFactory.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * デバッグ用カメラ工場
  */

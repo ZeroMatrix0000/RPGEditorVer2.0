@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenuFactory.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * 選択メニュー工場
  */
@@ -31,7 +31,6 @@ namespace SelectMenuFactory
 		float                     width,
 		const Math::Color&        color,
 		const Math::Vector2&      position,
-		Utility::AlignmentPoint   pivot,
 		Utility::AlignmentPoint   anchor,
 		const Renderings::Canvas& canvas,
 		GameObject*               pGameObject,

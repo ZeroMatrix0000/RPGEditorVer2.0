@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/13
  *
  * ゲームコンテキスト
  */
@@ -9,11 +9,23 @@
 #pragma once
 
 #include "Scripts/Commons/Systems/OnlyOne.h"
-#include "Scripts/Commons/Systems/IWindowController.h"
-#include "Scripts/Commons/Systems/IInput.h"
-#include "Scripts/Commons/GameObjects/IComponentManager.h"
-#include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "SceneTransitionData.h"
+
+namespace Systems
+{
+	class IWindowController;
+	class IInput;
+}
+namespace GameObjects
+{
+	class IComponentManager;
+}
+namespace Scenes
+{
+	template<typename TTransitionData, typename TContext>
+	class ISceneManager;
+}
+class IJsonManager;
 
 // ゲームコンテキスト
 class GameContext : public Systems::OnlyOne

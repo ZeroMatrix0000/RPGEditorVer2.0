@@ -1,7 +1,7 @@
 /*
  * FileName:     Pch.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  * 
  * プリコンパイル済みヘッダファイル
  */
@@ -54,6 +54,8 @@
 // 文字列ストリーム
 #include <sstream>
 
+// Json
+#include <nlohmann/json.hpp>
 
 // DirectXTK
 #include "BufferHelpers.h"

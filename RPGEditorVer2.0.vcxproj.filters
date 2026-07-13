@@ -40,23 +40,35 @@
     <Filter Include="Jsons">
       <UniqueIdentifier>{1b631bb2-d185-4c6e-9bf8-0c5cb692728f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Objects">
-      <UniqueIdentifier>{4df238ea-e1b1-4ce0-9063-f03daeb557c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Objects\DebugCamera">
-      <UniqueIdentifier>{a48ed038-e529-4c02-83c0-a4a76d600d45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Objects\DebugCamera\State">
-      <UniqueIdentifier>{8173f202-512a-4872-98ad-25129a910c7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Jsons\Events">
       <UniqueIdentifier>{f30ffaf3-9470-4a45-b07b-7e7ffc65f8ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\UIs">
+    <Filter Include="Scripts\GameObjects">
+      <UniqueIdentifier>{f1dd25ee-7556-4d0f-aa81-c3b6af3975af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameObjects\Objects">
+      <UniqueIdentifier>{4df238ea-e1b1-4ce0-9063-f03daeb557c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameObjects\Objects\DebugCamera">
+      <UniqueIdentifier>{a48ed038-e529-4c02-83c0-a4a76d600d45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameObjects\Objects\DebugCamera\State">
+      <UniqueIdentifier>{8173f202-512a-4872-98ad-25129a910c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameObjects\UIs">
       <UniqueIdentifier>{87c1220b-6e4c-4331-abd8-69039d73acb8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\UIs\SelectMenu">
+    <Filter Include="Scripts\GameObjects\UIs\SelectMenu">
       <UniqueIdentifier>{92c2c21d-67e8-436b-bf55-9b0ce6cfab92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Scenes\SampleScene">
+      <UniqueIdentifier>{0689e455-3664-4aeb-8b3d-612040b319d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Scenes\NewFilter1">
+      <UniqueIdentifier>{7ca6286d-2e51-474b-a78b-903501c53d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Scenes\TitleScene">
+      <UniqueIdentifier>{e000b26b-5af1-4b39-ab3d-0a9ad1b4e86f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +126,6 @@
     </ClCompile>
     <ClCompile Include="Scripts\Main\GameContext.cpp">
       <Filter>Scripts\Main</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripts\Scenes\SampleScene.cpp">
-      <Filter>Scripts\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Commons\Renderings\RenderingResources.cpp">
       <Filter>Scripts\Commons\Renderings</Filter>
@@ -178,17 +187,17 @@
     <ClCompile Include="Scripts\Commons\Renderings\ColliderRenderer.cpp">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCamera.cpp">
-      <Filter>Scripts\Objects\DebugCamera</Filter>
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCamera.cpp">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.cpp">
-      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.cpp">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera\State</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.cpp">
-      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera\State</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.cpp">
-      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera\State</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Commons\Systems\ErrorMessage.cpp">
       <Filter>Scripts\Commons\Systems</Filter>
@@ -199,16 +208,21 @@
     <ClCompile Include="Scripts\Commons\Colliders\SphereCollider.cpp">
       <Filter>Scripts\Commons\Colliders</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Objects\DebugCamera\DebugCameraFactory.cpp">
-      <Filter>Scripts\Objects\DebugCamera</Filter>
+    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.cpp">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\UIs\SelectMenu\SelectMenu.cpp">
-      <Filter>Scripts\UIs\SelectMenu</Filter>
+    <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp">
+      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Scenes\TitleScene.cpp">
-      <Filter>Scripts\Scenes</Filter>
+    <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuFactory.cpp">
+      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\UIs\SelectMenu\SelectMenuFactory.cpp" />
+    <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp">
+      <Filter>Scripts\Scenes\SampleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp">
+      <Filter>Scripts\Scenes\TitleScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -314,9 +328,6 @@
     <ClInclude Include="Scripts\Main\SceneTransitionData.h">
       <Filter>Scripts\Main</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Scenes\SampleScene.h">
-      <Filter>Scripts\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Scripts\Scenes\Scenes.h">
       <Filter>Scripts\Scenes</Filter>
     </ClInclude>
@@ -410,20 +421,20 @@
     <ClInclude Include="Scripts\Commons\Renderings\ColliderRenderer.h">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCamera.h">
-      <Filter>Scripts\Objects\DebugCamera</Filter>
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCamera.h">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraInternals.h">
-      <Filter>Scripts\Objects\DebugCamera</Filter>
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraInternals.h">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateIdle.h">
-      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.h">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera\State</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateMove.h">
-      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.h">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera\State</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Objects\DebugCamera\State\DebugCameraStateRotate.h">
-      <Filter>Scripts\Objects\DebugCamera\State</Filter>
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.h">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera\State</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Systems\ErrorMessage.h">
       <Filter>Scripts\Commons\Systems</Filter>
@@ -443,17 +454,20 @@
     <ClInclude Include="Scripts\Commons\Systems\State.h">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Objects\DebugCamera\DebugCameraFactory.h">
-      <Filter>Scripts\Objects\DebugCamera</Filter>
+    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.h">
+      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Scenes\TitleScene.h">
-      <Filter>Scripts\Scenes</Filter>
+    <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.h">
+      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\UIs\SelectMenu\SelectMenu.h">
-      <Filter>Scripts\UIs\SelectMenu</Filter>
+    <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuFactory.h">
+      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\UIs\SelectMenu\SelectMenuFactory.h">
-      <Filter>Scripts\UIs\SelectMenu</Filter>
+    <ClInclude Include="Scripts\Scenes\SampleScene\SampleScene.h">
+      <Filter>Scripts\Scenes\SampleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\TitleScene\TitleScene.h">
+      <Filter>Scripts\Scenes\TitleScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

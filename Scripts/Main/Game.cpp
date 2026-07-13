@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * ゲーム
  */
@@ -19,8 +19,8 @@
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
-#include "../Objects/DebugCamera/DebugCamera.h"
-#include "../UIs/SelectMenu/SelectMenu.h"
+#include "../GameObjects/Objects/DebugCamera/DebugCamera.h"
+#include "../GameObjects/UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
 Game::Game()
@@ -70,12 +70,12 @@ void Game::Initialize(const HWND& hWindow)
 
 	// 描画の初期化
 	m_renderer.Initialize(device, context, swapChain, commonStates);
-	m_renderer.CreateFontCollection("Resources/Fonts");
+	m_renderer.CreateFontCollection(L"Resources/Fonts");
 
 	// 画像の読み込み
-	m_resources.LoadImageSource(device, "Resources/Images");
+	m_resources.LoadImageSources(device, L"Resources/Images");
 	// モデルソースの読み込み
-	m_resources.LoadModelSource(device, fx, "Resources/Models");
+	m_resources.LoadModelSources(device, fx, L"Resources/Models");
 
 	// タイマーの初期化
 	m_timer.Initialize();

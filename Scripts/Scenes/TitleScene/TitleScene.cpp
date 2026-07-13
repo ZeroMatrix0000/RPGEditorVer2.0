@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/13
  *
  * タイトルシーン
  */
@@ -9,10 +9,13 @@
 #include "Pch.h"
 #include "TitleScene.h"
 
+#include "Scripts/Commons/Systems/IWindowController.h"
+#include "Scripts/Commons/Systems/IInput.h"
+#include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
-#include "../Main/GameContext.h"
-#include "../UIs/SelectMenu/SelectMenuFactory.h"
-#include "../UIs/SelectMenu/SelectMenu.h"
+#include "Scripts/Main/GameContext.h"
+#include "Scripts/GameObjects/UIs/SelectMenu/SelectMenuFactory.h"
+#include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
 TitleScene::TitleScene(const ComponentCreatePermit& permit, GameObject* pOwner)
@@ -46,7 +49,6 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 		350.0f,
 		Math::Color{ 1.0f, 0.95f, 0.8f, 1.0f },
 		Math::Vector2{ 0.0f, 200.0f },
-		Utility::AlignmentPoint::MiddleCenter,
 		Utility::AlignmentPoint::MiddleCenter,
 		*pCanvas,
 		&m_selectMenu,
