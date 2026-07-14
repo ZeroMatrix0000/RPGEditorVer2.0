@@ -39,7 +39,17 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンポーネントを作成
-		std::unique_ptr<Component> Create(const std::type_index& index, GameObject* pOwner) const override;
+		std::unique_ptr<Component> Create(const std::type_index& index, GameObject* pOwner) override;
+
+		// コンポーネント作成関数を追加
+		void RegisterCreate
+		(
+			const std::type_index& index,
+			const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent
+		);
+
+		// 未参照コンポーネントを取得
+		Component* GetNullReferences(const std::type_index& index) override;
 
 
 		/* メンバ変数 */
@@ -49,6 +59,9 @@ namespace GameObjects
 
 		// コンポーネント作成関数
 		std::unordered_map<std::type_index, std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>> m_CreateComponentList;
+
+		// 未参照コンポーネントリスト
+		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_nullReferences;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObject.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * ゲームオブジェクト
  */
@@ -24,7 +24,7 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンストラクタ
-		GameObject();
+		GameObject(IComponentManager* pIComponentManager);
 
 		// 更新処理
 		void Update(float elapsedTime);
@@ -36,7 +36,7 @@ namespace GameObjects
 			auto it = m_components.find(typeid(TComponent));
 			if (it == m_components.end())
 			{
-				return nullptr;
+				return m_pIComponentManager->GetNullReferences<TComponent>();
 			}
 			return static_cast<TComponent*>(it->second.get());
 		}
@@ -47,16 +47,16 @@ namespace GameObjects
 			auto it = m_components.find(typeid(TComponent));
 			if (it == m_components.end())
 			{
-				return nullptr;
+				return m_pIComponentManager->GetNullReferences<TComponent>();
 			}
 			return static_cast<TComponent*>(it->second.get());
 		}
 
 		// コンポーネントを追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
-		TComponent* AddComponent(const IComponentManager& iComponentManager)
+		TComponent* AddComponent()
 		{
-			m_components.emplace(typeid(TComponent), iComponentManager.Create<TComponent>(this));
+			m_components.emplace(typeid(TComponent), m_pIComponentManager->Create<TComponent>(this));
 			return GetComponent<TComponent>();
 		}
 
@@ -68,6 +68,9 @@ namespace GameObjects
 
 		// コンポーネント
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components;
+
+		// コンポーネント管理のポインタ
+		IComponentManager* m_pIComponentManager;
 
 	};
 }

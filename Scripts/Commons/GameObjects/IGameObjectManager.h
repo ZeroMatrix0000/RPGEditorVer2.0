@@ -1,7 +1,7 @@
 /*
  * FileName:     IGameObjectManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * ゲームオブジェクト管理のインタフェース
  */
@@ -33,9 +33,15 @@ namespace GameObjects
 		// ゲームオブジェクトを読み込む
 		virtual void Load
 		(
-			const IComponentManager& iComponentManager,
 			const std::string& jsonName,
 			std::unordered_map<std::string, std::unique_ptr<GameObject>>* pGameObjects
+		) const = 0;
+
+		// ゲームオブジェクトを名前で検索
+		virtual GameObject* FindGameObject
+		(
+			const std::string& name,
+			const std::unordered_map<std::string, std::unique_ptr<GameObject>>& gameObjects
 		) const = 0;
 
 	};

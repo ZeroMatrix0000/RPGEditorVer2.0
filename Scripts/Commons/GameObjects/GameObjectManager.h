@@ -30,6 +30,9 @@ namespace GameObjects
 		// コンストラクタ
 		GameObjectManager(const Systems::IResources& iResources);
 
+		// 初期化処理
+		void Initialize(IComponentManager* pIComponentManager);
+
 		// コンポーネントを追加関数を追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		void RegisterAdd(const std::string& componentName)
@@ -37,9 +40,9 @@ namespace GameObjects
 			m_AddComponentList.emplace
 			(
 				componentName,
-				[](const IComponentManager& iComponentManager, GameObject* pOwner)
+				[](GameObject* pOwner)
 				{
-					return pOwner->AddComponent<TComponent>(iComponentManager);
+					return pOwner->AddComponent<TComponent>();
 				}
 			);
 		}
@@ -47,9 +50,15 @@ namespace GameObjects
 		// ゲームオブジェクトを読み込む
 		void Load
 		(
-			const IComponentManager& iComponentManager,
 			const std::string& jsonName,
 			std::unordered_map<std::string, std::unique_ptr<GameObject>>* pGameObjects
+		) const override;
+
+		// ゲームオブジェクトを名前で検索
+		GameObject* FindGameObject
+		(
+			const std::string& name,
+			const std::unordered_map<std::string, std::unique_ptr<GameObject>>& gameObjects
 		) const override;
 
 
@@ -59,13 +68,19 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// ゲームオブジェクトを作成
-		std::unique_ptr<GameObject> Create(const IComponentManager& iComponentManager, const nlohmann::ordered_json& json) const;
+		std::unique_ptr<GameObject> Create(const nlohmann::ordered_json& json) const;
 
 
 		/* メンバ変数 */
 
 		// コンポーネント追加関数
-		std::unordered_map<std::string, std::function<Component*(const IComponentManager&, GameObject*)>> m_AddComponentList;
+		std::unordered_map<std::string, std::function<Component*(GameObject*)>> m_AddComponentList;
+
+		// 未参照ゲームオブジェクト
+		std::unique_ptr<GameObject> m_nullReference;
+
+		// コンポーネント管理のポインタ
+		IComponentManager* m_pIComponentManager;
 
 		// リソースのインタフェースの参照
 		const Systems::IResources& m_refIResources;

@@ -1,7 +1,7 @@
 /*
  * FileName:     SceneTransitionAnimation.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * シーン遷移時のアニメーション
  */
@@ -11,6 +11,7 @@
 
 #include "../Renderings/Canvas.h"
 #include "../Renderings/Image.h"
+#include "../GameObjects/GameObject.h"
 #include "../GameObjects/RectTransform.h"
 #include "../GameObjects/IComponentManager.h"
 
@@ -24,20 +25,22 @@ Scenes::SceneTransitionAnimation::SceneTransitionAnimation()
 }
 
 // 初期化処理
-void Scenes::SceneTransitionAnimation::Initialize(const Math::Vector2& outputSize, const IComponentManager& iComponentManager)
+void Scenes::SceneTransitionAnimation::Initialize(const Math::Vector2& outputSize, IComponentManager* pIComponentManager)
 {
 	// アニメーションの設定
 	SetAnimation(false);
 
 	// 画像の設定
-	m_imageRectTransform = m_image.AddComponent<RectTransform>(iComponentManager);
+	m_image = std::make_unique<GameObject>(pIComponentManager);
+	m_imageRectTransform = m_image->AddComponent<RectTransform>();
 	m_imageRectTransform->SetAngle(CHANGE_ANGLE);
-	auto* pImage = m_image.AddComponent<Renderings::Image>(iComponentManager);
+	auto* pImage = m_image->AddComponent<Renderings::Image>();
 	pImage->SetImageSourceName("Box");
 	pImage->SetColor(DirectX::Colors::Black);
 	pImage->SetOrderInLayer(32767);
 	// キャンバスの設定
-	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
+	m_canvas = std::make_unique<GameObject>(pIComponentManager);
+	auto* pCanvas = m_canvas->AddComponent<Renderings::Canvas>();
 	pCanvas->Initialize(Renderings::Canvas::FixedSize::None, outputSize);
 
 	// キャンバスに画像を映す
@@ -66,7 +69,7 @@ void Scenes::SceneTransitionAnimation::Update(float elapsedTime)
 // キャンバスサイズの変更
 void Scenes::SceneTransitionAnimation::SetCanvasSize(const Math::Vector2& outputSize)
 {
-	m_canvas.GetComponent<Renderings::Canvas>()->SetSize(outputSize);
+	m_canvas->GetComponent<Renderings::Canvas>()->SetSize(outputSize);
 
 	// 長方形サイズの設定
 	m_imageRectTransform->SetSize(Math::Vector2

@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenuFactory.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * 選択メニュー工場
  */
@@ -25,15 +25,14 @@ class SelectMenu;
 namespace SelectMenuFactory
 {
 	// 選択メニューを作成
-	void Create
+	std::unique_ptr<GameObject> Create
 	(
-		const IComponentManager&  iComponentManager,
+		IComponentManager*        pIComponentManager,
 		float                     width,
 		const Math::Color&        color,
 		const Math::Vector2&      position,
 		Utility::AlignmentPoint   anchor,
 		const Renderings::Canvas& canvas,
-		GameObject*               pGameObject,
 		SelectMenu**              ppSelectMenu
 	);
 }

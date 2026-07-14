@@ -1,7 +1,7 @@
 /*
  * FileName:     DebugCameraFactory.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * デバッグ用カメラ工場
  */
@@ -31,11 +31,10 @@ class DebugCamera;
 namespace DebugCameraFactory
 {
 	// デバッグ用カメラを作成
-	void Create
+	std::unique_ptr<GameObject> Create
 	(
-		const IComponentManager&                              iComponentManager,
+		IComponentManager*                                    pIComponentManager,
 		const Math::Vector2&                                  outputSize,
-		GameObject*                                           pGameObject,
 		Renderings::CameraScreen<Camera::EulerTargetCamera>** ppCameraScreen,
 		DebugCamera**                                         ppDebugCamera
 	);

@@ -1,7 +1,7 @@
 /*
  * FileName:     ErrorMessage.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * エラーメッセージ
  */
@@ -9,11 +9,15 @@
 #pragma once
 
 #include "IErrorMessage.h"
-#include "../GameObjects/GameObject.h"
 
 namespace Renderings
 {
 	class Text;
+}
+namespace GameObjects
+{
+	class GameObject;
+	class IComponentManager;
 }
 
 namespace Systems
@@ -31,12 +35,12 @@ namespace Systems
 		ErrorMessage();
 
 		// 初期化処理
-		void Initialize(const std::wstring& fontName, float displayTime);
+		void Initialize(const std::wstring& fontName, float displayTime, bool isActive);
 		// 更新処理
 		void Update(float elapsedTime);
 
 		// オブジェクト生成
-		void CreateObjects(const IComponentManager& iComponentManager);
+		void CreateObjects(IComponentManager* pIComponentManager);
 
 		// メッセージを追加
 		void AddMessage(const std::wstring& text) override;
@@ -72,17 +76,20 @@ namespace Systems
 		size_t                   m_messageCount;
 
 		// 表示するテキスト
-		GameObject        m_text;
+		std::unique_ptr<GameObject> m_text;
 		// 表示するテキストコンポーネント
-		Renderings::Text* m_textComponent;
+		Renderings::Text*           m_textComponent;
 
 		// キャンバス
-		GameObject m_canvas;
+		std::unique_ptr<GameObject> m_canvas;
 
 		// フォント名
 		std::wstring m_fontName;
 		// 表示する秒数
 		float        m_displayTime;
+
+		// アクティブフラグ
+		bool m_isActive;
 
 	};
 }

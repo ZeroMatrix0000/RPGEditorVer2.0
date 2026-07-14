@@ -27,7 +27,7 @@ void Systems::Resources::LoadModelSources(ID3D11Device* device, DirectX::EffectF
 		// エラーメッセージを追加
 		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 		(
-			L"パスが間違っています。: %s",
+			L"パスが間違っています。 | path: %s",
 			directoryPath.c_str()
 		));
 		return;
@@ -48,7 +48,7 @@ void Systems::Resources::LoadModelSources(ID3D11Device* device, DirectX::EffectF
 				// エラーメッセージを追加
 				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 				(
-					L"モデルの読み込みに失敗しました。: %s",
+					L"モデルの読み込みに失敗しました。 | path: %s",
 					entry.path().c_str()
 				));
 			}
@@ -65,7 +65,7 @@ void Systems::Resources::LoadImageSources(ID3D11Device5* device, const std::wstr
 		// エラーメッセージを追加
 		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 		(
-			L"パスが間違っています。: %s",
+			L"パスが間違っています。 | path: %s",
 			directoryPath.c_str()
 		));
 		return;
@@ -86,7 +86,7 @@ void Systems::Resources::LoadImageSources(ID3D11Device5* device, const std::wstr
 				// エラーメッセージを追加
 				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 				(
-					L"画像の読み込みに失敗しました。: %s",
+					L"画像の読み込みに失敗しました。 | path: %s",
 					entry.path().c_str()
 				));
 			}
@@ -103,7 +103,7 @@ void Systems::Resources::LoadJsons(const std::wstring& directoryPath)
 		// エラーメッセージを追加
 		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 		(
-			L"パスが間違っています。: %s",
+			L"パスが間違っています。 | path: %s",
 			directoryPath.c_str()
 		));
 		return;
@@ -122,7 +122,7 @@ void Systems::Resources::LoadJsons(const std::wstring& directoryPath)
 				// エラーメッセージの追加
 				Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 				(
-					L"JSONファイルを開くことが出来ませんでした。: %s",
+					L"JSONファイルを開くことが出来ませんでした。 | path: %s",
 					entry.path().c_str()
 				));
 				fileStream.close();
@@ -138,7 +138,7 @@ void Systems::Resources::LoadJsons(const std::wstring& directoryPath)
 				// エラーメッセージを追加
 				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
 				(
-					L"JSONファイルのフォーマットが正しくありません。: %s",
+					L"JSONファイルのフォーマットが正しくありません。 | path: %s",
 					entry.path().c_str()
 				));
 			}
@@ -153,6 +153,12 @@ const Renderings::Model3DSource* Systems::Resources::GetModelSource(const std::s
 	auto it = m_modelSources.find(modelName);
 	if (it == m_modelSources.end())
 	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"モデルが見つかりません。 | name: %s",
+			Utility::string2wstring(modelName).c_str()
+		));
 		return nullptr;
 	}
 
@@ -165,6 +171,12 @@ const Renderings::ImageSource* Systems::Resources::GetImageSource(const std::str
 	auto it = m_imageSources.find(imageName);
 	if (it == m_imageSources.end())
 	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"画像が見つかりません。 | name: %s",
+			Utility::string2wstring(imageName).c_str()
+		));
 		return nullptr;
 	}
 
@@ -177,6 +189,12 @@ const nlohmann::ordered_json* Systems::Resources::GetJson(const std::string& jso
 	auto it = m_jsons.find(jsonName);
 	if (it == m_jsons.end())
 	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"Jsonファイルが見つかりません。 | name: %s",
+			Utility::string2wstring(jsonName).c_str()
+		));
 		return nullptr;
 	}
 

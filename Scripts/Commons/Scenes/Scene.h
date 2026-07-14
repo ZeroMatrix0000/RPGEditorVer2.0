@@ -1,7 +1,7 @@
 /*
  * FileName:     Scene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * シーン
  */
@@ -9,11 +9,6 @@
 #pragma once
 
 #include "../GameObjects/Component.h"
-
-namespace GameObjects
-{
-	class GameObject;
-}
 
 namespace Scenes
 {

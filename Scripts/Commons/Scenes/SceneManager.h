@@ -40,10 +40,10 @@ namespace Scenes
 		}
 
 		// 初期化処理
-		void Initialize(const Math::Vector2& outputSize, const IComponentManager& iComponentManager)
+		void Initialize(const Math::Vector2& outputSize, IComponentManager* pIComponentManager)
 		{
 			// アニメーションの初期化
-			m_animation.Initialize(outputSize, iComponentManager);
+			m_animation.Initialize(outputSize, pIComponentManager);
 		}
 		// 更新処理
 		void Update(float elapsedTime)

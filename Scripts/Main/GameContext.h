@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * ゲームコンテキスト
  */
@@ -54,17 +54,17 @@ public:
 	);
 
 	// ウィンドウ管理インタフェースを取得
-	const Systems::IWindowController& GetIWindowController() const { return *m_pIWindowController; }
+	Systems::IWindowController* GetPIWindowController() const { return m_pIWindowController; }
 	// 入力管理インタフェースを取得
-	const Systems::IInput& GetIInput() const { return *m_pIInput; }
+	Systems::IInput* GetPIInput() const { return m_pIInput; }
 
 	// コンポーネント工場を取得
-	const IComponentManager& GetIComponentManager() const { return *m_pIComponentManager; }
+	IComponentManager* GetPIComponentManager() const { return m_pIComponentManager; }
 	// コンポーネント工場を取得
-	const IGameObjectManager& GetIGameObjectManager() const { return *m_pIGameObjectManager; }
+	IGameObjectManager* GetPIGameObjectManager() const { return m_pIGameObjectManager; }
 
 	// シーン管理インタフェースを取得
-	ISceneManager& GetISceneManager() const { return *m_pISceneManager; }
+	ISceneManager* GetPISceneManager() const { return m_pISceneManager; }
 
 
 private:

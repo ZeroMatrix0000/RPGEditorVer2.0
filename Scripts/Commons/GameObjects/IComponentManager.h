@@ -26,15 +26,14 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンストラクタ
-		IComponentManager(const ComponentCreatePermit& permit)
+		IComponentManager()
 			: OnlyOne{ typeid(IComponentManager) }
-			, m_refPermit{ permit }
 		{
 		}
 
 		// コンポーネントを作成
 		template<typename TComponent> requires IsDerived<TComponent, Component>
-		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr) const
+		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr)
 		{
 			return Create(typeid(TComponent), pOwner);
 		};
@@ -42,10 +41,25 @@ namespace GameObjects
 		template<typename TComponent> requires
 			IsDerived<TComponent, Component> &&
 			std::constructible_from<TComponent, const ComponentCreatePermit&, GameObject*>
-		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr) const
+		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr)
 		{
-			return std::make_unique<TComponent>(m_refPermit, pOwner);
+			RegisterCreate
+			(
+				typeid(TComponent),
+				[](const ComponentCreatePermit& permit, GameObject* pOwner)
+				{
+					return std::make_unique<TComponent>(permit, pOwner);
+				}
+			);
+			return Create(typeid(TComponent), pOwner);
 		};
+
+		// 未参照コンポーネントを取得
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		TComponent* GetNullReferences()
+		{
+			return static_cast<TComponent*>(GetNullReferences(typeid(TComponent)));
+		}
 
 
 
@@ -55,13 +69,18 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンポーネントを作成
-		virtual std::unique_ptr<Component> Create(const std::type_index& index, GameObject* pOwner) const = 0;
+		virtual std::unique_ptr<Component> Create(const std::type_index& index, GameObject* pOwner) = 0;
 
+		// コンポーネント作成関数を追加
+		virtual void RegisterCreate
+		(
+			const std::type_index& index,
+			const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent
+		) = 0;
 
-		/* メンバ変数 */
+		// 未参照コンポーネントを取得
+		virtual Component* GetNullReferences(const std::type_index& index) = 0;
 
-		// コンポーネント作成許可証の参照
-		const ComponentCreatePermit& m_refPermit;
 
 	};
 }

@@ -1,17 +1,16 @@
 /*
  * FileName:     SceneTransitionAnimation.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * シーン遷移時のアニメーション
  */
 
 #pragma once
 
-#include "../GameObjects/GameObject.h"
-
 namespace GameObjects
 {
+	class GameObject;
 	class RectTransform;
 	class IComponentManager;
 }
@@ -31,7 +30,7 @@ namespace Scenes
 		SceneTransitionAnimation();
 
 		// 初期化処理
-		void Initialize(const Math::Vector2& outputSize, const IComponentManager& iComponentManager);
+		void Initialize(const Math::Vector2& outputSize, IComponentManager* pIComponentManager);
 		// 更新処理
 		void Update(float elapsedTime);
 
@@ -62,13 +61,13 @@ namespace Scenes
 		Easing::Value<float> m_changingRate;
 
 		// 画像
-		GameObject m_image;
+		std::unique_ptr<GameObject> m_image;
 		// 画像の2D用トランスフォーム
 		RectTransform* m_imageRectTransform;
 
 
 		// キャンバス
-		GameObject m_canvas;
+		std::unique_ptr<GameObject> m_canvas;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * 選択メニュー
  */
@@ -9,7 +9,6 @@
 #pragma once
 
 #include "Scripts/Commons/GameObjects/Component.h"
-#include "Scripts/Commons/GameObjects/GameObject.h"
 
 namespace Renderings
 {
@@ -18,6 +17,7 @@ namespace Renderings
 namespace GameObjects
 {
 	class IComponentManager;
+	class GameObject;
 	class RectTransform;
 }
 
@@ -36,7 +36,7 @@ public:
 	// 初期化処理
 	void Initialize
 	(
-		const IComponentManager&  iComponentManager,
+		IComponentManager*        pIComponentManager,
 		float                     width,
 		const Math::Color&        color,
 		const Math::Vector2&      position,
@@ -48,7 +48,7 @@ public:
 	void Update(float elapsedTime) override;
 
 	// 選択肢を追加
-	void AddOption(const IComponentManager& iComponentManager, const std::wstring& str, const std::function<void()>& Process);
+	void AddOption(IComponentManager* pIComponentManager, const std::wstring& str, const std::function<void()>& Process);
 
 	// 上の項目を選択
 	void SelectUp();
@@ -87,7 +87,7 @@ private:
 	Math::Vector2 m_basePosition;
 
 	// カーソル
-	GameObject m_cursor;
+	std::unique_ptr<GameObject> m_cursor;
 	// カーソルの2D用トランスフォーム
 	RectTransform* m_pCursorRectTransform;
 

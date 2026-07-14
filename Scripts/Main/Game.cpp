@@ -16,6 +16,7 @@
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
+#include "Scripts/Commons/GameObjects/RectTransform.h"
 
 // コンストラクタ
 Game::Game()
@@ -43,7 +44,7 @@ void Game::Initialize(const HWND& hWindow)
 	m_hWindow = hWindow;
 
 	// エラーメッセージの初期化
-	m_errorMessage.Initialize(L"Makinas 4 Flat", 5.0f);
+	m_errorMessage.Initialize(L"GenEi M Gothic v2", 5.0f, true);
 
 	// デバイスリソースの初期化
 	m_deviceResources.Initialize(hWindow);
@@ -83,26 +84,29 @@ void Game::Initialize(const HWND& hWindow)
 	// 入力の初期化
 	m_input.Initialize();
 
+	// ゲームオブジェクト管理の初期化
+	m_gameObjectManager.Initialize(&m_componentManager);
+
 	// 対応付け
 	RegisterComponents();
 
 	// コンポーネント管理のインタフェース
-	const IComponentManager& iComponentManager = m_componentManager;
+	IComponentManager* pIComponentManager = &m_componentManager;
 
 	// エラーメッセージのオブジェクトを生成
-	m_errorMessage.CreateObjects(iComponentManager);
+	m_errorMessage.CreateObjects(pIComponentManager);
 
 	// シーンの追加
-	m_sceneManager.AddScene<SampleScene>([&iComponentManager]
+	m_sceneManager.AddScene<SampleScene>([pIComponentManager]
 	{
-		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(iComponentManager.Create<SampleScene>().release()) };
+		return std::unique_ptr<SampleScene>{ static_cast<SampleScene*>(pIComponentManager->Create<SampleScene>().release()) };
 	});
-	m_sceneManager.AddScene<TitleScene>([&iComponentManager]
+	m_sceneManager.AddScene<TitleScene>([pIComponentManager]
 	{
-		return std::unique_ptr<TitleScene>{ static_cast<TitleScene*>(iComponentManager.Create<TitleScene>().release()) };
+		return std::unique_ptr<TitleScene>{ static_cast<TitleScene*>(pIComponentManager->Create<TitleScene>().release()) };
 	});
 	// シーン管理の初期化
-	m_sceneManager.Initialize(m_windowController.GetOutputSize(), iComponentManager);
+	m_sceneManager.Initialize(m_windowController.GetOutputSize(), pIComponentManager);
 
 	// コンテキストの初期化
 	m_context.Initialize

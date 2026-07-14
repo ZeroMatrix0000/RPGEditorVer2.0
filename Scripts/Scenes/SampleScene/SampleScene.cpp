@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * サンプルシーン
  */
@@ -12,6 +12,7 @@
 #include "Scripts/Commons/Systems/IWindowController.h"
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
+#include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/Transform.h"
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
@@ -43,29 +44,31 @@ SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner
 void SampleScene::Initialize(const SceneTransitionData& data)
 {
 	// 出力サイズ
-	const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
+	const Math::Vector2& outputSize = GetContext().GetPIWindowController()->GetOutputSize();
 
 	// コンポーネント工場
-	const auto& iComponentManager = GetContext().GetIComponentManager();
+	auto* pIComponentManager = GetContext().GetPIComponentManager();
 
 	// デバッグカメラを作成
-	DebugCameraFactory::Create(iComponentManager, outputSize, &m_camera, &m_pCameraScreen, &m_pDebugCamera);
+	m_camera = DebugCameraFactory::Create(pIComponentManager, outputSize, &m_pCameraScreen, &m_pDebugCamera);
 
-	auto* pCanvas = m_canvas.AddComponent<Renderings::Canvas>(iComponentManager);
+	m_canvas = std::make_unique<GameObject>(pIComponentManager);
+	auto* pCanvas = m_canvas->AddComponent<Renderings::Canvas>();
 	pCanvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
 
 	{
-		auto* pTransform = m_test3D.AddComponent<Transform>(iComponentManager);
+		m_test3D = std::make_unique<GameObject>(pIComponentManager);
+		auto* pTransform = m_test3D->AddComponent<Transform>();
 		pTransform->SetPosition(Math::Vector3::Left * 5.0f);
 		pTransform->SetRotation(Math::Euler{ 0.0f, 45.0f, 0.0f }.CreateQuaternion());
 		pTransform->SetScale(Math::Vector3{ 1.0f, 1.0f, 1.0f });
-		auto* pModel = m_test3D.AddComponent<Renderings::Model3D>(iComponentManager);
+		auto* pModel = m_test3D->AddComponent<Renderings::Model3D>();
 		pModel->SetModelSourceName("Player");
-		auto* pBoxCollider = m_test3D.AddComponent<Colliders::BoxCollider>(iComponentManager);
+		auto* pBoxCollider = m_test3D->AddComponent<Colliders::BoxCollider>();
 		pBoxCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
 		pBoxCollider->SetSize(Math::Vector3{ 1.0f, 2.0f, 1.0f });
 		pBoxCollider->ApplyTransform();
-		auto* pSphereCollider = m_test3D.AddComponent<Colliders::SphereCollider>(iComponentManager);
+		auto* pSphereCollider = m_test3D->AddComponent<Colliders::SphereCollider>();
 		pSphereCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
 		pSphereCollider->SetRadius(1.0f);
 		pSphereCollider->ApplyTransform();
@@ -76,12 +79,13 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	}
 
 	{
-		auto* pRectTransform = m_test2D.AddComponent<RectTransform>(iComponentManager);
+		m_test2D = std::make_unique<GameObject>(pIComponentManager);
+		auto* pRectTransform = m_test2D->AddComponent<RectTransform>();
 		pRectTransform->SetAngle(-30.0f);
-		auto* pImage = m_test2D.AddComponent<Renderings::Image>(iComponentManager);
+		auto* pImage = m_test2D->AddComponent<Renderings::Image>();
 		pImage->SetImageSourceName("DialogBox");
 		pRectTransform->SetSize(pImage->GetSize() / 2.0f);
-		auto* pText = m_test2D.AddComponent<Renderings::Text>(iComponentManager);
+		auto* pText = m_test2D->AddComponent<Renderings::Text>();
 		pText->SetStr(L"あいうえお");
 		pText->SetFontName(L"GenEi M Gothic v2");
 		pText->SetFontSize(128.0f);
@@ -94,9 +98,10 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	}
 
 	{
-		auto* pRectTransform = m_test2D2.AddComponent<RectTransform>(iComponentManager);
+		m_test2D2 = std::make_unique<GameObject>(pIComponentManager);
+		auto* pRectTransform = m_test2D2->AddComponent<RectTransform>();
 		pRectTransform->SetAngle(45.0f);
-		auto* pImage = m_test2D2.AddComponent<Renderings::Image>(iComponentManager);
+		auto* pImage = m_test2D2->AddComponent<Renderings::Image>();
 		pImage->SetImageSourceName("DialogBox");
 		pImage->SetOrderInLayer(1);
 		pImage->SetColor(DirectX::Colors::Red);
@@ -106,9 +111,10 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	}
 
 	{
-		auto* pTransform = m_ground.AddComponent<Transform>(iComponentManager);
+		m_ground = std::make_unique<GameObject>(pIComponentManager);
+		auto* pTransform = m_ground->AddComponent<Transform>();
 		pTransform->SetScale(Math::Vector3::One * 3.0f);
-		auto* pModel = m_ground.AddComponent<Renderings::Model3D>(iComponentManager);
+		auto* pModel = m_ground->AddComponent<Renderings::Model3D>();
 		pModel->SetModelSourceName("Ground");
 		// カメラにモデルを映す
 		pModel->AddICameraScreen(*m_pCameraScreen);
@@ -119,27 +125,27 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 void SampleScene::Update(float elapsedTime)
 {
 	// 入力管理
-	const auto& iInput = GetContext().GetIInput();
+	auto* pIInput = GetContext().GetPIInput();
 
 	// F5でシーン移動
-	if (iInput.GetKeyDown(KeyName::F5))
+	if (pIInput->GetKeyDown(KeyName::F5))
 	{
-		GetContext().GetISceneManager().SetNextScene<SampleScene>();
+		GetContext().GetPISceneManager()->SetNextScene<SampleScene>();
 		return;
 	}
 
-	m_test3D.Update(elapsedTime);
-	m_test2D.Update(elapsedTime);
+	m_test3D->Update(elapsedTime);
+	m_test2D->Update(elapsedTime);
 
 	// カメラの更新
 	m_pDebugCamera->SetInput
 	(
-		iInput.GetMouseMovement(),
-		iInput.GetMouseButton(MouseButtonName::Right),
-		iInput.GetMouseButton(MouseButtonName::Middle),
-		iInput.GetMouseWheelDelta()
+		pIInput->GetMouseMovement(),
+		pIInput->GetMouseButton(MouseButtonName::Right),
+		pIInput->GetMouseButton(MouseButtonName::Middle),
+		pIInput->GetMouseWheelDelta()
 	);
-	m_camera.Update(elapsedTime);
+	m_camera->Update(elapsedTime);
 	m_pCameraScreen->UpdateViewMatrix();
 }
 
@@ -154,10 +160,10 @@ void SampleScene::AcceptMessage(const std::string& message)
 	if (message == "WindowSizeChanged")
 	{
 		// 出力サイズ
-		const Math::Vector2& outputSize = GetContext().GetIWindowController().GetOutputSize();
+		const Math::Vector2& outputSize = GetContext().GetPIWindowController()->GetOutputSize();
 		// プロジェクション行列を設定
 		m_pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
 		// キャンバスのサイズを設定
-		m_canvas.GetComponent<Renderings::Canvas>()->SetSize(outputSize);
+		m_canvas->GetComponent<Renderings::Canvas>()->SetSize(outputSize);
 	}
 }

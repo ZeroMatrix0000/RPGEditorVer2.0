@@ -1,14 +1,13 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/14
  *
  * タイトルシーン
  */
 
 #pragma once
 
-#include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Scenes/Scene.h"
 
 namespace Renderings
@@ -54,7 +53,7 @@ private:
 	Renderings::Canvas* m_pCanvas;
 
 	// 選択メニュー
-	GameObject m_selectMenu;
+	std::unique_ptr<GameObject> m_selectMenu;
 	// 選択メニューコンポーネント
 	SelectMenu* m_pSelectMenu;
 

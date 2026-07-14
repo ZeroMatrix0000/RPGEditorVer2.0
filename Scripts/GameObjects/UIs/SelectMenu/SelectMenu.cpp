@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/14
  *
  * 選択メニュー
  */
@@ -11,6 +11,7 @@
 
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
+#include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/RectTransform.h"
 
 // コンストラクタ
@@ -31,7 +32,7 @@ SelectMenu::SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner)
 // 初期化処理
 void SelectMenu::Initialize
 (
-	const IComponentManager&  iComponentManager,
+	IComponentManager*        pIComponentManager,
 	float                     width,
 	const Math::Color&        color,
 	const Math::Vector2&      position,
@@ -49,11 +50,12 @@ void SelectMenu::Initialize
 	// カーソルの左右の揺れ
 	m_cursorSwayTimer.Initialize(0.0f, 0.0f, CURSOR_SWAY_TIME);
 
-	auto* pImage = m_cursor.AddComponent<Renderings::Image>(iComponentManager);
+	m_cursor = std::make_unique<GameObject>(pIComponentManager);
+	auto* pImage = m_cursor->AddComponent<Renderings::Image>();
 	pImage->SetImageSourceName("MenuRight");
 	pImage->SetColor(color);
 	pImage->SetCanvas(canvas);
-	m_pCursorRectTransform = m_cursor.AddComponent<RectTransform>(iComponentManager);
+	m_pCursorRectTransform = m_cursor->AddComponent<RectTransform>();
 	m_pCursorRectTransform->SetPosition(position);
 	m_pCursorRectTransform->SetAnchor(anchor);
 	m_pCursorRectTransform->SetSize(pImage->GetSize() / 2.0f);
@@ -78,22 +80,22 @@ void SelectMenu::Update(float elapsedTime)
 	};
 
 	// カーソルの位置を変更
-	m_pCursorRectTransform->SetPosition(m_basePosition + Math::Vector2{-m_width / 2.0f, 0.0f} + cursorDelay);
+	m_pCursorRectTransform->SetPosition(m_basePosition + Math::Vector2{ -m_width / 2.0f, 0.0f } + cursorDelay);
 }
 
 // 選択肢を追加
-void SelectMenu::AddOption(const IComponentManager& iComponentManager, const std::wstring& str, const std::function<void()>& Process)
+void SelectMenu::AddOption(IComponentManager* pIComponentManager, const std::wstring& str, const std::function<void()>& Process)
 {
-	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>();
-	auto* pText = gameObject->AddComponent<Renderings::Text>(iComponentManager);
+	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(pIComponentManager);
+	auto* pText = gameObject->AddComponent<Renderings::Text>();
 	pText->SetStr(str);
 	pText->SetFontName(L"GenEi M Gothic v2");
 	pText->SetFontSize(40.0f);
-	pText->SetFontColor(m_cursor.GetComponent<Renderings::Image>()->GetColor());
+	pText->SetFontColor(m_cursor->GetComponent<Renderings::Image>()->GetColor());
 	pText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 	pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-	pText->SetCanvas(*m_cursor.GetComponent<Renderings::Image>()->GetPCanvas());
-	auto* pRectTransform = gameObject->AddComponent<RectTransform>(iComponentManager);
+	pText->SetCanvas(*m_cursor->GetComponent<Renderings::Image>()->GetPCanvas());
+	auto* pRectTransform = gameObject->AddComponent<RectTransform>();
 	pRectTransform->SetPosition(m_basePosition + Math::Vector2{ 0.0f, HEIGHT + INTERVAL } * static_cast<float>(m_texts.size()));
 	pRectTransform->SetAnchor(m_pCursorRectTransform->GetAnchor());
 	pRectTransform->SetSize(Math::Vector2{ m_width, HEIGHT });
