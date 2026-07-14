@@ -23,6 +23,9 @@ namespace Renderings
 namespace GameObjects
 {
 	class GameObject;
+}
+namespace Components
+{
 	class IComponentManager;
 }
 class DebugCamera;

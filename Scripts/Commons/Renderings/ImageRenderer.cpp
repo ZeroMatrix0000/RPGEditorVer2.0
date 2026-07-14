@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/14
  *
  * 画像描画
  */
@@ -14,7 +14,7 @@
 #include "Canvas.h"
 #include "../Systems/IResources.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/RectTransform.h"
+#include "../Components/RectTransform.h"
 
 // コンストラクタ
 Renderings::ImageRenderer::ImageRenderer(const Systems::IResources& iResources)
@@ -56,10 +56,6 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 
 	// モデルの所有者の2Dトランスフォーム
 	const RectTransform* pRectTransform = pImage->GetPOwner()->GetConstComponent<RectTransform>();
-	if (!pRectTransform)
-	{
-		return;
-	}
 
 	// モデルが映るキャンバス
 	const Canvas* pCanvas = pImage->GetPCanvas();

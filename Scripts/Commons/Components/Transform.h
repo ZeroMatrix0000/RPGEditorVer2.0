@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * トランスフォーム
  */
@@ -10,7 +10,7 @@
 
 #include "Component.h"
 
-namespace GameObjects
+namespace Components
 {
 	// トランスフォーム
 	class Transform : public Component

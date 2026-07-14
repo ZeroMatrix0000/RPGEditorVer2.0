@@ -128,3 +128,6 @@ using namespace Libraries;
 
 namespace GameObjects {}
 using namespace GameObjects;
+
+namespace Components {}
+using namespace Components;

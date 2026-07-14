@@ -18,6 +18,7 @@ GameObjects::GameObjectManager::GameObjectManager(const Systems::IResources& iRe
 	: IGameObjectManager{}
 	, m_AddComponentList{}
 	, m_nullReference{}
+	, m_pGameObjects{}
 	, m_pIComponentManager{}
 	, m_refIResources{ iResources }
 {
@@ -30,19 +31,15 @@ void GameObjects::GameObjectManager::Initialize(IComponentManager* pIComponentMa
 	m_pIComponentManager = pIComponentManager;
 }
 
-// ゲームオブジェクトを読み込む
-void GameObjects::GameObjectManager::Load
-(
-	const std::string& jsonName,
-	std::unordered_map<std::string, std::unique_ptr<GameObject>>* pGameObjects
-) const
+// 管理するゲームオブジェクトのポインタを設定
+void GameObjects::GameObjectManager::SetPGameObjects(std::vector<std::unique_ptr<GameObject>>* pGameObjects)
 {
-	if (!pGameObjects)
-	{
-		return;
-	}
-	pGameObjects->clear();
+	m_pGameObjects = pGameObjects;
+}
 
+// ゲームオブジェクトを読み込む
+void GameObjects::GameObjectManager::Load(const std::string& jsonName) const
+{
 	// Json
 	const auto* json = m_refIResources.GetJson(jsonName);
 	if (!json)
@@ -56,38 +53,25 @@ void GameObjects::GameObjectManager::Load
 		// 文字列型ならPrefabから生成
 		if (element.value().is_string())
 		{
-			// Json
-			const auto* newJson = m_refIResources.GetJson(element.value());
-			if (!newJson)
-			{
-				continue;
-			}
-			std::unique_ptr<GameObject> gameObject = Create(element.value());
-			if (gameObject)
-			{
-				pGameObjects->emplace(element.key(), std::move(gameObject));
-			}
+			Instantiate(element.value().get<std::string>());
 		}
 		else
 		{
 			std::unique_ptr<GameObject> gameObject = Create(element.value());
+			gameObject->SetName(element.key());
 			if (gameObject)
 			{
-				pGameObjects->emplace(element.key(), std::move(gameObject));
+				m_pGameObjects->push_back(std::move(gameObject));
 			}
 		}
 	}
 }
 
 // ゲームオブジェクトを名前で検索
-GameObject* GameObjects::GameObjectManager::FindGameObject
-(
-	const std::string& name,
-	const std::unordered_map<std::string, std::unique_ptr<GameObject>>& gameObjects
-) const
+GameObject* GameObjects::GameObjectManager::Find(const std::string& name) const
 {
-	auto it = gameObjects.find(name);
-	if (it == gameObjects.end())
+	auto it = std::ranges::find_if(*m_pGameObjects, [&](const std::unique_ptr<GameObject>& gameObject) {return gameObject->GetName() == name; });
+	if (it == m_pGameObjects->end())
 	{
 		// エラーメッセージを追加
 		Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
@@ -99,8 +83,26 @@ GameObject* GameObjects::GameObjectManager::FindGameObject
 	}
 	else
 	{
-		return it->second.get();
+		return it->get();
 	}
+}
+
+// ゲームオブジェクトを生成
+GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonName) const
+{
+	// Json
+	const auto* json = m_refIResources.GetJson(jsonName);
+	if (!json)
+	{
+		return m_nullReference.get();
+	}
+
+	// ゲームオブジェクト
+	std::unique_ptr<GameObject> gameObject = Create(*json);
+	// ポインタ
+	GameObject* pGameObject = gameObject.get();
+	pGameObject->SetName(jsonName);
+	m_pGameObjects->push_back(std::move(gameObject));
 }
 
 // ゲームオブジェクトを作成

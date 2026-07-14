@@ -8,15 +8,12 @@
 
 #pragma once
 
-#include "../Systems/OnlyOne.h"
+#include "IIGameObjectManager.h"
 
 namespace GameObjects
 {
-	class IComponentManager;
-	class GameObject;
-
 	// ゲームオブジェクト管理のインタフェース
-	class IGameObjectManager : public Systems::OnlyOne
+	class IGameObjectManager : public IIGameObjectManager
 	{
 
 	public:
@@ -26,23 +23,15 @@ namespace GameObjects
 
 		// コンストラクタ
 		IGameObjectManager()
-			: OnlyOne{ typeid(IGameObjectManager) }
+			: IIGameObjectManager{}
 		{
 		}
 
-		// ゲームオブジェクトを読み込む
-		virtual void Load
-		(
-			const std::string& jsonName,
-			std::unordered_map<std::string, std::unique_ptr<GameObject>>* pGameObjects
-		) const = 0;
+		// 管理するゲームオブジェクトのポインタを設定
+		virtual void SetPGameObjects(std::vector<std::unique_ptr<GameObject>>* pGameObjects) = 0;
 
-		// ゲームオブジェクトを名前で検索
-		virtual GameObject* FindGameObject
-		(
-			const std::string& name,
-			const std::unordered_map<std::string, std::unique_ptr<GameObject>>& gameObjects
-		) const = 0;
+		// ゲームオブジェクトを読み込む
+		virtual void Load(const std::string& jsonName) const = 0;
 
 	};
 }

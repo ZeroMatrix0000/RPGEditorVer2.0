@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * コンポーネント管理
  */
@@ -11,7 +11,7 @@
 #include "IComponentManager.h"
 #include "ComponentCreatePermit.h"
 
-namespace GameObjects
+namespace Components
 {
 	// コンポーネント管理
 	class ComponentManager : public IComponentManager

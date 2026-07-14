@@ -33,6 +33,18 @@ namespace GameObjects
 		// 初期化処理
 		void Initialize(IComponentManager* pIComponentManager);
 
+		// 管理するゲームオブジェクトのポインタを設定
+		void SetPGameObjects(std::vector<std::unique_ptr<GameObject>>* pGameObjects) override;
+
+		// ゲームオブジェクトを読み込む
+		void Load(const std::string& jsonName) const override;
+
+		// ゲームオブジェクトを名前で検索
+		GameObject* Find(const std::string& name) const override;
+
+		// ゲームオブジェクトを生成
+		GameObject* Instantiate(const std::string& jsonName) const override;
+
 		// コンポーネントを追加関数を追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		void RegisterAdd(const std::string& componentName)
@@ -46,20 +58,6 @@ namespace GameObjects
 				}
 			);
 		}
-
-		// ゲームオブジェクトを読み込む
-		void Load
-		(
-			const std::string& jsonName,
-			std::unordered_map<std::string, std::unique_ptr<GameObject>>* pGameObjects
-		) const override;
-
-		// ゲームオブジェクトを名前で検索
-		GameObject* FindGameObject
-		(
-			const std::string& name,
-			const std::unordered_map<std::string, std::unique_ptr<GameObject>>& gameObjects
-		) const override;
 
 
 	private:
@@ -78,6 +76,9 @@ namespace GameObjects
 
 		// 未参照ゲームオブジェクト
 		std::unique_ptr<GameObject> m_nullReference;
+
+		// 管理するゲームオブジェクトリストのポインタ
+		std::vector<std::unique_ptr<GameObject>>* m_pGameObjects;
 
 		// コンポーネント管理のポインタ
 		IComponentManager* m_pIComponentManager;

@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentCreateInfo.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/14
  *
  * コンポーネント作成許可証
  */
@@ -10,7 +10,7 @@
 
 #include "../Systems/OnlyOne.h"
 
-namespace GameObjects
+namespace Components
 {
 	// コンポーネント作成許可証
 	class ComponentCreatePermit : public Systems::OnlyOne

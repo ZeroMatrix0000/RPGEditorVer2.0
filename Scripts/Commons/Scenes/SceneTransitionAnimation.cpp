@@ -12,8 +12,8 @@
 #include "../Renderings/Canvas.h"
 #include "../Renderings/Image.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/RectTransform.h"
-#include "../GameObjects/IComponentManager.h"
+#include "../Components/RectTransform.h"
+#include "../Components/IComponentManager.h"
 
 // コンストラクタ
 Scenes::SceneTransitionAnimation::SceneTransitionAnimation()

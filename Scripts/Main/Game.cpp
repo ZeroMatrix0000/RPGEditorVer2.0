@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  *
  * ゲーム
  */
@@ -16,7 +16,7 @@
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
-#include "Scripts/Commons/GameObjects/RectTransform.h"
+#include "Scripts/Commons/Components/RectTransform.h"
 
 // コンストラクタ
 Game::Game()
@@ -226,6 +226,10 @@ void Game::RegisterComponents()
 		return std::make_unique<Colliders::SphereCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
 	});
 
+	// 2D用トランスフォーム
+	m_gameObjectManager.RegisterAdd<RectTransform>("RectTransform");
+	// 画像
+	m_gameObjectManager.RegisterAdd<Renderings::Image>("Image");
 	// キャンバス
 	m_gameObjectManager.RegisterAdd<Renderings::Canvas>("Canvas");
 }

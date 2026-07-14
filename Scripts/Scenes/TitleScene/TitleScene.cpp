@@ -13,6 +13,7 @@
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
+#include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectManager.h"
 #include "Scripts/Main/GameContext.h"
@@ -37,14 +38,20 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	// 出力サイズ
 	const Math::Vector2& outputSize = gameContext.GetPIWindowController()->GetOutputSize();
 
-	// コンポーネント工場
+	// コンポーネント管理
 	auto* pIComponentManager = gameContext.GetPIComponentManager();
+	// ゲームオブジェクト管理
+	auto* pIGameObjectManager = gameContext.GetPIGameObjectManager();
 
-	gameContext.GetPIGameObjectManager()->Load("Scene_Title", GetPGameObjects());
+	pIGameObjectManager->SetPGameObjects(GetPGameObjects());
+	pIGameObjectManager->Load("Scene_Title");
 
 	// キャンバスを取得
-	m_pCanvas = gameContext.GetPIGameObjectManager()->FindGameObject("Canvas", *GetPGameObjects())->GetComponent<Renderings::Canvas>();
+	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
 	m_pCanvas->SetSize(outputSize);
+
+	// 選択メニューカーソル
+	pIGameObjectManager->Find("TitleMenuCursor")->GetComponent<Renderings::Image>()->SetCanvas(*m_pCanvas);
 
 	// 選択メニューを作成
 	m_selectMenu = SelectMenuFactory::Create

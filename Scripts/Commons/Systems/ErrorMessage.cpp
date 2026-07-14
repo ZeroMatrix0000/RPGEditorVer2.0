@@ -10,7 +10,7 @@
 #include "ErrorMessage.h"
 
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/RectTransform.h"
+#include "../Components/RectTransform.h"
 #include "../Renderings/Text.h"
 #include "../Renderings/Canvas.h"
 

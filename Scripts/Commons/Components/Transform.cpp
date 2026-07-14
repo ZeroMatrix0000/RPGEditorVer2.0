@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/02
+ * Last Updated: 2026/07/14
  *
  * トランスフォーム
  */
@@ -9,7 +9,7 @@
 #include "Pch.h"
 #include "Transform.h"
 
-GameObjects::Transform::Transform(const ComponentCreatePermit& permit, GameObject* pOwner)
+Components::Transform::Transform(const ComponentCreatePermit& permit, GameObject* pOwner)
 	: Component{ permit, pOwner }
 	, m_position{ Math::Vector3::Zero }
 	, m_rotation{ Math::Quaternion::Identity }
@@ -18,7 +18,7 @@ GameObjects::Transform::Transform(const ComponentCreatePermit& permit, GameObjec
 }
 
 // ワールド行列を作成
-Math::Matrix GameObjects::Transform::CreateWorldMatrix() const
+Math::Matrix Components::Transform::CreateWorldMatrix() const
 {
 	return Math::Matrix::CreateScale(m_scale) * Math::Matrix::CreateFromQuaternion(m_rotation) * Math::Matrix::CreateTranslation(m_position);
 }

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../GameObjects/Component.h"
+#include "../Components/Component.h"
 
 namespace Renderings
 {

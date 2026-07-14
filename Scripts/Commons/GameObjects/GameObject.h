@@ -8,11 +8,15 @@
 
 #pragma once
 
-#include "IComponentManager.h"
+#include "../Components/IComponentManager.h"
+
+namespace Components
+{
+	class Component;
+}
 
 namespace GameObjects
 {
-	class Component;
 
 	// ゲームオブジェクト
 	class GameObject
@@ -28,6 +32,12 @@ namespace GameObjects
 
 		// 更新処理
 		void Update(float elapsedTime);
+
+		// 名前を設定
+		void SetName(const std::string& name) { m_name = name; }
+
+		// 名前を取得
+		const std::string& GetName() const { return m_name; }
 
 		// コンポーネントを取得
 		template<typename TComponent> requires IsDerived<TComponent, Component>
@@ -65,6 +75,9 @@ namespace GameObjects
 
 
 		/* メンバ変数 */
+
+		// 名前
+		std::string m_name;
 
 		// コンポーネント
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components;

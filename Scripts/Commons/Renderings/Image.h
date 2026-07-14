@@ -1,14 +1,14 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/14
  *
  * 画像
  */
 
 #pragma once
 
-#include "../GameObjects/Component.h"
+#include "../Components/Component.h"
 
 namespace Renderings
 {
@@ -28,6 +28,9 @@ namespace Renderings
 		Image(const ComponentCreatePermit& permit, GameObject* pOwner, IImageRenderer* pIImageRenderer);
 		// デストラクタ
 		~Image();
+
+		// 初期化処理
+		void Initalize(const nlohmann::ordered_json& json) override;
 
 		// 画像ソース名を設定
 		void SetImageSourceName(const std::string& imageSourceName) { m_imageSourceName = imageSourceName; }

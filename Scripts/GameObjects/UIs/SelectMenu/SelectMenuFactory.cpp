@@ -11,7 +11,7 @@
 
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Renderings/Image.h"
-#include "Scripts/Commons/GameObjects/RectTransform.h"
+#include "Scripts/Commons/Components/RectTransform.h"
 #include "SelectMenu.h"
 
 // 選択メニューを作成

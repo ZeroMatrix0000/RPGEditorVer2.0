@@ -12,7 +12,7 @@
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
-#include "Scripts/Commons/GameObjects/RectTransform.h"
+#include "Scripts/Commons/Components/RectTransform.h"
 
 // コンストラクタ
 SelectMenu::SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner)
@@ -26,6 +26,11 @@ SelectMenu::SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner)
 	, m_selectNumber{}
 	, m_cursorDelayY{}
 	, m_cursorSwayTimer{}
+{
+}
+
+// 初期化処理
+void SelectMenu::Initalize(const nlohmann::ordered_json& json)
 {
 }
 
@@ -106,6 +111,10 @@ void SelectMenu::AddOption(IComponentManager* pIComponentManager, const std::wst
 // 上の項目を選択
 void SelectMenu::SelectUp()
 {
+	if (m_texts.size() == 0)
+	{
+		return;
+	}
 	m_selectNumber = (m_selectNumber + m_texts.size() - 1) % static_cast<int>(m_texts.size());
 	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), CURSOR_MOVE_TIME, Easing::Type::Expo, Easing::InOut::Out);
 }
@@ -113,6 +122,10 @@ void SelectMenu::SelectUp()
 // 下の項目を選択
 void SelectMenu::SelectDown()
 {
+	if (m_texts.size() == 0)
+	{
+		return;
+	}
 	m_selectNumber = (m_selectNumber + 1) % static_cast<int>(m_texts.size());
 	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), CURSOR_MOVE_TIME, Easing::Type::Expo, Easing::InOut::Out);
 }
@@ -120,5 +133,9 @@ void SelectMenu::SelectDown()
 // 実行
 void SelectMenu::Execute()
 {
+	if (m_texts.size() == 0)
+	{
+		return;
+	}
 	m_Processes.at(m_selectNumber)();
 }

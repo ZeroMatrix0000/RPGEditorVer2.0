@@ -20,6 +20,8 @@ namespace Libraries
 			return magic_enum::enum_cast<TEnum>(json.get<std::string>()).value();
 		}
 
+		// Json -> Color
+		Math::Color Json2Color(const nlohmann::ordered_json& json);
 		// Json -> Vector2
 		Math::Vector2 Json2Vector2(const nlohmann::ordered_json& json);
 	}

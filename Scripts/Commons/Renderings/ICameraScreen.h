@@ -1,14 +1,14 @@
 /*
  * FileName:     ICameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * カメラ画面のインタフェース
  */
 
 #pragma once
 
-#include "../GameObjects/Component.h"
+#include "../Components/Component.h"
 
 namespace Renderings
 {

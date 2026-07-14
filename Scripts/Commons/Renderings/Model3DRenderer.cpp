@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * 3Dモデル描画
  */
@@ -12,7 +12,7 @@
 #include "Model3D.h"
 #include "ICameraScreen.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/Transform.h"
+#include "../Components/Transform.h"
 #include "../Systems/IResources.h"
 
  // コンストラクタ
@@ -46,10 +46,6 @@ void Renderings::Model3DRenderer::Render()
 
 		// モデルの所有者のトランスフォーム
 		const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
-		if (!pTransform)
-		{
-			continue;
-		}
 
 		// カメラ画面
 		for (const auto* pICameraScreen : pModel->GetPICameraScreens())

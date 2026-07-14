@@ -12,7 +12,7 @@
 #include "Text.h"
 #include "Canvas.h"
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/RectTransform.h"
+#include "../Components/RectTransform.h"
 #include "../Systems/IErrorMessage.h"
 
 // コンストラクタ

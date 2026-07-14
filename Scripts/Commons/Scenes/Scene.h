@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../GameObjects/Component.h"
+#include "../Components/Component.h"
 
 namespace Scenes
 {
@@ -45,7 +45,7 @@ namespace Scenes
 		/* メンバ関数 */
 
 		// ゲームオブジェクトリストを取得
-		std::unordered_map<std::string, std::unique_ptr<GameObject>>* GetPGameObjects() { return &m_gameObjects; }
+		std::vector<std::unique_ptr<GameObject>>* GetPGameObjects() { return &m_gameObjects; }
 
 		// コンテキストを取得
 		const TContext& GetContext() const { return *m_pContext; }
@@ -57,7 +57,7 @@ namespace Scenes
 		/* メンバ変数 */
 
 		// ゲームオブジェクトリスト
-		std::unordered_map<std::string, std::unique_ptr<GameObject>> m_gameObjects;
+		std::vector<std::unique_ptr<GameObject>> m_gameObjects;
 
 		// コンテキストのポインタ
 		const TContext* m_pContext;

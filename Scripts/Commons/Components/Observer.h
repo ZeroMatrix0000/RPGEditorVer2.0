@@ -1,14 +1,14 @@
 /*
  * FileName:     Observer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/14
  *
  * メッセージを受け取るクラス
  */
 
 #pragma once
 
-namespace GameObjects
+namespace Components
 {
 	// メッセージを受け取るクラス
 	class Observer

@@ -18,8 +18,11 @@ namespace Systems
 }
 namespace GameObjects
 {
-	class IComponentManager;
 	class IGameObjectManager;
+}
+namespace Components
+{
+	class IComponentManager;
 }
 namespace Scenes
 {

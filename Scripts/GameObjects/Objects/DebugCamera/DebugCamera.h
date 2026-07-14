@@ -1,7 +1,7 @@
 /*
  * FileName:     DebugCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * デバッグ用カメラ
  */
@@ -9,7 +9,7 @@
 #pragma once
 
 #include "DebugCameraInternals.h"
-#include "Scripts/Commons/GameObjects/Component.h"
+#include "Scripts/Commons/Components/Component.h"
 #include "Scripts/Commons/Systems/State.h"
 
 // デバッグ用カメラ

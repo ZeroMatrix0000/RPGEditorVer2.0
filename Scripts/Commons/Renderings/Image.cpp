@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/14
  *
  * 画像
  */
@@ -29,6 +29,32 @@ Renderings::Image::~Image()
 {
 	// 画像描画からポインタを削除
 	m_pIImageRenderer->RemovePImage(this);
+}
+
+// 初期化処理
+void Renderings::Image::Initalize(const nlohmann::ordered_json& json)
+{
+	// 要素ごとにループ
+	for (const auto& element : json.items())
+	{
+		const std::string& key = element.key();
+		if (key == "ImageSourceName")
+		{
+			SetImageSourceName(element.value().get<std::string>());
+		}
+		else if (key == "Color")
+		{
+			SetColor(JsonSerializer::Json2Color(element.value()));
+		}
+		else if (key == "OrderInLayer")
+		{
+			SetOrderInLayer(element.value().get<int>());
+		}
+		else
+		{
+			Utility::Throw();
+		}
+	}
 }
 
 // 画像サイズを取得

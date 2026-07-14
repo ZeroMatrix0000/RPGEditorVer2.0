@@ -9,11 +9,12 @@
 #include "Pch.h"
 #include "GameObject.h"
 
-#include "Component.h"
+#include "../Components/Component.h"
 
 // コンストラクタ
 GameObjects::GameObject::GameObject(IComponentManager* pIComponentManager)
-	: m_components{}
+	: m_name{}
+	, m_components{}
 	, m_pIComponentManager{ pIComponentManager }
 {
 }

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "Scripts/Commons/GameObjects/Component.h"
+#include "Scripts/Commons/Components/Component.h"
 
 namespace Renderings
 {
@@ -16,9 +16,12 @@ namespace Renderings
 }
 namespace GameObjects
 {
-	class IComponentManager;
 	class GameObject;
+}
+namespace Components
+{
 	class RectTransform;
+	class IComponentManager;
 }
 
  // 選択メニュー
@@ -33,6 +36,8 @@ public:
 	// コンストラクタ
 	SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner);
 
+	// 初期化処理
+	void Initalize(const nlohmann::ordered_json& json) override;
 	// 初期化処理
 	void Initialize
 	(

@@ -1,14 +1,14 @@
 /*
  * FileName:     BoxCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * 長方形の当たり判定
  */
 
 #pragma once
 
-#include "../GameObjects/Component.h"
+#include "../Components/Component.h"
 
 namespace Renderings
 {

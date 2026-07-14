@@ -1,7 +1,7 @@
 /*
  * FileName:     BoxCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/14
  *
  * 長方形の当たり判定
  */
@@ -10,7 +10,7 @@
 #include "BoxCollider.h"
 
 #include "../GameObjects/GameObject.h"
-#include "../GameObjects/Transform.h"
+#include "../Components/Transform.h"
 #include "../Renderings/ColliderRenderer.h"
 
 // コンストラクタ
