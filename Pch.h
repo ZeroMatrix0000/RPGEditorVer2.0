@@ -1,7 +1,7 @@
 /*
  * FileName:     Pch.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/14
  * 
  * プリコンパイル済みヘッダファイル
  */
@@ -55,7 +55,9 @@
 #include <sstream>
 
 // Json
-#include <nlohmann/json.hpp>
+#include "nlohmann/json.hpp"
+// 列挙型
+#include "magic_enum/magic_enum.hpp"
 
 // DirectXTK
 #include "BufferHelpers.h"
@@ -120,6 +122,9 @@ concept IsSame = (std::same_as<T, Args> || ...);
 // メッシュ
 #include "Scripts/Commons/Libraries/Mesh.h"
 using namespace Libraries;
+
+// Jsonのシリアライズ
+#include "Scripts/Commons/Libraries/JsonSerializer.h"
 
 namespace GameObjects {}
 using namespace GameObjects;

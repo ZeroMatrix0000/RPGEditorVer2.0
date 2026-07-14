@@ -3,5 +3,8 @@
 		"Canvas": {
 			"FixedSize": "Vertical"
 		}
+	},
+	"MainMenu": {
+
 	}
 }

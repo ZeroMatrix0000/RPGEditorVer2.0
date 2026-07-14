@@ -1,7 +1,7 @@
 /*
  * FileName:     Utility.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/14
  *
  * 便利関数群
  */
@@ -26,6 +26,8 @@ namespace Libraries
 			BottomRight,
 		};
 
+		// 例外処理
+		void Throw();
 		// 条件を満たしたら例外処理
 		void ThrowIf(bool value);
 		// 失敗したら例外処理

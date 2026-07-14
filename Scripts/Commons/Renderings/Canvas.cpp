@@ -28,7 +28,23 @@ Renderings::Canvas::Canvas(const ComponentCreatePermit& permit, GameObject* pOwn
 // 初期化処理
 void Renderings::Canvas::Initalize(const nlohmann::ordered_json& json)
 {
-	m_fixedSize = FIXED_SIZE.at(json.at("FixedSize").get<std::string>());
+	// 要素ごとにループ
+	for (const auto& element : json.items())
+	{
+		const std::string& key = element.key();
+		if (key == "FixedSize")
+		{
+			m_fixedSize = JsonSerializer::Json2Enum<FixedSize>(element.value());
+		}
+		else if (key == "Size")
+		{
+			SetSize(JsonSerializer::Json2Vector2(element.value()));
+		}
+		else
+		{
+			Utility::Throw();
+		}
+	}
 }
 
 // 初期化処理

@@ -123,7 +123,22 @@ std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohman
 		}
 		// コンポーネントを追加
 		auto* component = it->second(gameObject.get());
-		component->Initalize(element.value());
+
+		try
+		{
+			// コンポーネントの初期化
+			component->Initalize(element.value());
+		}
+		catch (std::exception e)
+		{
+			// エラーメッセージを追加
+			Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+			(
+				L"コンポーネントの初期化に失敗しました。 | name: %s",
+				Utility::string2wstring(element.key()).c_str()
+			));
+			continue;
+		}
 	}
 	return gameObject;
 }

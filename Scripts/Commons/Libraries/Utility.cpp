@@ -1,12 +1,19 @@
 /*
  * FileName:     Utility.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/14
  *
  * 便利関数群
  */
 
 #include "Pch.h"
+#include "Utility.h"
+
+// 例外処理
+void Libraries::Utility::Throw()
+{
+	throw std::exception("Error!");
+}
 
 // 条件を満たしたら例外処理
 void Libraries::Utility::ThrowIf(bool value)
