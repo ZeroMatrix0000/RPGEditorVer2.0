@@ -493,6 +493,9 @@
     <ClInclude Include="Scripts\Commons\Components\Transform.h">
       <Filter>Scripts\Commons\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Commons\Components\ComponentDesc.h">
+      <Filter>Scripts\Commons\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

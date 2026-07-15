@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/15
  *
  * ゲームオブジェクト管理
  */
@@ -103,6 +103,7 @@ GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonN
 	GameObject* pGameObject = gameObject.get();
 	pGameObject->SetName(jsonName);
 	m_pGameObjects->push_back(std::move(gameObject));
+	return pGameObject;
 }
 
 // ゲームオブジェクトを作成

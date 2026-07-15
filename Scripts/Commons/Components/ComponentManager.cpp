@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/15
  *
  * コンポーネント管理
  */
@@ -33,7 +33,10 @@ void Components::ComponentManager::RegisterCreate
 	const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent
 )
 {
-	m_CreateComponentList.emplace(index, CreateComponent);
+	if (m_CreateComponentList.find(index) == m_CreateComponentList.end())
+	{
+		m_CreateComponentList.emplace(index, CreateComponent);
+	}
 }
 
 // 未参照コンポーネントを取得

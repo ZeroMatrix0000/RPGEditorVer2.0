@@ -203,6 +203,7 @@
     </None>
     <ClInclude Include="Scripts\Commons\Colliders\BoxCollider.h" />
     <ClInclude Include="Scripts\Commons\Colliders\SphereCollider.h" />
+    <ClInclude Include="Scripts\Commons\Components\ComponentDesc.h" />
     <ClInclude Include="Scripts\Commons\Components\ComponentManager.h" />
     <ClInclude Include="Scripts\Commons\Components\IComponentManager.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\IGameObjectManager.h" />
