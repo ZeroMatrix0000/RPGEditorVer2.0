@@ -1,7 +1,7 @@
 /*
  * FileName:     Canvas.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * カメラ画面
  */
@@ -33,10 +33,10 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Canvas(const ComponentCreatePermit& permit, GameObject* pOwner);
+		Canvas(const ComponentDesc& desc);
 
 		// 初期化処理
-		void Initalize(const nlohmann::ordered_json& json) override;
+		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 		// 初期化処理
 		void Initialize(FixedSize fixedSize, const Math::Vector2& outputSize);
 		

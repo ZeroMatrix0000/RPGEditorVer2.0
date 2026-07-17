@@ -1,7 +1,7 @@
 /*
  * FileName:     SphereCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 球の当たり判定
  */
@@ -28,7 +28,7 @@ namespace Colliders
 		/* メンバ関数 */
 
 		// コンストラクタ
-		SphereCollider(const ComponentCreatePermit& permit, GameObject* pOwner, Renderings::IColliderRenderer* pIColliderRenderer);
+		SphereCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer);
 		// デストラクタ
 		~SphereCollider();
 

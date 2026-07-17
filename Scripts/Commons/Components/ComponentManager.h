@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * コンポーネント管理
  */
@@ -11,8 +11,15 @@
 #include "IComponentManager.h"
 #include "ComponentCreatePermit.h"
 
+namespace GameObjects
+{
+	class GameObject;
+	class IGameObjectInstantiator;
+}
+
 namespace Components
 {
+
 	// コンポーネント管理
 	class ComponentManager : public IComponentManager
 	{
@@ -25,9 +32,12 @@ namespace Components
 		// コンストラクタ
 		ComponentManager();
 
+		// 初期化処理
+		void Initialize(IGameObjectInstantiator* pIGameObjectInstantiator);
+
 		// コンポーネント作成関数を追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
-		void RegisterCreate(const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent)
+		void RegisterCreate(const std::function<std::unique_ptr<Component>(const ComponentDesc&)>& CreateComponent)
 		{
 			m_CreateComponentList.emplace(typeid(TComponent), CreateComponent);
 		}
@@ -45,7 +55,7 @@ namespace Components
 		void RegisterCreate
 		(
 			const std::type_index& index,
-			const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent
+			const std::function<std::unique_ptr<Component>(const ComponentDesc&)>& CreateComponent
 		);
 
 		// 未参照コンポーネントを取得
@@ -58,10 +68,13 @@ namespace Components
 		ComponentCreatePermit m_permit;
 
 		// コンポーネント作成関数
-		std::unordered_map<std::type_index, std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>> m_CreateComponentList;
+		std::unordered_map<std::type_index, std::function<std::unique_ptr<Component>(const ComponentDesc&)>> m_CreateComponentList;
 
 		// 未参照コンポーネントリスト
 		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_nullReferences;
+
+		// ゲームオブジェクト生成インタフェースのポインタ
+		IGameObjectInstantiator* m_pIGameObjectInstantiator;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     Canvas.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/17
  *
  * カメラ画面
  */
@@ -17,8 +17,8 @@ const std::unordered_map<std::string, Renderings::Canvas::FixedSize> Renderings:
 };
 
 // コンストラクタ
-Renderings::Canvas::Canvas(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Component{ permit, pOwner }
+Renderings::Canvas::Canvas(const ComponentDesc& desc)
+	: Component{ desc }
 	, m_fixedSize{}
 	, m_size{}
 	, m_ratio{}
@@ -26,7 +26,7 @@ Renderings::Canvas::Canvas(const ComponentCreatePermit& permit, GameObject* pOwn
 }
 
 // 初期化処理
-void Renderings::Canvas::Initalize(const nlohmann::ordered_json& json)
+void Renderings::Canvas::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
 	// 要素ごとにループ
 	for (const auto& element : json.items())

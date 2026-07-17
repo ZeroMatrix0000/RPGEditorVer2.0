@@ -1,7 +1,7 @@
 /*
  * FileName:     DebugCamera.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/17
  *
  * デバッグ用カメラ
  */
@@ -12,8 +12,8 @@
 #include "State/DebugCameraStateIdle.h"
 
 // コンストラクタ
-DebugCamera::DebugCamera(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Component{ permit, pOwner }
+DebugCamera::DebugCamera(const ComponentDesc& desc)
+	: Component{ desc }
 	, m_internals{}
 	, m_currentState{}
 {

@@ -27,8 +27,8 @@
 #include "Scripts/Main/GameContext.h"
 
 // コンストラクタ
-SampleScene::SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Scene{ permit, pOwner }
+SampleScene::SampleScene(const ComponentDesc& desc)
+	: Scene{ desc }
 	, m_test3D{}
 	, m_test2D{}
 	, m_test2D2{}

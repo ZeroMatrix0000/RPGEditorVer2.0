@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * タイトルシーン
  */
@@ -21,8 +21,8 @@
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
-TitleScene::TitleScene(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Scene{ permit, pOwner }
+TitleScene::TitleScene(const ComponentDesc& desc)
+	: Scene{ desc }
 	, m_pCanvas{}
 	, m_selectMenu{}
 	, m_pSelectMenu{}
@@ -51,7 +51,7 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	m_pCanvas->SetSize(outputSize);
 
 	// 選択メニューカーソル
-	pIGameObjectManager->Find("TitleMenuCursor")->GetComponent<Renderings::Image>()->SetCanvas(*m_pCanvas);
+	//pIGameObjectManager->Find("TitleMenuCursor")->GetComponent<Renderings::Image>()->SetCanvas(*m_pCanvas);
 
 	// 選択メニューを作成
 	m_selectMenu = SelectMenuFactory::Create

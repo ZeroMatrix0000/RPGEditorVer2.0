@@ -1,0 +1,36 @@
+/*
+ * FileName:     IGameObjectInstantiator.h
+ * Author:       Takao Hayata
+ * Last Updated: 2026/07/17
+ *
+ * ゲームオブジェクト生成のインタフェース
+ */
+
+#pragma once
+
+#include "../Systems/OnlyOne.h"
+
+namespace GameObjects
+{
+	class GameObject;
+
+	// ゲームオブジェクト管理のインタフェース
+	class IGameObjectInstantiator : public Systems::OnlyOne
+	{
+
+	public:
+
+
+		/* メンバ関数 */
+
+		// コンストラクタ
+		IGameObjectInstantiator()
+			: OnlyOne{ typeid(IGameObjectInstantiator) }
+		{
+		}
+
+		// ゲームオブジェクトを生成
+		virtual GameObject* Instantiate(const std::string& jsonName) = 0;
+
+	};
+}

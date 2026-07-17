@@ -1,7 +1,7 @@
 /*
  * FileName:     BoxCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 長方形の当たり判定
  */
@@ -14,8 +14,8 @@
 #include "../Renderings/ColliderRenderer.h"
 
 // コンストラクタ
-Colliders::BoxCollider::BoxCollider(const ComponentCreatePermit& permit, GameObject* pOwner, Renderings::IColliderRenderer* pIColliderRenderer)
-	: Component{ permit, pOwner }
+Colliders::BoxCollider::BoxCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer)
+	: Component{ desc }
 	, m_box{}
 	, m_worldBox{}
 	, m_color{ DirectX::Colors::LightGreen }

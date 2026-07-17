@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentDesc.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/15
+ * Last Updated: 2026/07/17
  *
  * コンポーネント概要
  */
@@ -11,7 +11,7 @@
 namespace GameObjects
 {
 	class GameObject;
-	class IIGameObjectManager;
+	class IGameObjectInstantiator;
 }
 
 namespace Components
@@ -22,13 +22,22 @@ namespace Components
 	struct ComponentDesc
 	{
 
+		/* メンバ関数 */
+
+		// コンストラクタ
+		ComponentDesc(GameObject* pOwner, IGameObjectInstantiator* pIGameObjectInstantiator, const ComponentCreatePermit&)
+			: pOwner{ pOwner }
+			, pIGameObjectInstantiator{ pIGameObjectInstantiator }
+		{
+		}
+
+
 		/* メンバ変数 */
 
 		// 所有者のポインタ
 		GameObject* pOwner;
-		// コンポーネント作成許可証の参照
-		const ComponentCreatePermit& refPermit;
-
+		// ゲームオブジェクト生成インタフェース
+		IGameObjectInstantiator* pIGameObjectInstantiator;
 
 	};
 }

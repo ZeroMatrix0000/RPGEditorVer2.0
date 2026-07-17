@@ -1,7 +1,7 @@
 /*
  * FileName:     IComponentManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * コンポーネント管理のインタフェース
  */
@@ -11,14 +11,9 @@
 #include "Component.h"
 #include "../Systems/OnlyOne.h"
 
-namespace GameObjects
-{
-	class GameObject;
-}
-
 namespace Components
 {
-	class ComponentCreatePermit;
+	struct ComponentDesc;
 
 	// コンポーネント管理のインタフェース
 	class IComponentManager : public Systems::OnlyOne
@@ -44,15 +39,15 @@ namespace Components
 		// コンポーネントを作成（特殊化）
 		template<typename TComponent> requires
 			IsDerived<TComponent, Component> &&
-			std::constructible_from<TComponent, const ComponentCreatePermit&, GameObject*>
+			std::constructible_from<TComponent, const ComponentDesc&>
 		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr)
 		{
 			RegisterCreate
 			(
 				typeid(TComponent),
-				[](const ComponentCreatePermit& permit, GameObject* pOwner)
+				[](const ComponentDesc& desc)
 				{
-					return std::make_unique<TComponent>(permit, pOwner);
+					return std::make_unique<TComponent>(desc);
 				}
 			);
 			return Create(typeid(TComponent), pOwner);
@@ -79,7 +74,7 @@ namespace Components
 		virtual void RegisterCreate
 		(
 			const std::type_index& index,
-			const std::function<std::unique_ptr<Component>(ComponentCreatePermit, GameObject*)>& CreateComponent
+			const std::function<std::unique_ptr<Component>(const ComponentDesc&)>& CreateComponent
 		) = 0;
 
 		// 未参照コンポーネントを取得

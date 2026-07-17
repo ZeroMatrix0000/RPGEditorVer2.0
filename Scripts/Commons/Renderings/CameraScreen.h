@@ -1,7 +1,7 @@
 /*
  * FileName:     CameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/17
  *
  * カメラ画面
  */
@@ -31,8 +31,8 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		CameraScreen(const ComponentCreatePermit& permit, GameObject* pOwner)
-			: ICameraScreen{ permit, pOwner }
+		CameraScreen(const ComponentDesc& desc)
+			: ICameraScreen{ desc }
 			, m_camera{}
 			, m_view{}
 			, m_projection{}

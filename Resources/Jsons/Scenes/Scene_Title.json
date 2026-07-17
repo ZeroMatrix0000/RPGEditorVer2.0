@@ -4,5 +4,10 @@
 			"FixedSize": "Vertical"
 		}
 	},
-	"TitleMenu": {}
+	"TitleMenu": {
+		"Prefab": "Prefab_SelectMenu",
+		"SelectMenu": {
+			"Canvas": "Canvas"
+		}
+	}
 }

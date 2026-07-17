@@ -1,7 +1,7 @@
 /*
  * FileName:     BoxCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 長方形の当たり判定
  */
@@ -28,7 +28,7 @@ namespace Colliders
 		/* メンバ関数 */
 
 		// コンストラクタ
-		BoxCollider(const ComponentCreatePermit& permit, GameObject* pOwner, Renderings::IColliderRenderer* pIColliderRenderer);
+		BoxCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer);
 		// デストラクタ
 		~BoxCollider();
 

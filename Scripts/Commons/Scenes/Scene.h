@@ -1,7 +1,7 @@
 /*
  * FileName:     Scene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * シーン
  */
@@ -23,8 +23,8 @@ namespace Scenes
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Scene(const ComponentCreatePermit& permit, GameObject* pOwner)
-			: Component{ permit, pOwner }
+		Scene(const ComponentDesc& desc)
+			: Component{ desc }
 			, m_gameObjects{}
 			, m_pContext{}
 		{

@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 選択メニュー
  */
@@ -11,15 +11,17 @@
 
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
+#include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Components/RectTransform.h"
+#include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
 
 // コンストラクタ
-SelectMenu::SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Component{ permit, pOwner }
+SelectMenu::SelectMenu(const ComponentDesc& desc)
+	: Component{ desc }
 	, m_width{}
 	, m_basePosition{}
-	, m_cursor{}
+	, m_pCursorImage{}
 	, m_pCursorRectTransform{}
 	, m_texts{}
 	, m_Processes{}
@@ -30,8 +32,40 @@ SelectMenu::SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner)
 }
 
 // 初期化処理
-void SelectMenu::Initalize(const nlohmann::ordered_json& json)
+void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
+	if (m_pCursorImage == nullptr)
+	{
+		GameObject* pObj = Instantiate("Prefab_SelectMenuCursor");
+		m_pCursorImage = pObj->GetComponent<Renderings::Image>();
+		m_pCursorRectTransform = pObj->GetComponent<RectTransform>();
+	}
+
+	// 選択番号を初期化
+	m_selectNumber = 0;
+	// カーソルのY座標のズレ
+	m_cursorDelayY.SetMovement(0.0f, 0.0f);
+	// カーソルの左右の揺れ
+	m_cursorSwayTimer.Initialize(0.0f, 0.0f, CURSOR_SWAY_TIME);
+
+	// 要素ごとにループ
+	for (const auto& element : json.items())
+	{
+		const std::string& key = element.key();
+		if (key == "Width")
+		{
+			m_width = element.value().get<float>();
+		}
+		else if (key == "Canvas")
+		{
+			GameObject* pObj = pIGameObjectFinder->Find(element.value().get<std::string>());
+			m_pCursorImage->SetCanvas(*pObj->GetComponent<Renderings::Canvas>());
+		}
+		else
+		{
+			Utility::Throw();
+		}
+	}
 }
 
 // 初期化処理
@@ -55,15 +89,10 @@ void SelectMenu::Initialize
 	// カーソルの左右の揺れ
 	m_cursorSwayTimer.Initialize(0.0f, 0.0f, CURSOR_SWAY_TIME);
 
-	m_cursor = std::make_unique<GameObject>(pIComponentManager);
-	auto* pImage = m_cursor->AddComponent<Renderings::Image>();
-	pImage->SetImageSourceName("MenuRight");
-	pImage->SetColor(color);
-	pImage->SetCanvas(canvas);
-	m_pCursorRectTransform = m_cursor->AddComponent<RectTransform>();
-	m_pCursorRectTransform->SetPosition(position);
-	m_pCursorRectTransform->SetAnchor(anchor);
-	m_pCursorRectTransform->SetSize(pImage->GetSize() / 2.0f);
+	GameObject* pObj = Instantiate("Prefab_SelectMenuCursor");
+	m_pCursorImage = pObj->GetComponent<Renderings::Image>();
+	m_pCursorRectTransform = pObj->GetComponent<RectTransform>();
+	m_pCursorImage->SetCanvas(canvas);
 }
 
 // 更新処理
@@ -96,10 +125,10 @@ void SelectMenu::AddOption(IComponentManager* pIComponentManager, const std::wst
 	pText->SetStr(str);
 	pText->SetFontName(L"GenEi M Gothic v2");
 	pText->SetFontSize(40.0f);
-	pText->SetFontColor(m_cursor->GetComponent<Renderings::Image>()->GetColor());
+	pText->SetFontColor(m_pCursorImage->GetColor());
 	pText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 	pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-	pText->SetCanvas(*m_cursor->GetComponent<Renderings::Image>()->GetPCanvas());
+	pText->SetCanvas(*m_pCursorImage->GetPCanvas());
 	auto* pRectTransform = gameObject->AddComponent<RectTransform>();
 	pRectTransform->SetPosition(m_basePosition + Math::Vector2{ 0.0f, HEIGHT + INTERVAL } * static_cast<float>(m_texts.size()));
 	pRectTransform->SetAnchor(m_pCursorRectTransform->GetAnchor());

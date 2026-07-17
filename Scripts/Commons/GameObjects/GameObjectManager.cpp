@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/15
+ * Last Updated: 2026/07/17
  *
  * ゲームオブジェクト管理
  */
@@ -38,7 +38,7 @@ void GameObjects::GameObjectManager::SetPGameObjects(std::vector<std::unique_ptr
 }
 
 // ゲームオブジェクトを読み込む
-void GameObjects::GameObjectManager::Load(const std::string& jsonName) const
+void GameObjects::GameObjectManager::Load(const std::string& jsonName)
 {
 	// Json
 	const auto* json = m_refIResources.GetJson(jsonName);
@@ -50,19 +50,11 @@ void GameObjects::GameObjectManager::Load(const std::string& jsonName) const
 	// 要素ごとにループ
 	for (const auto& element : json->items())
 	{
-		// 文字列型ならPrefabから生成
-		if (element.value().is_string())
+		std::unique_ptr<GameObject> gameObject = Create(element.value());
+		gameObject->SetName(element.key());
+		if (gameObject)
 		{
-			Instantiate(element.value().get<std::string>());
-		}
-		else
-		{
-			std::unique_ptr<GameObject> gameObject = Create(element.value());
-			gameObject->SetName(element.key());
-			if (gameObject)
-			{
-				m_pGameObjects->push_back(std::move(gameObject));
-			}
+			m_pGameObjects->push_back(std::move(gameObject));
 		}
 	}
 }
@@ -88,7 +80,7 @@ GameObject* GameObjects::GameObjectManager::Find(const std::string& name) const
 }
 
 // ゲームオブジェクトを生成
-GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonName) const
+GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonName)
 {
 	// Json
 	const auto* json = m_refIResources.GetJson(jsonName);
@@ -107,11 +99,25 @@ GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonN
 }
 
 // ゲームオブジェクトを作成
-std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohmann::ordered_json& json) const
+std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohmann::ordered_json& json)
 {
 	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(m_pIComponentManager);
 	for (const auto& element : json.items())
 	{
+		// Prefab
+		if (element.key() == "Prefab" && element.value().is_string())
+		{
+			// Json
+			const auto* json = m_refIResources.GetJson(element.value().get<std::string>());
+			if (!json)
+			{
+				continue;
+			}
+
+			gameObject = Create(*json);
+			continue;
+		}
+
 		// コンポーネント追加関数
 		auto it = m_AddComponentList.find(element.key());
 		if (it == m_AddComponentList.end())
@@ -130,7 +136,7 @@ std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohman
 		try
 		{
 			// コンポーネントの初期化
-			component->Initalize(element.value());
+			component->Initalize(element.value(), this);
 		}
 		catch (std::exception e)
 		{

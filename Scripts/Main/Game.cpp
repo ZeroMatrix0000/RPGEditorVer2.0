@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/15
+ * Last Updated: 2026/07/17
  *
  * ゲーム
  */
@@ -10,6 +10,7 @@
 #include "Game.h"
 
 #include "Scripts/Scenes/Scenes.h"
+#include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
@@ -84,6 +85,8 @@ void Game::Initialize(const HWND& hWindow)
 	// 入力の初期化
 	m_input.Initialize();
 
+	// コンポーネント管理の初期化
+	m_componentManager.Initialize(&m_gameObjectManager);
 	// ゲームオブジェクト管理の初期化
 	m_gameObjectManager.Initialize(&m_componentManager);
 
@@ -200,30 +203,30 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 void Game::RegisterComponents()
 {
 	// 3Dモデル
-	m_componentManager.RegisterCreate<Renderings::Model3D>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Renderings::Model3D>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Renderings::Model3D>(permit, pOwner, &m_renderer.GetIModelRenderer());
+		return std::make_unique<Renderings::Model3D>(desc, &m_renderer.GetIModelRenderer());
 	});
 	// 画像
-	m_componentManager.RegisterCreate<Renderings::Image>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Renderings::Image>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Renderings::Image>(permit, pOwner, &m_renderer.GetIImageRenderer());
+		return std::make_unique<Renderings::Image>(desc, &m_renderer.GetIImageRenderer());
 	});
 	// テキスト
-	m_componentManager.RegisterCreate<Renderings::Text>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Renderings::Text>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Renderings::Text>(permit, pOwner, &m_renderer.GetITextRenderer());
+		return std::make_unique<Renderings::Text>(desc, &m_renderer.GetITextRenderer());
 	});
 
 	// 長方形の当たり判定
-	m_componentManager.RegisterCreate<Colliders::BoxCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Colliders::BoxCollider>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Colliders::BoxCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
+		return std::make_unique<Colliders::BoxCollider>(desc, &m_renderer.GetIColliderRenderer());
 	});
 	// 球の当たり判定
-	m_componentManager.RegisterCreate<Colliders::SphereCollider>([&](const ComponentCreatePermit& permit, GameObject* pOwner)
+	m_componentManager.RegisterCreate<Colliders::SphereCollider>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Colliders::SphereCollider>(permit, pOwner, &m_renderer.GetIColliderRenderer());
+		return std::make_unique<Colliders::SphereCollider>(desc, &m_renderer.GetIColliderRenderer());
 	});
 
 	// 2D用トランスフォーム
@@ -232,4 +235,6 @@ void Game::RegisterComponents()
 	m_gameObjectManager.RegisterAdd<Renderings::Image>("Image");
 	// キャンバス
 	m_gameObjectManager.RegisterAdd<Renderings::Canvas>("Canvas");
+	// キャンバス
+	m_gameObjectManager.RegisterAdd<SelectMenu>("SelectMenu");
 }

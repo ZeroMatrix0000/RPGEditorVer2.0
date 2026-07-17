@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/17
  *
  * 3Dモデル
  */
@@ -25,7 +25,7 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Model3D(const ComponentCreatePermit& permit, GameObject* pOwner, IModel3DRenderer* pIModelRenderer);
+		Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer);
 		// デストラクタ
 		~Model3D();
 

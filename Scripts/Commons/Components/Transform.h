@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * トランスフォーム
  */
@@ -22,7 +22,7 @@ namespace Components
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Transform(const ComponentCreatePermit& permit, GameObject* pOwner);
+		Transform(const ComponentDesc& desc);
 
 		// 座標を設定
 		void SetPosition(const Math::Vector3& position)    { m_position = position; }

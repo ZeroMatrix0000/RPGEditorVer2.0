@@ -1,7 +1,7 @@
 /*
  * FileName:     Component.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * コンポーネント
  */
@@ -13,11 +13,13 @@
 namespace GameObjects
 {
 	class GameObject;
+	class IGameObjectInstantiator;
+	class IGameObjectFinder;
 }
 
 namespace Components
 {
-	class ComponentCreatePermit;
+	struct ComponentDesc;
 
 	// コンポーネント
 	class Component : public Observer
@@ -29,21 +31,27 @@ namespace Components
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Component(const ComponentCreatePermit&, GameObject* pOwner)
-			: m_pOwner{ pOwner }
-		{
-		}
+		Component(const ComponentDesc& desc);
 		// デストラクタ
 		virtual ~Component() = default;
 
 		// TODO: 純粋仮想関数にする
 		// 初期化処理
-		virtual void Initalize(const nlohmann::ordered_json& json) {};
+		virtual void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) {};
 		// 更新処理
 		virtual void Update(float elapsedTime) {};
 
 		// 所有者を取得
 		const GameObject* GetPOwner() const { return m_pOwner; }
+
+
+	protected:
+
+
+		/* メンバ関数 */
+
+		// ゲームオブジェクトを生成
+		GameObject* Instantiate(const std::string& name) const;
 
 
 	private:
@@ -53,6 +61,9 @@ namespace Components
 
 		// 所有者のポインタ
 		GameObject* m_pOwner;
+
+		// ゲームオブジェクト生成インタフェース
+		IGameObjectInstantiator* m_pIGameObjectInstantiator;
 
 	};
 }

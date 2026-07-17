@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 画像
  */
@@ -10,10 +10,13 @@
 #include "Image.h"
 
 #include "IImageRenderer.h"
+#include "../GameObjects/IGameObjectFinder.h"
+#include "../GameObjects/GameObject.h"
+#include "../Renderings/Canvas.h"
 
 // コンストラクタ
-Renderings::Image::Image(const ComponentCreatePermit& permit, GameObject* pOwner, IImageRenderer* pIImageRenderer)
-	: Component{ permit, pOwner }
+Renderings::Image::Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer)
+	: Component{ desc }
 	, m_imageSourceName{}
 	, m_color{ DirectX::Colors::White }
 	, m_orderInLayer{}
@@ -32,7 +35,7 @@ Renderings::Image::~Image()
 }
 
 // 初期化処理
-void Renderings::Image::Initalize(const nlohmann::ordered_json& json)
+void Renderings::Image::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
 	// 要素ごとにループ
 	for (const auto& element : json.items())
@@ -49,6 +52,11 @@ void Renderings::Image::Initalize(const nlohmann::ordered_json& json)
 		else if (key == "OrderInLayer")
 		{
 			SetOrderInLayer(element.value().get<int>());
+		}
+		else if (key == "Canvas")
+		{
+			GameObject* pObj = pIGameObjectFinder->Find(element.value().get<std::string>());
+			SetCanvas(*pObj->GetComponent<Renderings::Canvas>());
 		}
 		else
 		{

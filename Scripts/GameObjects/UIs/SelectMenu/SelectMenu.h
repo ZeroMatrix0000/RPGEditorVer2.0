@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 選択メニュー
  */
@@ -13,6 +13,7 @@
 namespace Renderings
 {
 	class Canvas;
+	class Image;
 }
 namespace GameObjects
 {
@@ -34,10 +35,10 @@ public:
 	/* メンバ関数 */
 
 	// コンストラクタ
-	SelectMenu(const ComponentCreatePermit& permit, GameObject* pOwner);
+	SelectMenu(const ComponentDesc& desc);
 
 	// 初期化処理
-	void Initalize(const nlohmann::ordered_json& json) override;
+	void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 	// 初期化処理
 	void Initialize
 	(
@@ -92,7 +93,7 @@ private:
 	Math::Vector2 m_basePosition;
 
 	// カーソル
-	std::unique_ptr<GameObject> m_cursor;
+	Renderings::Image* m_pCursorImage;
 	// カーソルの2D用トランスフォーム
 	RectTransform* m_pCursorRectTransform;
 

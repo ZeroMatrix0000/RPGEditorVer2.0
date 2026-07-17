@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * サンプルシーン
  */
@@ -39,7 +39,7 @@ public:
 	/* メンバ関数 */
 
 	// コンストラクタ
-	SampleScene(const ComponentCreatePermit& permit, GameObject* pOwner);
+	SampleScene(const ComponentDesc& desc);
 
 	// 初期化処理
 	void Initialize(const SceneTransitionData& data) override;

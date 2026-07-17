@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/17
  *
  * テキスト
  */
@@ -25,7 +25,7 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Text(const ComponentCreatePermit& permit, GameObject* pOwner, ITextRenderer* pITextRenderer);
+		Text(const ComponentDesc& desc, ITextRenderer* pITextRenderer);
 		// デストラクタ
 		~Text();
 

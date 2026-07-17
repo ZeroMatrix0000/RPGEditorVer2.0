@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/17
  *
  * 3Dモデル
  */
@@ -11,8 +11,8 @@
 
 #include "IModel3DRenderer.h"
 
-Renderings::Model3D::Model3D(const ComponentCreatePermit& permit, GameObject* pOwner, IModel3DRenderer* pIModelRenderer)
-	: Component{ permit, pOwner }
+Renderings::Model3D::Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer)
+	: Component{ desc }
 	, m_modelSourceName{}
 	, m_pICameraScreens{}
 	, m_pIModelRenderer{ pIModelRenderer }

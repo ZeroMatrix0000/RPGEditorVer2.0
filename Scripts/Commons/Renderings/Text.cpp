@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/17
  *
  * テキスト
  */
@@ -12,8 +12,8 @@
 #include "ITextRenderer.h"
 
 // コンストラクタ
-Renderings::Text::Text(const ComponentCreatePermit& permit, GameObject* pOwner, ITextRenderer* pITextRenderer)
-	: Component{ permit, pOwner }
+Renderings::Text::Text(const ComponentDesc& desc, ITextRenderer* pITextRenderer)
+	: Component{ desc }
 	, m_str{ L"New Text" }
 	, m_fontName{}
 	, m_fontSize{}

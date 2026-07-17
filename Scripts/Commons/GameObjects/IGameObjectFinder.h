@@ -1,9 +1,9 @@
 /*
- * FileName:     IIGameObjectManager.h
+ * FileName:     IGameObjectFinder.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
- * ゲームオブジェクト管理インタフェースのインタフェース
+ * ゲームオブジェクト検索のインタフェース
  */
 
 #pragma once
@@ -15,7 +15,7 @@ namespace GameObjects
 	class GameObject;
 
 	// ゲームオブジェクト管理インタフェースのインタフェース
-	class IIGameObjectManager : public Systems::OnlyOne
+	class IGameObjectFinder : public Systems::OnlyOne
 	{
 
 	public:
@@ -24,16 +24,13 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// コンストラクタ
-		IIGameObjectManager()
-			: OnlyOne{ typeid(IIGameObjectManager) }
+		IGameObjectFinder()
+			: OnlyOne{ typeid(IGameObjectFinder) }
 		{
 		}
 
 		// ゲームオブジェクトを名前で検索
 		virtual GameObject* Find(const std::string& name) const = 0;
-
-		// ゲームオブジェクトを生成
-		virtual GameObject* Instantiate(const std::string& jsonName) const = 0;
 
 	};
 }

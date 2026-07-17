@@ -1,7 +1,7 @@
 /*
  * FileName:     RectTransform.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 2D用トランスフォーム
  */
@@ -10,8 +10,8 @@
 #include "RectTransform.h"
 
 // コンストラクタ
-Components::RectTransform::RectTransform(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Component{ permit, pOwner }
+Components::RectTransform::RectTransform(const ComponentDesc& desc)
+	: Component{ desc }
 	, m_rect{}
 	, m_angle{}
 	, m_pivot{ Utility::AlignmentPoint::MiddleCenter }
@@ -20,7 +20,7 @@ Components::RectTransform::RectTransform(const ComponentCreatePermit& permit, Ga
 }
 
 // 初期化処理
-void Components::RectTransform::Initalize(const nlohmann::ordered_json& json)
+void Components::RectTransform::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
 	// 要素ごとにループ
 	for (const auto& element : json.items())

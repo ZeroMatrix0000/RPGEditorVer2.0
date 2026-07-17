@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * 画像
  */
@@ -25,12 +25,12 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Image(const ComponentCreatePermit& permit, GameObject* pOwner, IImageRenderer* pIImageRenderer);
+		Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer);
 		// デストラクタ
 		~Image();
 
 		// 初期化処理
-		void Initalize(const nlohmann::ordered_json& json) override;
+		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
 		// 画像ソース名を設定
 		void SetImageSourceName(const std::string& imageSourceName) { m_imageSourceName = imageSourceName; }

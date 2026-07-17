@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * トランスフォーム
  */
@@ -9,8 +9,8 @@
 #include "Pch.h"
 #include "Transform.h"
 
-Components::Transform::Transform(const ComponentCreatePermit& permit, GameObject* pOwner)
-	: Component{ permit, pOwner }
+Components::Transform::Transform(const ComponentDesc& desc)
+	: Component{ desc }
 	, m_position{ Math::Vector3::Zero }
 	, m_rotation{ Math::Quaternion::Identity }
 	, m_scale{ Math::Vector3::One }

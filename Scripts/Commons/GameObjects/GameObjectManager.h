@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/17
  *
  * ゲームオブジェクト管理
  */
@@ -37,13 +37,13 @@ namespace GameObjects
 		void SetPGameObjects(std::vector<std::unique_ptr<GameObject>>* pGameObjects) override;
 
 		// ゲームオブジェクトを読み込む
-		void Load(const std::string& jsonName) const override;
+		void Load(const std::string& jsonName) override;
 
 		// ゲームオブジェクトを名前で検索
 		GameObject* Find(const std::string& name) const override;
 
 		// ゲームオブジェクトを生成
-		GameObject* Instantiate(const std::string& jsonName) const override;
+		GameObject* Instantiate(const std::string& jsonName) override;
 
 		// コンポーネントを追加関数を追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
@@ -66,7 +66,7 @@ namespace GameObjects
 		/* メンバ関数 */
 
 		// ゲームオブジェクトを作成
-		std::unique_ptr<GameObject> Create(const nlohmann::ordered_json& json) const;
+		std::unique_ptr<GameObject> Create(const nlohmann::ordered_json& json);
 
 
 		/* メンバ変数 */
