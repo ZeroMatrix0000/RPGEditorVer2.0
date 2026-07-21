@@ -48,14 +48,10 @@ void GameObjects::GameObjectManager::Load(const std::string& jsonName)
 	}
 
 	// 要素ごとにループ
-	for (const auto& element : json->items())
+	for (const auto& element : *json)
 	{
-		std::unique_ptr<GameObject> gameObject = Create(element.value());
-		gameObject->SetName(element.key());
-		if (gameObject)
-		{
-			m_pGameObjects->push_back(std::move(gameObject));
-		}
+		std::unique_ptr<GameObject> gameObject = Create(element);
+		m_pGameObjects->push_back(std::move(gameObject));
 	}
 }
 
@@ -90,10 +86,11 @@ GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonN
 	}
 
 	// ゲームオブジェクト
-	std::unique_ptr<GameObject> gameObject = Create(*json);
+	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(m_pIComponentManager);
 	// ポインタ
 	GameObject* pGameObject = gameObject.get();
 	pGameObject->SetName(jsonName);
+	SetComponents(*json, pGameObject);
 	m_pGameObjects->push_back(std::move(gameObject));
 	return pGameObject;
 }
@@ -104,8 +101,13 @@ std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohman
 	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(m_pIComponentManager);
 	for (const auto& element : json.items())
 	{
+		// 名前
+		if (element.key() == "Name" && element.value().is_string())
+		{
+			gameObject->SetName(element.value().get<std::string>());
+		}
 		// Prefab
-		if (element.key() == "Prefab" && element.value().is_string())
+		else if (element.key() == "Prefab" && element.value().is_string())
 		{
 			// Json
 			const auto* json = m_refIResources.GetJson(element.value().get<std::string>());
@@ -114,10 +116,22 @@ std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohman
 				continue;
 			}
 
-			gameObject = Create(*json);
-			continue;
+			SetComponents(*json, gameObject.get());
 		}
+		// コンポーネント
+		else if (element.key() == "Components")
+		{
+			SetComponents(element.value(), gameObject.get());
+		}
+	}
+	return gameObject;
+}
 
+// コンポーネントを設定
+void GameObjects::GameObjectManager::SetComponents(const nlohmann::ordered_json& json, GameObject* pGameObject)
+{
+	for (const auto& element : json.items())
+	{
 		// コンポーネント追加関数
 		auto it = m_AddComponentList.find(element.key());
 		if (it == m_AddComponentList.end())
@@ -130,8 +144,9 @@ std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohman
 			));
 			continue;
 		}
+
 		// コンポーネントを追加
-		auto* component = it->second(gameObject.get());
+		auto* component = it->second(pGameObject);
 
 		try
 		{
@@ -149,5 +164,4 @@ std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohman
 			continue;
 		}
 	}
-	return gameObject;
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     TextRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/21
  *
  * テキスト描画
  */
@@ -137,7 +137,7 @@ void Renderings::TextRenderer::Begin()
 void Renderings::TextRenderer::Draw(const Text* pText)
 {
 	// モデルの所有者の2Dトランスフォーム
-	const RectTransform* pRectTransform = pText->GetPOwner()->GetConstComponent<RectTransform>();
+	const RectTransform* pRectTransform = pText->GetConstPOwner()->GetConstComponent<RectTransform>();
 	if (!pRectTransform)
 	{
 		return;

@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * テキスト
  */
@@ -28,6 +28,9 @@ namespace Renderings
 		Text(const ComponentDesc& desc, ITextRenderer* pITextRenderer);
 		// デストラクタ
 		~Text();
+
+		// 初期化処理
+		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
 		// 文字列を設定
 		void SetStr(const std::wstring& str) { m_str = str; }

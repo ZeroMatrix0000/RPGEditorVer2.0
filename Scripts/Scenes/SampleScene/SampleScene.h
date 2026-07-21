@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * サンプルシーン
  */
@@ -21,6 +21,7 @@ namespace Renderings
 		Camera::EulerTargetCamera
 	>
 	class CameraScreen;
+	class Canvas;
 }
 class SceneTransitionData;
 class GameContext;
@@ -59,22 +60,16 @@ private:
 
 	// テスト
 	std::unique_ptr<GameObject> m_test3D;
-	// テスト
-	std::unique_ptr<GameObject> m_test2D;
-	// テスト
-	std::unique_ptr<GameObject> m_test2D2;
 
 	// 地面
 	std::unique_ptr<GameObject> m_ground;
 
-	// カメラ
-	std::unique_ptr<GameObject> m_camera;
 	// カメラ画面
 	Renderings::CameraScreen<Camera::EulerTargetCamera>* m_pCameraScreen;
 	// デバッグカメラ
 	DebugCamera* m_pDebugCamera;
 
 	// キャンバス
-	std::unique_ptr<GameObject> m_canvas;
+	Renderings::Canvas* m_pCanvas;
 
 };

@@ -211,9 +211,6 @@
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp">
       <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuFactory.cpp">
-      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
-    </ClCompile>
     <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp">
       <Filter>Scripts\Scenes\SampleScene</Filter>
     </ClCompile>
@@ -454,9 +451,6 @@
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.h">
       <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuFactory.h">
-      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
-    </ClInclude>
     <ClInclude Include="Scripts\Scenes\SampleScene\SampleScene.h">
       <Filter>Scripts\Scenes\SampleScene</Filter>
     </ClInclude>
@@ -502,6 +496,9 @@
     <ClInclude Include="Scripts\Commons\GameObjects\IGameObjectInstantiator.h">
       <Filter>Scripts\Commons\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuParams.h">
+      <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -531,6 +528,12 @@
     </None>
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenu.json">
       <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenuText.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Scenes\Scene_Sample.json">
+      <Filter>Jsons\Scenes</Filter>
     </None>
   </ItemGroup>
 </Project>

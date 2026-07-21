@@ -1,0 +1,17 @@
+{
+	"Text": {
+		"FontName": "GenEi M Gothic v2",
+		"FontSize": 40.0,
+		"FontColor": {
+			"R": 1.0,
+			"G": 0.95,
+			"B": 0.8,
+			"A": 1.0
+		},
+		"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
+		"ParagraphAlignment": "DWRITE_PARAGRAPH_ALIGNMENT_CENTER"
+	},
+	"RectTransform": {
+		"Anchor": "MiddleCenter"
+	}
+}

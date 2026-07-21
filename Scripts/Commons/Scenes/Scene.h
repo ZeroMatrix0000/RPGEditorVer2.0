@@ -1,7 +1,7 @@
 /*
  * FileName:     Scene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * シーン
  */
@@ -32,6 +32,8 @@ namespace Scenes
 
 		// 初期化処理
 		virtual void Initialize(const TTransitionData& data) = 0;
+		// 更新処理
+		virtual void Update(float elapsedTime) = 0;
 		// 終了処理
 		virtual void Finalize() = 0;
 

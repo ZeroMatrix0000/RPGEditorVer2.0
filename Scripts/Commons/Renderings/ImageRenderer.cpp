@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/21
  *
  * 画像描画
  */
@@ -55,7 +55,7 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 	}
 
 	// モデルの所有者の2Dトランスフォーム
-	const RectTransform* pRectTransform = pImage->GetPOwner()->GetConstComponent<RectTransform>();
+	const RectTransform* pRectTransform = pImage->GetConstPOwner()->GetConstComponent<RectTransform>();
 
 	// モデルが映るキャンバス
 	const Canvas* pCanvas = pImage->GetPCanvas();

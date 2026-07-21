@@ -1,7 +1,7 @@
 /*
  * FileName:     JsonSerializer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/21
  *
  * Jsonのシリアライズ
  */
@@ -28,5 +28,27 @@ Math::Vector2 Libraries::JsonSerializer::Json2Vector2(const nlohmann::ordered_js
 	{
 		json.at("X").get<float>(),
 		json.at("Y").get<float>()
+	};
+}
+
+// Json -> Vector3
+Math::Vector3 Libraries::JsonSerializer::Json2Vector3(const nlohmann::ordered_json& json)
+{
+	return Math::Vector3
+	{
+		json.at("X").get<float>(),
+		json.at("Y").get<float>(),
+		json.at("Z").get<float>()
+	};
+}
+
+// Json -> Euler
+Math::Euler Libraries::JsonSerializer::Json2Euler(const nlohmann::ordered_json& json)
+{
+	return Math::Euler
+	{
+		json.at("X").get<float>(),
+		json.at("Y").get<float>(),
+		json.at("Z").get<float>()
 	};
 }

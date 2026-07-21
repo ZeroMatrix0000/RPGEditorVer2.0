@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * トランスフォーム
  */
@@ -15,6 +15,32 @@ Components::Transform::Transform(const ComponentDesc& desc)
 	, m_rotation{ Math::Quaternion::Identity }
 	, m_scale{ Math::Vector3::One }
 {
+}
+
+// 初期化処理
+void Components::Transform::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
+{
+	// 要素ごとにループ
+	for (const auto& element : json.items())
+	{
+		const std::string& key = element.key();
+		if (key == "Position")
+		{
+			SetPosition(JsonSerializer::Json2Vector3(element.value()));
+		}
+		else if (key == "Rotation")
+		{
+			SetRotation(JsonSerializer::Json2Euler(element.value()).CreateQuaternion());
+		}
+		else if (key == "Scale")
+		{
+			SetScale(JsonSerializer::Json2Vector3(element.value()));
+		}
+		else
+		{
+			Utility::Throw();
+		}
+	}
 }
 
 // ワールド行列を作成

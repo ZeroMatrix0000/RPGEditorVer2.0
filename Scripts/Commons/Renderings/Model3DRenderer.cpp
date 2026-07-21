@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/21
  *
  * 3Dモデル描画
  */
@@ -45,7 +45,7 @@ void Renderings::Model3DRenderer::Render()
 		}
 
 		// モデルの所有者のトランスフォーム
-		const Transform* pTransform = pModel->GetPOwner()->GetConstComponent<Transform>();
+		const Transform* pTransform = pModel->GetConstPOwner()->GetConstComponent<Transform>();
 
 		// カメラ画面
 		for (const auto* pICameraScreen : pModel->GetPICameraScreens())

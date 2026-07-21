@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * 3Dモデル
  */
@@ -10,6 +10,9 @@
 #include "Model3D.h"
 
 #include "IModel3DRenderer.h"
+#include "../GameObjects/GameObject.h"
+#include "../GameObjects/IGameObjectFinder.h"
+#include "../Renderings/ICameraScreen.h"
 
 Renderings::Model3D::Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer)
 	: Component{ desc }
@@ -26,6 +29,32 @@ Renderings::Model3D::~Model3D()
 {
 	// 描画者からモデルを削除
 	m_pIModelRenderer->RemovePModel(this);
+}
+
+// 初期化処理
+void Renderings::Model3D::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
+{
+	// 要素ごとにループ
+	for (const auto& element : json.items())
+	{
+		const std::string& key = element.key();
+		if (key == "ModelSourceName")
+		{
+			SetModelSourceName(element.value().get<std::string>());
+		}
+		else if (key == "CameraScreen")
+		{
+			for (const auto& cameraScreen : element.value())
+			{
+				GameObject* pObj = pIGameObjectFinder->Find(cameraScreen.get<std::string>());
+				AddICameraScreen(*pObj->GetComponent<Renderings::ICameraScreen>());
+			}
+		}
+		else
+		{
+			Utility::Throw();
+		}
+	}
 }
 
 // 映るカメラ画面を追加

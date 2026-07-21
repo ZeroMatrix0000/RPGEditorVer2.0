@@ -1,13 +1,24 @@
-{
-	"Canvas": {
-		"Canvas": {
-			"FixedSize": "Vertical"
+[
+	{
+		"Name": "Canvas",
+		"Components": {
+			"Canvas": {
+				"FixedSize": "Vertical"
+			}
 		}
 	},
-	"TitleMenu": {
+	{
+		"Name": "TitleMenu",
 		"Prefab": "Prefab_SelectMenu",
-		"SelectMenu": {
-			"Canvas": "Canvas"
+		"Components": {
+			"SelectMenu": {
+				"Width": 350.0,
+				"Canvas": "Canvas",
+				"Position": {
+					"X": 0.0,
+					"Y": 200.0
+				}
+			}
 		}
 	}
-}
+]

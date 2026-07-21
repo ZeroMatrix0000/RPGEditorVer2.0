@@ -25,13 +25,14 @@ std::unique_ptr<GameObject> DebugCameraFactory::Create
 	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(pIComponentManager);
 	auto* pCameraScreen = gameObject->AddComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
 	pCameraScreen->SetCamera(Camera::EulerTargetCamera{ Math::Vector3::Zero, Math::Euler{ -30.0f, 0.0f, 0.0f }, 15.0f });
-	pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
+	pCameraScreen->SetViewAngle(45.0f);
+	pCameraScreen->SetProjectionMatrix(outputSize);
 	if (ppCameraScreen)
 	{
 		*ppCameraScreen = pCameraScreen;
 	}
 	auto* pDebugCamera = gameObject->AddComponent<DebugCamera>();
-	pDebugCamera->SetPCameraScreen(pCameraScreen);
+	pDebugCamera->SetPCameraScreen();
 	if (ppDebugCamera)
 	{
 		*ppDebugCamera = pDebugCamera;

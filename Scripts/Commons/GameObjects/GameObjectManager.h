@@ -47,7 +47,7 @@ namespace GameObjects
 
 		// コンポーネントを追加関数を追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
-		void RegisterAdd(const std::string& componentName)
+		void Register(const std::string& componentName)
 		{
 			m_AddComponentList.emplace
 			(
@@ -67,6 +67,8 @@ namespace GameObjects
 
 		// ゲームオブジェクトを作成
 		std::unique_ptr<GameObject> Create(const nlohmann::ordered_json& json);
+		// コンポーネントを設定
+		void SetComponents(const nlohmann::ordered_json& json, GameObject* pGameObject);
 
 
 		/* メンバ変数 */

@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObject.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/21
  *
  * ゲームオブジェクト
  */
@@ -29,9 +29,6 @@ namespace GameObjects
 
 		// コンストラクタ
 		GameObject(IComponentManager* pIComponentManager);
-
-		// 更新処理
-		void Update(float elapsedTime);
 
 		// 名前を設定
 		void SetName(const std::string& name) { m_name = name; }

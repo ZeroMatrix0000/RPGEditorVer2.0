@@ -1,7 +1,7 @@
 /*
  * FileName:     Easing.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/21
  *
  * イージング
  */
@@ -24,7 +24,7 @@ namespace Libraries
 			Expo,
 			Circ,
 			Back,
-			Elastiic,
+			Elastic,
 			Bounce,
 		};
 
@@ -154,7 +154,7 @@ namespace Libraries
 					return 1.0f - Math::Sqrt(1.0f - t * t);
 				case Type::Back:
 					return 3.0f * t * t * t - 2.0f * t * t;
-				case Type::Elastiic:
+				case Type::Elastic:
 					return t * t * t * t * Math::Cos(4.0f * Math::PI * t);
 				case Type::Bounce:
 					return Math::Abs(t * Math::Sqrt(t) * Math::Cos(4.0f * Math::PI * Math::Sqrt(t)));

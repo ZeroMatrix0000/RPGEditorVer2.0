@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/21
  *
  * サンプルシーン
  */
@@ -13,6 +13,7 @@
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
+#include "Scripts/Commons/GameObjects/IGameObjectManager.h"
 #include "Scripts/Commons/Components/Transform.h"
 #include "Scripts/Commons/Components/RectTransform.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
@@ -30,31 +31,39 @@
 SampleScene::SampleScene(const ComponentDesc& desc)
 	: Scene{ desc }
 	, m_test3D{}
-	, m_test2D{}
-	, m_test2D2{}
 	, m_ground{}
-	, m_camera{}
 	, m_pCameraScreen{}
 	, m_pDebugCamera{}
-	, m_canvas{}
+	, m_pCanvas{}
 {
 }
 
 // 初期化処理
 void SampleScene::Initialize(const SceneTransitionData& data)
 {
+	// コンテキスト
+	const auto& gameContext = GetContext();
+
 	// 出力サイズ
-	const Math::Vector2& outputSize = GetContext().GetPIWindowController()->GetOutputSize();
+	const Math::Vector2& outputSize = gameContext.GetPIWindowController()->GetOutputSize();
 
 	// コンポーネント工場
-	auto* pIComponentManager = GetContext().GetPIComponentManager();
+	auto* pIComponentManager = gameContext.GetPIComponentManager();
+	// ゲームオブジェクト管理
+	auto* pIGameObjectManager = gameContext.GetPIGameObjectManager();
 
-	// デバッグカメラを作成
-	m_camera = DebugCameraFactory::Create(pIComponentManager, outputSize, &m_pCameraScreen, &m_pDebugCamera);
+	pIGameObjectManager->SetPGameObjects(GetPGameObjects());
+	pIGameObjectManager->Load("Scene_Sample");
 
-	m_canvas = std::make_unique<GameObject>(pIComponentManager);
-	auto* pCanvas = m_canvas->AddComponent<Renderings::Canvas>();
-	pCanvas->Initialize(Renderings::Canvas::FixedSize::Vertical, outputSize);
+	// デバッグカメラを取得
+	GameObject* pCamera = pIGameObjectManager->Find("DebugCamera");
+	m_pCameraScreen = pCamera->GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
+	m_pCameraScreen->SetProjectionMatrix(outputSize);
+	m_pDebugCamera = pCamera->GetComponent<DebugCamera>();
+
+	// キャンバスを取得
+	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
+	m_pCanvas->SetSize(outputSize);
 
 	{
 		m_test3D = std::make_unique<GameObject>(pIComponentManager);
@@ -79,43 +88,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	}
 
 	{
-		m_test2D = std::make_unique<GameObject>(pIComponentManager);
-		auto* pRectTransform = m_test2D->AddComponent<RectTransform>();
-		pRectTransform->SetAngle(-30.0f);
-		auto* pImage = m_test2D->AddComponent<Renderings::Image>();
-		pImage->SetImageSourceName("DialogBox");
-		pRectTransform->SetSize(pImage->GetSize() / 2.0f);
-		auto* pText = m_test2D->AddComponent<Renderings::Text>();
-		pText->SetStr(L"あいうえお");
-		pText->SetFontName(L"GenEi M Gothic v2");
-		pText->SetFontSize(128.0f);
-		pText->SetFontColor(DirectX::Colors::White);
-		pText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-		pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-		// キャンバスにUIを映す
-		pImage->SetCanvas(*pCanvas);
-		pText->SetCanvas(*pCanvas);
-	}
-
-	{
-		m_test2D2 = std::make_unique<GameObject>(pIComponentManager);
-		auto* pRectTransform = m_test2D2->AddComponent<RectTransform>();
-		pRectTransform->SetAngle(45.0f);
-		auto* pImage = m_test2D2->AddComponent<Renderings::Image>();
-		pImage->SetImageSourceName("DialogBox");
-		pImage->SetOrderInLayer(1);
-		pImage->SetColor(DirectX::Colors::Red);
-		pRectTransform->SetSize(pImage->GetSize() / 2.0f);
-		// キャンバスにUIを映す
-		pImage->SetCanvas(*pCanvas);
-	}
-
-	{
-		m_ground = std::make_unique<GameObject>(pIComponentManager);
-		auto* pTransform = m_ground->AddComponent<Transform>();
-		pTransform->SetScale(Math::Vector3::One * 3.0f);
-		auto* pModel = m_ground->AddComponent<Renderings::Model3D>();
-		pModel->SetModelSourceName("Ground");
+		auto* pModel = pIGameObjectManager->Find("Ground")->AddComponent<Renderings::Model3D>();
 		// カメラにモデルを映す
 		pModel->AddICameraScreen(*m_pCameraScreen);
 	}
@@ -134,9 +107,6 @@ void SampleScene::Update(float elapsedTime)
 		return;
 	}
 
-	m_test3D->Update(elapsedTime);
-	m_test2D->Update(elapsedTime);
-
 	// カメラの更新
 	m_pDebugCamera->SetInput
 	(
@@ -145,7 +115,7 @@ void SampleScene::Update(float elapsedTime)
 		pIInput->GetMouseButton(MouseButtonName::Middle),
 		pIInput->GetMouseWheelDelta()
 	);
-	m_camera->Update(elapsedTime);
+	m_pDebugCamera->Update(elapsedTime);
 	m_pCameraScreen->UpdateViewMatrix();
 }
 
@@ -162,8 +132,8 @@ void SampleScene::AcceptMessage(const std::string& message)
 		// 出力サイズ
 		const Math::Vector2& outputSize = GetContext().GetPIWindowController()->GetOutputSize();
 		// プロジェクション行列を設定
-		m_pCameraScreen->SetProjectionMatrix(45.0f, outputSize);
+		m_pCameraScreen->SetProjectionMatrix(outputSize);
 		// キャンバスのサイズを設定
-		m_canvas->GetComponent<Renderings::Canvas>()->SetSize(outputSize);
+		m_pCanvas->SetSize(outputSize);
 	}
 }

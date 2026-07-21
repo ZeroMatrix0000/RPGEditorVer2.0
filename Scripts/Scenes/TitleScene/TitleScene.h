@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * タイトルシーン
  */
@@ -52,8 +52,6 @@ private:
 	// キャンバス
 	Renderings::Canvas* m_pCanvas;
 
-	// 選択メニュー
-	std::unique_ptr<GameObject> m_selectMenu;
 	// 選択メニューコンポーネント
 	SelectMenu* m_pSelectMenu;
 

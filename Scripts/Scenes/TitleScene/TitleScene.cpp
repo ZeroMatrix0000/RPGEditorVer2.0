@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * タイトルシーン
  */
@@ -13,18 +13,15 @@
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
-#include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectManager.h"
 #include "Scripts/Main/GameContext.h"
-#include "Scripts/GameObjects/UIs/SelectMenu/SelectMenuFactory.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
 TitleScene::TitleScene(const ComponentDesc& desc)
 	: Scene{ desc }
 	, m_pCanvas{}
-	, m_selectMenu{}
 	, m_pSelectMenu{}
 {
 }
@@ -38,8 +35,6 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	// 出力サイズ
 	const Math::Vector2& outputSize = gameContext.GetPIWindowController()->GetOutputSize();
 
-	// コンポーネント管理
-	auto* pIComponentManager = gameContext.GetPIComponentManager();
 	// ゲームオブジェクト管理
 	auto* pIGameObjectManager = gameContext.GetPIGameObjectManager();
 
@@ -50,23 +45,11 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
 	m_pCanvas->SetSize(outputSize);
 
-	// 選択メニューカーソル
-	//pIGameObjectManager->Find("TitleMenuCursor")->GetComponent<Renderings::Image>()->SetCanvas(*m_pCanvas);
-
-	// 選択メニューを作成
-	m_selectMenu = SelectMenuFactory::Create
-	(
-		pIComponentManager,
-		350.0f,
-		Math::Color{ 1.0f, 0.95f, 0.8f, 1.0f },
-		Math::Vector2{ 0.0f, 200.0f },
-		Utility::AlignmentPoint::MiddleCenter,
-		*m_pCanvas,
-		&m_pSelectMenu
-	);
-	m_pSelectMenu->AddOption(pIComponentManager, L"スタート", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
-	m_pSelectMenu->AddOption(pIComponentManager, L"エディタ", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
-	m_pSelectMenu->AddOption(pIComponentManager, L"ゲームを終了", [&] { gameContext.GetPIWindowController()->Destroy(); });
+	// 選択メニューを取得
+	m_pSelectMenu = pIGameObjectManager->Find("TitleMenu")->GetComponent<SelectMenu>();
+	m_pSelectMenu->AddOption(L"スタート", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
+	m_pSelectMenu->AddOption(L"エディタ", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
+	m_pSelectMenu->AddOption(L"ゲームを終了", [&] { gameContext.GetPIWindowController()->Destroy(); });
 }
 
 // 更新処理
@@ -96,7 +79,7 @@ void TitleScene::Update(float elapsedTime)
 	}
 
 	// 選択メニューの更新
-	m_selectMenu->Update(elapsedTime);
+	m_pSelectMenu->Update(elapsedTime);
 }
 
 // 終了処理

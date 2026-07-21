@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * 選択メニュー
  */
@@ -19,15 +19,13 @@
 // コンストラクタ
 SelectMenu::SelectMenu(const ComponentDesc& desc)
 	: Component{ desc }
-	, m_width{}
-	, m_basePosition{}
-	, m_pCursorImage{}
-	, m_pCursorRectTransform{}
-	, m_texts{}
-	, m_Processes{}
+	, m_params{}
 	, m_selectNumber{}
 	, m_cursorDelayY{}
 	, m_cursorSwayTimer{}
+	, m_Processes{}
+	, m_pCursorImage{}
+	, m_pCursorRectTransform{}
 {
 }
 
@@ -45,8 +43,6 @@ void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder
 	m_selectNumber = 0;
 	// カーソルのY座標のズレ
 	m_cursorDelayY.SetMovement(0.0f, 0.0f);
-	// カーソルの左右の揺れ
-	m_cursorSwayTimer.Initialize(0.0f, 0.0f, CURSOR_SWAY_TIME);
 
 	// 要素ごとにループ
 	for (const auto& element : json.items())
@@ -54,7 +50,39 @@ void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder
 		const std::string& key = element.key();
 		if (key == "Width")
 		{
-			m_width = element.value().get<float>();
+			m_params.width = element.value().get<float>();
+		}
+		else if (key == "Height")
+		{
+			m_params.height = element.value().get<float>();
+		}
+		else if (key == "Interval")
+		{
+			m_params.interval = element.value().get<float>();
+		}
+		else if (key == "Position")
+		{
+			m_params.basePosition = JsonSerializer::Json2Vector2(element.value());
+		}
+		else if (key == "CursorMoveTime")
+		{
+			m_params.cursorMoveTime = element.value().get<float>();
+		}
+		else if (key == "CursorEasingType")
+		{
+			m_params.cursorEasingType = JsonSerializer::Json2Enum<Easing::Type>(element.value());
+		}
+		else if (key == "CursorEasingInOut")
+		{
+			m_params.cursorEasingInOut = JsonSerializer::Json2Enum<Easing::InOut>(element.value());
+		}
+		else if (key == "CursorSwayTime")
+		{
+			m_cursorSwayTimer.Initialize(0.0f, 0.0f, element.value().get<float>());
+		}
+		else if (key == "CursorSwaySize")
+		{
+			m_params.cursorSwaySize = element.value().get<float>();
 		}
 		else if (key == "Canvas")
 		{
@@ -68,38 +96,11 @@ void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder
 	}
 }
 
-// 初期化処理
-void SelectMenu::Initialize
-(
-	IComponentManager*        pIComponentManager,
-	float                     width,
-	const Math::Color&        color,
-	const Math::Vector2&      position,
-	Utility::AlignmentPoint   anchor,
-	const Renderings::Canvas& canvas
-)
-{
-	m_width = width;
-	m_basePosition = position;
-
-	// 選択番号を初期化
-	m_selectNumber = 0;
-	// カーソルのY座標のズレ
-	m_cursorDelayY.SetMovement(0.0f, 0.0f);
-	// カーソルの左右の揺れ
-	m_cursorSwayTimer.Initialize(0.0f, 0.0f, CURSOR_SWAY_TIME);
-
-	GameObject* pObj = Instantiate("Prefab_SelectMenuCursor");
-	m_pCursorImage = pObj->GetComponent<Renderings::Image>();
-	m_pCursorRectTransform = pObj->GetComponent<RectTransform>();
-	m_pCursorImage->SetCanvas(canvas);
-}
-
 // 更新処理
 void SelectMenu::Update(float elapsedTime)
 {
 	// 表示座標
-	Math::Vector2 position = m_basePosition;
+	Math::Vector2 position = m_params.basePosition;
 
 	// カーソルのY座標のズレを更新
 	m_cursorDelayY.Tick(elapsedTime);
@@ -109,60 +110,53 @@ void SelectMenu::Update(float elapsedTime)
 	// カーソルの左右のズレ
 	Math::Vector2 cursorDelay = Math::Vector2
 	{
-		CURSOR_SWAY_SIZE * Math::Sin(m_cursorSwayTimer.GetRatio() * 2.0f * Math::PI),
-		(HEIGHT + INTERVAL) * m_cursorDelayY.GetMovement()
+		m_params.cursorSwaySize * Math::Sin(m_cursorSwayTimer.GetRatio() * 2.0f * Math::PI),
+		(m_params.height + m_params.interval) * m_cursorDelayY.GetMovement()
 	};
 
 	// カーソルの位置を変更
-	m_pCursorRectTransform->SetPosition(m_basePosition + Math::Vector2{ -m_width / 2.0f, 0.0f } + cursorDelay);
+	m_pCursorRectTransform->SetPosition(m_params.basePosition + Math::Vector2{ -m_params.width / 2.0f, 0.0f } + cursorDelay);
 }
 
 // 選択肢を追加
-void SelectMenu::AddOption(IComponentManager* pIComponentManager, const std::wstring& str, const std::function<void()>& Process)
+void SelectMenu::AddOption(const std::wstring& str, const std::function<void()>& Process)
 {
-	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(pIComponentManager);
+	GameObject* gameObject = Instantiate("Prefab_SelectMenuText");
 	auto* pText = gameObject->AddComponent<Renderings::Text>();
 	pText->SetStr(str);
-	pText->SetFontName(L"GenEi M Gothic v2");
-	pText->SetFontSize(40.0f);
-	pText->SetFontColor(m_pCursorImage->GetColor());
-	pText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
-	pText->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
 	pText->SetCanvas(*m_pCursorImage->GetPCanvas());
 	auto* pRectTransform = gameObject->AddComponent<RectTransform>();
-	pRectTransform->SetPosition(m_basePosition + Math::Vector2{ 0.0f, HEIGHT + INTERVAL } * static_cast<float>(m_texts.size()));
-	pRectTransform->SetAnchor(m_pCursorRectTransform->GetAnchor());
-	pRectTransform->SetSize(Math::Vector2{ m_width, HEIGHT });
-	m_texts.push_back(std::move(gameObject));
+	pRectTransform->SetPosition(m_params.basePosition + Math::Vector2{ 0.0f, m_params.height + m_params.interval } * static_cast<float>(m_Processes.size()));
+	pRectTransform->SetSize(Math::Vector2{ m_params.width, m_params.height });
 	m_Processes.push_back(Process);
 }
 
 // 上の項目を選択
 void SelectMenu::SelectUp()
 {
-	if (m_texts.size() == 0)
+	if (m_Processes.size() == 0)
 	{
 		return;
 	}
-	m_selectNumber = (m_selectNumber + m_texts.size() - 1) % static_cast<int>(m_texts.size());
-	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), CURSOR_MOVE_TIME, Easing::Type::Expo, Easing::InOut::Out);
+	m_selectNumber = (m_selectNumber + m_Processes.size() - 1) % static_cast<int>(m_Processes.size());
+	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 }
 
 // 下の項目を選択
 void SelectMenu::SelectDown()
 {
-	if (m_texts.size() == 0)
+	if (m_Processes.size() == 0)
 	{
 		return;
 	}
-	m_selectNumber = (m_selectNumber + 1) % static_cast<int>(m_texts.size());
-	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), CURSOR_MOVE_TIME, Easing::Type::Expo, Easing::InOut::Out);
+	m_selectNumber = (m_selectNumber + 1) % static_cast<int>(m_Processes.size());
+	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 }
 
 // 実行
 void SelectMenu::Execute()
 {
-	if (m_texts.size() == 0)
+	if (m_Processes.size() == 0)
 	{
 		return;
 	}

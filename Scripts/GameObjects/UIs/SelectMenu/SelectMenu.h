@@ -1,28 +1,23 @@
 /*
  * FileName:     SelectMenu.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * 選択メニュー
  */
 
 #pragma once
 
+#include "SelectMenuParams.h"
 #include "Scripts/Commons/Components/Component.h"
 
 namespace Renderings
 {
-	class Canvas;
 	class Image;
-}
-namespace GameObjects
-{
-	class GameObject;
 }
 namespace Components
 {
 	class RectTransform;
-	class IComponentManager;
 }
 
  // 選択メニュー
@@ -39,22 +34,12 @@ public:
 
 	// 初期化処理
 	void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
-	// 初期化処理
-	void Initialize
-	(
-		IComponentManager*        pIComponentManager,
-		float                     width,
-		const Math::Color&        color,
-		const Math::Vector2&      position,
-		Utility::AlignmentPoint   anchor,
-		const Renderings::Canvas& canvas
-	);
 
 	// 更新処理
-	void Update(float elapsedTime) override;
+	void Update(float elapsedTime);
 
 	// 選択肢を追加
-	void AddOption(IComponentManager* pIComponentManager, const std::wstring& str, const std::function<void()>& Process);
+	void AddOption(const std::wstring& str, const std::function<void()>& Process);
 
 	// 上の項目を選択
 	void SelectUp();
@@ -68,39 +53,10 @@ public:
 private:
 
 
-	/* 定数 */
-
-	// 高さ
-	static constexpr float HEIGHT = 50.0f;
-
-	// 間隔
-	static constexpr float INTERVAL = 20.0f;
-
-	// カーソルの移動時間
-	static constexpr float CURSOR_MOVE_TIME = 0.25f;
-	// カーソルの左右の揺れの周期
-	static constexpr float CURSOR_SWAY_TIME = 2.0f;
-	// カーソルの左右の揺れの大きさ
-	static constexpr float CURSOR_SWAY_SIZE = 20.0f;
-
-
 	/* メンバ変数 */
 
-	// 幅
-	float m_width;
-
-	// 基準座標
-	Math::Vector2 m_basePosition;
-
-	// カーソル
-	Renderings::Image* m_pCursorImage;
-	// カーソルの2D用トランスフォーム
-	RectTransform* m_pCursorRectTransform;
-
-	// 選択肢のテキスト
-	std::vector<std::unique_ptr<GameObject>> m_texts;
-	// 選択肢の処理
-	std::vector<std::function<void()>> m_Processes;
+	// パラメータ
+	SelectMenuParams m_params;
 
 	// 選択番号
 	int m_selectNumber;
@@ -108,5 +64,13 @@ private:
 	Easing::Value<float> m_cursorDelayY;
 	// カーソルの左右の揺れの周期
 	Cycled m_cursorSwayTimer;
+
+	// 選択肢の処理
+	std::vector<std::function<void()>> m_Processes;
+
+	// カーソル画像
+	Renderings::Image* m_pCursorImage;
+	// カーソルの2D用トランスフォーム
+	RectTransform* m_pCursorRectTransform;
 
 };

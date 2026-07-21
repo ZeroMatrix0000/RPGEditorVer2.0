@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObject.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/21
  *
  * ゲームオブジェクト
  */
@@ -17,14 +17,4 @@ GameObjects::GameObject::GameObject(IComponentManager* pIComponentManager)
 	, m_components{}
 	, m_pIComponentManager{ pIComponentManager }
 {
-}
-
-// 更新処理
-void GameObjects::GameObject::Update(float elapsedTime)
-{
-	// コンポーネントを更新
-	for (auto& component : m_components)
-	{
-		component.second->Update(elapsedTime);
-	}
 }

@@ -10,6 +10,7 @@
 #include "DebugCamera.h"
 
 #include "State/DebugCameraStateIdle.h"
+#include "Scripts/Commons/GameObjects/GameObject.h"
 
 // コンストラクタ
 DebugCamera::DebugCamera(const ComponentDesc& desc)
@@ -19,6 +20,12 @@ DebugCamera::DebugCamera(const ComponentDesc& desc)
 {
 	// 現在の状態を初期化
 	SetState(std::make_unique<DebugCameraStateIdle>());
+}
+
+// 初期化処理
+void DebugCamera::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
+{
+	SetPCameraScreen();
 }
 
 // 更新処理
@@ -33,6 +40,12 @@ void DebugCamera::Update(float elapsedTime)
 
 	// 状態ごとの処理
 	m_currentState->Update(&m_internals, elapsedTime);
+}
+
+// カメラ画面を設定
+void DebugCamera::SetPCameraScreen()
+{
+	m_internals.pCameraScreen = GetPOwner()->GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
 }
 
 // 入力を設定

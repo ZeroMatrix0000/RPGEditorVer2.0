@@ -1,7 +1,7 @@
 /*
  * FileName:     DebugCamera.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * デバッグ用カメラ
  */
@@ -24,11 +24,14 @@ public:
 	// コンストラクタ
 	DebugCamera(const ComponentDesc& desc);
 
+	// 初期化処理
+	void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
+
 	// 更新処理
-	void Update(float elapsedTime) override;
+	void Update(float elapsedTime);
 
 	// カメラ画面を設定
-	void SetPCameraScreen(Renderings::CameraScreen<Camera::EulerTargetCamera>* pCameraScreen) { m_internals.pCameraScreen = pCameraScreen; }
+	void SetPCameraScreen();
 	// 入力を設定
 	void SetInput(const Math::Vector2Int& mouseMovement, bool mouseButtonRight, bool mouseButtonMiddle, int mouseWheelDelta);
 

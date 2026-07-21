@@ -1,5 +1,11 @@
 {
 	"SelectMenu": {
-
+		"Height": 50.0,
+		"Interval": 20.0,
+		"CursorMoveTime": 0.25,
+		"CursorEasingType": "Expo",
+		"CursorEasingInOut": "Out",
+		"CursorSwayTime": 2.0,
+		"CursorSwaySize": 10.0
 	}
 }

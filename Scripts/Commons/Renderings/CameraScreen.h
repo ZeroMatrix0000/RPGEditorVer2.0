@@ -34,13 +34,32 @@ namespace Renderings
 		CameraScreen(const ComponentDesc& desc)
 			: ICameraScreen{ desc }
 			, m_camera{}
+			, m_viewAngle{}
 			, m_view{}
 			, m_projection{}
 		{
 		}
-		// デストラクタ
-		~CameraScreen()
+
+		// 初期化処理
+		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override
 		{
+			// 要素ごとにループ
+			for (const auto& element : json.items())
+			{
+				const std::string& key = element.key();
+				if (key == "Camera")
+				{
+					SetCamera(JsonSerializer::Json2Camera<TCamera>(element.value()));
+				}
+				else if (key == "ViewAngle")
+				{
+					SetViewAngle(element.value().get<float>());
+				}
+				else
+				{
+					Utility::Throw();
+				}
+			}
 		}
 
 		// ビュー行列を更新
@@ -59,14 +78,16 @@ namespace Renderings
 
 		// カメラを設定
 		void SetCamera(const TCamera& camera) { m_camera = camera; }
+		// カメラを設定
+		void SetViewAngle(float viewAngle) { m_viewAngle = viewAngle; }
 
 		// プロジェクション行列を設定
-		void SetProjectionMatrix(float viewAngle, const Math::Vector2& outputSize)
+		void SetProjectionMatrix(const Math::Vector2& outputSize)
 		{
 			m_projection = Math::Matrix::CreatePerspectiveFieldOfView
 			(
-				Math::Deg2Rad(viewAngle),
-				static_cast<float>(outputSize.x) / outputSize.y,
+				Math::Deg2Rad(m_viewAngle),
+				outputSize.x / outputSize.y,
 				0.1f,
 				1000.0f
 			);
@@ -83,6 +104,9 @@ namespace Renderings
 
 		// カメラ
 		TCamera m_camera;
+
+		// 視野角
+		float m_viewAngle;
 
 		// ビュー行列
 		Math::Matrix m_view;

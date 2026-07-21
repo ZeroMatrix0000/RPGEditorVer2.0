@@ -11,12 +11,15 @@
 
 #include "Scripts/Scenes/Scenes.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
+#include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
+#include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
+#include "Scripts/Commons/Components/Transform.h"
 #include "Scripts/Commons/Components/RectTransform.h"
 
 // コンストラクタ
@@ -122,7 +125,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// 最初のシーンを設定
-	m_sceneManager.SetFirstScene<TitleScene>();
+	m_sceneManager.SetFirstScene<SampleScene>();
 }
 
 // 更新処理
@@ -229,12 +232,25 @@ void Game::RegisterComponents()
 		return std::make_unique<Colliders::SphereCollider>(desc, &m_renderer.GetIColliderRenderer());
 	});
 
+	// トランスフォーム
+	m_gameObjectManager.Register<Transform>("Transform");
 	// 2D用トランスフォーム
-	m_gameObjectManager.RegisterAdd<RectTransform>("RectTransform");
+	m_gameObjectManager.Register<RectTransform>("RectTransform");
+	// 3Dモデル
+	m_gameObjectManager.Register<Renderings::Model3D>("Model3D");
+	// カメラ画面
+	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionCamera>>("QuaternionCameraScreen");
+	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionTargetCamera>>("QuaternionTargetCameraScreen");
+	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::EulerCamera>>("EulerCameraScreen");
+	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::EulerTargetCamera>>("EulerTargetCameraScreen");
 	// 画像
-	m_gameObjectManager.RegisterAdd<Renderings::Image>("Image");
+	m_gameObjectManager.Register<Renderings::Image>("Image");
+	// 文字
+	m_gameObjectManager.Register<Renderings::Text>("Text");
 	// キャンバス
-	m_gameObjectManager.RegisterAdd<Renderings::Canvas>("Canvas");
-	// キャンバス
-	m_gameObjectManager.RegisterAdd<SelectMenu>("SelectMenu");
+	m_gameObjectManager.Register<Renderings::Canvas>("Canvas");
+	// 選択メニュー
+	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
+	// デバッグ用カメラ
+	m_gameObjectManager.Register<DebugCamera>("DebugCamera");
 }

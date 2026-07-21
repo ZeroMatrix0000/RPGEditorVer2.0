@@ -1,0 +1,95 @@
+[
+	{
+		"Name": "DebugCamera",
+		"Components": {
+			"EulerTargetCameraScreen": {
+				"Camera": {
+					"Position": {
+						"X": 0.0,
+						"Y": 0.0,
+						"Z": 0.0
+					},
+					"Rotation": {
+						"X": -30.0,
+						"Y": 0.0,
+						"Z": 0.0
+					},
+					"Distance": 15.0
+				},
+				"ViewAngle": 45.0
+			},
+			"DebugCamera": {
+			}
+		}
+	},
+	{
+		"Name": "Canvas",
+		"Components": {
+			"Canvas": {
+				"FixedSize": "Vertical"
+			}
+		}
+	},
+	{
+		"Name": "Test",
+		"Components": {
+			"RectTransform": {
+				"Size": {
+					"X": 1000.0,
+					"Y": 250.0
+				},
+				"Angle": -30.0
+			},
+			"Image": {
+				"ImageSourceName": "DialogBox",
+				"Canvas": "Canvas"
+			},
+			"Text": {
+				"Str": "あいうえお",
+				"FontName": "GenEi M Gothic v2",
+				"FontSize": 128.0,
+				"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
+				"ParagraphAlignment": "DWRITE_PARAGRAPH_ALIGNMENT_CENTER",
+				"Canvas": "Canvas"
+			}
+		}
+	},
+	{
+		"Name": "Test2",
+		"Components": {
+			"RectTransform": {
+				"Size": {
+					"X": 1000.0,
+					"Y": 250.0
+				},
+				"Angle": 45.0
+			},
+			"Image": {
+				"ImageSourceName": "DialogBox",
+				"Color": {
+					"R": 1.0,
+					"G": 0.0,
+					"B": 0.0,
+					"A": 1.0
+				},
+				"OrderInLayer": 1,
+				"Canvas": "Canvas"
+			}
+		}
+	},
+	{
+		"Name": "Ground",
+		"Components": {
+			"Transform": {
+				"Scale": {
+					"X": 3.0,
+					"Y": 3.0,
+					"Z": 3.0
+				}
+			},
+			"Model3D": {
+				"ModelSourceName": "Ground"
+			}
+		}
+	}
+]

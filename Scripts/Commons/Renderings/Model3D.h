@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/21
  *
  * 3Dモデル
  */
@@ -28,6 +28,9 @@ namespace Renderings
 		Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer);
 		// デストラクタ
 		~Model3D();
+
+		// 初期化処理
+		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
 		// モデルソース名を設定
 		void SetModelSourceName(const std::string& modelSourceName) { m_modelSourceName = modelSourceName; }
