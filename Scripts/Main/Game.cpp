@@ -250,6 +250,9 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<Renderings::Text>("Text");
 	// キャンバス
 	m_gameObjectManager.Register<Renderings::Canvas>("Canvas");
+	// コライダー
+	m_gameObjectManager.Register<Colliders::BoxCollider>("BoxCollider");
+	m_gameObjectManager.Register<Colliders::SphereCollider>("SphereCollider");
 	// 選択メニュー
 	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
 	// デバッグ用カメラ

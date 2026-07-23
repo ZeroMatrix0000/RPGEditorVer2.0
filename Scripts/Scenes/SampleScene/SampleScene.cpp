@@ -65,27 +65,10 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
 	m_pCanvas->SetSize(outputSize);
 
-	{
-		m_test3D = std::make_unique<GameObject>(pIComponentManager);
-		auto* pTransform = m_test3D->AddComponent<Transform>();
-		pTransform->SetPosition(Math::Vector3::Left * 5.0f);
-		pTransform->SetRotation(Math::Euler{ 0.0f, 45.0f, 0.0f }.CreateQuaternion());
-		pTransform->SetScale(Math::Vector3{ 1.0f, 1.0f, 1.0f });
-		auto* pModel = m_test3D->AddComponent<Renderings::Model3D>();
-		pModel->SetModelSourceName("Player");
-		auto* pBoxCollider = m_test3D->AddComponent<Colliders::BoxCollider>();
-		pBoxCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
-		pBoxCollider->SetSize(Math::Vector3{ 1.0f, 2.0f, 1.0f });
-		pBoxCollider->ApplyTransform();
-		auto* pSphereCollider = m_test3D->AddComponent<Colliders::SphereCollider>();
-		pSphereCollider->SetPosition(Math::Vector3{ 0.0f, 1.0f, 0.0f });
-		pSphereCollider->SetRadius(1.0f);
-		pSphereCollider->ApplyTransform();
-		// カメラにモデルを映す
-		pModel->AddICameraScreen(*m_pCameraScreen);
-		pBoxCollider->AddICameraScreen(*m_pCameraScreen);
-		pSphereCollider->AddICameraScreen(*m_pCameraScreen);
-	}
+	// プレイヤーを取得
+	GameObject* pPlayer = pIGameObjectManager->Find("Player");
+	pPlayer->GetComponent<Colliders::BoxCollider>()->ApplyTransform();
+	pPlayer->GetComponent<Colliders::SphereCollider>()->ApplyTransform();
 }
 
 // 更新処理
