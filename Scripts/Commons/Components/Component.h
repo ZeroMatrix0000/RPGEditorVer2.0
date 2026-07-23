@@ -1,7 +1,7 @@
 /*
  * FileName:     Component.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/23
  *
  * コンポーネント
  */
@@ -40,9 +40,9 @@ namespace Components
 		virtual void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) {};
 
 		// 所有者を取得
-		GameObject* GetPOwner() { return m_pOwner; }
+		GameObject* GetPOwner();
 		// 変更不可所有者を取得
-		const GameObject* GetConstPOwner() const { return m_pOwner; }
+		const GameObject* GetConstPOwner() const;
 
 
 	protected:

@@ -32,5 +32,8 @@ namespace GameObjects
 		// ゲームオブジェクトを生成
 		virtual GameObject* Instantiate(const std::string& jsonName) = 0;
 
+		// 未参照ゲームオブジェクトを取得
+		virtual GameObject* GetNullReferences() const = 0;
+
 	};
 }

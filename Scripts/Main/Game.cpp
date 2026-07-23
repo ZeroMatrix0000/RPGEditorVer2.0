@@ -240,6 +240,7 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<Renderings::Model3D>("Model3D");
 	// カメラ画面
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionCamera>>("QuaternionCameraScreen");
+	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionCamera>>("QuaternionCameraScreen");
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionTargetCamera>>("QuaternionTargetCameraScreen");
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::EulerCamera>>("EulerCameraScreen");
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::EulerTargetCamera>>("EulerTargetCameraScreen");

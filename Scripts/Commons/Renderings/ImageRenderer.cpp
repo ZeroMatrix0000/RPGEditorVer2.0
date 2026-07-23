@@ -54,10 +54,10 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 		return;
 	}
 
-	// モデルの所有者の2Dトランスフォーム
+	// 画像の所有者の2Dトランスフォーム
 	const RectTransform* pRectTransform = pImage->GetConstPOwner()->GetConstComponent<RectTransform>();
 
-	// モデルが映るキャンバス
+	// 画像が映るキャンバス
 	const Canvas* pCanvas = pImage->GetPCanvas();
 	if (!pCanvas)
 	{

@@ -12,7 +12,7 @@
 #include "IModel3DRenderer.h"
 #include "../GameObjects/GameObject.h"
 #include "../GameObjects/IGameObjectFinder.h"
-#include "../Renderings/ICameraScreen.h"
+#include "../Renderings/CameraScreen.h"
 
 Renderings::Model3D::Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer)
 	: Component{ desc }

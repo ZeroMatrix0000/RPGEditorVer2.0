@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObject.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/23
  *
  * ゲームオブジェクト
  */
@@ -40,31 +40,59 @@ namespace GameObjects
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		TComponent* GetComponent()
 		{
-			auto it = m_components.find(typeid(TComponent));
-			if (it == m_components.end())
+			auto it = m_pComponents.find(typeid(TComponent));
+			if (it == m_pComponents.end())
 			{
 				return m_pIComponentManager->GetNullReferences<TComponent>();
 			}
-			return static_cast<TComponent*>(it->second.get());
+			return static_cast<TComponent*>(it->second);
 		}
 		// 変更不可コンポーネントを取得
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		const TComponent* GetConstComponent() const
 		{
-			auto it = m_components.find(typeid(TComponent));
-			if (it == m_components.end())
+			auto it = m_pComponents.find(typeid(TComponent));
+			if (it == m_pComponents.end())
 			{
 				return m_pIComponentManager->GetNullReferences<TComponent>();
 			}
-			return static_cast<TComponent*>(it->second.get());
+			return static_cast<TComponent*>(it->second);
 		}
 
 		// コンポーネントを追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		TComponent* AddComponent()
 		{
-			m_components.emplace(typeid(TComponent), m_pIComponentManager->Create<TComponent>(this));
-			return GetComponent<TComponent>();
+			auto it = m_pComponents.find(typeid(TComponent));
+			if (it != m_pComponents.end())
+			{
+				return static_cast<TComponent*>(it->second);
+			}
+
+			// コンポーネントを生成
+			auto component = m_pIComponentManager->Create<TComponent>(this);
+			auto pComponent = component.get();
+
+			// コンポーネントを追加
+			m_components.emplace(pComponent, std::move(component));
+			// 取得用リストに追加
+			AddPComponent<TComponent>(pComponent);
+
+			return static_cast<TComponent*>(pComponent);
+		}
+
+		// コンポーネントを取得用リストに追加
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		void AddPComponent(Component* pComponent)
+		{
+			m_pComponents.emplace(typeid(TComponent), pComponent);
+			// 親コンポーネントが見つかったら
+			if constexpr (requires{ typename TComponent::Base; })
+			{
+				using Base = TComponent::Base;
+
+				AddPComponent<Base>(pComponent);
+			}
 		}
 
 
@@ -77,7 +105,10 @@ namespace GameObjects
 		std::string m_name;
 
 		// コンポーネント
-		std::unordered_map<std::type_index, std::unique_ptr<Component>> m_components;
+		std::unordered_map<Component*, std::unique_ptr<Component>> m_components;
+
+		// コンポーネントの取得用
+		std::unordered_map<std::type_index, Component*> m_pComponents;
 
 		// コンポーネント管理のポインタ
 		IComponentManager* m_pIComponentManager;

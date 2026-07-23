@@ -15,6 +15,7 @@
 GameObjects::GameObject::GameObject(IComponentManager* pIComponentManager)
 	: m_name{}
 	, m_components{}
+	, m_pComponents{}
 	, m_pIComponentManager{ pIComponentManager }
 {
 }

@@ -23,6 +23,24 @@
 		}
 	},
 	{
+		"Name": "Ground",
+		"Components": {
+			"Transform": {
+				"Scale": {
+					"X": 3.0,
+					"Y": 3.0,
+					"Z": 3.0
+				}
+			},
+			"Model3D": {
+				"ModelSourceName": "Ground",
+				"CameraScreen": [
+					"DebugCamera"
+				]
+			}
+		}
+	},
+	{
 		"Name": "Canvas",
 		"Components": {
 			"Canvas": {
@@ -74,21 +92,6 @@
 				},
 				"OrderInLayer": 1,
 				"Canvas": "Canvas"
-			}
-		}
-	},
-	{
-		"Name": "Ground",
-		"Components": {
-			"Transform": {
-				"Scale": {
-					"X": 3.0,
-					"Y": 3.0,
-					"Z": 3.0
-				}
-			},
-			"Model3D": {
-				"ModelSourceName": "Ground"
 			}
 		}
 	}

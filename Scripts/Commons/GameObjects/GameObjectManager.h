@@ -45,6 +45,9 @@ namespace GameObjects
 		// ゲームオブジェクトを生成
 		GameObject* Instantiate(const std::string& jsonName) override;
 
+		// 未参照ゲームオブジェクトを取得
+		GameObject* GetNullReferences() const override { return m_nullReference.get(); }
+
 		// コンポーネントを追加関数を追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		void Register(const std::string& componentName)

@@ -1,7 +1,7 @@
 /*
  * FileName:     IComponentManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/23
  *
  * コンポーネント管理のインタフェース
  */
@@ -34,22 +34,18 @@ namespace Components
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr)
 		{
-			return Create(typeid(TComponent), pOwner);
-		};
-		// コンポーネントを作成（特殊化）
-		template<typename TComponent> requires
-			IsDerived<TComponent, Component> &&
-			std::constructible_from<TComponent, const ComponentDesc&>
-		std::unique_ptr<Component> Create(GameObject* pOwner = nullptr)
-		{
-			RegisterCreate
-			(
-				typeid(TComponent),
-				[](const ComponentDesc& desc)
-				{
-					return std::make_unique<TComponent>(desc);
-				}
-			);
+			// コンポーネントのコンストラクタがDescのみなら作成関数を追加
+			if constexpr (std::constructible_from<TComponent, const ComponentDesc&>)
+			{
+				RegisterCreate
+				(
+					typeid(TComponent),
+					[](const ComponentDesc& desc)
+					{
+						return std::make_unique<TComponent>(desc);
+					}
+				);
+			}
 			return Create(typeid(TComponent), pOwner);
 		};
 
@@ -57,8 +53,20 @@ namespace Components
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		TComponent* GetNullReferences()
 		{
+			// コンポーネントのコンストラクタがDescのみなら作成関数を追加
+			if constexpr (std::constructible_from<TComponent, const ComponentDesc&>)
+			{
+				RegisterCreate
+				(
+					typeid(TComponent),
+					[](const ComponentDesc& desc)
+					{
+						return std::make_unique<TComponent>(desc);
+					}
+				);
+			}
 			return static_cast<TComponent*>(GetNullReferences(typeid(TComponent)));
-		}
+		};
 
 
 

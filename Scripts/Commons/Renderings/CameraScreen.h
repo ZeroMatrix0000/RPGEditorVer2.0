@@ -1,7 +1,7 @@
 /*
  * FileName:     CameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/22
  *
  * カメラ画面
  */
@@ -26,6 +26,10 @@ namespace Renderings
 	{
 
 	public:
+
+
+		// 親コンポーネントの定義
+		using Base = ICameraScreen;
 
 
 		/* メンバ関数 */

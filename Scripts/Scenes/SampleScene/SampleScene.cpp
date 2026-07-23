@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/22
  *
  * サンプルシーン
  */
@@ -85,12 +85,6 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 		pModel->AddICameraScreen(*m_pCameraScreen);
 		pBoxCollider->AddICameraScreen(*m_pCameraScreen);
 		pSphereCollider->AddICameraScreen(*m_pCameraScreen);
-	}
-
-	{
-		auto* pModel = pIGameObjectManager->Find("Ground")->AddComponent<Renderings::Model3D>();
-		// カメラにモデルを映す
-		pModel->AddICameraScreen(*m_pCameraScreen);
 	}
 }
 

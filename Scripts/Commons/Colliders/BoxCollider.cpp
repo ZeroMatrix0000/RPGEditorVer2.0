@@ -1,7 +1,7 @@
 /*
  * FileName:     BoxCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/22
  *
  * 長方形の当たり判定
  */
@@ -10,8 +10,10 @@
 #include "BoxCollider.h"
 
 #include "../GameObjects/GameObject.h"
+#include "../GameObjects/IGameObjectFinder.h"
 #include "../Components/Transform.h"
 #include "../Renderings/ColliderRenderer.h"
+#include "../Renderings/ICameraScreen.h"
 
 // コンストラクタ
 Colliders::BoxCollider::BoxCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer)
@@ -33,6 +35,40 @@ Colliders::BoxCollider::~BoxCollider()
 	m_pIColliderRenderer->RemovePBoxCollider(this);
 }
 
+// 初期化処理
+void Colliders::BoxCollider::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
+{
+	// 要素ごとにループ
+	for (const auto& element : json.items())
+	{
+		const std::string& key = element.key();
+		if (key == "Position")
+		{
+			SetPosition(JsonSerializer::Json2Vector3(element.value()));
+		}
+		else if (key == "Size")
+		{
+			SetSize(JsonSerializer::Json2Vector3(element.value()));
+		}
+		else if (key == "Color")
+		{
+			SetColor(JsonSerializer::Json2Color(element.value()));
+		}
+		else if (key == "CameraScreen")
+		{
+			for (const auto& cameraScreen : element.value())
+			{
+				GameObject* pObj = pIGameObjectFinder->Find(cameraScreen.get<std::string>());
+				AddICameraScreen(*pObj->GetComponent<Renderings::ICameraScreen>());
+			}
+		}
+		else
+		{
+			Utility::Throw();
+		}
+	}
+}
+
 // 映るカメラ画面を追加
 void Colliders::BoxCollider::AddICameraScreen(const Renderings::ICameraScreen& iCameraScreen)
 {
@@ -49,15 +85,7 @@ void Colliders::BoxCollider::RemoveICameraScreen(const Renderings::ICameraScreen
 void Colliders::BoxCollider::ApplyTransform()
 {
 	// トランスフォームを取得
-	const auto* pTransform = GetPOwner()->GetConstComponent<Transform>();
-	// 取得できなければ何もしない
-	if (!pTransform)
-	{
-		m_worldBox.position = m_box.position;
-		m_worldBox.size = m_box.size;
-		m_worldBox.rotation = Math::Quaternion::Identity;
-		return;
-	}
+	const auto* pTransform = GetPOwner()->GetComponent<Transform>();
 
 	// ワールド行列
 	Math::Matrix world = pTransform->CreateWorldMatrix();

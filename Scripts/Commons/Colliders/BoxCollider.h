@@ -1,7 +1,7 @@
 /*
  * FileName:     BoxCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/22
  *
  * 長方形の当たり判定
  */
@@ -31,6 +31,9 @@ namespace Colliders
 		BoxCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer);
 		// デストラクタ
 		~BoxCollider();
+
+		// 初期化処理
+		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
 		// 座標を設定
 		void SetPosition(const Math::Vector3& position) { m_box.position = position; }
