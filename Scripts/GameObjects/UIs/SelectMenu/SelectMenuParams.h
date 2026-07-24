@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenuParams.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/24
  *
  * 選択メニューのパラメータ
  */
@@ -32,5 +32,10 @@ struct SelectMenuParams
 	Easing::InOut cursorEasingInOut{};
 	// カーソルの左右の揺れの大きさ
 	float cursorSwaySize{};
+
+	// フォントサイズの開始値
+	float fontSizeBegin{};
+	// フォントサイズの終了値
+	float fontSizeEnd{};
 
 };

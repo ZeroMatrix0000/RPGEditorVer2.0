@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/24
  *
  * 選択メニュー
  */
@@ -23,7 +23,9 @@ SelectMenu::SelectMenu(const ComponentDesc& desc)
 	, m_selectNumber{}
 	, m_cursorDelayY{}
 	, m_cursorSwayTimer{}
+	, m_pTexts{}
 	, m_Processes{}
+	, m_fontSizes{}
 	, m_pCursorImage{}
 	, m_pCursorRectTransform{}
 {
@@ -84,6 +86,14 @@ void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder
 		{
 			m_params.cursorSwaySize = element.value().get<float>();
 		}
+		else if (key == "FontSizeBegin")
+		{
+			m_params.fontSizeBegin = element.value().get<float>();
+		}
+		else if (key == "FontSizeEnd")
+		{
+			m_params.fontSizeEnd = element.value().get<float>();
+		}
 		else if (key == "Canvas")
 		{
 			GameObject* pObj = pIGameObjectFinder->Find(element.value().get<std::string>());
@@ -116,6 +126,13 @@ void SelectMenu::Update(float elapsedTime)
 
 	// カーソルの位置を変更
 	m_pCursorRectTransform->SetPosition(m_params.basePosition + Math::Vector2{ -m_params.width / 2.0f, 0.0f } + cursorDelay);
+
+	// フォントサイズを変更
+	for (size_t i = 0; i < m_pTexts.size(); i++)
+	{
+		m_fontSizes.at(i).Tick(elapsedTime);
+		m_pTexts.at(i)->SetFontSize(m_fontSizes.at(i).GetMovement());
+	}
 }
 
 // 選択肢を追加
@@ -125,10 +142,15 @@ void SelectMenu::AddOption(const std::wstring& str, const std::function<void()>&
 	auto* pText = gameObject->AddComponent<Renderings::Text>();
 	pText->SetStr(str);
 	pText->SetCanvas(*m_pCursorImage->GetPCanvas());
+	pText->SetFontSize(m_params.fontSizeBegin);
 	auto* pRectTransform = gameObject->AddComponent<RectTransform>();
 	pRectTransform->SetPosition(m_params.basePosition + Math::Vector2{ 0.0f, m_params.height + m_params.interval } * static_cast<float>(m_Processes.size()));
 	pRectTransform->SetSize(Math::Vector2{ m_params.width, m_params.height });
+
+	m_pTexts.push_back(pText);
 	m_Processes.push_back(Process);
+	m_fontSizes.push_back(Easing::Value<float>{});
+	m_fontSizes.back().SetMovement(static_cast<int>(m_fontSizes.size()) == m_selectNumber + 1 ? m_params.fontSizeEnd : m_params.fontSizeBegin, 0.0f);
 }
 
 // 上の項目を選択
@@ -138,7 +160,9 @@ void SelectMenu::SelectUp()
 	{
 		return;
 	}
+	m_fontSizes.at(m_selectNumber).SetMovement(m_params.fontSizeBegin, m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 	m_selectNumber = (m_selectNumber + m_Processes.size() - 1) % static_cast<int>(m_Processes.size());
+	m_fontSizes.at(m_selectNumber).SetMovement(m_params.fontSizeEnd, m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 }
 
@@ -149,7 +173,9 @@ void SelectMenu::SelectDown()
 	{
 		return;
 	}
+	m_fontSizes.at(m_selectNumber).SetMovement(m_params.fontSizeBegin, m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 	m_selectNumber = (m_selectNumber + 1) % static_cast<int>(m_Processes.size());
+	m_fontSizes.at(m_selectNumber).SetMovement(m_params.fontSizeEnd, m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 	m_cursorDelayY.SetMovement(static_cast<float>(m_selectNumber), m_params.cursorMoveTime, m_params.cursorEasingType, m_params.cursorEasingInOut);
 }
 

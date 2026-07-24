@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/24
  *
  * 選択メニュー
  */
@@ -14,6 +14,7 @@
 namespace Renderings
 {
 	class Image;
+	class Text;
 }
 namespace Components
 {
@@ -65,8 +66,12 @@ private:
 	// カーソルの左右の揺れの周期
 	Cycled m_cursorSwayTimer;
 
+	// 選択肢のテキストのポインタ
+	std::vector<Renderings::Text*> m_pTexts;
 	// 選択肢の処理
 	std::vector<std::function<void()>> m_Processes;
+	// 選択肢の表示サイズ
+	std::vector<Easing::Value<float>> m_fontSizes;
 
 	// カーソル画像
 	Renderings::Image* m_pCursorImage;

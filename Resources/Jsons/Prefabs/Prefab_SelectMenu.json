@@ -6,6 +6,8 @@
 		"CursorEasingType": "Expo",
 		"CursorEasingInOut": "Out",
 		"CursorSwayTime": 2.0,
-		"CursorSwaySize": 10.0
+		"CursorSwaySize": 10.0,
+		"FontSizeBegin": 36.0,
+		"FontSizeEnd": 44.0
 	}
 }
