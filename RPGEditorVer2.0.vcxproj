@@ -190,7 +190,6 @@
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\WinMain.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCamera.cpp" />
-    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
@@ -290,7 +289,6 @@
     <ClInclude Include="Scripts\Main\GameContext.h" />
     <ClInclude Include="Scripts\Main\SceneTransitionData.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCamera.h" />
-    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraInternals.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.h" />

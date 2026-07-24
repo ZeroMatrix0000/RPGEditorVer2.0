@@ -205,9 +205,6 @@
     <ClCompile Include="Scripts\Commons\Colliders\SphereCollider.cpp">
       <Filter>Scripts\Commons\Colliders</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.cpp">
-      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
-    </ClCompile>
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp">
       <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
     </ClCompile>
@@ -444,9 +441,6 @@
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Systems\State.h">
       <Filter>Scripts\Commons\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\GameObjects\Objects\DebugCamera\DebugCameraFactory.h">
-      <Filter>Scripts\GameObjects\Objects\DebugCamera</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.h">
       <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>

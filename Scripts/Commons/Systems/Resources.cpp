@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/24
  *
  * リソース管理
  */
@@ -15,6 +15,8 @@ Systems::Resources::Resources()
 	: IResources{}
 	, m_modelSources{}
 	, m_imageSources{}
+	, m_jsons{}
+	, m_meshes{}
 {
 }
 
@@ -147,6 +149,46 @@ void Systems::Resources::LoadJsons(const std::wstring& directoryPath)
 	}
 }
 
+// メッシュを読み込む
+void Systems::Resources::LoadMeshes(const std::wstring& directoryPath)
+{
+	// パスが存在しないなら
+	if (!std::filesystem::exists(directoryPath))
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"パスが間違っています。 | path: %s",
+			directoryPath.c_str()
+		));
+		return;
+	}
+
+	// ディレクトリ内を全て検索
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
+	{
+		// ファイルなら
+		if (entry.is_regular_file())
+		{
+			std::string meshName = entry.path().stem().string();
+			m_meshes.emplace(meshName, Mesh{});
+
+			auto it = m_meshes.find(meshName);
+
+			if (!it->second.Load(entry.path().string()))
+			{
+				m_meshes.erase(it);
+				// エラーメッセージを追加
+				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"メッシュの読み込みに失敗しました。 | path: %s",
+					entry.path().c_str()
+				));
+			}
+		}
+	}
+}
+
 // モデルの取得
 const Renderings::Model3DSource* Systems::Resources::GetModelSource(const std::string& modelName) const
 {
@@ -194,6 +236,24 @@ const nlohmann::ordered_json* Systems::Resources::GetJson(const std::string& jso
 		(
 			L"Jsonファイルが見つかりません。 | name: %s",
 			Utility::string2wstring(jsonName).c_str()
+		));
+		return nullptr;
+	}
+
+	return &it->second;
+}
+
+// Jsonの取得
+const Mesh* Systems::Resources::GetMesh(const std::string& meshName) const
+{
+	auto it = m_meshes.find(meshName);
+	if (it == m_meshes.end())
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"メッシュが見つかりません。 | name: %s",
+			Utility::string2wstring(meshName).c_str()
 		));
 		return nullptr;
 	}

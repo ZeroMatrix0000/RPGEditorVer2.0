@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/22
+ * Last Updated: 2026/07/24
  *
  * サンプルシーン
  */
@@ -14,17 +14,11 @@
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectManager.h"
-#include "Scripts/Commons/Components/Transform.h"
-#include "Scripts/Commons/Components/RectTransform.h"
-#include "Scripts/Commons/Renderings/Model3D.h"
-#include "Scripts/Commons/Renderings/Image.h"
-#include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
-#include "Scripts/GameObjects/Objects/DebugCamera/DebugCameraFactory.h"
 #include "Scripts/Main/GameContext.h"
 
 // コンストラクタ

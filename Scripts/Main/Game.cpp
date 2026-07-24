@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/24
  *
  * ゲーム
  */
@@ -79,6 +79,8 @@ void Game::Initialize(const HWND& hWindow)
 	m_resources.LoadModelSources(device, fx, L"Resources/Models");
 	// Jsonの読み込み
 	m_resources.LoadJsons(L"Resources/Jsons");
+	// メッシュの読み込み
+	m_resources.LoadMeshes(L"Resources/Meshes");
 
 	// タイマーの初期化
 	m_timer.Initialize();

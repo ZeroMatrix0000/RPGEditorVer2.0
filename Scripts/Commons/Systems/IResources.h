@@ -1,7 +1,7 @@
 /*
  * FileName:     IResources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/24
  *
  * リソースのインタフェース
  */
@@ -37,6 +37,8 @@ namespace Systems
 		virtual const Renderings::ImageSource*   GetImageSource(const std::string& imageName) const = 0;
 		// Jsonの取得
 		virtual const nlohmann::ordered_json*    GetJson(const std::string& jsonName)         const = 0;
+		// メッシュの取得
+		virtual const Mesh*                      GetMesh(const std::string& meshName)         const = 0;
 
 	};
 }
