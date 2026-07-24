@@ -19,6 +19,7 @@
 #include "Scripts/Commons/Renderings/CameraScreen.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
+#include "Scripts/Commons/Colliders/MeshCollider.h"
 #include "Scripts/Commons/Components/Transform.h"
 #include "Scripts/Commons/Components/RectTransform.h"
 
@@ -233,6 +234,11 @@ void Game::RegisterComponents()
 	{
 		return std::make_unique<Colliders::SphereCollider>(desc, &m_renderer.GetIColliderRenderer());
 	});
+	// メッシュの当たり判定
+	m_componentManager.RegisterCreate<Colliders::MeshCollider>([&](const ComponentDesc& desc)
+	{
+		return std::make_unique<Colliders::MeshCollider>(desc, &m_renderer.GetIColliderRenderer(), m_resources);
+	});
 
 	// トランスフォーム
 	m_gameObjectManager.Register<Transform>("Transform");
@@ -255,6 +261,7 @@ void Game::RegisterComponents()
 	// コライダー
 	m_gameObjectManager.Register<Colliders::BoxCollider>("BoxCollider");
 	m_gameObjectManager.Register<Colliders::SphereCollider>("SphereCollider");
+	m_gameObjectManager.Register<Colliders::MeshCollider>("MeshCollider");
 	// 選択メニュー
 	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
 	// デバッグ用カメラ

@@ -1,7 +1,7 @@
 /*
  * FileName:     Mesh.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/24
  *
  * メッシュ
  */
@@ -22,8 +22,8 @@ namespace Libraries
 		// ロード（失敗したらfalse）
 		bool Load(const std::string& filePath);
 
-		// 拡大
-		void Scaling(float scale);
+		// 行列を適用
+		void ApplyMatrix(const Math::Matrix& matrix);
 
 
 		/* メンバ変数 */

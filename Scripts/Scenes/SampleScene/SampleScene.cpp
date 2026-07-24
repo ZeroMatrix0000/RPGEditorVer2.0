@@ -18,6 +18,7 @@
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
+#include "Scripts/Commons/Colliders/MeshCollider.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
 #include "Scripts/Main/GameContext.h"
 
@@ -63,6 +64,10 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	GameObject* pPlayer = pIGameObjectManager->Find("Player");
 	pPlayer->GetComponent<Colliders::BoxCollider>()->ApplyTransform();
 	pPlayer->GetComponent<Colliders::SphereCollider>()->ApplyTransform();
+
+	// 地面を取得
+	GameObject* pGround = pIGameObjectManager->Find("Ground");
+	pGround->GetComponent<Colliders::MeshCollider>()->ApplyTransform();
 }
 
 // 更新処理

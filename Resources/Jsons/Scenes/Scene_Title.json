@@ -20,5 +20,25 @@
 				}
 			}
 		}
+	},
+	{
+		"Name": "Title",
+		"Components": {
+			"Image": {
+				"ImageSourceName": "Title",
+				"Canvas": "Canvas"
+			},
+			"RectTransform": {
+				"Position": {
+					"X": 0.0,
+					"Y": -100.0
+				},
+				"Size": {
+					"X": 922.0,
+					"Y": 283.5
+				},
+				"Anchor": "MiddleCenter"
+			}
+		}
 	}
 ]

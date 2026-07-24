@@ -1,7 +1,7 @@
 /*
  * FileName:     IColliderRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/24
  *
  * 当たり判定描画のインタフェース
  */
@@ -14,6 +14,7 @@ namespace Colliders
 {
 	class BoxCollider;
 	class SphereCollider;
+	class MeshCollider;
 }
 
 namespace Renderings
@@ -44,6 +45,11 @@ namespace Renderings
 		virtual void AddPSphereCollider(const Colliders::SphereCollider* pSphereCollider) = 0;
 		// 球の当たり判定のポインタを削除
 		virtual void RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider) = 0;
+
+		// メッシュの当たり判定のポインタを追加
+		virtual void AddPMeshCollider(const Colliders::MeshCollider* pMeshCollider) = 0;
+		// メッシュの当たり判定のポインタを削除
+		virtual void RemovePMeshCollider(const Colliders::MeshCollider* pMeshCollider) = 0;
 
 	};
 }

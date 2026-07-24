@@ -1,7 +1,7 @@
 /*
  * FileName:     Mesh.h
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/07/24
  *
  * メッシュ
  */
@@ -62,11 +62,11 @@ bool Libraries::Mesh::Load(const std::string& filePath)
 	return true;
 }
 
-// 拡大
-void Libraries::Mesh::Scaling(float scale)
+// 行列を適用
+void Libraries::Mesh::ApplyMatrix(const Math::Matrix& matrix)
 {
 	for (auto& vertex : v)
 	{
-		vertex *= scale;
+		vertex = Math::Vector3::Transform(vertex, matrix);
 	}
 }

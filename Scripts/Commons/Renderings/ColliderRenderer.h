@@ -1,7 +1,7 @@
 /*
  * FileName:     ColliderRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/24
  *
  * 当たり判定描画
  */
@@ -39,6 +39,11 @@ namespace Renderings
 		// 球の当たり判定のポインタを削除
 		void RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider) override;
 
+		// メッシュの当たり判定のポインタを追加
+		void AddPMeshCollider(const Colliders::MeshCollider* pMeshCollider) override;
+		// メッシュの当たり判定のポインタを削除
+		void RemovePMeshCollider(const Colliders::MeshCollider* pMeshCollider) override;
+
 
 	private:
 
@@ -51,6 +56,10 @@ namespace Renderings
 		void DrawSphere(const Math::Sphere& sphere, const Math::Color& color, const Math::Vector3& eyePosition, int segmentCount = 24) const;
 		// 円を描画
 		void DrawCircle(const Math::Circle& circle, const Math::Color& color, int segmentCount = 64) const;
+		// 三角形を描画
+		void DrawTriangle(const Math::Triangle& triangle, const Math::Color& color) const;
+		// メッシュを描画
+		void DrawMesh(const Mesh& mesh, const Math::Color& color) const;
 
 
 		/* メンバ変数 */
@@ -64,6 +73,8 @@ namespace Renderings
 		std::unordered_set<const Colliders::BoxCollider*> m_pBoxColliders;
 		// 球の当たり判定のポインタリスト
 		std::unordered_set<const Colliders::SphereCollider*> m_pSphereColliders;
+		// メッシュの当たり判定のポインタリスト
+		std::unordered_set<const Colliders::MeshCollider*> m_pMeshColliders;
 
 		// デバイスコンテキスト
 		ID3D11DeviceContext4*        m_pContext;

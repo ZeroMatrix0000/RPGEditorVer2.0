@@ -1,7 +1,7 @@
 /*
  * FileName:     ColliderRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/07/24
  *
  * 当たり判定描画
  */
@@ -11,6 +11,7 @@
 
 #include "../Colliders/BoxCollider.h"
 #include "../Colliders/SphereCollider.h"
+#include "../Colliders/MeshCollider.h"
 #include "../Renderings/ICameraScreen.h"
 
  // コンストラクタ
@@ -20,6 +21,7 @@ Renderings::ColliderRenderer::ColliderRenderer()
 	, m_basicEffect{}
 	, m_pBoxColliders{}
 	, m_pSphereColliders{}
+	, m_pMeshColliders{}
 	, m_pContext{}
 	, m_pCommonStates{}
 	, m_inputLayout{}
@@ -76,6 +78,17 @@ void Renderings::ColliderRenderer::Render()
 			DrawSphere(pSphereCollider->GetWorldSphere(), pSphereCollider->GetColor(), pICameraScreen->GetEyePosition());
 		}
 	}
+	// メッシュ
+	for (const auto* pMeshCollider : m_pMeshColliders)
+	{
+		// カメラ画面
+		for (const auto* pICameraScreen : pMeshCollider->GetPICameraScreens())
+		{
+			m_basicEffect->SetMatrices(Math::Matrix::Identity, pICameraScreen->GetViewMatrix(), pICameraScreen->GetProjectionMatrix());
+			m_basicEffect->Apply(m_pContext);
+			DrawMesh(pMeshCollider->GetWorldMesh(), pMeshCollider->GetColor());
+		}
+	}
 
 	// 描画終了
 	m_primitiveBatch->End();
@@ -103,6 +116,18 @@ void Renderings::ColliderRenderer::AddPSphereCollider(const Colliders::SphereCol
 void Renderings::ColliderRenderer::RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider)
 {
 	m_pSphereColliders.erase(pSphereCollider);
+}
+
+// メッシュの当たり判定のポインタを追加
+void Renderings::ColliderRenderer::AddPMeshCollider(const Colliders::MeshCollider* pMeshCollider)
+{
+	m_pMeshColliders.emplace(pMeshCollider);
+}
+
+// メッシュの当たり判定のポインタを削除
+void Renderings::ColliderRenderer::RemovePMeshCollider(const Colliders::MeshCollider* pMeshCollider)
+{
+	m_pMeshColliders.erase(pMeshCollider);
 }
 
 // 直方体を描画
@@ -256,4 +281,45 @@ void Renderings::ColliderRenderer::DrawCircle(const Math::Circle& circle, const 
 	m_primitiveBatch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, vertexes, static_cast<size_t>(segmentCount * 2));
 
 	delete[] vertexes;
+}
+
+// 三角形を描画
+void Renderings::ColliderRenderer::DrawTriangle(const Math::Triangle& triangle, const Math::Color& color) const
+{
+	m_primitiveBatch->DrawLine
+	(
+		DirectX::VertexPositionColor{ triangle.v1, color },
+		DirectX::VertexPositionColor{ triangle.v2, color }
+	);
+	m_primitiveBatch->DrawLine
+	(
+		DirectX::VertexPositionColor{ triangle.v2, color },
+		DirectX::VertexPositionColor{ triangle.v3, color }
+	);
+	m_primitiveBatch->DrawLine
+	(
+		DirectX::VertexPositionColor{ triangle.v3, color },
+		DirectX::VertexPositionColor{ triangle.v1, color }
+	);
+
+	// 重心
+	Math::Vector3 center = triangle.GetCenter();
+	// 法線
+	Math::Vector3 normal = triangle.GetNormal();
+
+	m_primitiveBatch->DrawLine
+	(
+		DirectX::VertexPositionColor{ center, color },
+		DirectX::VertexPositionColor{ center + normal, color }
+	);
+}
+
+// メッシュを描画
+void Renderings::ColliderRenderer::DrawMesh(const Mesh& mesh, const Math::Color& color) const
+{
+	// 各三角形を描画
+	for (const auto& face : mesh.f)
+	{
+		DrawTriangle(Math::Triangle{ mesh.v.at(face.at(0)), mesh.v.at(face.at(1)), mesh.v.at(face.at(2)) }, color);
+	}
 }

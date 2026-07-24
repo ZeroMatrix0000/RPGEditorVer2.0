@@ -232,6 +232,9 @@
     <ClCompile Include="Scripts\Commons\Components\Component.cpp">
       <Filter>Scripts\Commons\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\Colliders\MeshCollider.cpp">
+      <Filter>Scripts\Commons\Colliders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -492,6 +495,9 @@
     </ClInclude>
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuParams.h">
       <Filter>Scripts\GameObjects\UIs\SelectMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Colliders\MeshCollider.h">
+      <Filter>Scripts\Commons\Colliders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
