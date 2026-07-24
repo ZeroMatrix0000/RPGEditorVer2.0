@@ -535,5 +535,14 @@
     <None Include="Resources\Jsons\Scenes\Scene_Sample.json">
       <Filter>Jsons\Scenes</Filter>
     </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_ErrorMessage.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_Canvas.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_SceneTransitionAnimation.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
   </ItemGroup>
 </Project>

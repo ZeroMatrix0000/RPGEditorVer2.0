@@ -49,7 +49,7 @@ void Game::Initialize(const HWND& hWindow)
 	m_hWindow = hWindow;
 
 	// エラーメッセージの初期化
-	m_errorMessage.Initialize(L"GenEi M Gothic v2", 5.0f, true);
+	m_errorMessage.Initialize(5.0f, true);
 
 	// デバイスリソースの初期化
 	m_deviceResources.Initialize(hWindow);
@@ -103,7 +103,7 @@ void Game::Initialize(const HWND& hWindow)
 	IComponentManager* pIComponentManager = &m_componentManager;
 
 	// エラーメッセージのオブジェクトを生成
-	m_errorMessage.CreateObjects(pIComponentManager);
+	m_errorMessage.CreateObjects(&m_gameObjectManager);
 
 	// シーンの追加
 	m_sceneManager.AddScene<SampleScene>([pIComponentManager]
@@ -115,7 +115,7 @@ void Game::Initialize(const HWND& hWindow)
 		return std::unique_ptr<TitleScene>{ static_cast<TitleScene*>(pIComponentManager->Create<TitleScene>().release()) };
 	});
 	// シーン管理の初期化
-	m_sceneManager.Initialize(m_windowController.GetOutputSize(), pIComponentManager);
+	m_sceneManager.Initialize(m_windowController.GetOutputSize(), &m_gameObjectManager);
 
 	// コンテキストの初期化
 	m_context.Initialize

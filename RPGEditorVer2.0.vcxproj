@@ -197,6 +197,9 @@
     <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp" />
     <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_Canvas.json" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_ErrorMessage.json" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_SceneTransitionAnimation.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenu.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenuCursor.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenuText.json" />

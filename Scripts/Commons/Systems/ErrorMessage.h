@@ -1,7 +1,7 @@
 /*
  * FileName:     ErrorMessage.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/24
  *
  * エラーメッセージ
  */
@@ -17,10 +17,7 @@ namespace Renderings
 namespace GameObjects
 {
 	class GameObject;
-}
-namespace Components
-{
-	class IComponentManager;
+	class IGameObjectInstantiator;
 }
 
 namespace Systems
@@ -38,12 +35,12 @@ namespace Systems
 		ErrorMessage();
 
 		// 初期化処理
-		void Initialize(const std::wstring& fontName, float displayTime, bool isActive);
+		void Initialize(float displayTime, bool isActive);
 		// 更新処理
 		void Update(float elapsedTime);
 
 		// オブジェクト生成
-		void CreateObjects(IComponentManager* pIComponentManager);
+		void CreateObjects(IGameObjectInstantiator* pIGameObjectInstantiator);
 
 		// メッセージを追加
 		void AddMessage(const std::wstring& text) override;
@@ -78,16 +75,9 @@ namespace Systems
 		// メッセージ数
 		size_t                   m_messageCount;
 
-		// 表示するテキスト
-		std::unique_ptr<GameObject> m_text;
 		// 表示するテキストコンポーネント
-		Renderings::Text*           m_textComponent;
+		Renderings::Text* m_textComponent;
 
-		// キャンバス
-		std::unique_ptr<GameObject> m_canvas;
-
-		// フォント名
-		std::wstring m_fontName;
 		// 表示する秒数
 		float        m_displayTime;
 

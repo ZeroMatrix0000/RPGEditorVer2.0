@@ -1,0 +1,26 @@
+{
+	"Text": {
+		"Str": "",
+		"FontName": "GenEi M Gothic v2",
+		"FontSize": 24.0,
+		"FontColor": {
+			"R": 1.0,
+			"G": 1.0,
+			"B": 0.0,
+			"A": 1.0
+		},
+		"OrderInLayer": 65535
+	},
+	"RectTransform": {
+		"Position": {
+			"X": 10.0,
+			"Y": 10.0
+		},
+		"Size": {
+			"X": 100000.0,
+			"Y": 100000.0
+		},
+		"Pivot": "TopLeft",
+		"Anchor": "TopLeft"
+	}
+}

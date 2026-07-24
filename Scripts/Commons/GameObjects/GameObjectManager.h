@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/24
  *
  * ゲームオブジェクト管理
  */
@@ -43,7 +43,7 @@ namespace GameObjects
 		GameObject* Find(const std::string& name) const override;
 
 		// ゲームオブジェクトを生成
-		GameObject* Instantiate(const std::string& jsonName) override;
+		GameObject* Instantiate(const std::string& jsonName, bool dontDestroyOnLoad) override;
 
 		// 未参照ゲームオブジェクトを取得
 		GameObject* GetNullReferences() const override { return m_nullReference.get(); }
@@ -84,6 +84,9 @@ namespace GameObjects
 
 		// 管理するゲームオブジェクトリストのポインタ
 		std::vector<std::unique_ptr<GameObject>>* m_pGameObjects;
+
+		// シーンをまたいでも消えないゲームオブジェクトリスト
+		std::vector<std::unique_ptr<GameObject>> m_dontDestroyOnLoadGameObjects;
 
 		// コンポーネント管理のポインタ
 		IComponentManager* m_pIComponentManager;

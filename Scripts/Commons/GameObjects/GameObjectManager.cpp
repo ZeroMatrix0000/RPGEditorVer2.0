@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/24
  *
  * ゲームオブジェクト管理
  */
@@ -19,6 +19,7 @@ GameObjects::GameObjectManager::GameObjectManager(const Systems::IResources& iRe
 	, m_AddComponentList{}
 	, m_nullReference{}
 	, m_pGameObjects{}
+	, m_dontDestroyOnLoadGameObjects{}
 	, m_pIComponentManager{}
 	, m_refIResources{ iResources }
 {
@@ -76,7 +77,7 @@ GameObject* GameObjects::GameObjectManager::Find(const std::string& name) const
 }
 
 // ゲームオブジェクトを生成
-GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonName)
+GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonName, bool dontDestroyOnLoad)
 {
 	// Json
 	const auto* json = m_refIResources.GetJson(jsonName);
@@ -91,7 +92,16 @@ GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonN
 	GameObject* pGameObject = gameObject.get();
 	pGameObject->SetName(jsonName);
 	SetComponents(*json, pGameObject);
-	m_pGameObjects->push_back(std::move(gameObject));
+
+	if (dontDestroyOnLoad)
+	{
+		m_dontDestroyOnLoadGameObjects.push_back(std::move(gameObject));
+	}
+	else
+	{
+		m_pGameObjects->push_back(std::move(gameObject));
+	}
+
 	return pGameObject;
 }
 

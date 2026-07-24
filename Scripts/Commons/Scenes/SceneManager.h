@@ -1,7 +1,7 @@
 /*
  * FileName:     SceneManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/24
  *
  * シーン管理
  */
@@ -40,10 +40,10 @@ namespace Scenes
 		}
 
 		// 初期化処理
-		void Initialize(const Math::Vector2& outputSize, IComponentManager* pIComponentManager)
+		void Initialize(const Math::Vector2& outputSize, IGameObjectInstantiator* pIGameObjectInstantiator)
 		{
 			// アニメーションの初期化
-			m_animation.Initialize(outputSize, pIComponentManager);
+			m_animation.Initialize(outputSize, pIGameObjectInstantiator);
 		}
 		// 更新処理
 		void Update(float elapsedTime)

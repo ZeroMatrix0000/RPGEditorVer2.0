@@ -1,0 +1,15 @@
+{
+	"Image": {
+		"ImageSourceName": "Box",
+		"Color": {
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"A": 1.0
+		},
+		"OrderInLayer": 32767
+	},
+	"RectTransform": {
+		"Angle": 15.0
+	}
+}

@@ -1,7 +1,7 @@
 /*
  * FileName:     SceneTransitionAnimation.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/24
  *
  * シーン遷移時のアニメーション
  */
@@ -12,45 +12,43 @@
 #include "../Renderings/Canvas.h"
 #include "../Renderings/Image.h"
 #include "../GameObjects/GameObject.h"
+#include "../GameObjects/IGameObjectInstantiator.h"
 #include "../Components/RectTransform.h"
 #include "../Components/IComponentManager.h"
 
 // コンストラクタ
 Scenes::SceneTransitionAnimation::SceneTransitionAnimation()
-	: m_changingRate{}
-	, m_image{}
-	, m_imageRectTransform{}
-	, m_canvas{}
+	: m_angle{}
+	, m_changingRate{}
+	, m_pImageRectTransform{}
+	, m_pCanvas{}
 {
 }
 
 // 初期化処理
-void Scenes::SceneTransitionAnimation::Initialize(const Math::Vector2& outputSize, IComponentManager* pIComponentManager)
+void Scenes::SceneTransitionAnimation::Initialize(const Math::Vector2& outputSize, IGameObjectInstantiator* pIGameObjectInstantiator)
 {
 	// アニメーションの設定
 	SetAnimation(false);
 
 	// 画像の設定
-	m_image = std::make_unique<GameObject>(pIComponentManager);
-	m_imageRectTransform = m_image->AddComponent<RectTransform>();
-	m_imageRectTransform->SetAngle(CHANGE_ANGLE);
-	auto* pImage = m_image->AddComponent<Renderings::Image>();
-	pImage->SetImageSourceName("Box");
-	pImage->SetColor(DirectX::Colors::Black);
-	pImage->SetOrderInLayer(32767);
+	auto* pObj = pIGameObjectInstantiator->Instantiate("Prefab_SceneTransitionAnimation", true);
+	m_pImageRectTransform = pObj->GetComponent<RectTransform>();
+	auto* pImage = pObj->GetComponent<Renderings::Image>();
 	// キャンバスの設定
-	m_canvas = std::make_unique<GameObject>(pIComponentManager);
-	auto* pCanvas = m_canvas->AddComponent<Renderings::Canvas>();
-	pCanvas->Initialize(Renderings::Canvas::FixedSize::None, outputSize);
+	m_pCanvas = pIGameObjectInstantiator->Instantiate("Prefab_Canvas", true)->GetComponent<Renderings::Canvas>();
+	m_pCanvas->Initialize(Renderings::Canvas::FixedSize::None, outputSize);
 
 	// キャンバスに画像を映す
-	pImage->SetCanvas(*pCanvas);
+	pImage->SetCanvas(*m_pCanvas);
+
+	m_angle = m_pImageRectTransform->GetAngle();
 
 	// 長方形サイズの設定
-	m_imageRectTransform->SetSize(Math::Vector2
+	m_pImageRectTransform->SetSize(Math::Vector2
 	{
-		Math::Abs(outputSize.x * Math::Cos(Math::Deg2Rad(CHANGE_ANGLE))) + Math::Abs(outputSize.y * Math::Sin(Math::Deg2Rad(CHANGE_ANGLE))),
-		Math::Abs(outputSize.x * Math::Sin(Math::Deg2Rad(CHANGE_ANGLE))) + Math::Abs(outputSize.y * Math::Cos(Math::Deg2Rad(CHANGE_ANGLE)))
+		Math::Abs(outputSize.x * Math::Cos(Math::Deg2Rad(m_angle))) + Math::Abs(outputSize.y * Math::Sin(Math::Deg2Rad(m_angle))),
+		Math::Abs(outputSize.x * Math::Sin(Math::Deg2Rad(m_angle))) + Math::Abs(outputSize.y * Math::Cos(Math::Deg2Rad(m_angle)))
 	});
 }
 
@@ -61,31 +59,31 @@ void Scenes::SceneTransitionAnimation::Update(float elapsedTime)
 	m_changingRate.Tick(elapsedTime);
 
 	// 移動方向
-	Math::Vector2 direction = Math::Vector2{ Math::Cos(Math::Deg2Rad(CHANGE_ANGLE)), Math::Sin(Math::Deg2Rad(CHANGE_ANGLE)) } * m_imageRectTransform->GetRect().size.x;
+	Math::Vector2 direction = Math::Vector2{ Math::Cos(Math::Deg2Rad(m_angle)), Math::Sin(Math::Deg2Rad(m_angle)) } * m_pImageRectTransform->GetRect().size.x;
 	// 長方形座標の設定
-	m_imageRectTransform->SetPosition(direction * m_changingRate.GetMovement());
+	m_pImageRectTransform->SetPosition(direction * m_changingRate.GetMovement());
 }
 
 // キャンバスサイズの変更
 void Scenes::SceneTransitionAnimation::SetCanvasSize(const Math::Vector2& outputSize)
 {
-	m_canvas->GetComponent<Renderings::Canvas>()->SetSize(outputSize);
+	m_pCanvas->SetSize(outputSize);
 
 	// 長方形サイズの設定
-	m_imageRectTransform->SetSize(Math::Vector2
-	{
-		Math::Abs(outputSize.x * Math::Cos(Math::Deg2Rad(CHANGE_ANGLE))) + Math::Abs(outputSize.y * Math::Sin(Math::Deg2Rad(CHANGE_ANGLE))),
-		Math::Abs(outputSize.x * Math::Sin(Math::Deg2Rad(CHANGE_ANGLE))) + Math::Abs(outputSize.y * Math::Cos(Math::Deg2Rad(CHANGE_ANGLE)))
-	});
+	m_pImageRectTransform->SetSize(Math::Vector2
+		{
+			Math::Abs(outputSize.x * Math::Cos(Math::Deg2Rad(m_angle))) + Math::Abs(outputSize.y * Math::Sin(Math::Deg2Rad(m_angle))),
+			Math::Abs(outputSize.x * Math::Sin(Math::Deg2Rad(m_angle))) + Math::Abs(outputSize.y * Math::Cos(Math::Deg2Rad(m_angle)))
+		});
 
 	// 移動方向
 	Math::Vector2 direction = Math::Vector2
 	{
-		Math::Cos(Math::Deg2Rad(CHANGE_ANGLE)),
-		Math::Sin(Math::Deg2Rad(CHANGE_ANGLE))
-	} * m_imageRectTransform->GetRect().size.x;
+		Math::Cos(Math::Deg2Rad(m_angle)),
+		Math::Sin(Math::Deg2Rad(m_angle))
+	} * m_pImageRectTransform->GetRect().size.x;
 	// 長方形座標の設定
-	m_imageRectTransform->SetPosition(direction* m_changingRate.GetMovement());
+	m_pImageRectTransform->SetPosition(direction* m_changingRate.GetMovement());
 }
 
 // 切り替え率を設定

@@ -1,7 +1,7 @@
 /*
  * FileName:     IGameObjectInstantiator.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/24
  *
  * ゲームオブジェクト生成のインタフェース
  */
@@ -30,7 +30,7 @@ namespace GameObjects
 		}
 
 		// ゲームオブジェクトを生成
-		virtual GameObject* Instantiate(const std::string& jsonName) = 0;
+		virtual GameObject* Instantiate(const std::string& jsonName, bool dontDestroyOnLoad = false) = 0;
 
 		// 未参照ゲームオブジェクトを取得
 		virtual GameObject* GetNullReferences() const = 0;

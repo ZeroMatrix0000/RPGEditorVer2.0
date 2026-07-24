@@ -1,7 +1,7 @@
 /*
  * FileName:     ErrorMessage.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/24
  *
  * エラーメッセージ
  */
@@ -13,27 +13,23 @@
 #include "../Components/RectTransform.h"
 #include "../Renderings/Text.h"
 #include "../Renderings/Canvas.h"
+#include "../GameObjects/IGameObjectInstantiator.h"
 
 // コンストラクタ
 Systems::ErrorMessage::ErrorMessage()
 	: IErrorMessage{}
 	, m_messages{}
 	, m_messageCount{}
-	, m_text{}
 	, m_textComponent{}
-	, m_canvas{}
-	, m_fontName{}
 	, m_displayTime{}
 	, m_isActive{}
 {
 }
 
 // 初期化処理
-void Systems::ErrorMessage::Initialize(const std::wstring& fontName, float displayTime, bool isActive)
+void Systems::ErrorMessage::Initialize(float displayTime, bool isActive)
 {
 	m_messageCount = 0;
-
-	m_fontName = fontName;
 
 	m_displayTime = displayTime;
 
@@ -74,24 +70,12 @@ void Systems::ErrorMessage::Update(float elapsedTime)
 }
 
 // オブジェクト生成
-void Systems::ErrorMessage::CreateObjects(IComponentManager* pIComponentManager)
+void Systems::ErrorMessage::CreateObjects(IGameObjectInstantiator* pIGameObjectInstantiator)
 {
 	// テキストの設定
-	m_text = std::make_unique<GameObject>(pIComponentManager);
-	auto* pRectTransform = m_text->AddComponent<RectTransform>();
-	pRectTransform->SetPosition(Math::Vector2{ 10.0f, 10.0f });
-	pRectTransform->SetSize(Math::Vector2{ 100000.0f, 100000.0f });
-	pRectTransform->SetPivot(Utility::AlignmentPoint::TopLeft);
-	pRectTransform->SetAnchor(Utility::AlignmentPoint::TopLeft);
-	m_textComponent = m_text->AddComponent<Renderings::Text>();
-	m_textComponent->SetStr(L"");
-	m_textComponent->SetFontName(m_fontName);
-	m_textComponent->SetFontSize(24.0f);
-	m_textComponent->SetFontColor(DirectX::Colors::Yellow);
-	m_textComponent->SetOrderInLayer(65535);
+	m_textComponent = pIGameObjectInstantiator->Instantiate("Prefab_ErrorMessage", true)->GetComponent<Renderings::Text>();
 	// キャンバスの設定
-	m_canvas = std::make_unique<GameObject>(pIComponentManager);
-	auto* pCanvas = m_canvas->AddComponent<Renderings::Canvas>();
+	auto* pCanvas = pIGameObjectInstantiator->Instantiate("Prefab_Canvas", true)->GetComponent<Renderings::Canvas>();
 	pCanvas->Initialize(Renderings::Canvas::FixedSize::None, Math::Vector2{ 1600.0f, 900.0f });
 
 	// キャンバスに画像を映す

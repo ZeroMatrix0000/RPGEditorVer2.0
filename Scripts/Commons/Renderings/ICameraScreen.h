@@ -1,7 +1,7 @@
 /*
  * FileName:     ICameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/24
  *
  * カメラ画面のインタフェース
  */
@@ -12,8 +12,6 @@
 
 namespace Renderings
 {
-	class Model3D;
-
 	// カメラ画面のインタフェース
 	class ICameraScreen : public Component
 	{
