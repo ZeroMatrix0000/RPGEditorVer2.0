@@ -75,6 +75,6 @@ private:
 	// タイトルの基準位置
 	Math::Vector2 m_titlePosition;
 	// タイトルの移動周期
-	Cycled m_titleSwayTime;
+	Cycled m_titleSway;
 
 };

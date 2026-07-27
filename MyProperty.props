@@ -4,6 +4,7 @@
   <PropertyGroup Label="UserMacros">
     <dds>Resources/Images/</dds>
     <cmo>Resources/Models/</cmo>
+    <cso>Resources/Shaders/</cso>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup>
@@ -30,6 +31,11 @@
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
     </Manifest>
+    <ShaderGraphContentTask />
+    <FxCompile>
+      <ObjectFileOutput>$(cso)%(Filename).cso</ObjectFileOutput>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <BuildMacro Include="dds">
@@ -37,6 +43,9 @@
     </BuildMacro>
     <BuildMacro Include="cmo">
       <Value>$(cmo)</Value>
+    </BuildMacro>
+    <BuildMacro Include="cso">
+      <Value>$(cso)</Value>
     </BuildMacro>
   </ItemGroup>
 </Project>

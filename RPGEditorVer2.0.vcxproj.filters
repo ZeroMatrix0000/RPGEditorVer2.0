@@ -76,6 +76,9 @@
     <Filter Include="Scripts\Commons\Components">
       <UniqueIdentifier>{79758268-6179-481e-ab20-259ee9077a65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{67cea1ab-dd5d-4940-b492-130d1e7bcc0f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -544,5 +547,10 @@
     <None Include="Resources\Jsons\Prefabs\Prefab_SceneTransitionAnimation.json">
       <Filter>Jsons\Prefabs</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\Test.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

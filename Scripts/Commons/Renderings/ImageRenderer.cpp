@@ -39,7 +39,7 @@ void Renderings::ImageRenderer::Begin()
 	// 描画開始
 	m_spriteBatch->Begin
 	(
-		DirectX::SpriteSortMode_Deferred,
+		DirectX::SpriteSortMode_Immediate,
 		m_pCommonStates->NonPremultiplied()
 	);
 }

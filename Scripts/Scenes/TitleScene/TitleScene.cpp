@@ -29,7 +29,7 @@ TitleScene::TitleScene(const ComponentDesc& desc)
 	, m_pSelectMenu{}
 	, m_pTitle{}
 	, m_titlePosition{}
-	, m_titleSwayTime{}
+	, m_titleSway{}
 {
 }
 
@@ -68,7 +68,7 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	// タイトルを取得
 	m_pTitle = pIGameObjectManager->Find("Title")->GetComponent<RectTransform>();
 	m_titlePosition = m_pTitle->GetRect().position;
-	m_titleSwayTime.Initialize(0.0f, 0.0f, 4.0f);
+	m_titleSway.Initialize(0.0f, 0.0f, 360.0f);
 }
 
 // 更新処理
@@ -101,8 +101,8 @@ void TitleScene::Update(float elapsedTime)
 	m_pSelectMenu->Update(elapsedTime);
 
 	// タイトルの更新
-	m_titleSwayTime += elapsedTime;
-	m_pTitle->SetPosition(m_titlePosition + Math::Vector2::UnitY * Math::Sin(m_titleSwayTime / 2.0f * Math::PI) * 50.0f);
+	m_titleSway += 90.0f * elapsedTime;
+	m_pTitle->SetPosition(m_titlePosition + Math::Vector2::UnitY * Math::Sin(Math::Deg2Rad(m_titleSway)) * 50.0f);
 
 	// カメラ画面の更新
 	Camera::EulerTargetCamera camera = m_pCameraScreen->GetCamera();
