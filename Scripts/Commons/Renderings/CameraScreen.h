@@ -1,7 +1,7 @@
 /*
  * FileName:     CameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/22
+ * Last Updated: 2026/07/27
  *
  * カメラ画面
  */
@@ -67,9 +67,21 @@ namespace Renderings
 		}
 
 		// ビュー行列を更新
-		void UpdateViewMatrix()
+		void UpdateViewMatrix() override
 		{
 			m_view = m_camera.CreateViewMatrix();
+		}
+
+		// プロジェクション行列を設定
+		void SetProjectionMatrix(const Math::Vector2& outputSize) override
+		{
+			m_projection = Math::Matrix::CreatePerspectiveFieldOfView
+			(
+				Math::Deg2Rad(m_viewAngle),
+				outputSize.x / outputSize.y,
+				0.1f,
+				1000.0f
+			);
 		}
 
 		// ビュー行列を取得
@@ -84,18 +96,6 @@ namespace Renderings
 		void SetCamera(const TCamera& camera) { m_camera = camera; }
 		// カメラを設定
 		void SetViewAngle(float viewAngle) { m_viewAngle = viewAngle; }
-
-		// プロジェクション行列を設定
-		void SetProjectionMatrix(const Math::Vector2& outputSize)
-		{
-			m_projection = Math::Matrix::CreatePerspectiveFieldOfView
-			(
-				Math::Deg2Rad(m_viewAngle),
-				outputSize.x / outputSize.y,
-				0.1f,
-				1000.0f
-			);
-		}
 
 		// カメラを取得
 		const TCamera& GetCamera() const { return m_camera; }

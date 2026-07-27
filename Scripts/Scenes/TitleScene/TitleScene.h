@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/27
  *
  * タイトルシーン
  */
@@ -10,9 +10,22 @@
 
 #include "Scripts/Commons/Scenes/Scene.h"
 
+namespace Components
+{
+	class RectTransform;
+}
 namespace Renderings
 {
 	class Canvas;
+	template<typename TCamera> requires IsSame
+	<
+		TCamera,
+		Camera::QuaternionCamera,
+		Camera::QuaternionTargetCamera,
+		Camera::EulerCamera,
+		Camera::EulerTargetCamera
+	>
+	class CameraScreen;
 }
 class SceneTransitionData;
 class GameContext;
@@ -49,10 +62,19 @@ private:
 
 	/* メンバ変数 */
 
+	// カメラ画面
+	Renderings::CameraScreen<Camera::EulerTargetCamera>* m_pCameraScreen;
 	// キャンバス
 	Renderings::Canvas* m_pCanvas;
 
 	// 選択メニューコンポーネント
 	SelectMenu* m_pSelectMenu;
+
+	// タイトル
+	RectTransform* m_pTitle;
+	// タイトルの基準位置
+	Math::Vector2 m_titlePosition;
+	// タイトルの移動周期
+	Cycled m_titleSwayTime;
 
 };

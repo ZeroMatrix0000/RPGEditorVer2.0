@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/27
  *
  * サンプルシーン
  */
@@ -12,15 +12,7 @@
 
 namespace Renderings
 {
-	template<typename TCamera> requires IsSame
-	<
-		TCamera,
-		Camera::QuaternionCamera,
-		Camera::QuaternionTargetCamera,
-		Camera::EulerCamera,
-		Camera::EulerTargetCamera
-	>
-	class CameraScreen;
+	class ICameraScreen;
 	class Canvas;
 }
 class SceneTransitionData;
@@ -65,7 +57,7 @@ private:
 	std::unique_ptr<GameObject> m_ground;
 
 	// カメラ画面
-	Renderings::CameraScreen<Camera::EulerTargetCamera>* m_pCameraScreen;
+	Renderings::ICameraScreen* m_pCameraScreen;
 	// デバッグカメラ
 	DebugCamera* m_pDebugCamera;
 

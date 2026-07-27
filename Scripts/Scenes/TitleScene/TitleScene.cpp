@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/27
  *
  * タイトルシーン
  */
@@ -13,16 +13,23 @@
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
+#include "Scripts/Commons/Renderings/CameraScreen.h"
+#include "Scripts/Commons/Components/RectTransform.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectManager.h"
+#include "Scripts/Commons/Colliders/MeshCollider.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 
 // コンストラクタ
 TitleScene::TitleScene(const ComponentDesc& desc)
 	: Scene{ desc }
+	, m_pCameraScreen{}
 	, m_pCanvas{}
 	, m_pSelectMenu{}
+	, m_pTitle{}
+	, m_titlePosition{}
+	, m_titleSwayTime{}
 {
 }
 
@@ -41,15 +48,27 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 	pIGameObjectManager->SetPGameObjects(GetPGameObjects());
 	pIGameObjectManager->Load("Scene_Title");
 
+	// カメラ画面を取得
+	m_pCameraScreen = pIGameObjectManager->Find("TitleCamera")->GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
+	m_pCameraScreen->SetProjectionMatrix(outputSize);
+
 	// キャンバスを取得
 	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
 	m_pCanvas->SetSize(outputSize);
+
+	// 地面を取得
+	pIGameObjectManager->Find("Ground")->GetComponent<Colliders::MeshCollider>()->ApplyTransform();
 
 	// 選択メニューを取得
 	m_pSelectMenu = pIGameObjectManager->Find("TitleMenu")->GetComponent<SelectMenu>();
 	m_pSelectMenu->AddOption(L"スタート", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
 	m_pSelectMenu->AddOption(L"エディタ", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
 	m_pSelectMenu->AddOption(L"ゲームを終了", [&] { gameContext.GetPIWindowController()->Destroy(); });
+
+	// タイトルを取得
+	m_pTitle = pIGameObjectManager->Find("Title")->GetComponent<RectTransform>();
+	m_titlePosition = m_pTitle->GetRect().position;
+	m_titleSwayTime.Initialize(0.0f, 0.0f, 4.0f);
 }
 
 // 更新処理
@@ -80,6 +99,17 @@ void TitleScene::Update(float elapsedTime)
 
 	// 選択メニューの更新
 	m_pSelectMenu->Update(elapsedTime);
+
+	// タイトルの更新
+	m_titleSwayTime += elapsedTime;
+	m_pTitle->SetPosition(m_titlePosition + Math::Vector2::UnitY * Math::Sin(m_titleSwayTime / 2.0f * Math::PI) * 50.0f);
+
+	// カメラ画面の更新
+	Camera::EulerTargetCamera camera = m_pCameraScreen->GetCamera();
+	camera.rotation.y += 30.0f * elapsedTime;
+	camera.rotation.Format();
+	m_pCameraScreen->SetCamera(camera);
+	m_pCameraScreen->UpdateViewMatrix();
 }
 
 // 終了処理
@@ -94,6 +124,8 @@ void TitleScene::AcceptMessage(const std::string& message)
 	{
 		// 出力サイズ
 		const Math::Vector2& outputSize = GetContext().GetPIWindowController()->GetOutputSize();
+		// プロジェクション行列を設定
+		m_pCameraScreen->SetProjectionMatrix(outputSize);
 		// キャンバスのサイズを設定
 		m_pCanvas->SetSize(outputSize);
 	}

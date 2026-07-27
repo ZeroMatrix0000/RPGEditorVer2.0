@@ -1,7 +1,7 @@
 /*
  * FileName:     SampleScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/07/27
  *
  * サンプルシーン
  */
@@ -14,7 +14,7 @@
 #include "Scripts/Commons/Scenes/ISceneManager.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectManager.h"
-#include "Scripts/Commons/Renderings/CameraScreen.h"
+#include "Scripts/Commons/Renderings/ICameraScreen.h"
 #include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
@@ -52,7 +52,7 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 
 	// デバッグカメラを取得
 	GameObject* pCamera = pIGameObjectManager->Find("DebugCamera");
-	m_pCameraScreen = pCamera->GetComponent<Renderings::CameraScreen<Camera::EulerTargetCamera>>();
+	m_pCameraScreen = pCamera->GetComponent<Renderings::ICameraScreen>();
 	m_pCameraScreen->SetProjectionMatrix(outputSize);
 	m_pDebugCamera = pCamera->GetComponent<DebugCamera>();
 

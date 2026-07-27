@@ -1,7 +1,7 @@
 /*
  * FileName:     DebugCamera.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/27
  *
  * デバッグ用カメラ
  */
@@ -31,6 +31,12 @@ void DebugCamera::Initalize(const nlohmann::ordered_json& json, IGameObjectFinde
 // 更新処理
 void DebugCamera::Update(float elapsedTime)
 {
+	// カメラ画面が見つからなければ何もしない
+	if (!m_internals.pCameraScreen)
+	{
+		return;
+	}
+
 	// 次の状態に遷移
 	std::unique_ptr<Systems::State<DebugCameraInternals>> nextState{ m_currentState->MoveNextState() };
 	if (nextState)

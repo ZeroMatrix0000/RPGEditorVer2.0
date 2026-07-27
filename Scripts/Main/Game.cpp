@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/07/27
  *
  * ゲーム
  */
@@ -240,6 +240,12 @@ void Game::RegisterComponents()
 		return std::make_unique<Colliders::MeshCollider>(desc, &m_renderer.GetIColliderRenderer(), m_resources);
 	});
 
+	// カメラ画面
+	m_componentManager.RegisterCreate<Renderings::ICameraScreen>([&](const ComponentDesc& desc)
+	{
+		return std::make_unique<Renderings::CameraScreen<Camera::QuaternionCamera>>(desc);
+	});
+
 	// トランスフォーム
 	m_gameObjectManager.Register<Transform>("Transform");
 	// 2D用トランスフォーム
@@ -247,7 +253,6 @@ void Game::RegisterComponents()
 	// 3Dモデル
 	m_gameObjectManager.Register<Renderings::Model3D>("Model3D");
 	// カメラ画面
-	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionCamera>>("QuaternionCameraScreen");
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionCamera>>("QuaternionCameraScreen");
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::QuaternionTargetCamera>>("QuaternionTargetCameraScreen");
 	m_gameObjectManager.Register<Renderings::CameraScreen<Camera::EulerCamera>>("EulerCameraScreen");
