@@ -1,7 +1,7 @@
 /*
  * FileName:     IInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/29
  *
  * 入力管理のインタフェース
  */
@@ -73,6 +73,8 @@ namespace Systems
 
 		// マウス座標をループさせるかどうかを設定
 		virtual void SetMousePositionLoop(bool mousePositionLoop) = 0;
+		// マウスカーソルを表示
+		virtual void DisplayCursor(bool isShow) = 0;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     Input.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/29
  *
  * 入力管理
  */
@@ -69,6 +69,12 @@ bool Systems::Input::GetMouseButtonUp(MouseButtonName mouseButtonName) const
 	default:
 		return false;
 	}
+}
+
+// マウスカーソルを表示
+void Systems::Input::DisplayCursor(bool isShow)
+{
+	ShowCursor(isShow);
 }
 
 // マウスの座標の計算

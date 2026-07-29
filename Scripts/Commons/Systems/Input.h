@@ -1,7 +1,7 @@
 /*
  * FileName:     Input.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/07/29
  *
  * 入力管理
  */
@@ -62,6 +62,8 @@ namespace Systems
 
 		// マウス座標をループさせるかどうかを設定
 		void SetMousePositionLoop(bool mousePositionLoop) override { m_mousePositionLoop = mousePositionLoop; }
+		// マウスカーソルを表示
+		void DisplayCursor(bool isShow) override;
 
 
 	private:
