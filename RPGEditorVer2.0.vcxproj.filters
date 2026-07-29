@@ -79,6 +79,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{67cea1ab-dd5d-4940-b492-130d1e7bcc0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\PixelShaders">
+      <UniqueIdentifier>{d363c837-3ad2-418d-9118-7a41f874e87b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -550,7 +553,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\Test.hlsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\PixelShaders</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

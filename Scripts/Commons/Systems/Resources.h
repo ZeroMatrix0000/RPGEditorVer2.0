@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/07/29
  *
  * リソース管理
  */
@@ -32,15 +32,19 @@ namespace Systems
 		void LoadJsons(const std::wstring& directoryPath);
 		// メッシュを読み込む
 		void LoadMeshes(const std::wstring& directoryPath);
+		// ピクセルシェーダを読み込む
+		void LoadPixelShaders(ID3D11Device* device, const std::wstring& directoryPath);
 
 		// モデルの取得
-		const Renderings::Model3DSource* GetModelSource(const std::string& modelName) const override;
+		const Renderings::Model3DSource* GetModelSource(const std::string& modelName)  const override;
 		// 画像の取得
-		const Renderings::ImageSource*   GetImageSource(const std::string& imageName) const override;
+		const Renderings::ImageSource*   GetImageSource(const std::string& imageName)  const override;
 		// Jsonの取得
-		const nlohmann::ordered_json*    GetJson(const std::string& jsonName)         const override;
+		const nlohmann::ordered_json*    GetJson(const std::string& jsonName)          const override;
 		// Jsonの取得
-		const Mesh*                      GetMesh(const std::string& meshName)         const override;
+		const Mesh*                      GetMesh(const std::string& meshName)          const override;
+		// ピクセルシェーダの取得
+		ID3D11PixelShader*               GetPixelShader(const std::string& shaderName) const override;
 
 
 	private:
@@ -58,6 +62,8 @@ namespace Systems
 		std::unordered_map<std::string, nlohmann::ordered_json> m_jsons;
 		// メッシュリスト
 		std::unordered_map<std::string, Mesh> m_meshes;
+		// ピクセルシェーダリスト
+		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11PixelShader>> m_pixelShaders;
 
 	};
 }

@@ -30,7 +30,7 @@ namespace Renderings
 		ImageRenderer(const Systems::IResources& iResources);
 
 		// 初期化処理
-		void Initialize(ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
+		void Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
 
 		// 描画開始
 		void Begin();
@@ -57,13 +57,31 @@ namespace Renderings
 	private:
 
 
+		/* 構造体 */
+
+		// シェーダの定数バッファ
+		struct ConstBuffer
+		{
+			// テクスチャサイズ
+			Math::Vector2 textureSize;
+			// 余白
+			Math::Vector2 unusedSpace;
+		};
+
+
 		/* メンバ変数 */
+
+		// 定数バッファ
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constBuffer;
 
 		// スプライトバッチ
 		std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
 
 		// 画像のポインタリスト
 		std::vector<const Image*> m_pImages;
+
+		// デバイスコンテキスト
+		ID3D11DeviceContext4* m_pContext;
 
 		// コモンステート
 		const DirectX::CommonStates* m_pCommonStates;

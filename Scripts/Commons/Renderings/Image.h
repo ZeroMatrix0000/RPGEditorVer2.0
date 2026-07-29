@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/29
  *
  * 画像
  */
@@ -39,6 +39,9 @@ namespace Renderings
 		// 色を設定
 		void SetColor(const DirectX::XMVECTORF32& color) { m_color = color; }
 
+		// ピクセルシェーダ名を設定
+		void SetPixelShaderName(const std::string& pixelShaderName) { m_pixelShaderName = pixelShaderName; }
+
 		// レイヤー順を設定
 		void SetOrderInLayer(int orderInLayer) { m_orderInLayer = orderInLayer; }
 
@@ -49,6 +52,9 @@ namespace Renderings
 		const std::string& GetImageSourceName() const { return m_imageSourceName; }
 		// 色を取得
 		const Math::Color& GetColor() const { return m_color; }
+
+		// ピクセルシェーダ名を取得
+		const std::string& GetPixelShaderName() const { return m_pixelShaderName; }
 
 		// レイヤー順を取得
 		int GetOrderInLayer() const { return m_orderInLayer; }
@@ -69,6 +75,9 @@ namespace Renderings
 		std::string m_imageSourceName;
 		// 色
 		Math::Color m_color;
+
+		// ピクセルシェーダ名
+		std::string m_pixelShaderName;
 
 		// レイヤー順
 		int m_orderInLayer;

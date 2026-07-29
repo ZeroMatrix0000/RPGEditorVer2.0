@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/29
  *
  * 画像描画
  */
@@ -21,16 +21,23 @@ Renderings::ImageRenderer::ImageRenderer(const Systems::IResources& iResources)
 	: IImageRenderer{}
 	, m_spriteBatch{}
 	, m_pImages{}
+	, m_pContext{}
 	, m_pCommonStates{}
 	, m_refIResources{ iResources }
 {
 }
 
 // 初期化処理
-void Renderings::ImageRenderer::Initialize(ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates)
+void Renderings::ImageRenderer::Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates)
 {
+	m_pContext = pContext;
 	m_pCommonStates = &commonStates;
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(pContext);
+
+	// 定数バッファの詳細
+	CD3D11_BUFFER_DESC cbDesc{ sizeof(ConstBuffer), D3D11_BIND_CONSTANT_BUFFER };
+	// 定数バッファの作成
+	Utility::ThrowIfFailed(pDevice->CreateBuffer(&cbDesc, nullptr, m_constBuffer.GetAddressOf()));
 }
 
 // 描画開始
@@ -156,6 +163,19 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 	rect.position *= canvasRatio;
 	rect.size *= canvasRatio;
 
+	// ピクセルシェーダ
+	ID3D11PixelShader* pPixelShader = pImage->GetPixelShaderName().empty() ? nullptr : m_refIResources.GetPixelShader(pImage->GetPixelShaderName());
+	
+	if (pPixelShader)
+	{
+		// ピクセルシェーダシェーダを設定
+		m_pContext->PSSetShader(pPixelShader, nullptr, 0);
+		// 定数バッファ
+		ConstBuffer constBuffer{ GetImageSize(pImage) };
+		m_pContext->UpdateSubresource(m_constBuffer.Get(), 0, nullptr, &constBuffer, 0, 0);
+		m_pContext->PSSetConstantBuffers(0, 1, m_constBuffer.GetAddressOf());
+	}
+
 	// 描画
 	m_spriteBatch->Draw
 	(
@@ -172,6 +192,11 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 		Math::Deg2Rad(pRectTransform->GetAngle()),
 		origin
 	);
+
+	if (pPixelShader)
+	{
+		m_pContext->PSSetShader(nullptr, nullptr, 0);
+	}
 }
 
 // 描画終了

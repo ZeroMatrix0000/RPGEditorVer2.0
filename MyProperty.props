@@ -17,7 +17,7 @@
       <ContentOutput>$(cmo)%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <Link>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d11.lib;dxgi.lib;d2d1.lib;Dwrite.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d11.lib;dxgi.lib;D3DCompiler.lib;d2d1.lib;Dwrite.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
     <ClCompile>

@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/07/29
  *
  * リソース管理
  */
@@ -17,6 +17,7 @@ Systems::Resources::Resources()
 	, m_imageSources{}
 	, m_jsons{}
 	, m_meshes{}
+	, m_pixelShaders{}
 {
 }
 
@@ -189,6 +190,56 @@ void Systems::Resources::LoadMeshes(const std::wstring& directoryPath)
 	}
 }
 
+// ピクセルシェーダを読み込む
+void Systems::Resources::LoadPixelShaders(ID3D11Device* device, const std::wstring& directoryPath)
+{
+	// パスが存在しないなら
+	if (!std::filesystem::exists(directoryPath))
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"パスが間違っています。 | path: %s",
+			directoryPath.c_str()
+		));
+		return;
+	}
+
+	// ディレクトリ内を全て検索
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(directoryPath))
+	{
+		// ファイルなら
+		if (entry.is_regular_file())
+		{
+			try
+			{
+				// ブロブデータ
+				Microsoft::WRL::ComPtr<ID3DBlob> blob;
+				Utility::ThrowIfFailed(D3DReadFileToBlob(entry.path().wstring().c_str(), blob.GetAddressOf()));
+				// ピクセルシェーダ
+				Microsoft::WRL::ComPtr<ID3D11PixelShader> shader;
+				Utility::ThrowIfFailed(device->CreatePixelShader
+				(
+					blob->GetBufferPointer(),
+					blob->GetBufferSize(),
+					nullptr,
+					shader.GetAddressOf()
+				));
+				m_pixelShaders.emplace(entry.path().stem().string(), std::move(shader));
+			}
+			catch (std::exception e)
+			{
+				// エラーメッセージを追加
+				IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"ピクセルシェーダの読み込みに失敗しました。 | path: %s",
+					entry.path().c_str()
+				));
+			}
+		}
+	}
+}
+
 // モデルの取得
 const Renderings::Model3DSource* Systems::Resources::GetModelSource(const std::string& modelName) const
 {
@@ -259,4 +310,22 @@ const Mesh* Systems::Resources::GetMesh(const std::string& meshName) const
 	}
 
 	return &it->second;
+}
+
+// ピクセルシェーダの取得
+ID3D11PixelShader* Systems::Resources::GetPixelShader(const std::string& shaderName) const
+{
+	auto it = m_pixelShaders.find(shaderName);
+	if (it == m_pixelShaders.end())
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"ピクセルシェーダが見つかりません。 | name: %s",
+			Utility::string2wstring(shaderName).c_str()
+		));
+		return nullptr;
+	}
+
+	return it->second.Get();
 }

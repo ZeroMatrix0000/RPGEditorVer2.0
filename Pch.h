@@ -22,6 +22,8 @@
 #include <d3d11_4.h>
 // DXGI
 #include <dxgi1_6.h>
+// Direct3D Compiler
+#include <d3dcompiler.h>
 // Direct2D
 #include <d2d1_3.h>
 // DirectWrite

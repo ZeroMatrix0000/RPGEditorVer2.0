@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/27
+ * Last Updated: 2026/07/29
  *
  * ゲーム
  */
@@ -63,7 +63,7 @@ void Game::Initialize(const HWND& hWindow)
 
 	// 描画リソースの初期化
 	m_renderingResources.Initialize(device);
-	m_renderingResources.SetEffectFactoryDirectory(L"Resources/Models");
+	m_renderingResources.SetEffectFactoryDirectory(L"Resources\\Models");
 
 	// コモンステート
 	const auto& commonStates = m_renderingResources.GetCommonStates();
@@ -72,16 +72,18 @@ void Game::Initialize(const HWND& hWindow)
 
 	// 描画の初期化
 	m_renderer.Initialize(device, context, swapChain, commonStates);
-	m_renderer.CreateFontCollection(L"Resources/Fonts");
+	m_renderer.CreateFontCollection(L"Resources\\Fonts");
 
 	// 画像の読み込み
-	m_resources.LoadImageSources(device, L"Resources/Images");
+	m_resources.LoadImageSources(device, L"Resources\\Images");
 	// モデルソースの読み込み
-	m_resources.LoadModelSources(device, fx, L"Resources/Models");
+	m_resources.LoadModelSources(device, fx, L"Resources\\Models");
 	// Jsonの読み込み
-	m_resources.LoadJsons(L"Resources/Jsons");
+	m_resources.LoadJsons(L"Resources\\Jsons");
 	// メッシュの読み込み
-	m_resources.LoadMeshes(L"Resources/Meshes");
+	m_resources.LoadMeshes(L"Resources\\Meshes");
+	// ピクセルシェーダの読み込み
+	m_resources.LoadPixelShaders(device, L"Resources\\Shaders\\PixelShaders");
 
 	// タイマーの初期化
 	m_timer.Initialize();

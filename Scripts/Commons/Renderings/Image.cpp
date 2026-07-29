@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/07/29
  *
  * 画像
  */
@@ -48,6 +48,10 @@ void Renderings::Image::Initalize(const nlohmann::ordered_json& json, IGameObjec
 		else if (key == "Color")
 		{
 			SetColor(JsonSerializer::Json2Color(element.value()));
+		}
+		else if (key == "PixelShaderName")
+		{
+			SetPixelShaderName(element.value().get<std::string>());
 		}
 		else if (key == "OrderInLayer")
 		{
