@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/29
+ * Last Updated: 2026/07/31
  *
  * ゲーム
  */
@@ -158,6 +158,9 @@ void Game::Update()
 
 	// エラーメッセージの更新
 	m_errorMessage.Update(m_timer.GetDeltaTime());
+
+	// 描画の更新
+	m_renderer.Update(m_timer.GetDeltaTime());
 }
 
 // 描画処理

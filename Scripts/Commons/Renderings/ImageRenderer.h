@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/07
+ * Last Updated: 2026/07/31
  *
  * 画像描画
  */
@@ -31,6 +31,8 @@ namespace Renderings
 
 		// 初期化処理
 		void Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
+		// 更新処理
+		void Update(float elapsedTime);
 
 		// 描画開始
 		void Begin();
@@ -59,13 +61,15 @@ namespace Renderings
 
 		/* 構造体 */
 
-		// シェーダの定数バッファ
-		struct ConstBuffer
+		// シェーダの定数バッファの詳細
+		struct ConstBufferDesc
 		{
 			// テクスチャサイズ
-			Math::Vector2 textureSize;
+			Math::Vector2 textureSize{};
+			// 実行時間
+			float time{};
 			// 余白
-			Math::Vector2 unusedSpace;
+			float unusedSpace{};
 		};
 
 
@@ -73,6 +77,8 @@ namespace Renderings
 
 		// 定数バッファ
 		Microsoft::WRL::ComPtr<ID3D11Buffer> m_constBuffer;
+		// 定数バッファの詳細
+		ConstBufferDesc m_constBufferDesc;
 
 		// スプライトバッチ
 		std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;

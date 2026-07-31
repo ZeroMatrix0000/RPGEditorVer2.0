@@ -552,7 +552,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\Test.hlsl">
+    <FxCompile Include="Shaders\PixelShaders\Test2.hlsl">
+      <Filter>Shaders\PixelShaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\PixelShaders\Test.hlsl">
       <Filter>Shaders\PixelShaders</Filter>
     </FxCompile>
   </ItemGroup>

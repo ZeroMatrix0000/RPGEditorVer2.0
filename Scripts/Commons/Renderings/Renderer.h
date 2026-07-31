@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/31
  *
  * 描画
  */
@@ -41,6 +41,8 @@ namespace Renderings
 			IDXGISwapChain4*             pSwapChain,
 			const DirectX::CommonStates& commonStates
 		);
+		// 更新処理
+		void Update(float elapsedTime);
 		// 描画処理
 		void Render();
 
