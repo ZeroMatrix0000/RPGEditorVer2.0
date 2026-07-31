@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/31
  *
  * ゲーム
  */
@@ -21,6 +21,7 @@
 #include "Scripts/Commons/Components/ComponentManager.h"
 #include "Scripts/Commons/Scenes/SceneManager.h"
 #include "SceneTransitionData.h"
+#include "GameInput.h"
 #include "GameContext.h"
 
 // ゲーム
@@ -92,6 +93,9 @@ private:
 
 	// シーン管理
 	Scenes::SceneManager<SceneTransitionData, GameContext> m_sceneManager;
+
+	// ゲーム入力
+	GameInput m_gameInput;
 
 	// ゲームコンテキスト
 	GameContext m_context;

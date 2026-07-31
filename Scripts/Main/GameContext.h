@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/07/31
  *
  * ゲームコンテキスト
  */
@@ -29,7 +29,7 @@ namespace Scenes
 	template<typename TTransitionData, typename TContext>
 	class ISceneManager;
 }
-class IJsonManager;
+class IGameInput;
 
 // ゲームコンテキスト
 class GameContext : public Systems::OnlyOne
@@ -53,7 +53,8 @@ public:
 		Systems::IInput*            pIInput,
 		IComponentManager*          pIComponentManager,
 		IGameObjectManager*         pIGameObjectManager,
-		ISceneManager*              pISceneManager
+		ISceneManager*              pISceneManager,
+		IGameInput*                 pIGameInput
 	);
 
 	// ウィンドウ管理インタフェースを取得
@@ -68,6 +69,9 @@ public:
 
 	// シーン管理インタフェースを取得
 	ISceneManager* GetPISceneManager() const { return m_pISceneManager; }
+
+	// ゲーム入力インタフェースを取得
+	IGameInput* GetPIGameInput() const { return m_pIGameInput; }
 
 
 private:
@@ -87,5 +91,8 @@ private:
 
 	// シーン管理インタフェースのポインタ
 	ISceneManager* m_pISceneManager;
+
+	// ゲーム入力インタフェースのポインタ
+	IGameInput* m_pIGameInput;
 
 };

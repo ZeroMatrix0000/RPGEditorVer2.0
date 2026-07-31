@@ -38,6 +38,7 @@ Game::Game()
 	, m_componentManager{}
 	, m_gameObjectManager{ m_resources }
 	, m_sceneManager{ m_context }
+	, m_gameInput{ m_input }
 	, m_context{}
 {
 }
@@ -126,7 +127,8 @@ void Game::Initialize(const HWND& hWindow)
 		&m_input,
 		&m_componentManager,
 		&m_gameObjectManager,
-		&m_sceneManager
+		&m_sceneManager,
+		&m_gameInput
 	);
 
 	// 最初のシーンを設定

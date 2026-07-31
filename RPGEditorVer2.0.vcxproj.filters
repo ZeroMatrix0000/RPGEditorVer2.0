@@ -241,6 +241,9 @@
     <ClCompile Include="Scripts\Commons\Colliders\MeshCollider.cpp">
       <Filter>Scripts\Commons\Colliders</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Main\GameInput.cpp">
+      <Filter>Scripts\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -504,6 +507,12 @@
     </ClInclude>
     <ClInclude Include="Scripts\Commons\Colliders\MeshCollider.h">
       <Filter>Scripts\Commons\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Main\GameInput.h">
+      <Filter>Scripts\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Main\IGameInput.h">
+      <Filter>Scripts\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

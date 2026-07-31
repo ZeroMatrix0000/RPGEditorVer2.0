@@ -1,7 +1,7 @@
 /*
  * FileName:     GameContext.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/07/31
  *
  * ゲームコンテキスト
  */
@@ -17,6 +17,7 @@ GameContext::GameContext()
 	, m_pIComponentManager{}
 	, m_pIGameObjectManager{}
 	, m_pISceneManager{}
+	, m_pIGameInput{}
 {
 }
 
@@ -27,7 +28,8 @@ void GameContext::Initialize
 	Systems::IInput*            pIInput,
 	IComponentManager*          pIComponentManager,
 	IGameObjectManager*         pIGameObjectManager,
-	ISceneManager*              pISceneManager
+	ISceneManager*              pISceneManager,
+	IGameInput*                 pIGameInput
 )
 {
 	m_pIWindowController  = pIWindowController;
@@ -35,4 +37,5 @@ void GameContext::Initialize
 	m_pIComponentManager  = pIComponentManager;
 	m_pIGameObjectManager = pIGameObjectManager;
 	m_pISceneManager      = pISceneManager;
+	m_pIGameInput         = pIGameInput;
 }
