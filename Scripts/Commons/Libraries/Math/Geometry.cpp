@@ -264,7 +264,7 @@ float Libraries::Math::Geometry::AngledDistance(const Vector3& from, const Trian
 	float t = -(plane.Normal().Dot(from) + plane.D()) / plane.Normal().Dot(direction);
 
 	// 公差位置
-	Vector3 intersection = from + plane.Normal() * t;
+	Vector3 intersection = from + direction * t;
 
 	Vector3 normal1 = (to.v1 - to.v2).Cross(to.v1 - intersection);
 	Vector3 normal2 = (to.v2 - to.v3).Cross(to.v2 - intersection);
@@ -277,7 +277,7 @@ float Libraries::Math::Geometry::AngledDistance(const Vector3& from, const Trian
 	}
 	else
 	{
-		return (intersection - from).Length() * Math::Sign(t);
+		return t;
 	}
 }
 
