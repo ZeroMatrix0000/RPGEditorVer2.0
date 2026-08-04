@@ -1,13 +1,15 @@
 /*
  * FileName:     Canvas.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/08/04
  *
  * カメラ画面
  */
 
 #include "Pch.h"
 #include "Canvas.h"
+
+#include "../Systems/JsonSerializer.h"
 
 const std::unordered_map<std::string, Renderings::Canvas::FixedSize> Renderings::Canvas::FIXED_SIZE =
 {
@@ -28,22 +30,17 @@ Renderings::Canvas::Canvas(const ComponentDesc& desc)
 // 初期化処理
 void Renderings::Canvas::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-	// 要素ごとにループ
-	for (const auto& element : json.items())
+	// 出力サイズ
+	Math::Vector2 outputSize{};
+
+	Systems::JsonSerializer serializer{ pIGameObjectFinder };
+	serializer.AddParameter(&m_fixedSize, "FixedSize");
+	serializer.AddParameter(&outputSize, "Size");
+	serializer.Load(json);
+
+	if(outputSize != Math::Vector2::Zero)
 	{
-		const std::string& key = element.key();
-		if (key == "FixedSize")
-		{
-			m_fixedSize = JsonSerializer::Json2Enum<FixedSize>(element.value());
-		}
-		else if (key == "Size")
-		{
-			SetSize(JsonSerializer::Json2Vector2(element.value()));
-		}
-		else
-		{
-			Utility::Throw();
-		}
+		SetSize(outputSize);
 	}
 }
 

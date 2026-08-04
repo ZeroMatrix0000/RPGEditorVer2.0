@@ -1,7 +1,7 @@
 /*
  * FileName:     Cycled.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/08/04
  *
  * ループ値
  */
@@ -29,6 +29,11 @@ namespace Libraries
 		bool IsMin() const { return m_value == m_min; }
 		// 最大値かどうかを取得
 		bool IsMax() const { return m_value == m_max; }
+
+		// 最小値を取得
+		float GetMin() const { return m_min; }
+		// 最大値を取得
+		float GetMax() const { return m_max; }
 
 		// 割合を取得
 		float GetRatio() const { return m_max - m_min == 0.0f ? 1.0f : (m_value - m_min) / (m_max - m_min); }

@@ -1,13 +1,15 @@
 /*
  * FileName:     Transform.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/08/04
  *
  * トランスフォーム
  */
 
 #include "Pch.h"
 #include "Transform.h"
+
+#include "../Systems/JsonSerializer.h"
 
 Components::Transform::Transform(const ComponentDesc& desc)
 	: Component{ desc }
@@ -20,27 +22,11 @@ Components::Transform::Transform(const ComponentDesc& desc)
 // 初期化処理
 void Components::Transform::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-	// 要素ごとにループ
-	for (const auto& element : json.items())
-	{
-		const std::string& key = element.key();
-		if (key == "Position")
-		{
-			SetPosition(JsonSerializer::Json2Vector3(element.value()));
-		}
-		else if (key == "Rotation")
-		{
-			SetRotation(JsonSerializer::Json2Euler(element.value()).CreateQuaternion());
-		}
-		else if (key == "Scale")
-		{
-			SetScale(JsonSerializer::Json2Vector3(element.value()));
-		}
-		else
-		{
-			Utility::Throw();
-		}
-	}
+	Systems::JsonSerializer serializer{ pIGameObjectFinder };
+	serializer.AddParameter(&m_position, "Position");
+	serializer.AddParameter(&m_rotation, "Rotation");
+	serializer.AddParameter(&m_scale, "Scale");
+	serializer.Load(json);
 }
 
 // ワールド行列を作成

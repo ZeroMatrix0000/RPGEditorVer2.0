@@ -15,13 +15,14 @@
 #include "../Renderings/ColliderRenderer.h"
 #include "../Renderings/ICameraScreen.h"
 #include "../Systems/IResources.h"
+#include "../Systems/JsonSerializer.h"
 
 // コンストラクタ
 Colliders::MeshCollider::MeshCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer, const Systems::IResources& iResources)
 	: Component{ desc }
-	, m_worldMesh{}
+	, m_meshName{}
 	, m_color{ DirectX::Colors::LightGreen }
-	, m_pMesh{}
+	, m_worldMesh{}
 	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pICameraScreens{}
 	, m_pIColliderRenderer{ pIColliderRenderer }
@@ -43,37 +44,11 @@ void Colliders::MeshCollider::Initalize(const nlohmann::ordered_json& json, IGam
 {
 	m_pTransform = GetPOwner()->GetComponent<Transform>();
 
-	// 要素ごとにループ
-	for (const auto& element : json.items())
-	{
-		const std::string& key = element.key();
-		if (key == "MeshName")
-		{
-			SetMesh(element.value().get<std::string>());
-		}
-		else if (key == "Color")
-		{
-			SetColor(JsonSerializer::Json2Color(element.value()));
-		}
-		else if (key == "CameraScreen")
-		{
-			for (const auto& cameraScreen : element.value())
-			{
-				GameObject* pObj = pIGameObjectFinder->Find(cameraScreen.get<std::string>());
-				AddICameraScreen(*pObj->GetComponent<Renderings::ICameraScreen>());
-			}
-		}
-		else
-		{
-			Utility::Throw();
-		}
-	}
-}
-
-// メッシュを設定
-void Colliders::MeshCollider::SetMesh(const std::string& meshName)
-{
-	m_pMesh = m_refIResources.GetMesh(meshName);
+	Systems::JsonSerializer serializer{ pIGameObjectFinder };
+	serializer.AddParameter(&m_meshName, "MeshName");
+	serializer.AddParameter(&m_color, "Color");
+	serializer.AddParameter(&m_pICameraScreens, "CameraScreens");
+	serializer.Load(json);
 }
 
 // 映るカメラ画面を追加
@@ -91,11 +66,13 @@ void Colliders::MeshCollider::RemoveICameraScreen(const Renderings::ICameraScree
 // トランスフォームを適用
 void Colliders::MeshCollider::ApplyTransform()
 {
-	if (!m_pMesh)
+	const auto* pMesh = m_refIResources.GetMesh(m_meshName);
+
+	if (!pMesh)
 	{
 		return;
 	}
 
-	m_worldMesh = *m_pMesh;
+	m_worldMesh = *pMesh;
 	m_worldMesh.ApplyMatrix(m_pTransform->CreateWorldMatrix());
 }

@@ -10,6 +10,7 @@
 
 #include "ICameraScreen.h"
 #include "IModel3DRenderer.h"
+#include "../Systems/JsonSerializer.h"
 
 namespace Renderings
 {
@@ -47,23 +48,10 @@ namespace Renderings
 		// 初期化処理
 		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override
 		{
-			// 要素ごとにループ
-			for (const auto& element : json.items())
-			{
-				const std::string& key = element.key();
-				if (key == "Camera")
-				{
-					SetCamera(JsonSerializer::Json2Camera<TCamera>(element.value()));
-				}
-				else if (key == "ViewAngle")
-				{
-					SetViewAngle(element.value().get<float>());
-				}
-				else
-				{
-					Utility::Throw();
-				}
-			}
+			Systems::JsonSerializer serializer{ pIGameObjectFinder };
+			serializer.AddParameter(&m_camera, "Camera");
+			serializer.AddParameter(&m_viewAngle, "ViewAngle");
+			serializer.Load(json);
 		}
 
 		// ビュー行列を更新

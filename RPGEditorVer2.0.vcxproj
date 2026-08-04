@@ -152,7 +152,6 @@
     <ClCompile Include="Scripts\Commons\Components\Component.cpp" />
     <ClCompile Include="Scripts\Commons\Components\ComponentManager.cpp" />
     <ClCompile Include="Scripts\Commons\GameObjects\GameObjectManager.cpp" />
-    <ClCompile Include="Scripts\Commons\Libraries\JsonSerializer.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\ColliderRenderer.cpp" />
     <ClCompile Include="Scripts\Commons\Renderings\Image.cpp" />
     <ClCompile Include="Scripts\Commons\Components\RectTransform.cpp" />
@@ -183,11 +182,14 @@
     <ClCompile Include="Scripts\Commons\Scenes\SceneTransitionAnimation.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\ErrorMessage.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\Input.cpp" />
+    <ClCompile Include="Scripts\Commons\Systems\JsonSerializer.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\OnlyOne.cpp" />
     <ClCompile Include="Scripts\Commons\Libraries\Utility.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\Resources.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\Timer.cpp" />
     <ClCompile Include="Scripts\Commons\Systems\WindowController.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\Player\Player.cpp" />
+    <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerCamera.cpp" />
     <ClCompile Include="Scripts\Main\Game.cpp" />
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\GameInput.cpp" />
@@ -196,6 +198,7 @@
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlayScene.cpp" />
     <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp" />
     <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp" />
@@ -205,6 +208,7 @@
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenu.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenuCursor.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenuText.json" />
+    <None Include="Resources\Jsons\Scenes\Scene_GamePlay.json" />
     <None Include="Resources\Jsons\Scenes\Scene_Sample.json" />
     <None Include="Resources\Jsons\Scenes\Scene_Title.json">
       <FileType>Document</FileType>
@@ -246,12 +250,16 @@
     <ClInclude Include="Scripts\Commons\Systems\IResources.h" />
     <ClInclude Include="Scripts\Commons\Systems\ITimer.h" />
     <ClInclude Include="Scripts\Commons\Systems\IWindowController.h" />
-    <ClInclude Include="Scripts\Commons\Libraries\JsonSerializer.h" />
+    <ClInclude Include="Scripts\Commons\Systems\JsonSerializer.h" />
     <ClInclude Include="Scripts\Commons\Systems\Resources.h" />
     <ClInclude Include="Scripts\Commons\GameObjects\GameObjectManager.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\Player\Player.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerCamera.h" />
+    <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerParams.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuParams.h" />
     <ClInclude Include="Scripts\Main\GameInput.h" />
     <ClInclude Include="Scripts\Main\IGameInput.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlayScene.h" />
     <ClInclude Include="Scripts\Scenes\TitleScene\TitleScene.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.h" />
   </ItemGroup>

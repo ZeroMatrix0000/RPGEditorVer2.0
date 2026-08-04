@@ -81,6 +81,19 @@ namespace GameObjects
 			return static_cast<TComponent*>(pComponent);
 		}
 
+		// 未参照コンポーネントを取得
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		TComponent* GetNullReferences()
+		{
+			return m_pIComponentManager->GetNullReferences<TComponent>();
+		}
+
+
+	private:
+
+
+		/* メンバ関数 */
+
 		// コンポーネントを取得用リストに追加
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		void AddPComponent(Component* pComponent)
@@ -94,16 +107,6 @@ namespace GameObjects
 				AddPComponent<Base>(pComponent);
 			}
 		}
-
-		// 未参照コンポーネントを取得
-		template<typename TComponent> requires IsDerived<TComponent, Component>
-		TComponent* GetNullReferences()
-		{
-			return m_pIComponentManager->GetNullReferences<TComponent>();
-		}
-
-
-	private:
 
 
 		/* メンバ変数 */

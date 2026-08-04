@@ -44,7 +44,7 @@ namespace Colliders
 		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
 		// メッシュを設定
-		void SetMesh(const std::string& meshName);
+		void SetMeshName(const std::string& meshName) { m_meshName = meshName; }
 		// 色を設定
 		void SetColor(const Math::Color& color) { m_color = color; }
 		// 色を設定
@@ -72,14 +72,14 @@ namespace Colliders
 
 		/* メンバ変数 */
 
-		// ワールドメッシュ
-		Mesh m_worldMesh;
+		// メッシュ名
+		std::string m_meshName;
 
 		// 色
 		Math::Color m_color;
 
-		// メッシュのポインタ
-		const Mesh* m_pMesh;
+		// ワールドメッシュ
+		Mesh m_worldMesh;
 
 		// トランスフォーム
 		Transform* m_pTransform;

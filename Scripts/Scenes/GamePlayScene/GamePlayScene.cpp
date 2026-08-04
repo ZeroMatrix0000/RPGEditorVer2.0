@@ -1,13 +1,13 @@
 /*
- * FileName:     SampleScene.cpp
+ * FileName:     GamePlayScene.cpp
  * Author:       Takao Hayata
  * Last Updated: 2026/08/04
  *
- * サンプルシーン
+ * ゲームプレイシーン
  */
 
 #include "Pch.h"
-#include "SampleScene.h"
+#include "GamePlayScene.h"
 
 #include "Scripts/Commons/Systems/IWindowController.h"
 #include "Scripts/Commons/Systems/IInput.h"
@@ -19,22 +19,24 @@
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Colliders/SphereCollider.h"
 #include "Scripts/Commons/Colliders/MeshCollider.h"
-#include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
+#include "Scripts/GameObjects/Objects/Player/Player.h"
+#include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/Main/GameContext.h"
+#include "Scripts/Main/IGameInput.h"
 
-// コンストラクタ
-SampleScene::SampleScene(const ComponentDesc& desc)
+ // コンストラクタ
+GamePlayScene::GamePlayScene(const ComponentDesc& desc)
 	: Scene{ desc }
-	, m_test3D{}
-	, m_ground{}
+	, m_pPlayer{}
+	, m_pPlayerCamera{}
+	, m_pGround{}
 	, m_pCameraScreen{}
-	, m_pDebugCamera{}
 	, m_pCanvas{}
 {
 }
 
 // 初期化処理
-void SampleScene::Initialize(const SceneTransitionData& data)
+void GamePlayScene::Initialize(const SceneTransitionData& data)
 {
 	// コンテキスト
 	const auto& gameContext = GetContext();
@@ -46,60 +48,68 @@ void SampleScene::Initialize(const SceneTransitionData& data)
 	auto* pIGameObjectManager = gameContext.GetPIGameObjectManager();
 
 	pIGameObjectManager->SetPGameObjects(GetPGameObjects());
-	pIGameObjectManager->Load("Scene_Sample");
+	pIGameObjectManager->Load("Scene_GamePlay");
 
-	// デバッグカメラを取得
-	GameObject* pCamera = pIGameObjectManager->Find("DebugCamera");
+	// プレイヤーを取得
+	m_pPlayer = pIGameObjectManager->Find("Player")->GetComponent<Player>();
+
+	// プレイヤーカメラを取得
+	GameObject* pCamera = pIGameObjectManager->Find("PlayerCamera");
 	m_pCameraScreen = pCamera->GetComponent<Renderings::ICameraScreen>();
+	m_pCameraScreen->UpdateViewMatrix();
 	m_pCameraScreen->SetProjectionMatrix(outputSize);
-	m_pDebugCamera = pCamera->GetComponent<DebugCamera>();
+	m_pPlayerCamera = pCamera->GetComponent<PlayerCamera>();
 
 	// キャンバスを取得
 	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
 	m_pCanvas->SetSize(outputSize);
 
-	// プレイヤーを取得
-	GameObject* pPlayer = pIGameObjectManager->Find("Player");
-	pPlayer->GetComponent<Colliders::BoxCollider>()->ApplyTransform();
-	pPlayer->GetComponent<Colliders::SphereCollider>()->ApplyTransform();
-
 	// 地面を取得
-	GameObject* pGround = pIGameObjectManager->Find("Ground");
-	pGround->GetComponent<Colliders::MeshCollider>()->ApplyTransform();
+	m_pGround = pIGameObjectManager->Find("Ground")->GetComponent<Colliders::MeshCollider>();
+	m_pGround->ApplyTransform();
 }
 
 // 更新処理
-void SampleScene::Update(float elapsedTime)
+void GamePlayScene::Update(float elapsedTime)
 {
+	// シーン切り替え中なら何もしない
+	if (GetContext().GetPISceneManager()->IsChanging())
+	{
+		return;
+	}
+
 	// 入力管理
 	auto* pIInput = GetContext().GetPIInput();
 
 	// F5でシーン移動
 	if (pIInput->GetKeyDown(KeyName::F5))
 	{
-		GetContext().GetPISceneManager()->SetNextScene<SampleScene>();
+		GetContext().GetPISceneManager()->SetNextScene<GamePlayScene>();
 		return;
 	}
 
+	// ゲーム入力
+	auto* pIGameInput = GetContext().GetPIGameInput();
+
+	// プレイヤーの更新
+	m_pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove());
+	m_pPlayer->MeshCorrect(m_pGround->GetWorldMesh());
+
 	// カメラの更新
-	m_pDebugCamera->SetInput
-	(
-		pIInput->GetMouseMovement(),
-		pIInput->GetMouseButton(MouseButtonName::Right),
-		pIInput->GetMouseButton(MouseButtonName::Middle),
-		pIInput->GetMouseWheelDelta()
-	);
-	m_pDebugCamera->Update(elapsedTime);
+	m_pPlayerCamera->SetTarget(m_pPlayer->GetCameraTarget());
+	m_pPlayerCamera->Rotate(pIGameInput->GetPlayerCameraRotate());
+	m_pPlayerCamera->MeshCorrect(m_pGround->GetWorldMesh(), m_pPlayer->GetPosition());
+	m_pPlayerCamera->Update(elapsedTime);
 	m_pCameraScreen->UpdateViewMatrix();
 }
 
 // 終了処理
-void SampleScene::Finalize()
+void GamePlayScene::Finalize()
 {
 }
 
 // メッセージを受け取る
-void SampleScene::AcceptMessage(const std::string& message)
+void GamePlayScene::AcceptMessage(const std::string& message)
 {
 	if (message == "WindowSizeChanged")
 	{

@@ -14,6 +14,7 @@
 #include "../Components/Transform.h"
 #include "../Renderings/ColliderRenderer.h"
 #include "../Renderings/ICameraScreen.h"
+#include "../Systems/JsonSerializer.h"
 
 // コンストラクタ
 Colliders::BoxCollider::BoxCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer)
@@ -41,35 +42,12 @@ void Colliders::BoxCollider::Initalize(const nlohmann::ordered_json& json, IGame
 {
 	m_pTransform = GetPOwner()->GetComponent<Transform>();
 
-	// 要素ごとにループ
-	for (const auto& element : json.items())
-	{
-		const std::string& key = element.key();
-		if (key == "Position")
-		{
-			SetPosition(JsonSerializer::Json2Vector3(element.value()));
-		}
-		else if (key == "Size")
-		{
-			SetSize(JsonSerializer::Json2Vector3(element.value()));
-		}
-		else if (key == "Color")
-		{
-			SetColor(JsonSerializer::Json2Color(element.value()));
-		}
-		else if (key == "CameraScreen")
-		{
-			for (const auto& cameraScreen : element.value())
-			{
-				GameObject* pObj = pIGameObjectFinder->Find(cameraScreen.get<std::string>());
-				AddICameraScreen(*pObj->GetComponent<Renderings::ICameraScreen>());
-			}
-		}
-		else
-		{
-			Utility::Throw();
-		}
-	}
+	Systems::JsonSerializer serializer{ pIGameObjectFinder };
+	serializer.AddParameter(&m_box.position, "Position");
+	serializer.AddParameter(&m_box.size, "Size");
+	serializer.AddParameter(&m_color, "Color");
+	serializer.AddParameter(&m_pICameraScreens, "CameraScreens");
+	serializer.Load(json);
 }
 
 // 映るカメラ画面を追加

@@ -15,6 +15,7 @@
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/Components/RectTransform.h"
 #include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
+#include "Scripts/Commons/Systems/JsonSerializer.h"
 
 // コンストラクタ
 SelectMenu::SelectMenu(const ComponentDesc& desc)
@@ -46,64 +47,26 @@ void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder
 	// カーソルのY座標のズレ
 	m_cursorDelayY.SetMovement(0.0f, 0.0f);
 
-	// 要素ごとにループ
-	for (const auto& element : json.items())
-	{
-		const std::string& key = element.key();
-		if (key == "Width")
-		{
-			m_params.width = element.value().get<float>();
-		}
-		else if (key == "Height")
-		{
-			m_params.height = element.value().get<float>();
-		}
-		else if (key == "Interval")
-		{
-			m_params.interval = element.value().get<float>();
-		}
-		else if (key == "Position")
-		{
-			m_params.basePosition = JsonSerializer::Json2Vector2(element.value());
-		}
-		else if (key == "CursorMoveTime")
-		{
-			m_params.cursorMoveTime = element.value().get<float>();
-		}
-		else if (key == "CursorEasingType")
-		{
-			m_params.cursorEasingType = JsonSerializer::Json2Enum<Easing::Type>(element.value());
-		}
-		else if (key == "CursorEasingInOut")
-		{
-			m_params.cursorEasingInOut = JsonSerializer::Json2Enum<Easing::InOut>(element.value());
-		}
-		else if (key == "CursorSwayTime")
-		{
-			m_cursorSwayTimer.Initialize(0.0f, 0.0f, element.value().get<float>());
-		}
-		else if (key == "CursorSwaySize")
-		{
-			m_params.cursorSwaySize = element.value().get<float>();
-		}
-		else if (key == "FontSizeBegin")
-		{
-			m_params.fontSizeBegin = element.value().get<float>();
-		}
-		else if (key == "FontSizeEnd")
-		{
-			m_params.fontSizeEnd = element.value().get<float>();
-		}
-		else if (key == "Canvas")
-		{
-			GameObject* pObj = pIGameObjectFinder->Find(element.value().get<std::string>());
-			m_pCursorImage->SetCanvas(*pObj->GetComponent<Renderings::Canvas>());
-		}
-		else
-		{
-			Utility::Throw();
-		}
-	}
+	float cursorSwayTime = m_cursorSwayTimer.GetMax();
+	const Renderings::Canvas* pCanvas = m_pCursorImage->GetPCanvas();
+
+	Systems::JsonSerializer serializer{ pIGameObjectFinder };
+	serializer.AddParameter(&m_params.width, "Width");
+	serializer.AddParameter(&m_params.height, "Height");
+	serializer.AddParameter(&m_params.interval, "Interval");
+	serializer.AddParameter(&m_params.basePosition, "Position");
+	serializer.AddParameter(&m_params.cursorMoveTime, "CursorMoveTime");
+	serializer.AddParameter(&m_params.cursorEasingType, "CursorEasingType");
+	serializer.AddParameter(&m_params.cursorEasingInOut, "CursorEasingInOut");
+	serializer.AddParameter(&cursorSwayTime, "CursorSwayTime");
+	serializer.AddParameter(&m_params.cursorSwaySize, "CursorSwaySize");
+	serializer.AddParameter(&m_params.fontSizeBegin, "FontSizeBegin");
+	serializer.AddParameter(&m_params.fontSizeEnd, "FontSizeEnd");
+	serializer.AddParameter(&pCanvas, "Canvas");
+	serializer.Load(json);
+
+	m_cursorSwayTimer.Initialize(0.0f, 0.0f, cursorSwayTime);
+	m_pCursorImage->SetCanvas(*pCanvas);
 }
 
 // 更新処理

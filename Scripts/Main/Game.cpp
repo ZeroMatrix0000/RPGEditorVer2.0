@@ -12,6 +12,8 @@
 #include "Scripts/Scenes/Scenes.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
+#include "Scripts/GameObjects/Objects/Player/Player.h"
+#include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Renderings/Image.h"
 #include "Scripts/Commons/Renderings/Text.h"
@@ -116,6 +118,10 @@ void Game::Initialize(const HWND& hWindow)
 	m_sceneManager.AddScene<TitleScene>([pIComponentManager]
 	{
 		return std::unique_ptr<TitleScene>{ static_cast<TitleScene*>(pIComponentManager->Create<TitleScene>().release()) };
+	});
+	m_sceneManager.AddScene<GamePlayScene>([pIComponentManager]
+	{
+		return std::unique_ptr<GamePlayScene>{ static_cast<GamePlayScene*>(pIComponentManager->Create<GamePlayScene>().release()) };
 	});
 	// シーン管理の初期化
 	m_sceneManager.Initialize(m_windowController.GetOutputSize(), &m_gameObjectManager);
@@ -278,4 +284,7 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
 	// デバッグ用カメラ
 	m_gameObjectManager.Register<DebugCamera>("DebugCamera");
+	// プレイヤー
+	m_gameObjectManager.Register<Player>("Player");
+	m_gameObjectManager.Register<PlayerCamera>("PlayerCamera");
 }

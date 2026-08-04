@@ -1,7 +1,7 @@
 /*
  * FileName:     Scenes.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/13
+ * Last Updated: 2026/08/04
  *
  * シーンインクルード用
  */
@@ -10,3 +10,4 @@
 
 #include "SampleScene/SampleScene.h"
 #include "TitleScene/TitleScene.h"
+#include "GamePlayScene/GamePlayScene.h"

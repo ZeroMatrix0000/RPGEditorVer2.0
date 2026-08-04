@@ -1,12 +1,12 @@
 [
 	{
-		"Name": "DebugCamera",
+		"Name": "PlayerCamera",
 		"Components": {
 			"EulerTargetCameraScreen": {
 				"Camera": {
 					"Position": {
-						"X": 0.0,
-						"Y": 0.0,
+						"X": -5.0,
+						"Y": 1.0,
 						"Z": 0.0
 					},
 					"Rotation": {
@@ -18,7 +18,7 @@
 				},
 				"ViewAngle": 45.0
 			},
-			"DebugCamera": {
+			"PlayerCamera": {
 			}
 		}
 	},
@@ -40,7 +40,7 @@
 			"Model3D": {
 				"ModelSourceName": "Player",
 				"CameraScreens": [
-					"DebugCamera"
+					"PlayerCamera"
 				]
 			},
 			"BoxCollider": {
@@ -55,19 +55,16 @@
 					"Z": 1.0
 				},
 				"CameraScreens": [
-					"DebugCamera"
+					"PlayerCamera"
 				]
 			},
-			"SphereCollider": {
-				"Position": {
-					"X": 0.0,
-					"Y": 1.0,
-					"Z": 0.0
-				},
-				"Radius": 1.0,
-				"CameraScreens": [
-					"DebugCamera"
-				]
+			"Player": {
+				"MoveMaxSpeed": 8.0,
+				"MoveAcceleration": 32.0,
+				"FallMaxSpeed": 16.0,
+				"FallAcceleration": 64.0,
+				"CameraVelocityCoefficient": 0.2,
+				"CameraScreen": "PlayerCamera"
 			}
 		}
 	},
@@ -84,13 +81,13 @@
 			"Model3D": {
 				"ModelSourceName": "Ground",
 				"CameraScreens": [
-					"DebugCamera"
+					"PlayerCamera"
 				]
 			},
 			"MeshCollider": {
 				"MeshName": "Ground",
 				"CameraScreens": [
-					"DebugCamera"
+					"PlayerCamera"
 				]
 			}
 		}
@@ -100,53 +97,6 @@
 		"Components": {
 			"Canvas": {
 				"FixedSize": "Vertical"
-			}
-		}
-	},
-	{
-		"Name": "Test",
-		"Components": {
-			"RectTransform": {
-				"Size": {
-					"X": 1000.0,
-					"Y": 250.0
-				},
-				"Angle": -30.0
-			},
-			"Image": {
-				"ImageSourceName": "DialogBox",
-				"Canvas": "Canvas"
-			},
-			"Text": {
-				"Str": "あいうえお",
-				"FontName": "GenEi M Gothic v2",
-				"FontSize": 128.0,
-				"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
-				"ParagraphAlignment": "DWRITE_PARAGRAPH_ALIGNMENT_CENTER",
-				"Canvas": "Canvas"
-			}
-		}
-	},
-	{
-		"Name": "Test2",
-		"Components": {
-			"RectTransform": {
-				"Size": {
-					"X": 1000.0,
-					"Y": 250.0
-				},
-				"Angle": 45.0
-			},
-			"Image": {
-				"ImageSourceName": "DialogBox",
-				"Color": {
-					"R": 1.0,
-					"G": 0.0,
-					"B": 0.0,
-					"A": 1.0
-				},
-				"OrderInLayer": 1,
-				"Canvas": "Canvas"
 			}
 		}
 	}

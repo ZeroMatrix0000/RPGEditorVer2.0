@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/04
  *
  * ゲームオブジェクト管理
  */
@@ -158,20 +158,7 @@ void GameObjects::GameObjectManager::SetComponents(const nlohmann::ordered_json&
 		// コンポーネントを追加
 		auto* component = it->second(pGameObject);
 
-		try
-		{
-			// コンポーネントの初期化
-			component->Initalize(element.value(), this);
-		}
-		catch (std::exception e)
-		{
-			// エラーメッセージを追加
-			Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
-			(
-				L"コンポーネントの初期化に失敗しました。 | name: %s",
-				Utility::string2wstring(element.key()).c_str()
-			));
-			continue;
-		}
+		// コンポーネントの初期化
+		component->Initalize(element.value(), this);
 	}
 }

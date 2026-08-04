@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/29
+ * Last Updated: 2026/08/04
  *
  * 画像
  */
@@ -13,6 +13,7 @@
 #include "../GameObjects/IGameObjectFinder.h"
 #include "../GameObjects/GameObject.h"
 #include "../Renderings/Canvas.h"
+#include "../Systems/JsonSerializer.h"
 
 // コンストラクタ
 Renderings::Image::Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer)
@@ -37,36 +38,13 @@ Renderings::Image::~Image()
 // 初期化処理
 void Renderings::Image::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-	// 要素ごとにループ
-	for (const auto& element : json.items())
-	{
-		const std::string& key = element.key();
-		if (key == "ImageSourceName")
-		{
-			SetImageSourceName(element.value().get<std::string>());
-		}
-		else if (key == "Color")
-		{
-			SetColor(JsonSerializer::Json2Color(element.value()));
-		}
-		else if (key == "PixelShaderName")
-		{
-			SetPixelShaderName(element.value().get<std::string>());
-		}
-		else if (key == "OrderInLayer")
-		{
-			SetOrderInLayer(element.value().get<int>());
-		}
-		else if (key == "Canvas")
-		{
-			GameObject* pObj = pIGameObjectFinder->Find(element.value().get<std::string>());
-			SetCanvas(*pObj->GetComponent<Renderings::Canvas>());
-		}
-		else
-		{
-			Utility::Throw();
-		}
-	}
+	Systems::JsonSerializer serializer{ pIGameObjectFinder };
+	serializer.AddParameter(&m_imageSourceName, "ImageSourceName");
+	serializer.AddParameter(&m_color, "Color");
+	serializer.AddParameter(&m_pixelShaderName, "PixelShaderName");
+	serializer.AddParameter(&m_orderInLayer, "OrderInLayer");
+	serializer.AddParameter(&m_pCanvas, "Canvas");
+	serializer.Load(json);
 }
 
 // 画像サイズを取得

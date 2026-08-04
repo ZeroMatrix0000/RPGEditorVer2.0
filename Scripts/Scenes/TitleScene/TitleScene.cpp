@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/27
+ * Last Updated: 2026/08/04
  *
  * タイトルシーン
  */
@@ -9,6 +9,7 @@
 #include "Pch.h"
 #include "TitleScene.h"
 
+#include "../Scenes.h"
 #include "Scripts/Commons/Systems/IWindowController.h"
 #include "Scripts/Commons/Systems/IInput.h"
 #include "Scripts/Commons/Scenes/ISceneManager.h"
@@ -61,7 +62,7 @@ void TitleScene::Initialize(const SceneTransitionData& data)
 
 	// 選択メニューを取得
 	m_pSelectMenu = pIGameObjectManager->Find("TitleMenu")->GetComponent<SelectMenu>();
-	m_pSelectMenu->AddOption(L"スタート", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
+	m_pSelectMenu->AddOption(L"スタート", [&] { gameContext.GetPISceneManager()->SetNextScene<GamePlayScene>(); });
 	m_pSelectMenu->AddOption(L"エディタ", [&] { gameContext.GetPISceneManager()->SetNextScene<TitleScene>(); });
 	m_pSelectMenu->AddOption(L"ゲームを終了", [&] { gameContext.GetPIWindowController()->Destroy(); });
 

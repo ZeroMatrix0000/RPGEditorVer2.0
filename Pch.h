@@ -1,7 +1,7 @@
 /*
  * FileName:     Pch.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/14
+ * Last Updated: 2026/08/04
  * 
  * プリコンパイル済みヘッダファイル
  */
@@ -124,9 +124,6 @@ concept IsSame = (std::same_as<T, Args> || ...);
 // メッシュ
 #include "Scripts/Commons/Libraries/Mesh.h"
 using namespace Libraries;
-
-// Jsonのシリアライズ
-#include "Scripts/Commons/Libraries/JsonSerializer.h"
 
 namespace GameObjects {}
 using namespace GameObjects;
