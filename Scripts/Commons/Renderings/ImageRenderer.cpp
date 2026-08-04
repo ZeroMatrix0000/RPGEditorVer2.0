@@ -62,6 +62,11 @@ void Renderings::ImageRenderer::Begin()
 // 描画処理
 void Renderings::ImageRenderer::Draw(const Image* pImage)
 {
+	if (pImage->GetImageSourceName().empty())
+	{
+		return;
+	}
+
 	// 画像ソース
 	const ImageSource* pImageSource = m_refIResources.GetImageSource(pImage->GetImageSourceName());
 	if (!pImageSource)

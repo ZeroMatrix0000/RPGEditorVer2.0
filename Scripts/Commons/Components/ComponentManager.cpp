@@ -1,7 +1,7 @@
 /*
  * FileName:     ComponentManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/08/04
  *
  * コンポーネント管理
  */
@@ -48,14 +48,18 @@ void Components::ComponentManager::RegisterCreate
 }
 
 // 未参照コンポーネントを取得
-Component* Components::ComponentManager::GetNullReferences(const std::type_index& index)
+Component* Components::ComponentManager::GetNullReferences(const std::type_index& index, bool addErrorMessage)
 {
-	// エラーメッセージを追加
-	Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
-	(
-		L"コンポーネントが見つかりません。 | %s",
-		Utility::string2wstring(index.name()).c_str()
-	));
+	if (addErrorMessage)
+	{
+		// エラーメッセージを追加
+		Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"コンポーネントが見つかりません。 | %s",
+			Utility::string2wstring(index.name()).c_str()
+		));
+	}
+
 	auto it = m_nullReferences.find(index);
 	if (it == m_nullReferences.end())
 	{

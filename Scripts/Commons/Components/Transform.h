@@ -1,7 +1,7 @@
 /*
  * FileName:     Transform.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/07/31
  *
  * トランスフォーム
  */
@@ -33,6 +33,9 @@ namespace Components
 		void SetRotation(const Math::Quaternion& rotation) { m_rotation = rotation; }
 		// 拡大を設定
 		void SetScale(const Math::Vector3& scale)          { m_scale = scale; }
+
+		// 座標を足す
+		void Translate(const Math::Vector3& displacement) { m_position += displacement; }
 		
 		// 座標を取得
 		const Math::Vector3& GetPosition()    const { return m_position; }

@@ -1,7 +1,7 @@
 /*
  * FileName:     CameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/27
+ * Last Updated: 2026/07/31
  *
  * カメラ画面
  */
@@ -75,6 +75,12 @@ namespace Renderings
 		// プロジェクション行列を設定
 		void SetProjectionMatrix(const Math::Vector2& outputSize) override
 		{
+			if (m_viewAngle == 0.0f)
+			{
+				m_projection = Math::Matrix::Identity;
+				return;
+			}
+
 			m_projection = Math::Matrix::CreatePerspectiveFieldOfView
 			(
 				Math::Deg2Rad(m_viewAngle),

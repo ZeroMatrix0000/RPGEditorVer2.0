@@ -1,7 +1,7 @@
 /*
  * FileName:     MeshCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/04
  *
  * メッシュの当たり判定
  */
@@ -10,6 +10,10 @@
 
 #include "../Components/Component.h"
 
+namespace Components
+{
+	class Transform;
+}
 namespace Renderings
 {
 	class IColliderRenderer;
@@ -76,6 +80,9 @@ namespace Colliders
 
 		// メッシュのポインタ
 		const Mesh* m_pMesh;
+
+		// トランスフォーム
+		Transform* m_pTransform;
 
 		// 映るカメラ画面のポインタリスト
 		std::unordered_set<const Renderings::ICameraScreen*> m_pICameraScreens;

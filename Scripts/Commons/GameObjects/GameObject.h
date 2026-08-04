@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObject.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/23
+ * Last Updated: 2026/08/04
  *
  * ゲームオブジェクト
  */
@@ -43,7 +43,7 @@ namespace GameObjects
 			auto it = m_pComponents.find(typeid(TComponent));
 			if (it == m_pComponents.end())
 			{
-				return m_pIComponentManager->GetNullReferences<TComponent>();
+				return m_pIComponentManager->GetNullReferences<TComponent>(true);
 			}
 			return static_cast<TComponent*>(it->second);
 		}
@@ -54,7 +54,7 @@ namespace GameObjects
 			auto it = m_pComponents.find(typeid(TComponent));
 			if (it == m_pComponents.end())
 			{
-				return m_pIComponentManager->GetNullReferences<TComponent>();
+				return m_pIComponentManager->GetNullReferences<TComponent>(true);
 			}
 			return static_cast<TComponent*>(it->second);
 		}
@@ -93,6 +93,13 @@ namespace GameObjects
 
 				AddPComponent<Base>(pComponent);
 			}
+		}
+
+		// 未参照コンポーネントを取得
+		template<typename TComponent> requires IsDerived<TComponent, Component>
+		TComponent* GetNullReferences()
+		{
+			return m_pIComponentManager->GetNullReferences<TComponent>();
 		}
 
 

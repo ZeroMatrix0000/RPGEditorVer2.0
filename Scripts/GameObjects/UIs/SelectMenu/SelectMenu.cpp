@@ -1,7 +1,7 @@
 /*
  * FileName:     SelectMenu.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/04
  *
  * 選択メニュー
  */
@@ -26,15 +26,15 @@ SelectMenu::SelectMenu(const ComponentDesc& desc)
 	, m_pTexts{}
 	, m_Processes{}
 	, m_fontSizes{}
-	, m_pCursorImage{}
-	, m_pCursorRectTransform{}
+	, m_pCursorImage{ GetPOwner()->GetNullReferences<Renderings::Image>() }
+	, m_pCursorRectTransform{ GetPOwner()->GetNullReferences<RectTransform>() }
 {
 }
 
 // 初期化処理
 void SelectMenu::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-	if (m_pCursorImage == nullptr)
+	if (m_pCursorImage == GetPOwner()->GetNullReferences<Renderings::Image>())
 	{
 		GameObject* pObj = Instantiate("Prefab_SelectMenuCursor");
 		m_pCursorImage = pObj->GetComponent<Renderings::Image>();

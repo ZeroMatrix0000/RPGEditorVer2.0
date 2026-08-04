@@ -1,9 +1,9 @@
 /*
  * FileName:     Geometry.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/08/03
  *
- * 幾何学関係
+ * 数学関係
  */
 
 #pragma once
@@ -34,6 +34,8 @@ namespace Libraries
 
 			// 長方形と点が触れているかどうか
 			bool IsCollide(const Rect& rect, const Vector2& position);
+			// 非回転直方体と点が触れているかどうか
+			bool IsCollide(const NonRotatingBox& box, const Vector3& position);
 			// 非回転直方体同士が触れているかどうか
 			bool IsCollide(const NonRotatingBox& box1, const NonRotatingBox& box2);
 			// 直方体同士が触れているかどうか
@@ -45,6 +47,8 @@ namespace Libraries
 			       float Distance(const Box& box1, const Box& box2);
 			// 直方体同士の距離
 			       float Distance(const Box& box1, const Box& box2, Vector3* pDirection);
+			// 三角形と直方体の距離
+			       float Distance(const Triangle& triangle, const Box& box, Vector3* pDirection);
 
 			// 点から三角形への方向指定最短距離
 			float AngledDistance(const Vector3& from, const Triangle& to, const Vector3& direction);
@@ -54,6 +58,8 @@ namespace Libraries
 			float AngledDistance(const Vector3& from, const NonRotatingBox& to, const Vector3& direction);
 			// 点から直方体への方向指定最短距離
 			float AngledDistance(const Vector3& from, const Box& to, const Vector3& direction);
+			// 直方体から三角形への方向指定最短距離
+			float AngledDistance(const Box& from, const Triangle& to, const Vector3& direction);
 		}
 	}
 }

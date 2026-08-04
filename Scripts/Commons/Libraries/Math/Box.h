@@ -1,7 +1,7 @@
 /*
  * FileName:     Box.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/06
+ * Last Updated: 2026/07/31
  *
  * 直方体
  */
@@ -12,7 +12,6 @@ namespace Libraries
 {
 	namespace Math
 	{
-		// 直方体
 		struct Box
 		{
 
@@ -45,6 +44,8 @@ namespace Libraries
 
 			// 頂点を取得
 			Vector3 GetVertex(bool isPositiveX, bool isPositiveY, bool isPositiveZ) const;
+			// 頂点の配列を取得
+			std::array<Vector3, 8> GetVertices() const;
 
 
 			/* メンバ変数 */

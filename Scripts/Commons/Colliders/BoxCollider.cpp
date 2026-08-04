@@ -1,7 +1,7 @@
 /*
  * FileName:     BoxCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/22
+ * Last Updated: 2026/08/04
  *
  * 長方形の当たり判定
  */
@@ -21,6 +21,7 @@ Colliders::BoxCollider::BoxCollider(const ComponentDesc& desc, Renderings::IColl
 	, m_box{}
 	, m_worldBox{}
 	, m_color{ DirectX::Colors::LightGreen }
+	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pICameraScreens{}
 	, m_pIColliderRenderer{ pIColliderRenderer }
 {
@@ -38,6 +39,8 @@ Colliders::BoxCollider::~BoxCollider()
 // 初期化処理
 void Colliders::BoxCollider::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
+	m_pTransform = GetPOwner()->GetComponent<Transform>();
+
 	// 要素ごとにループ
 	for (const auto& element : json.items())
 	{
@@ -84,13 +87,10 @@ void Colliders::BoxCollider::RemoveICameraScreen(const Renderings::ICameraScreen
 // トランスフォームを適用
 void Colliders::BoxCollider::ApplyTransform()
 {
-	// トランスフォームを取得
-	const auto* pTransform = GetPOwner()->GetComponent<Transform>();
-
 	// ワールド行列
-	Math::Matrix world = pTransform->CreateWorldMatrix();
+	Math::Matrix world = m_pTransform->CreateWorldMatrix();
 
 	m_worldBox.position = Math::Vector3::Transform(m_box.position, world);
-	m_worldBox.size = m_box.size * pTransform->GetScale();
-	m_worldBox.rotation = pTransform->GetRotation();
+	m_worldBox.size = m_box.size * m_pTransform->GetScale();
+	m_worldBox.rotation = m_pTransform->GetRotation();
 }

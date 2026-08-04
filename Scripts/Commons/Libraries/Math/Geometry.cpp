@@ -1,7 +1,7 @@
 /*
  * FileName:     Geometry.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/06/30
+ * Last Updated: 2026/08/03
  *
  * 数学関係
  */
@@ -47,6 +47,19 @@ bool Libraries::Math::Geometry::IsCollide(const Rect& rect, const Vector2& posit
 		position.y > rect.position.y - rect.size.y / 2.0f &&
 		position.x < rect.position.x + rect.size.x / 2.0f &&
 		position.y < rect.position.y + rect.size.y / 2.0f
+	;
+}
+
+// 非回転直方体と点が触れているかどうか
+bool Libraries::Math::Geometry::IsCollide(const NonRotatingBox& box, const Vector3& position)
+{
+	return
+		position.x > box.position.x - box.size.x / 2.0f &&
+		position.y > box.position.y - box.size.y / 2.0f &&
+		position.z > box.position.z - box.size.z / 2.0f &&
+		position.x < box.position.x + box.size.x / 2.0f &&
+		position.y < box.position.y + box.size.y / 2.0f &&
+		position.z < box.position.z + box.size.z / 2.0f
 	;
 }
 
@@ -254,6 +267,80 @@ float Libraries::Math::Geometry::Distance(const Box& box1, const Box& box2, Vect
 	return distanceMax;
 }
 
+// 三角形と直方体の距離
+float Libraries::Math::Geometry::Distance(const Triangle& triangle, const Box& box, Vector3* pDirection)
+{
+	//SAT法
+	
+	//分離軸
+	Vector3 axes[13];
+	axes[ 0] = triangle.GetNormal();
+	axes[ 1] = Vector3::Transform(Vector3::UnitX, box.rotation);
+	axes[ 2] = Vector3::Transform(Vector3::UnitY, box.rotation);
+	axes[ 3] = Vector3::Transform(Vector3::UnitZ, box.rotation);
+	axes[ 4] = axes[1].Cross(triangle.v1 - triangle.v2);
+	axes[ 5] = axes[1].Cross(triangle.v2 - triangle.v3);
+	axes[ 6] = axes[1].Cross(triangle.v3 - triangle.v1);
+	axes[ 7] = axes[2].Cross(triangle.v1 - triangle.v2);
+	axes[ 8] = axes[2].Cross(triangle.v2 - triangle.v3);
+	axes[ 9] = axes[2].Cross(triangle.v3 - triangle.v1);
+	axes[10] = axes[3].Cross(triangle.v1 - triangle.v2);
+	axes[11] = axes[3].Cross(triangle.v2 - triangle.v3);
+	axes[12] = axes[3].Cross(triangle.v3 - triangle.v1);
+
+	float distanceMax = -Math::INFTY;
+	Vector3 maxAxis{};
+
+	// 軸ごとに判定
+	for (auto& axis : axes)
+	{
+		// 軸の長さが極小ならスキップ
+		if (axis.Length() < Math::EPSILON)
+		{
+			continue;
+		}
+		// 正規化
+		axis.Normalize();
+
+		// 中心間の距離
+		float centerDistance = axis.Dot(box.position - triangle.GetCenter());
+		if (centerDistance < 0.0f)
+		{
+			axis *= -1.0f;
+			centerDistance *= -1.0f;
+		}
+		// 三角形の大きさ
+		float size1 = Math::Max
+		(
+			axis.Dot(triangle.v1 - triangle.GetCenter()),
+			axis.Dot(triangle.v2 - triangle.GetCenter()),
+			axis.Dot(triangle.v3 - triangle.GetCenter())
+		);
+		// 直方体2の大きさ
+		float size2 =
+		(
+			Math::Abs(axis.Dot(axes[1]) * box.size.x) +
+			Math::Abs(axis.Dot(axes[2]) * box.size.y) +
+			Math::Abs(axis.Dot(axes[3]) * box.size.z)
+		) / 2.0f;
+
+		float distance = centerDistance - size1 - size2;
+		if (distance > distanceMax)
+		{
+			distanceMax = distance;
+			maxAxis = axis;
+		}
+	}
+
+	if (maxAxis.Dot(box.position - triangle.GetCenter()) >= 0.0f)
+	{
+		maxAxis *= -1.0f;
+	}
+
+	*pDirection = maxAxis;
+	return distanceMax;
+}
+
 // 点から三角形への方向指定最短距離
 float Libraries::Math::Geometry::AngledDistance(const Vector3& from, const Triangle& to, const Vector3& direction)
 {
@@ -407,5 +494,62 @@ float Libraries::Math::Geometry::AngledDistance(const Vector3& from, const Box& 
 		to.position + Vector3::Transform(delta, rotationInverse),
 		NonRotatingBox{ to.position, to.size },
 		Vector3::Transform(direction, rotationInverse)
+	);
+}
+
+// 直方体から三角形への方向指定最短距離
+float Libraries::Math::Geometry::AngledDistance(const Box& from, const Triangle& to, const Vector3& direction)
+{
+	auto boxVertices = from.GetVertices();
+
+	return Math::Min
+	(
+		AngledDistance(to.v1, from, -direction),
+		AngledDistance(to.v2, from, -direction),
+		AngledDistance(to.v3, from, -direction),
+		AngledDistance(boxVertices.at(0), to, direction),
+		AngledDistance(boxVertices.at(1), to, direction),
+		AngledDistance(boxVertices.at(2), to, direction),
+		AngledDistance(boxVertices.at(3), to, direction),
+		AngledDistance(boxVertices.at(4), to, direction),
+		AngledDistance(boxVertices.at(5), to, direction),
+		AngledDistance(boxVertices.at(6), to, direction),
+		AngledDistance(boxVertices.at(7), to, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(1) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(2), boxVertices.at(3) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(4), boxVertices.at(5) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(6), boxVertices.at(7) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(2) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(1), boxVertices.at(3) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(4), boxVertices.at(6) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(5), boxVertices.at(7) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(4) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(1), boxVertices.at(5) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(2), boxVertices.at(6) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(3), boxVertices.at(7) }, Line{ to.v1, to.v2 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(1) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(2), boxVertices.at(3) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(4), boxVertices.at(5) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(6), boxVertices.at(7) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(2) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(1), boxVertices.at(3) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(4), boxVertices.at(6) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(5), boxVertices.at(7) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(4) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(1), boxVertices.at(5) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(2), boxVertices.at(6) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(3), boxVertices.at(7) }, Line{ to.v2, to.v3 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(1) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(2), boxVertices.at(3) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(4), boxVertices.at(5) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(6), boxVertices.at(7) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(2) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(1), boxVertices.at(3) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(4), boxVertices.at(6) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(5), boxVertices.at(7) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(0), boxVertices.at(4) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(1), boxVertices.at(5) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(2), boxVertices.at(6) }, Line{ to.v3, to.v1 }, direction),
+		AngledDistance(Line{ boxVertices.at(3), boxVertices.at(7) }, Line{ to.v3, to.v1 }, direction)
 	);
 }

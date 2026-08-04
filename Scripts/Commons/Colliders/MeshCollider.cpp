@@ -1,7 +1,7 @@
 /*
  * FileName:     MeshCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/04
  *
  * メッシュの当たり判定
  */
@@ -22,6 +22,7 @@ Colliders::MeshCollider::MeshCollider(const ComponentDesc& desc, Renderings::ICo
 	, m_worldMesh{}
 	, m_color{ DirectX::Colors::LightGreen }
 	, m_pMesh{}
+	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pICameraScreens{}
 	, m_pIColliderRenderer{ pIColliderRenderer }
 	, m_refIResources{ iResources }
@@ -40,6 +41,8 @@ Colliders::MeshCollider::~MeshCollider()
 // 初期化処理
 void Colliders::MeshCollider::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
+	m_pTransform = GetPOwner()->GetComponent<Transform>();
+
 	// 要素ごとにループ
 	for (const auto& element : json.items())
 	{
@@ -93,9 +96,6 @@ void Colliders::MeshCollider::ApplyTransform()
 		return;
 	}
 
-	// トランスフォームを取得
-	const auto* pTransform = GetPOwner()->GetComponent<Transform>();
-
 	m_worldMesh = *m_pMesh;
-	m_worldMesh.ApplyMatrix(pTransform->CreateWorldMatrix());
+	m_worldMesh.ApplyMatrix(m_pTransform->CreateWorldMatrix());
 }
