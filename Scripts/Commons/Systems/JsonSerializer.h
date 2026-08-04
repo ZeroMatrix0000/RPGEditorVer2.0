@@ -40,7 +40,7 @@ namespace Systems
 			auto it = s_methods.find(typeid(T));
 			if (it == s_methods.end())
 			{
-				s_methods.emplace(typeid(T), [&](void* ptr, const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) { Serialize(static_cast<T*>(ptr), json, pIGameObjectFinder); });
+				s_methods.emplace(typeid(T), [](void* ptr, const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) { Serialize(static_cast<T*>(ptr), json, pIGameObjectFinder); });
 			}
 		}
 
