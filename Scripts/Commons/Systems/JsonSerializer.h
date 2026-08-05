@@ -1,7 +1,7 @@
 /*
  * FileName:     JsonSerializer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/05
  *
  * Jsonのシリアライズ
  */
@@ -189,20 +189,20 @@ namespace Systems
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		static void Serialize(std::unordered_set<TComponent*>* ptr, const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 		{
-			for (const auto& element : json.items())
+			for (const auto& element : json)
 			{
 				ptr->clear();
-				ptr->emplace(pIGameObjectFinder->Find(element.value().get<std::string>())->GetComponent<TComponent>());
+				ptr->emplace(pIGameObjectFinder->Find(element.get<std::string>())->GetComponent<TComponent>());
 			}
 		}
 		// シリアライズ（変更不可コンポーネントリスト）
 		template<typename TComponent> requires IsDerived<TComponent, Component>
 		static void Serialize(std::unordered_set<const TComponent*>* ptr, const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 		{
-			for (const auto& element : json.items())
+			for (const auto& element : json)
 			{
 				ptr->clear();
-				ptr->emplace(pIGameObjectFinder->Find(element.value().get<std::string>())->GetConstComponent<TComponent>());
+				ptr->emplace(pIGameObjectFinder->Find(element.get<std::string>())->GetConstComponent<TComponent>());
 			}
 		}
 

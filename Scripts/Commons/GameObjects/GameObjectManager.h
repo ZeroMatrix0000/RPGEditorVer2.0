@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/05
  *
  * ゲームオブジェクト管理
  */
@@ -68,10 +68,10 @@ namespace GameObjects
 
 		/* メンバ関数 */
 
-		// ゲームオブジェクトを作成
-		std::unique_ptr<GameObject> Create(const nlohmann::ordered_json& json);
-		// コンポーネントを設定
-		void SetComponents(const nlohmann::ordered_json& json, GameObject* pGameObject);
+		// コンポーネントを追加
+		std::vector<Component*> AddComponents(const nlohmann::ordered_json& json, GameObject* pGameObject);
+		// コンポーネントを初期化
+		void InitializeComponents(const nlohmann::ordered_json& json, const std::vector<Component*>& pComponents);
 
 
 		/* メンバ変数 */

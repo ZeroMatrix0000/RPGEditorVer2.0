@@ -1,7 +1,7 @@
 /*
  * FileName:     GameObjectManager.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/05
  *
  * ゲームオブジェクト管理
  */
@@ -48,11 +48,80 @@ void GameObjects::GameObjectManager::Load(const std::string& jsonName)
 		return;
 	}
 
-	// 要素ごとにループ
+	m_pGameObjects->clear();
+
+	// ゲームオブジェクトを生成
 	for (const auto& element : *json)
 	{
-		std::unique_ptr<GameObject> gameObject = Create(element);
-		m_pGameObjects->push_back(std::move(gameObject));
+		m_pGameObjects->push_back(std::make_unique<GameObject>(m_pIComponentManager));
+		// 名前を設定
+		auto it = element.find("Name");
+		if (it != element.end() && it.value().is_string())
+		{
+			m_pGameObjects->back()->SetName(it.value());
+		}
+	}
+
+	int i = -1;
+	// Prefab を読み込む
+	for (const auto& element : *json)
+	{
+		i++;
+
+		// Prefab名を探す
+		auto it = element.find("Prefab");
+		if (it == element.end() || !it.value().is_string())
+		{
+			continue;
+		}
+		// Json
+		const auto* prefabJson = m_refIResources.GetJson(it.value().get<std::string>());
+		if (!prefabJson)
+		{
+			continue;
+		}
+
+		// コンポーネントを追加
+		std::vector<Component*> pComponents = AddComponents(*prefabJson, m_pGameObjects->at(i).get());
+		// コンポーネントを初期化
+		InitializeComponents(*prefabJson, pComponents);
+	}
+
+	i = -1;
+	// コンポーネントリスト
+	std::vector<std::vector<Component*>> pComponentsList{};
+	// コンポーネントを追加
+	for (const auto& element : *json)
+	{
+		i++;
+
+		// コンポーネントリストを探す
+		auto it = element.find("Components");
+		if (it == element.end())
+		{
+			pComponentsList.push_back(std::vector<Component*>{});
+			continue;
+		}
+
+		// コンポーネントを追加
+		pComponentsList.push_back(AddComponents(it.value(), m_pGameObjects->at(i).get()));
+	}
+
+	i = -1;
+	// コンポーネントを初期化
+	for (const auto& element : *json)
+	{
+		i++;
+
+		// コンポーネントリストを探す
+		auto it = element.find("Components");
+		if (it == element.end())
+		{
+			continue;
+		}
+
+		// コンポーネントを初期化
+		InitializeComponents(it.value(), pComponentsList.at(i));
 	}
 }
 
@@ -91,7 +160,10 @@ GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonN
 	// ポインタ
 	GameObject* pGameObject = gameObject.get();
 	pGameObject->SetName(jsonName);
-	SetComponents(*json, pGameObject);
+	// コンポーネントを追加
+	std::vector<Component*> pComponents = AddComponents(*json, pGameObject);
+	// コンポーネントを初期化
+	InitializeComponents(*json, pComponents);
 
 	if (dontDestroyOnLoad)
 	{
@@ -105,41 +177,11 @@ GameObject* GameObjects::GameObjectManager::Instantiate(const std::string& jsonN
 	return pGameObject;
 }
 
-// ゲームオブジェクトを作成
-std::unique_ptr<GameObject> GameObjects::GameObjectManager::Create(const nlohmann::ordered_json& json)
+// コンポーネントを追加
+std::vector<Component*> GameObjects::GameObjectManager::AddComponents(const nlohmann::ordered_json& json, GameObject* pGameObject)
 {
-	std::unique_ptr<GameObject> gameObject = std::make_unique<GameObject>(m_pIComponentManager);
-	for (const auto& element : json.items())
-	{
-		// 名前
-		if (element.key() == "Name" && element.value().is_string())
-		{
-			gameObject->SetName(element.value().get<std::string>());
-		}
-		// Prefab
-		else if (element.key() == "Prefab" && element.value().is_string())
-		{
-			// Json
-			const auto* json = m_refIResources.GetJson(element.value().get<std::string>());
-			if (!json)
-			{
-				continue;
-			}
+	std::vector<Component*> pComponents{};
 
-			SetComponents(*json, gameObject.get());
-		}
-		// コンポーネント
-		else if (element.key() == "Components")
-		{
-			SetComponents(element.value(), gameObject.get());
-		}
-	}
-	return gameObject;
-}
-
-// コンポーネントを設定
-void GameObjects::GameObjectManager::SetComponents(const nlohmann::ordered_json& json, GameObject* pGameObject)
-{
 	for (const auto& element : json.items())
 	{
 		// コンポーネント追加関数
@@ -152,13 +194,30 @@ void GameObjects::GameObjectManager::SetComponents(const nlohmann::ordered_json&
 				L"不明なコンポーネントです。 | name: %s",
 				Utility::string2wstring(element.key()).c_str()
 			));
+			pComponents.push_back(nullptr);
 			continue;
 		}
 
 		// コンポーネントを追加
-		auto* component = it->second(pGameObject);
+		pComponents.push_back(it->second(pGameObject));
+	}
 
-		// コンポーネントの初期化
-		component->Initalize(element.value(), this);
+	return pComponents;
+}
+
+// コンポーネントを初期化
+void GameObjects::GameObjectManager::InitializeComponents(const nlohmann::ordered_json& json, const std::vector<Component*>& pComponents)
+{
+	int i = -1;
+	for (const auto& element : json)
+	{
+		i++;
+
+		if (pComponents.at(i) == nullptr)
+		{
+			continue;
+		}
+
+		pComponents.at(i)->Initalize(element, this);
 	}
 }
