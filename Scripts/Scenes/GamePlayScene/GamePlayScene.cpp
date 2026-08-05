@@ -56,6 +56,7 @@ void GamePlayScene::Initialize(const SceneTransitionData& data)
 
 	// プレイヤーを取得
 	m_pPlayer = pIGameObjectManager->Find("Player")->GetComponent<Player>();
+	m_pPlayer->ApplyTransform();
 
 	// プレイヤーカメラを取得
 	GameObject* pCamera = pIGameObjectManager->Find("PlayerCamera");

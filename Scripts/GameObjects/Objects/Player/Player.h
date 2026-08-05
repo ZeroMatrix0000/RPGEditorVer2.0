@@ -44,6 +44,9 @@ public:
 	// メッシュによる座標補正
 	void MeshCorrect(const Mesh& mesh);
 
+	// トランスフォームを適用
+	void ApplyTransform();
+
 	// 中心座標を取得
 	const Math::Vector3& GetPosition() const;
 
@@ -52,6 +55,17 @@ public:
 
 
 private:
+
+
+	/* 列挙型 */
+
+	// 落下状態
+	enum class FallState
+	{
+		OnGround,
+		OnAir,
+		Falling
+	};
 
 
 	/* メンバ変数 */
@@ -66,6 +80,11 @@ private:
 
 	// プレイヤーの回転
 	Spring<Math::Quaternion> m_rotation;
+
+	// 落下状態
+	FallState m_fallState;
+	// 落下猶予
+	Limited m_coyoteTime;
 
 	// トランスフォーム
 	Transform* m_pTransform;

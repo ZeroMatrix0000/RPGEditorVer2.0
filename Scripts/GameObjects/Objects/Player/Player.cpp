@@ -22,6 +22,8 @@ Player::Player(const ComponentDesc& desc)
 	, m_moveVelocity{}
 	, m_fallSpeed{}
 	, m_rotation{}
+	, m_fallState{}
+	, m_coyoteTime{}
 	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pBoxCollider{ GetPOwner()->GetNullReferences<Colliders::BoxCollider>() }
 	, m_pCameraScreen{ GetPOwner()->GetNullReferences<Renderings::CameraScreen<Camera::EulerTargetCamera>>() }
@@ -37,6 +39,7 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 	m_pBoxCollider = GetPOwner()->GetComponent<Colliders::BoxCollider>();
 
 	float fallMaxSpeed = m_fallSpeed.GetMax();
+	float coyoteTime = m_coyoteTime.GetMax();
 
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
 	serializer.AddParameter(&m_params.moveMaxSpeed, "MoveMaxSpeed");
@@ -44,10 +47,14 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 	serializer.AddParameter(&fallMaxSpeed, "FallMaxSpeed");
 	serializer.AddParameter(&m_params.fallAcceleration, "FallAcceleration");
 	serializer.AddParameter(&m_params.cameraVelocityCoefficient, "CameraVelocityCoefficient");
+	serializer.AddParameter(&coyoteTime, "CoyoteTime");
 	serializer.AddParameter(&m_pCameraScreen, "CameraScreen");
 	serializer.Load(json);
 
 	m_fallSpeed.Initialize(0.0f, 0.0f, fallMaxSpeed);
+
+	m_fallState = FallState::OnGround;
+	m_coyoteTime.Initialize(0.0f, 0.0f, coyoteTime);
 }
 
 // 更新処理
@@ -91,8 +98,11 @@ void Player::Update(float elapsedTime, const Math::Vector3& move)
 	// 回転させる
 	m_pTransform->SetRotation(m_rotation.GetCurrent());
 
+	// 落下猶予
+	m_coyoteTime -= elapsedTime;
+
 	// 当たり判定の更新
-	m_pBoxCollider->ApplyTransform();
+	ApplyTransform();
 }
 
 // 直方体による座標補正
@@ -167,11 +177,15 @@ void Player::MeshCorrect(const Mesh& mesh)
 
 		float newDistance = Math::Geometry::Distance(floor, box, &newDirection);
 
+		float arccos = newDirection.Dot(Math::Vector3::UnitY);
+
 		// 押出方向の傾斜が 45° 以上なら何もしない
-		if (Math::Abs(newDirection.Dot(Math::Vector3::UnitY)) < 1.0f / 1.41421356f)
+		if (Math::Abs(arccos) < 1.0f / 1.41421356f)
 		{
 			continue;
 		}
+
+		newDistance /= Math::Abs(arccos);
 
 		// 最短距離を更新
 		if (newDistance < distance)
@@ -181,11 +195,66 @@ void Player::MeshCorrect(const Mesh& mesh)
 		}
 	}
 
+	// 落下状態ごとの処理
+	switch (m_fallState)
+	{
+	case Player::FallState::OnGround:
+		if (distance < box.size.y / 8.0f)
+		{
+			float arccos = direction.Dot(Math::Vector3::UnitY);
+
+			if (distance < 0.0f || Math::Sign(arccos) == -1)
+			{
+				m_pTransform->Translate(Math::Vector3::UnitY * (Math::Sign(arccos) * distance));
+				box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
+				m_fallSpeed = 0.0f;
+				m_coyoteTime = m_coyoteTime.GetMax();
+				break;
+			}
+		}
+		m_fallState = FallState::OnAir;
+		break;
+	case Player::FallState::OnAir:
+		if (distance < 0.0f)
+		{
+			float arccos = direction.Dot(Math::Vector3::UnitY);
+
+			m_pTransform->Translate(Math::Vector3::UnitY * (Math::Sign(arccos) * distance));
+			box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
+			m_fallSpeed = 0.0f;
+			m_fallState = FallState::OnGround;
+			m_coyoteTime = m_coyoteTime.GetMax();
+			break;
+		}
+		if (m_coyoteTime.IsMin())
+		{
+			m_fallState = FallState::Falling;
+		}
+		break;
+	case Player::FallState::Falling:
+		if (distance < 0.0f)
+		{
+			float arccos = direction.Dot(Math::Vector3::UnitY);
+
+			m_pTransform->Translate(Math::Vector3::UnitY * (Math::Sign(arccos) * distance));
+			box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
+			m_fallSpeed = 0.0f;
+			m_fallState = FallState::OnGround;
+			m_coyoteTime = m_coyoteTime.GetMax();
+			break;
+		}
+		break;
+	default:
+		break;
+	}
+	
 	// めり込んでいるなら
 	if (distance < 0.0f)
 	{
-		m_pTransform->Translate(direction * distance);
-		box.position += direction * distance;
+		float arccos = direction.Dot(Math::Vector3::UnitY);
+
+		m_pTransform->Translate(Math::Vector3::UnitY* (Math::Sign(arccos)* distance));
+		box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
 		m_fallSpeed = 0.0f;
 	}
 
@@ -214,6 +283,12 @@ void Player::MeshCorrect(const Mesh& mesh)
 		box.position += direction * distance;
 	}
 
+	ApplyTransform();
+}
+
+// トランスフォームを適用
+void Player::ApplyTransform()
+{
 	m_pBoxCollider->ApplyTransform();
 }
 
