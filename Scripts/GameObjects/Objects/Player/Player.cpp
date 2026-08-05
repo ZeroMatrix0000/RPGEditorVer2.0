@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/05
  *
  * プレイヤー
  */
@@ -122,13 +122,15 @@ void Player::BoxCorrect(const Math::Box& box)
 void Player::MeshCorrect(const Mesh& mesh)
 {
 	// 直方体
-	const Math::Box& box = m_pBoxCollider->GetWorldBox();
-	// 外接する非回転直方体
+	Math::Box box = m_pBoxCollider->GetWorldBox();
+	// 外接する非回転直方体（少し広めに）
 	Math::NonRotatingBox nonRotatingBox = m_pBoxCollider->GetWorldBox().CreateNonRotatingBox();
+	nonRotatingBox.size += Math::Vector3::One;
 
-	// 最短距離
-	float distance = Math::INFTY;
-	Math::Vector3 direction{};
+	// 壁リスト
+	std::vector<Math::Triangle> walls{};
+	// 床リスト
+	std::vector<Math::Triangle> floors{};
 
 	for (const auto& face : mesh.f)
 	{
@@ -140,10 +142,36 @@ void Player::MeshCorrect(const Mesh& mesh)
 			continue;
 		}
 
-		float newDistance = Math::INFTY;
+		// 傾斜が 45° 以上なら
+		if (Math::Abs(triangle.GetNormal().Dot(Math::Vector3::Down)) < 1.0f / 1.41421356f)
+		{
+			// 壁
+			walls.push_back(triangle);
+		}
+		else
+		{
+			// 床
+			floors.push_back(triangle);
+		}
+	}
+
+	// 最短距離
+	float distance = Math::INFTY;
+	// 押出方向
+	Math::Vector3 direction{};
+
+	// 床
+	for (const auto& floor : floors)
+	{
 		Math::Vector3 newDirection{};
 
-		newDistance = Math::Geometry::Distance(triangle, box, &newDirection);
+		float newDistance = Math::Geometry::Distance(floor, box, &newDirection);
+
+		// 押出方向の傾斜が 45° 以上なら何もしない
+		if (Math::Abs(newDirection.Dot(Math::Vector3::UnitY)) < 1.0f / 1.41421356f)
+		{
+			continue;
+		}
 
 		// 最短距離を更新
 		if (newDistance < distance)
@@ -157,8 +185,36 @@ void Player::MeshCorrect(const Mesh& mesh)
 	if (distance < 0.0f)
 	{
 		m_pTransform->Translate(direction * distance);
-		m_pBoxCollider->ApplyTransform();
+		box.position += direction * distance;
+		m_fallSpeed = 0.0f;
 	}
+
+	distance = Math::INFTY;
+	direction = Math::Vector3::Zero;
+
+	// 壁
+	for (const auto& wall : walls)
+	{
+		Math::Vector3 newDirection{};
+
+		float newDistance = Math::Geometry::Distance(wall, box, &newDirection);
+
+		// 最短距離を更新
+		if (newDistance < distance)
+		{
+			distance = newDistance;
+			direction = newDirection;
+		}
+	}
+
+	// めり込んでいるなら
+	if (distance < 0.0f)
+	{
+		m_pTransform->Translate(direction * distance);
+		box.position += direction * distance;
+	}
+
+	m_pBoxCollider->ApplyTransform();
 }
 
 // 中心座標を取得
@@ -170,5 +226,5 @@ const Math::Vector3& Player::GetPosition() const
 // カメラの目標座標を取得
 Math::Vector3 Player::GetCameraTarget() const
 {
-	return GetPosition() + m_moveVelocity * m_params.cameraVelocityCoefficient;
+	return GetPosition() + (m_moveVelocity + m_fallSpeed * Math::Vector3::Down) * m_params.cameraVelocityCoefficient;
 }

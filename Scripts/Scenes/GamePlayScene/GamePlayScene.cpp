@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlayScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/05
  *
  * ゲームプレイシーン
  */
@@ -40,6 +40,10 @@ void GamePlayScene::Initialize(const SceneTransitionData& data)
 {
 	// コンテキスト
 	const auto& gameContext = GetContext();
+
+	// マウスをループ・非表示
+	gameContext.GetPIInput()->SetMousePositionLoop(true);
+	gameContext.GetPIInput()->DisplayCursor(false);
 
 	// 出力サイズ
 	const Math::Vector2& outputSize = gameContext.GetPIWindowController()->GetOutputSize();
@@ -106,6 +110,9 @@ void GamePlayScene::Update(float elapsedTime)
 // 終了処理
 void GamePlayScene::Finalize()
 {
+	// マウスをループ解除・表示
+	GetContext().GetPIInput()->SetMousePositionLoop(true);
+	GetContext().GetPIInput()->DisplayCursor(false);
 }
 
 // メッセージを受け取る

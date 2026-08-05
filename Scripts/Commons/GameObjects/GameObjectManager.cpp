@@ -97,7 +97,7 @@ void GameObjects::GameObjectManager::Load(const std::string& jsonName)
 
 		// コンポーネントリストを探す
 		auto it = element.find("Components");
-		if (it == element.end())
+		if (it == element.end() || !it.value().is_object())
 		{
 			pComponentsList.push_back(std::vector<Component*>{});
 			continue;
@@ -115,7 +115,7 @@ void GameObjects::GameObjectManager::Load(const std::string& jsonName)
 
 		// コンポーネントリストを探す
 		auto it = element.find("Components");
-		if (it == element.end())
+		if (it == element.end() || !it.value().is_object())
 		{
 			continue;
 		}
