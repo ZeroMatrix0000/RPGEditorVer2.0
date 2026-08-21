@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/21
  *
  * プレイヤー
  */
@@ -37,7 +37,7 @@ public:
 	void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
 	// 更新処理
-	void Update(float elapsedTime, const Math::Vector3& move);
+	void Update(float elapsedTime, const Math::Vector3& move, bool isDash, bool isJump);
 
 	// 直方体による座標補正
 	void BoxCorrect(const Math::Box& box);
@@ -75,6 +75,8 @@ private:
 
 	// 移動速度
 	Math::Vector3 m_moveVelocity;
+	// 移動の速さの最大
+	Limited m_moveMaxSpeed;
 	// 落下速度
 	Limited m_fallSpeed;
 
@@ -84,7 +86,9 @@ private:
 	// 落下状態
 	FallState m_fallState;
 	// 落下猶予
-	Limited m_coyoteTime;
+	Limited m_fallCoyoteTime;
+	// ジャンプの先行入力猶予
+	Limited m_jumpBufferTime;
 
 	// トランスフォーム
 	Transform* m_pTransform;

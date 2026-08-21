@@ -1,7 +1,7 @@
 /*
  * FileName:     IGameInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/08/21
  *
  * ゲーム入力のインタフェース
  */
@@ -28,5 +28,9 @@ public:
 	virtual Math::Vector3 GetPlayerMove()         const = 0;
 	// プレイヤーのカメラの回転入力を取得
 	virtual Math::Vector2 GetPlayerCameraRotate() const = 0;
+	// プレイヤーのダッシュ入力を取得
+	virtual bool          GetPlayerDash()         const = 0;
+	// プレイヤーのジャンプ入力を取得
+	virtual bool          GetPlayerJump()         const = 0;
 
 };

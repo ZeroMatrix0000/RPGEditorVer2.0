@@ -1,7 +1,7 @@
 /*
  * FileName:     GameInput.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/08/21
  *
  * ゲームの入力
  */
@@ -60,4 +60,16 @@ Math::Vector3 GameInput::GetPlayerMove() const
 Math::Vector2 GameInput::GetPlayerCameraRotate() const
 {
 	return m_input.GetMouseMovement() * MOUSE_COEFFICIENT;
+}
+
+// プレイヤーのダッシュ入力を取得
+bool GameInput::GetPlayerDash() const
+{
+	return m_input.GetKey(KeyName::LeftShift);
+}
+
+// プレイヤーのジャンプ入力を取得
+bool GameInput::GetPlayerJump() const
+{
+	return m_input.GetKeyDown(KeyName::Space);
 }

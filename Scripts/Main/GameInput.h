@@ -1,7 +1,7 @@
 /*
  * FileName:     GameInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/08/21
  *
  * ゲームの入力
  */
@@ -26,6 +26,10 @@ public:
 	Math::Vector3 GetPlayerMove()         const override;
 	// カメラの回転を取得
 	Math::Vector2 GetPlayerCameraRotate() const override;
+	// プレイヤーのダッシュ入力を取得
+	bool          GetPlayerDash()         const override;
+	// プレイヤーのジャンプ入力を取得
+	bool          GetPlayerJump()         const override;
 
 
 private:

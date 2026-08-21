@@ -67,8 +67,10 @@
 			"Player": {
 				"MoveMaxSpeed": 8.0,
 				"MoveAcceleration": 32.0,
+				"DashRatio": 1.5,
 				"FallMaxSpeed": 32.0,
 				"FallAcceleration": 48.0,
+				"JumpPower": 16.0,
 				"CameraVelocityCoefficient": 0.2,
 				"CoyoteTime": 0.1,
 				"CameraScreen": "PlayerCamera"

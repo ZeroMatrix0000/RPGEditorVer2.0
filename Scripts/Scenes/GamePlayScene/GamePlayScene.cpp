@@ -97,7 +97,7 @@ void GamePlayScene::Update(float elapsedTime)
 	auto* pIGameInput = GetContext().GetPIGameInput();
 
 	// プレイヤーの更新
-	m_pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove());
+	m_pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
 	m_pPlayer->MeshCorrect(m_pGround->GetWorldMesh());
 
 	// カメラの更新

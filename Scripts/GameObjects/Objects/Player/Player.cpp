@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/05
+ * Last Updated: 2026/08/21
  *
  * プレイヤー
  */
@@ -21,9 +21,11 @@ Player::Player(const ComponentDesc& desc)
 	, m_params{}
 	, m_moveVelocity{}
 	, m_fallSpeed{}
+	, m_moveMaxSpeed{}
 	, m_rotation{}
 	, m_fallState{}
-	, m_coyoteTime{}
+	, m_fallCoyoteTime{}
+	, m_jumpBufferTime{}
 	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pBoxCollider{ GetPOwner()->GetNullReferences<Colliders::BoxCollider>() }
 	, m_pCameraScreen{ GetPOwner()->GetNullReferences<Renderings::CameraScreen<Camera::EulerTargetCamera>>() }
@@ -38,38 +40,46 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 
 	m_pBoxCollider = GetPOwner()->GetComponent<Colliders::BoxCollider>();
 
+	float moveMaxSpeed = m_moveMaxSpeed.GetMin();
 	float fallMaxSpeed = m_fallSpeed.GetMax();
-	float coyoteTime = m_coyoteTime.GetMax();
+	float jumpPower = m_fallSpeed.GetMin();
+	float coyoteTime = m_fallCoyoteTime.GetMax();
 
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
-	serializer.AddParameter(&m_params.moveMaxSpeed, "MoveMaxSpeed");
+	serializer.AddParameter(&moveMaxSpeed, "MoveMaxSpeed");
 	serializer.AddParameter(&m_params.moveAcceleration, "MoveAcceleration");
+	serializer.AddParameter(&m_params.dashRatio, "DashRatio");
 	serializer.AddParameter(&fallMaxSpeed, "FallMaxSpeed");
 	serializer.AddParameter(&m_params.fallAcceleration, "FallAcceleration");
+	serializer.AddParameter(&jumpPower, "JumpPower");
 	serializer.AddParameter(&m_params.cameraVelocityCoefficient, "CameraVelocityCoefficient");
 	serializer.AddParameter(&coyoteTime, "CoyoteTime");
 	serializer.AddParameter(&m_pCameraScreen, "CameraScreen");
 	serializer.Load(json);
 
-	m_fallSpeed.Initialize(0.0f, 0.0f, fallMaxSpeed);
+	m_moveMaxSpeed.Initialize(0.0f, moveMaxSpeed, moveMaxSpeed * m_params.dashRatio);
+
+	m_fallSpeed.Initialize(0.0f, -jumpPower, fallMaxSpeed);
 
 	m_fallState = FallState::OnGround;
-	m_coyoteTime.Initialize(0.0f, 0.0f, coyoteTime);
+	m_fallCoyoteTime.Initialize(0.0f, 0.0f, coyoteTime);
+	m_jumpBufferTime.Initialize(0.0f, 0.0f, coyoteTime);
 }
 
 // 更新処理
-void Player::Update(float elapsedTime, const Math::Vector3& move)
+void Player::Update(float elapsedTime, const Math::Vector3& move, bool isDash, bool isJump)
 {
 	// カメラのY軸回転
 	Math::Quaternion cameraRotation = Math::Quaternion::CreateFromAxisAngle(Math::Vector3::UnitY, Math::Deg2Rad(m_pCameraScreen->GetCamera().rotation.y));
+
+	// 最大の早さを調整
+	m_moveMaxSpeed += m_params.moveAcceleration * elapsedTime * m_params.dashRatio * (isDash ? 1.0f : -1.0f);
 
 	// 加速度がない
 	if (move == Math::Vector3::Zero)
 	{
 		// 速さ
-		Limited speed = Limited::Create(m_moveVelocity.Length(), 0.0f, m_params.moveMaxSpeed);
-		// 遅くして速度に適用
-		speed -= m_params.moveAcceleration * elapsedTime;
+		Limited speed = Limited::Create(m_moveVelocity.Length() - m_params.moveAcceleration * elapsedTime, 0.0f, m_moveMaxSpeed);
 		m_moveVelocity.Normalize();
 		m_moveVelocity *= speed;
 	}
@@ -77,18 +87,33 @@ void Player::Update(float elapsedTime, const Math::Vector3& move)
 	else
 	{
 		// 速度に加速度を足す
-		m_moveVelocity += Math::Vector3::Transform(move, cameraRotation) * m_params.moveAcceleration * elapsedTime;
+		m_moveVelocity += Math::Vector3::Transform(move, cameraRotation) * m_params.moveAcceleration * elapsedTime * (isDash ? m_params.dashRatio : 1.0f);
 		// 速さを最大に収める
-		if (m_moveVelocity.Length() > m_params.moveMaxSpeed)
+		if (m_moveVelocity.Length() > m_moveMaxSpeed)
 		{
 			m_moveVelocity.Normalize();
-			m_moveVelocity *= m_params.moveMaxSpeed;
+			m_moveVelocity *= m_moveMaxSpeed;
 		}
 
 		m_rotation.SetTarget(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::UnitY, Math::Arctan2(m_moveVelocity.x, m_moveVelocity.z)));
 	}
 
 	m_fallSpeed += m_params.fallAcceleration * elapsedTime;
+
+	// ジャンプ入力
+	if (isJump)
+	{
+		m_jumpBufferTime = m_jumpBufferTime.GetMax();
+	}
+
+	m_jumpBufferTime -= elapsedTime;
+
+	// ジャンプ
+	if (m_jumpBufferTime != 0.0f && m_fallState != FallState::Falling)
+	{
+		m_fallState = FallState::Falling;
+		m_fallSpeed = m_fallSpeed.GetMin();
+	}
 
 	// 回転の更新
 	m_rotation.Tick(elapsedTime);
@@ -99,7 +124,7 @@ void Player::Update(float elapsedTime, const Math::Vector3& move)
 	m_pTransform->SetRotation(m_rotation.GetCurrent());
 
 	// 落下猶予
-	m_coyoteTime -= elapsedTime;
+	m_fallCoyoteTime -= elapsedTime;
 
 	// 当たり判定の更新
 	ApplyTransform();
@@ -208,7 +233,7 @@ void Player::MeshCorrect(const Mesh& mesh)
 				m_pTransform->Translate(Math::Vector3::UnitY * (Math::Sign(arccos) * distance));
 				box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
 				m_fallSpeed = 0.0f;
-				m_coyoteTime = m_coyoteTime.GetMax();
+				m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
 				break;
 			}
 		}
@@ -223,10 +248,10 @@ void Player::MeshCorrect(const Mesh& mesh)
 			box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
 			m_fallSpeed = 0.0f;
 			m_fallState = FallState::OnGround;
-			m_coyoteTime = m_coyoteTime.GetMax();
+			m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
 			break;
 		}
-		if (m_coyoteTime.IsMin())
+		if (m_fallCoyoteTime.IsMin())
 		{
 			m_fallState = FallState::Falling;
 		}
@@ -240,7 +265,7 @@ void Player::MeshCorrect(const Mesh& mesh)
 			box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
 			m_fallSpeed = 0.0f;
 			m_fallState = FallState::OnGround;
-			m_coyoteTime = m_coyoteTime.GetMax();
+			m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
 			break;
 		}
 		break;
