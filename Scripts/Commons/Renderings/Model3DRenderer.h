@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/08
+ * Last Updated: 2026/08/22
  *
  * 3Dモデル描画
  */
@@ -46,7 +46,7 @@ namespace Renderings
 		/* メンバ変数 */
 
 		// モデルのポインタリスト
-		std::unordered_set<const Model3D*> m_pModels;
+		std::vector<const Model3D*> m_pModels;
 
 		// コンテキストのポインタ
 		ID3D11DeviceContext4* m_pContext;

@@ -1,7 +1,7 @@
 /*
  * FileName:     MeshCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/22
  *
  * メッシュの当たり判定
  */
@@ -65,7 +65,7 @@ namespace Colliders
 		const Math::Color& GetColor() const { return m_color; }
 
 		// 映るカメラ画面のポインタリストを取得
-		const std::unordered_set<const Renderings::ICameraScreen*>& GetPICameraScreens() const { return m_pICameraScreens; }
+		const std::vector<const Renderings::ICameraScreen*>& GetPICameraScreens() const { return m_pICameraScreens; }
 
 	private:
 
@@ -85,7 +85,7 @@ namespace Colliders
 		Transform* m_pTransform;
 
 		// 映るカメラ画面のポインタリスト
-		std::unordered_set<const Renderings::ICameraScreen*> m_pICameraScreens;
+		std::vector<const Renderings::ICameraScreen*> m_pICameraScreens;
 
 		// 当たり判定描画インタフェースのポインタ
 		Renderings::IColliderRenderer* m_pIColliderRenderer;

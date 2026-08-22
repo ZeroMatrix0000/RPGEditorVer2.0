@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/08/22
  *
  * 3Dモデル描画
  */
@@ -65,11 +65,15 @@ void Renderings::Model3DRenderer::Render()
 // モデルのポインタを追加
 void Renderings::Model3DRenderer::AddPModel(const Model3D* pModel)
 {
-	m_pModels.emplace(pModel);
+	m_pModels.push_back(pModel);
 }
 
 // モデルのポインタを削除
 void Renderings::Model3DRenderer::RemovePModel(const Model3D* pModel)
 {
-	m_pModels.erase(pModel);
+	auto it = std::ranges::find(m_pModels, pModel);
+	if (it != m_pModels.end())
+	{
+		m_pModels.erase(it);
+	}
 }

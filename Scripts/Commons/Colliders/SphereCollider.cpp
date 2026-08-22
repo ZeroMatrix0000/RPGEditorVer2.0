@@ -1,7 +1,7 @@
 /*
  * FileName:     SphereCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/22
  *
  * 球の当たり判定
  */
@@ -53,13 +53,20 @@ void Colliders::SphereCollider::Initalize(const nlohmann::ordered_json& json, IG
 // 映るカメラ画面を追加
 void Colliders::SphereCollider::AddICameraScreen(const Renderings::ICameraScreen& iCameraScreen)
 {
-	m_pICameraScreens.emplace(&iCameraScreen);
+	if (std::ranges::find(m_pICameraScreens, &iCameraScreen) == m_pICameraScreens.end())
+	{
+		m_pICameraScreens.push_back(&iCameraScreen);
+	}
 }
 
 // 映るカメラ画面を削除
 void Colliders::SphereCollider::RemoveICameraScreen(const Renderings::ICameraScreen& iCameraScreen)
 {
-	m_pICameraScreens.erase(&iCameraScreen);
+	auto it = std::ranges::find(m_pICameraScreens, &iCameraScreen);
+	if (it != m_pICameraScreens.end())
+	{
+		m_pICameraScreens.erase(it);
+	}
 }
 
 // トランスフォームを適用

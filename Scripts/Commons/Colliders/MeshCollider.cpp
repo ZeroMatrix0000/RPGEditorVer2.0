@@ -1,7 +1,7 @@
 /*
  * FileName:     MeshCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/22
  *
  * メッシュの当たり判定
  */
@@ -54,13 +54,20 @@ void Colliders::MeshCollider::Initalize(const nlohmann::ordered_json& json, IGam
 // 映るカメラ画面を追加
 void Colliders::MeshCollider::AddICameraScreen(const Renderings::ICameraScreen& iCameraScreen)
 {
-	m_pICameraScreens.emplace(&iCameraScreen);
+	if (std::ranges::find(m_pICameraScreens, &iCameraScreen) == m_pICameraScreens.end())
+	{
+		m_pICameraScreens.push_back(&iCameraScreen);
+	}
 }
 
 // 映るカメラ画面を削除
 void Colliders::MeshCollider::RemoveICameraScreen(const Renderings::ICameraScreen& iCameraScreen)
 {
-	m_pICameraScreens.erase(&iCameraScreen);
+	auto it = std::ranges::find(m_pICameraScreens, &iCameraScreen);
+	if (it != m_pICameraScreens.end())
+	{
+		m_pICameraScreens.erase(it);
+	}
 }
 
 // トランスフォームを適用

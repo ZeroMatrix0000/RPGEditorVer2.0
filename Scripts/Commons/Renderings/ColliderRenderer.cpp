@@ -1,7 +1,7 @@
 /*
  * FileName:     ColliderRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/22
  *
  * 当たり判定描画
  */
@@ -97,37 +97,49 @@ void Renderings::ColliderRenderer::Render()
 // 長方形の当たり判定のポインタを追加
 void Renderings::ColliderRenderer::AddPBoxCollider(const Colliders::BoxCollider* pBoxCollider)
 {
-	m_pBoxColliders.emplace(pBoxCollider);
+	m_pBoxColliders.push_back(pBoxCollider);
 }
 
 // 長方形の当たり判定のポインタを削除
 void Renderings::ColliderRenderer::RemovePBoxCollider(const Colliders::BoxCollider* pBoxCollider)
 {
-	m_pBoxColliders.erase(pBoxCollider);
+	auto it = std::ranges::find(m_pBoxColliders, pBoxCollider);
+	if (it != m_pBoxColliders.end())
+	{
+		m_pBoxColliders.erase(it);
+	}
 }
 
 // 球の当たり判定のポインタを追加
 void Renderings::ColliderRenderer::AddPSphereCollider(const Colliders::SphereCollider* pSphereCollider)
 {
-	m_pSphereColliders.emplace(pSphereCollider);
+	m_pSphereColliders.push_back(pSphereCollider);
 }
 
 // 球の当たり判定のポインタを削除
 void Renderings::ColliderRenderer::RemovePSphereCollider(const Colliders::SphereCollider* pSphereCollider)
 {
-	m_pSphereColliders.erase(pSphereCollider);
+	auto it = std::ranges::find(m_pSphereColliders, pSphereCollider);
+	if (it != m_pSphereColliders.end())
+	{
+		m_pSphereColliders.erase(it);
+	}
 }
 
 // メッシュの当たり判定のポインタを追加
 void Renderings::ColliderRenderer::AddPMeshCollider(const Colliders::MeshCollider* pMeshCollider)
 {
-	m_pMeshColliders.emplace(pMeshCollider);
+	m_pMeshColliders.push_back(pMeshCollider);
 }
 
 // メッシュの当たり判定のポインタを削除
 void Renderings::ColliderRenderer::RemovePMeshCollider(const Colliders::MeshCollider* pMeshCollider)
 {
-	m_pMeshColliders.erase(pMeshCollider);
+	auto it = std::ranges::find(m_pMeshColliders, pMeshCollider);
+	if (it != m_pMeshColliders.end())
+	{
+		m_pMeshColliders.erase(it);
+	}
 }
 
 // 直方体を描画

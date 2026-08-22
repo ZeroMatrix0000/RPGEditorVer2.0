@@ -40,7 +40,7 @@ public:
 	void Update(float elapsedTime, const Math::Vector3& move, bool isDash, bool isJump);
 
 	// 直方体による座標補正
-	void BoxCorrect(const Math::Box& box);
+	void BoxCorrect(const std::vector<const Math::Box*>& pBoxes);
 	// メッシュによる座標補正
 	void MeshCorrect(const Mesh& mesh);
 
@@ -52,12 +52,6 @@ public:
 
 
 private:
-
-
-	/* メンバ関数 */
-
-	// トランスフォームを適用
-	void ApplyTransform();
 
 
 	/* 列挙型 */

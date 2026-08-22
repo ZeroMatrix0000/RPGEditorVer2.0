@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/08/22
  *
  * 3Dモデル
  */
@@ -44,7 +44,7 @@ namespace Renderings
 		const std::string& GetModelSourceName() const { return m_modelSourceName; }
 
 		// 映るカメラ画面のポインタリストを取得
-		const std::unordered_set<const ICameraScreen*>& GetPICameraScreens() const { return m_pICameraScreens; }
+		const std::vector<const ICameraScreen*>& GetPICameraScreens() const { return m_pICameraScreens; }
 
 
 	private:
@@ -56,7 +56,7 @@ namespace Renderings
 		std::string m_modelSourceName;
 
 		// 映るカメラ画面のポインタリスト
-		std::unordered_set<const ICameraScreen*> m_pICameraScreens;
+		std::vector<const ICameraScreen*> m_pICameraScreens;
 
 		// モデル描画インタフェースのポインタ
 		IModel3DRenderer* m_pIModelRenderer;

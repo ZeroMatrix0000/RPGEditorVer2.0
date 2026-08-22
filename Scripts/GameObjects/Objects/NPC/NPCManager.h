@@ -34,6 +34,12 @@ public:
 	// 更新処理
 	void Update(float elapsedTime);
 
+	// 向きを設定
+	void SetRotation(const Math::Vector3& playerPosition);
+
+	// 当たり判定を取得
+	std::vector<const Math::Box*> GetPBoxes() const;
+
 
 private:
 
@@ -41,6 +47,9 @@ private:
 	/* メンバ変数 */
 
 	// NPCリスト
-	std::unordered_set<NPC*> m_pNPCList;
+	std::vector<NPC*> m_pNPCList;
+
+	// カーソルが合っているMPC
+	NPC* m_pFocusedNPC;
 
 };

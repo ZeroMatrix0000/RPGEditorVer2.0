@@ -73,7 +73,8 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 	m_fallCoyoteTime.Initialize(0.0f, 0.0f, coyoteTime);
 	m_jumpBufferTime.Initialize(0.0f, 0.0f, coyoteTime);
 
-	ApplyTransform();
+	// 当たり判定の更新
+	m_pBoxCollider->ApplyTransform();
 }
 
 // 更新処理
@@ -137,40 +138,45 @@ void Player::Update(float elapsedTime, const Math::Vector3& move, bool isDash, b
 	m_fallCoyoteTime -= elapsedTime;
 
 	// 当たり判定の更新
-	ApplyTransform();
+	m_pBoxCollider->ApplyTransform();
 }
 
 // 直方体による座標補正
-void Player::BoxCorrect(const Math::Box& box)
+void Player::BoxCorrect(const std::vector<const Math::Box*>& pBoxes)
 {
 	// 直方体
-	const Math::Box& playerBox = m_pBoxCollider->GetWorldBox();
+	Math::Box box = m_pBoxCollider->GetWorldBox();
 
-	// 外接する非回転直方体同士が触れていなければ何もしない
-	if (!Math::Geometry::IsCollide(playerBox.CreateNonRotatingBox(), box.CreateNonRotatingBox()))
+	for (const auto* pBox : pBoxes)
 	{
-		return;
-	}
-
-	// 距離の方向
-	Math::Vector3 direction{};
-	// 距離
-	float distance = Math::Geometry::Distance(playerBox, box, &direction);
-	// めり込んでいるなら
-	if (distance < 0.0f)
-	{
-		m_pTransform->Translate(direction * distance);
-
-		// 押出方向が上かつ落下中のとき
-		if (direction.Dot(Math::Vector3::Down) > 1.0f / 1.41421356f && m_fallSpeed > 0.0f)
+		// 外接する非回転直方体同士が触れていなければ何もしない
+		if (!Math::Geometry::IsCollide(box.CreateNonRotatingBox(), pBox->CreateNonRotatingBox()))
 		{
-			m_fallSpeed = 0.0f;
-			m_fallState = FallState::OnGround;
-			m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
+			continue;
+		}
+
+		// 距離の方向
+		Math::Vector3 direction{};
+		// 距離
+		float distance = Math::Geometry::Distance(box, *pBox, &direction);
+		// めり込んでいるなら
+		if (distance < 0.0f)
+		{
+			m_pTransform->Translate(direction * distance);
+			box.position += direction * distance;
+
+			// 押出方向が上かつ落下中のとき
+			if (direction.Dot(Math::Vector3::Down) > 1.0f / 1.41421356f && m_fallSpeed > 0.0f)
+			{
+				m_fallSpeed = 0.0f;
+				m_fallState = FallState::OnGround;
+				m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
+			}
 		}
 	}
 
-	ApplyTransform();
+	// 当たり判定の更新
+	m_pBoxCollider->ApplyTransform();
 }
 
 // メッシュによる座標補正
@@ -214,6 +220,31 @@ void Player::MeshCorrect(const Mesh& mesh)
 	float distance = Math::INFTY;
 	// 押出方向
 	Math::Vector3 direction{};
+
+	// 壁
+	for (const auto& wall : walls)
+	{
+		Math::Vector3 newDirection{};
+
+		float newDistance = Math::Geometry::Distance(wall, box, &newDirection);
+
+		// 最短距離を更新
+		if (newDistance < distance)
+		{
+			distance = newDistance;
+			direction = newDirection;
+		}
+	}
+
+	// めり込んでいるなら
+	if (distance < 0.0f)
+	{
+		m_pTransform->Translate(direction * distance);
+		box.position += direction * distance;
+	}
+
+	distance = Math::INFTY;
+	direction = Math::Vector3::Zero;
 
 	// 床
 	for (const auto& floor : floors)
@@ -298,37 +329,7 @@ void Player::MeshCorrect(const Mesh& mesh)
 		break;
 	}
 
-	distance = Math::INFTY;
-	direction = Math::Vector3::Zero;
-
-	// 壁
-	for (const auto& wall : walls)
-	{
-		Math::Vector3 newDirection{};
-
-		float newDistance = Math::Geometry::Distance(wall, box, &newDirection);
-
-		// 最短距離を更新
-		if (newDistance < distance)
-		{
-			distance = newDistance;
-			direction = newDirection;
-		}
-	}
-
-	// めり込んでいるなら
-	if (distance < 0.0f)
-	{
-		m_pTransform->Translate(direction * distance);
-		box.position += direction * distance;
-	}
-
-	ApplyTransform();
-}
-
-// トランスフォームを適用
-void Player::ApplyTransform()
-{
+	// 当たり判定の更新
 	m_pBoxCollider->ApplyTransform();
 }
 

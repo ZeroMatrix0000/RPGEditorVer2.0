@@ -1,7 +1,7 @@
 /*
  * FileName:     ColliderRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/08/22
  *
  * 当たり判定描画
  */
@@ -70,11 +70,11 @@ namespace Renderings
 		std::unique_ptr<DirectX::BasicEffect>                                  m_basicEffect;
 
 		// 長方形の当たり判定のポインタリスト
-		std::unordered_set<const Colliders::BoxCollider*> m_pBoxColliders;
+		std::vector<const Colliders::BoxCollider*>    m_pBoxColliders;
 		// 球の当たり判定のポインタリスト
-		std::unordered_set<const Colliders::SphereCollider*> m_pSphereColliders;
+		std::vector<const Colliders::SphereCollider*> m_pSphereColliders;
 		// メッシュの当たり判定のポインタリスト
-		std::unordered_set<const Colliders::MeshCollider*> m_pMeshColliders;
+		std::vector<const Colliders::MeshCollider*>   m_pMeshColliders;
 
 		// デバイスコンテキスト
 		ID3D11DeviceContext4*        m_pContext;

@@ -24,6 +24,7 @@ class SceneTransitionData;
 class GameContext;
 class Player;
 class PlayerCamera;
+class NPCManager;
 
 // ゲームプレイシーン
 class GamePlayScene : public Scenes::Scene<SceneTransitionData, GameContext>
@@ -61,8 +62,8 @@ private:
 	// プレイヤーカメラ
 	PlayerCamera* m_pPlayerCamera;
 
-	// NPC
-	Colliders::BoxCollider* m_pNPC;
+	// NPC管理
+	NPCManager* m_pNPCManager;
 
 	// 地面
 	Colliders::MeshCollider* m_pGround;
