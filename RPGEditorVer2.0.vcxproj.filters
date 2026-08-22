@@ -88,6 +88,9 @@
     <Filter Include="Scripts\Scenes\GamePlayScene">
       <UniqueIdentifier>{94fa563e-361d-4563-b3eb-220b7cd51bd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\GameObjects\Objects\NPC">
+      <UniqueIdentifier>{c4d5b6a2-1771-40e6-8534-0b0cb2b4b02b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -258,6 +261,12 @@
     </ClCompile>
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlayScene.cpp">
       <Filter>Scripts\Scenes\GamePlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\Objects\NPC\NPC.cpp">
+      <Filter>Scripts\GameObjects\Objects\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\Objects\NPC\NPCManager.cpp">
+      <Filter>Scripts\GameObjects\Objects\NPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +550,12 @@
     <ClInclude Include="Scripts\Commons\Systems\JsonSerializer.h">
       <Filter>Scripts\Commons\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\Objects\NPC\NPC.h">
+      <Filter>Scripts\GameObjects\Objects\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\Objects\NPC\NPCManager.h">
+      <Filter>Scripts\GameObjects\Objects\NPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -588,6 +603,9 @@
     </None>
     <None Include="Resources\Jsons\Scenes\Scene_GamePlay.json">
       <Filter>Jsons\Scenes</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_Player.json">
+      <Filter>Jsons\Prefabs</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

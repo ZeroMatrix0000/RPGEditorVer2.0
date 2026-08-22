@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlayScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/08/22
  *
  * ゲームプレイシーン
  */
@@ -17,6 +17,7 @@ namespace Renderings
 }
 namespace Colliders
 {
+	class BoxCollider;
 	class MeshCollider;
 }
 class SceneTransitionData;
@@ -24,7 +25,7 @@ class GameContext;
 class Player;
 class PlayerCamera;
 
-// サンプルシーン
+// ゲームプレイシーン
 class GamePlayScene : public Scenes::Scene<SceneTransitionData, GameContext>
 {
 
@@ -59,6 +60,9 @@ private:
 	Player* m_pPlayer;
 	// プレイヤーカメラ
 	PlayerCamera* m_pPlayerCamera;
+
+	// NPC
+	Colliders::BoxCollider* m_pNPC;
 
 	// 地面
 	Colliders::MeshCollider* m_pGround;

@@ -21,7 +21,7 @@ namespace Colliders
 	class BoxCollider;
 }
 
- // デバッグ用カメラ
+ // プレイヤー
 class Player : public Component
 {
 
@@ -44,9 +44,6 @@ public:
 	// メッシュによる座標補正
 	void MeshCorrect(const Mesh& mesh);
 
-	// トランスフォームを適用
-	void ApplyTransform();
-
 	// 中心座標を取得
 	const Math::Vector3& GetPosition() const;
 
@@ -55,6 +52,12 @@ public:
 
 
 private:
+
+
+	/* メンバ関数 */
+
+	// トランスフォームを適用
+	void ApplyTransform();
 
 
 	/* 列挙型 */

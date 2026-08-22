@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlayScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/05
+ * Last Updated: 2026/08/22
  *
  * ゲームプレイシーン
  */
@@ -29,6 +29,7 @@ GamePlayScene::GamePlayScene(const ComponentDesc& desc)
 	: Scene{ desc }
 	, m_pPlayer{}
 	, m_pPlayerCamera{}
+	, m_pNPC{}
 	, m_pGround{}
 	, m_pCameraScreen{}
 	, m_pCanvas{}
@@ -56,7 +57,6 @@ void GamePlayScene::Initialize(const SceneTransitionData& data)
 
 	// プレイヤーを取得
 	m_pPlayer = pIGameObjectManager->Find("Player")->GetComponent<Player>();
-	m_pPlayer->ApplyTransform();
 
 	// プレイヤーカメラを取得
 	GameObject* pCamera = pIGameObjectManager->Find("PlayerCamera");
@@ -68,6 +68,10 @@ void GamePlayScene::Initialize(const SceneTransitionData& data)
 	// キャンバスを取得
 	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
 	m_pCanvas->SetSize(outputSize);
+
+	// NPCを取得
+	m_pNPC = pIGameObjectManager->Find("NPCテスト")->GetComponent<Colliders::BoxCollider>();
+	m_pNPC->ApplyTransform();
 
 	// 地面を取得
 	m_pGround = pIGameObjectManager->Find("Ground")->GetComponent<Colliders::MeshCollider>();
@@ -98,6 +102,7 @@ void GamePlayScene::Update(float elapsedTime)
 
 	// プレイヤーの更新
 	m_pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
+	m_pPlayer->BoxCorrect(m_pNPC->GetWorldBox());
 	m_pPlayer->MeshCorrect(m_pGround->GetWorldMesh());
 
 	// カメラの更新

@@ -5,7 +5,7 @@
 			"EulerTargetCameraScreen": {
 				"Camera": {
 					"Position": {
-						"X": -5.0,
+						"X": 0.0,
 						"Y": 1.0,
 						"Z": 0.0
 					},
@@ -18,12 +18,20 @@
 				},
 				"ViewAngle": 45.0
 			},
-			"PlayerCamera": {
-			}
+			"PlayerCamera": {}
 		}
 	},
 	{
 		"Name": "Player",
+		"Prefab": "Prefab_Player",
+		"Components": {
+			"Player": {
+				"CameraScreen": "PlayerCamera"
+			}
+		}
+	},
+	{
+		"Name": "NPCテスト",
 		"Components": {
 			"Transform": {
 				"Position": {
@@ -33,12 +41,12 @@
 				},
 				"Rotation": {
 					"X": 0.0,
-					"Y": 45.0,
+					"Y": -90.0,
 					"Z": 0.0
 				}
 			},
 			"Model3D": {
-				"ModelSourceName": "Player",
+				"ModelSourceName": "NPC",
 				"CameraScreens": [
 					"PlayerCamera"
 				]
@@ -50,30 +58,30 @@
 					"Z": 0.0
 				},
 				"Size": {
-					"X": 1.0,
+					"X": 0.75,
 					"Y": 2.0,
-					"Z": 1.0
+					"Z": 0.75
 				},
 				"Color": {
 					"R": 1.0,
-					"G": 0.5,
-					"B": 0.5,
+					"G": 1.0,
+					"B": 1.0,
 					"A": 1.0
 				},
 				"CameraScreens": [
 					"PlayerCamera"
 				]
 			},
-			"Player": {
-				"MoveMaxSpeed": 8.0,
-				"MoveAcceleration": 32.0,
-				"DashRatio": 1.5,
-				"FallMaxSpeed": 32.0,
-				"FallAcceleration": 48.0,
-				"JumpPower": 16.0,
-				"CameraVelocityCoefficient": 0.2,
-				"CoyoteTime": 0.1,
-				"CameraScreen": "PlayerCamera"
+			"NPC": {}
+		}
+	},
+	{
+		"Name": "NPCManager",
+		"Components": {
+			"NPCManager": {
+				"NPCList": [
+					"NPCテスト"
+				]
 			}
 		}
 	},

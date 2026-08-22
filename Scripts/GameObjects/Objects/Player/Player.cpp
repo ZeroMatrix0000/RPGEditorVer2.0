@@ -1,7 +1,8 @@
 /*
  * FileName:     Player.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/21
+ * Last Updated: 2026/08/22
+ * 
  *
  * プレイヤー
  */
@@ -11,6 +12,7 @@
 
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
+#include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Components/Transform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Systems/JsonSerializer.h"
@@ -42,7 +44,7 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 
 	float moveMaxSpeed = m_moveMaxSpeed.GetMin();
 	float fallMaxSpeed = m_fallSpeed.GetMax();
-	float jumpPower = m_fallSpeed.GetMin();
+	float jumpPower = -m_fallSpeed.GetMin();
 	float coyoteTime = m_fallCoyoteTime.GetMax();
 
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
@@ -57,6 +59,12 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 	serializer.AddParameter(&m_pCameraScreen, "CameraScreen");
 	serializer.Load(json);
 
+	if (m_pCameraScreen != GetPOwner()->GetNullReferences<Renderings::CameraScreen<Camera::EulerTargetCamera>>())
+	{
+		m_pBoxCollider->AddICameraScreen(*m_pCameraScreen);
+		GetPOwner()->GetComponent<Renderings::Model3D>()->AddICameraScreen(*m_pCameraScreen);
+	}
+
 	m_moveMaxSpeed.Initialize(0.0f, moveMaxSpeed, moveMaxSpeed * m_params.dashRatio);
 
 	m_fallSpeed.Initialize(0.0f, -jumpPower, fallMaxSpeed);
@@ -64,6 +72,8 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 	m_fallState = FallState::OnGround;
 	m_fallCoyoteTime.Initialize(0.0f, 0.0f, coyoteTime);
 	m_jumpBufferTime.Initialize(0.0f, 0.0f, coyoteTime);
+
+	ApplyTransform();
 }
 
 // 更新処理
@@ -150,7 +160,17 @@ void Player::BoxCorrect(const Math::Box& box)
 	if (distance < 0.0f)
 	{
 		m_pTransform->Translate(direction * distance);
+
+		// 押出方向が上かつ落下中のとき
+		if (direction.Dot(Math::Vector3::Down) > 1.0f / 1.41421356f && m_fallSpeed > 0.0f)
+		{
+			m_fallSpeed = 0.0f;
+			m_fallState = FallState::OnGround;
+			m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
+		}
 	}
+
+	ApplyTransform();
 }
 
 // メッシュによる座標補正
@@ -224,6 +244,7 @@ void Player::MeshCorrect(const Mesh& mesh)
 	switch (m_fallState)
 	{
 	case Player::FallState::OnGround:
+		// 地面に貼り付ける
 		if (distance < box.size.y / 8.0f)
 		{
 			float arccos = direction.Dot(Math::Vector3::UnitY);
@@ -263,24 +284,18 @@ void Player::MeshCorrect(const Mesh& mesh)
 
 			m_pTransform->Translate(Math::Vector3::UnitY * (Math::Sign(arccos) * distance));
 			box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
-			m_fallSpeed = 0.0f;
-			m_fallState = FallState::OnGround;
-			m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
+			// 落下中のとき
+			if (m_fallSpeed > 0.0f)
+			{
+				m_fallSpeed = 0.0f;
+				m_fallState = FallState::OnGround;
+				m_fallCoyoteTime = m_fallCoyoteTime.GetMax();
+			}
 			break;
 		}
 		break;
 	default:
 		break;
-	}
-	
-	// めり込んでいるなら
-	if (distance < 0.0f)
-	{
-		float arccos = direction.Dot(Math::Vector3::UnitY);
-
-		m_pTransform->Translate(Math::Vector3::UnitY* (Math::Sign(arccos)* distance));
-		box.position += Math::Vector3::UnitY * (Math::Sign(arccos) * distance);
-		m_fallSpeed = 0.0f;
 	}
 
 	distance = Math::INFTY;

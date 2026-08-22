@@ -1,0 +1,34 @@
+{
+	"Transform": {},
+	"Model3D": {
+		"ModelSourceName": "Player"
+	},
+	"BoxCollider": {
+		"Position": {
+			"X": 0.0,
+			"Y": 1.0,
+			"Z": 0.0
+		},
+		"Size": {
+			"X": 0.75,
+			"Y": 2.0,
+			"Z": 0.75
+		},
+		"Color": {
+			"R": 1.0,
+			"G": 0.5,
+			"B": 0.5,
+			"A": 1.0
+		}
+	},
+	"Player": {
+		"MoveMaxSpeed": 8.0,
+		"MoveAcceleration": 32.0,
+		"DashRatio": 1.5,
+		"FallMaxSpeed": 32.0,
+		"FallAcceleration": 48.0,
+		"JumpPower": 16.0,
+		"CameraVelocityCoefficient": 0.2,
+		"CoyoteTime": 0.1
+	}
+}
