@@ -1,7 +1,7 @@
 /*
  * FileName:     NPC.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/04
  *
  * NPC
  */
@@ -17,6 +17,10 @@ namespace Components
 namespace Colliders
 {
 	class BoxCollider;
+}
+namespace Renderings
+{
+	class ICameraScreen;
 }
 
 // NPC
@@ -39,6 +43,9 @@ public:
 
 	// 回転を設定
 	void SetRotation(const Math::Quaternion* rotation = nullptr);
+
+	// カーソルを設定
+	void SetCursor(const Renderings::ICameraScreen& iCameraScreen);
 
 	// 会話判定距離を取得
 	float GetFocusDistance() const { return m_focusDistance; }

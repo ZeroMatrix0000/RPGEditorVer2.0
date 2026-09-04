@@ -1,7 +1,7 @@
 /*
  * FileName:     ICameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/27
+ * Last Updated: 2026/09/04
  *
  * カメラ画面のインタフェース
  */
@@ -40,6 +40,9 @@ namespace Renderings
 
 		// 目の座標を取得
 		virtual const Math::Vector3 GetEyePosition() const = 0;
+
+		// 出力サイズを取得
+		virtual const Math::Vector2& GetOutputSize() const = 0;
 
 	};
 }

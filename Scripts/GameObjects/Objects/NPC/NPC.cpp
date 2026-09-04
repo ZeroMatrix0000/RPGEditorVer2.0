@@ -1,7 +1,7 @@
 /*
- * FileName:     NPC.h
+ * FileName:     NPC.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/04
  *
  * NPC
  */
@@ -13,6 +13,7 @@
 #include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
 #include "Scripts/Commons/Components/Transform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
+#include "Scripts/Commons/Renderings/ICameraScreen.h"
 #include "Scripts/Commons/Systems/JsonSerializer.h"
 
 // コンストラクタ
@@ -62,6 +63,18 @@ void NPC::SetRotation(const Math::Quaternion* rotation)
 	{
 		m_rotation.SetTarget(*rotation);
 	}
+}
+
+// カーソルを設定
+void NPC::SetCursor(const Renderings::ICameraScreen& iCameraScreen)
+{
+	Math::Vector2 screenPosition = Math::Geometry::Projection
+	(
+		m_pBoxCollider->GetWorldBox().position,
+		iCameraScreen.GetViewMatrix(),
+		iCameraScreen.GetProjectionMatrix(),
+		iCameraScreen.GetOutputSize()
+	);
 }
 
 // 中心座標を取得

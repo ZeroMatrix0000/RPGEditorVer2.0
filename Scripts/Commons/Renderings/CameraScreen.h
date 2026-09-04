@@ -1,7 +1,7 @@
 /*
  * FileName:     CameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/09/04
  *
  * カメラ画面
  */
@@ -42,6 +42,7 @@ namespace Renderings
 			, m_viewAngle{}
 			, m_view{}
 			, m_projection{}
+			, m_outputSize{}
 		{
 		}
 
@@ -76,6 +77,8 @@ namespace Renderings
 				0.1f,
 				1000.0f
 			);
+
+			m_outputSize = outputSize;
 		}
 
 		// ビュー行列を取得
@@ -85,6 +88,9 @@ namespace Renderings
 
 		// 目の座標を取得
 		const Math::Vector3 GetEyePosition() const override { return m_camera.GetEyePosition(); }
+
+		// 出力サイズを取得
+		const Math::Vector2& GetOutputSize() const override { return m_outputSize; }
 
 		// カメラを設定
 		void SetCamera(const TCamera& camera) { m_camera = camera; }
@@ -110,6 +116,9 @@ namespace Renderings
 		Math::Matrix m_view;
 		// プロジェクション行列
 		Math::Matrix m_projection;
+
+		// 出力サイズ
+		Math::Vector2 m_outputSize;
 
 	};
 }
