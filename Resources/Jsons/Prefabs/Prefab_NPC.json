@@ -1,0 +1,34 @@
+{
+	"Transform": {},
+	"Model3D": {},
+	"BoxCollider": {
+		"Color": {
+			"R": 1.0,
+			"G": 1.0,
+			"B": 1.0,
+			"A": 1.0
+		}
+	},
+	"RectTransform": {
+		"Size": {
+			"X": 1000.0,
+			"Y": 75.0
+		},
+		"Pivot": "BottomCenter",
+		"Anchor": "TopLeft"
+	},
+	"Text": {
+		"FontName": "GenEi M Gothic v2",
+		"FontSize": 32.0,
+		"FontColor": {
+			"R": 1.0,
+			"G": 0.95,
+			"B": 0.8,
+			"A": 1.0
+		},
+		"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER"
+	},
+	"NPC": {
+		"FocusDistance": 3.0
+	}
+}

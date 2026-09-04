@@ -72,6 +72,7 @@ void GamePlayScene::Initialize(const SceneTransitionData& data)
 
 	// NPCマネージャーを取得
 	m_pNPCManager = pIGameObjectManager->Find("NPCManager")->GetComponent<NPCManager>();
+	m_pNPCManager->SetCursor(*m_pCameraScreen);
 
 	// 地面を取得
 	m_pGround = pIGameObjectManager->Find("Ground")->GetComponent<Colliders::MeshCollider>();
@@ -101,6 +102,7 @@ void GamePlayScene::Update(float elapsedTime)
 	// NPCの更新
 	m_pNPCManager->SetRotation(m_pPlayer->GetPosition());
 	m_pNPCManager->Update(elapsedTime);
+	m_pNPCManager->SetCursor(*m_pCameraScreen);
 
 	// ゲーム入力
 	auto* pIGameInput = GetContext().GetPIGameInput();

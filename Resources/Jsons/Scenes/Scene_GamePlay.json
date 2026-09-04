@@ -32,6 +32,7 @@
 	},
 	{
 		"Name": "NPCテスト",
+		"Prefab": "Prefab_NPC",
 		"Components": {
 			"Transform": {
 				"Position": {
@@ -62,23 +63,21 @@
 					"Y": 2.0,
 					"Z": 0.75
 				},
-				"Color": {
-					"R": 1.0,
-					"G": 1.0,
-					"B": 1.0,
-					"A": 1.0
-				},
 				"CameraScreens": [
 					"PlayerCamera"
 				]
 			},
+			"Text": {
+				"Str": "テスト",
+				"Canvas": "Canvas"
+			},
 			"NPC": {
-				"FocusDistance": 3.0
 			}
 		}
 	},
 	{
 		"Name": "NPCTest",
+		"Prefab": "Prefab_NPC",
 		"Components": {
 			"Transform": {
 				"Position": {
@@ -109,18 +108,15 @@
 					"Y": 2.0,
 					"Z": 0.75
 				},
-				"Color": {
-					"R": 1.0,
-					"G": 1.0,
-					"B": 1.0,
-					"A": 1.0
-				},
 				"CameraScreens": [
 					"PlayerCamera"
 				]
 			},
+			"Text": {
+				"Str": "Test",
+				"Canvas": "Canvas"
+			},
 			"NPC": {
-				"FocusDistance": 3.0
 			}
 		}
 	},

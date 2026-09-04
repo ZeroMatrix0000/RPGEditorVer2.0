@@ -12,8 +12,10 @@
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
 #include "Scripts/Commons/Components/Transform.h"
+#include "Scripts/Commons/Components/RectTransform.h"
 #include "Scripts/Commons/Colliders/BoxCollider.h"
 #include "Scripts/Commons/Renderings/ICameraScreen.h"
+#include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/Systems/JsonSerializer.h"
 
 // コンストラクタ
@@ -24,6 +26,7 @@ NPC::NPC(const ComponentDesc& desc)
 	, m_rotation{}
 	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pBoxCollider{ GetPOwner()->GetNullReferences<Colliders::BoxCollider>() }
+	, m_pRectTransform{ GetPOwner()->GetNullReferences<RectTransform>() }
 {
 }
 
@@ -33,6 +36,7 @@ void NPC::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGam
 	m_pTransform = GetPOwner()->GetComponent<Transform>();
 	m_pBoxCollider = GetPOwner()->GetComponent<Colliders::BoxCollider>();
 	m_pBoxCollider->ApplyTransform();
+	m_pRectTransform = GetPOwner()->GetComponent<RectTransform>();
 
 	m_baseRotation = m_pTransform->GetRotation();
 	m_rotation.SetValue(m_baseRotation);
@@ -68,13 +72,17 @@ void NPC::SetRotation(const Math::Quaternion* rotation)
 // カーソルを設定
 void NPC::SetCursor(const Renderings::ICameraScreen& iCameraScreen)
 {
+	const Math::Box& box = m_pBoxCollider->GetWorldBox();
+
 	Math::Vector2 screenPosition = Math::Geometry::Projection
 	(
-		m_pBoxCollider->GetWorldBox().position,
+		box.position + box.size * Math::Vector3::Up / 2.0f,
 		iCameraScreen.GetViewMatrix(),
 		iCameraScreen.GetProjectionMatrix(),
 		iCameraScreen.GetOutputSize()
 	);
+
+	m_pRectTransform->SetPosition(screenPosition);
 }
 
 // 中心座標を取得

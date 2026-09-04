@@ -13,6 +13,7 @@
 namespace Components
 {
 	class Transform;
+	class RectTransform;
 }
 namespace Colliders
 {
@@ -21,6 +22,7 @@ namespace Colliders
 namespace Renderings
 {
 	class ICameraScreen;
+	class Text;
 }
 
 // NPC
@@ -74,5 +76,8 @@ private:
 	Transform* m_pTransform;
 	// 長方形の当たり判定
 	Colliders::BoxCollider* m_pBoxCollider;
+
+	// UI用トランスフォーム
+	RectTransform* m_pRectTransform;
 
 };

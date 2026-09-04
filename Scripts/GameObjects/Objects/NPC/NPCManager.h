@@ -37,6 +37,9 @@ public:
 	// 向きを設定
 	void SetRotation(const Math::Vector3& playerPosition);
 
+	// カーソルを設定
+	void SetCursor(const Renderings::ICameraScreen& iCameraScreen);
+
 	// 当たり判定を取得
 	std::vector<const Math::Box*> GetPBoxes() const;
 

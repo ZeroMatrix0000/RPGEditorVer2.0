@@ -607,6 +607,9 @@
     <None Include="Resources\Jsons\Prefabs\Prefab_Player.json">
       <Filter>Jsons\Prefabs</Filter>
     </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_NPC.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShaders\Test2.hlsl">

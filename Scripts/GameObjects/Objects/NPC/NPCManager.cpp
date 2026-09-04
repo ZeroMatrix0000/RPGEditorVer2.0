@@ -75,6 +75,15 @@ void NPCManager::SetRotation(const Math::Vector3& playerPosition)
 	}
 }
 
+// カーソルを設定
+void NPCManager::SetCursor(const Renderings::ICameraScreen& iCameraScreen)
+{
+	for (auto* pNPC : m_pNPCList)
+	{
+		pNPC->SetCursor(iCameraScreen);
+	}
+}
+
 // 当たり判定を取得
 std::vector<const Math::Box*> NPCManager::GetPBoxes() const
 {
