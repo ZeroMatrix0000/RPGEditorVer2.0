@@ -192,6 +192,7 @@
     <ClCompile Include="Scripts\GameObjects\Objects\NPC\NPCManager.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\Player\Player.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerCamera.cpp" />
+    <ClCompile Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.cpp" />
     <ClCompile Include="Scripts\Main\Game.cpp" />
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\GameInput.cpp" />
@@ -206,7 +207,10 @@
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp" />
     <None Include="Resources\Jsons\Prefabs\Prefab_Canvas.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_ErrorMessage.json" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursor.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_NPC.json" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursorImage.json" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursorText.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_Player.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SceneTransitionAnimation.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_SelectMenu.json" />
@@ -262,6 +266,7 @@
     <ClInclude Include="Scripts\GameObjects\Objects\Player\Player.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerCamera.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerParams.h" />
+    <ClInclude Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuParams.h" />
     <ClInclude Include="Scripts\Main\GameInput.h" />
     <ClInclude Include="Scripts\Main\IGameInput.h" />

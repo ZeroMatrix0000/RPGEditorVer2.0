@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/21
+ * Last Updated: 2026/09/05
  *
  * テキスト
  */
@@ -63,7 +63,9 @@ namespace Renderings
 		// フォントサイズを取得
 		float               GetFontSize()  const { return m_fontSize; }
 		// 色を取得
-		const D2D1::ColorF& GetFontColor() const { return m_fontColor; }
+		Math::Color GetFontColor() const { return Math::Color{ m_fontColor.r, m_fontColor.g, m_fontColor.b, m_fontColor.a }; }
+		// 色を取得
+		const D2D1::ColorF& GetD2D1FontColor() const { return m_fontColor; }
 
 		// テキスト配置を取得
 		DWRITE_TEXT_ALIGNMENT      GetTextAlignment()      const { return m_textAlignment; }

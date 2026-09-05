@@ -1,7 +1,7 @@
 /*
  * FileName:     NPC.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/04
+ * Last Updated: 2026/09/05
  *
  * NPC
  */
@@ -46,9 +46,8 @@ public:
 	// 回転を設定
 	void SetRotation(const Math::Quaternion* rotation = nullptr);
 
-	// カーソルを設定
-	void SetCursor(const Renderings::ICameraScreen& iCameraScreen);
-
+	// 名前を取得
+	const std::wstring& GetName() const { return m_name; }
 	// 会話判定距離を取得
 	float GetFocusDistance() const { return m_focusDistance; }
 
@@ -63,6 +62,8 @@ private:
 
 	/* メンバ変数 */
 
+	// 名前
+	std::wstring m_name;
 	// 会話判定距離
 	float m_focusDistance;
 
@@ -76,8 +77,5 @@ private:
 	Transform* m_pTransform;
 	// 長方形の当たり判定
 	Colliders::BoxCollider* m_pBoxCollider;
-
-	// UI用トランスフォーム
-	RectTransform* m_pRectTransform;
 
 };

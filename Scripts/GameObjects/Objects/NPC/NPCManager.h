@@ -1,20 +1,25 @@
 /*
  * FileName:     NPCManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/05
  *
  * NPC管理
  */
 
 #pragma once
 
-#include "NPC.h"
 #include "Scripts/Commons/Components/Component.h"
 
+namespace Components
+{
+	class RectTransform;
+}
 namespace Renderings
 {
 	class ICameraScreen;
 }
+class NPC;
+class InteractCursor;
 
 // NPC管理
 class NPCManager : public Component
@@ -51,6 +56,8 @@ private:
 
 	// NPCリスト
 	std::vector<NPC*> m_pNPCList;
+	// カーソルリスト
+	std::vector<InteractCursor*> m_pInteractCursorList;
 
 	// カーソルが合っているMPC
 	NPC* m_pFocusedNPC;

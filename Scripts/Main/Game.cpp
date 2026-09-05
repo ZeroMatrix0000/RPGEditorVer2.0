@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/09/05
  *
  * ゲーム
  */
@@ -11,9 +11,11 @@
 
 #include "Scripts/Scenes/Scenes.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
+#include "Scripts/GameObjects/UIs/InteractCursor/InteractCursor.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
 #include "Scripts/GameObjects/Objects/Player/Player.h"
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
+#include "Scripts/GameObjects/Objects/NPC/NPC.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
 #include "Scripts/Commons/Renderings/Image.h"
@@ -283,6 +285,8 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<Colliders::MeshCollider>("MeshCollider");
 	// 選択メニュー
 	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
+	// カーソル
+	m_gameObjectManager.Register<InteractCursor>("InteractCursor");
 	// デバッグ用カメラ
 	m_gameObjectManager.Register<DebugCamera>("DebugCamera");
 	// プレイヤー

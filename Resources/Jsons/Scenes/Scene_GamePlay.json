@@ -67,11 +67,8 @@
 					"PlayerCamera"
 				]
 			},
-			"Text": {
-				"Str": "テスト",
-				"Canvas": "Canvas"
-			},
 			"NPC": {
+				"Name": "テスト"
 			}
 		}
 	},
@@ -112,11 +109,8 @@
 					"PlayerCamera"
 				]
 			},
-			"Text": {
-				"Str": "Test",
-				"Canvas": "Canvas"
-			},
 			"NPC": {
+				"Name": "Test"
 			}
 		}
 	},
@@ -127,7 +121,8 @@
 				"NPCList": [
 					"NPCテスト",
 					"NPCTest"
-				]
+				],
+				"Canvas": "Canvas"
 			}
 		}
 	},

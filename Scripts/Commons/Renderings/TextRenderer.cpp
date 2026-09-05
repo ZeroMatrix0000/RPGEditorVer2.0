@@ -236,7 +236,7 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> pBrush;
 	m_renderTarget->CreateSolidColorBrush
 	(
-		pText->GetFontColor(),
+		pText->GetD2D1FontColor(),
 		pBrush.GetAddressOf()
 	);
 

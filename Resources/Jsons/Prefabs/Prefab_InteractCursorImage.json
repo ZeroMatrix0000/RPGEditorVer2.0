@@ -1,0 +1,19 @@
+{
+	"RectTransform": {
+		"Size": {
+			"X": 64.0,
+			"Y": 64.0
+		},
+		"Pivot": "BottomCenter",
+		"Anchor": "TopLeft"
+	},
+	"Image": {
+		"ImageSourceName": "FocusCursor",
+		"Color": {
+			"R": 1.0,
+			"G": 0.95,
+			"B": 0.8,
+			"A": 0.0
+		}
+	}
+}
