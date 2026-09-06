@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlayScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/06
  *
  * ゲームプレイシーン
  */
@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Scripts/Commons/Scenes/Scene.h"
+#include "GamePlaySceneInitializer.h"
 
 namespace Renderings
 {
@@ -17,11 +18,16 @@ namespace Renderings
 }
 namespace Colliders
 {
-	class BoxCollider;
 	class MeshCollider;
+}
+namespace Systems
+{
+	template<typename TInternals>
+	class State;
 }
 class SceneTransitionData;
 class GameContext;
+struct GamePlaySceneInternals;
 class Player;
 class PlayerCamera;
 class NPCManager;
@@ -55,23 +61,21 @@ public:
 private:
 
 
+	/* メンバ関数 */
+
+	// 状態を変更
+	void SetState(std::unique_ptr<Systems::State<GamePlaySceneInternals>> state);
+
+
 	/* メンバ変数 */
 
-	// プレイヤー
-	Player* m_pPlayer;
-	// プレイヤーカメラ
-	PlayerCamera* m_pPlayerCamera;
+	// 内部データ
+	std::unique_ptr<GamePlaySceneInternals> m_internals;
 
-	// NPC管理
-	NPCManager* m_pNPCManager;
+	// 状態
+	std::unique_ptr<Systems::State<GamePlaySceneInternals>> m_currentState;
 
-	// 地面
-	Colliders::MeshCollider* m_pGround;
-
-	// カメラ画面
-	Renderings::ICameraScreen* m_pCameraScreen;
-
-	// キャンバス
-	Renderings::Canvas* m_pCanvas;
+	// 初期化関数
+	GamePlaySceneInitializer m_Initializer;
 
 };

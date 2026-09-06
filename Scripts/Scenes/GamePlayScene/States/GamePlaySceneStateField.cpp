@@ -1,0 +1,66 @@
+/*
+ * FileName:     GamePlaySceneStateField.cpp
+ * Author:       Takao Hayata
+ * Last Updated: 2026/09/06
+ *
+ * ゲームプレイシーンのフィールド状態
+ */
+
+#include "Pch.h"
+#include "GamePlaySceneStateField.h"
+
+#include "../GamePlaySceneInternals.h"
+#include "GamePlaySceneStates.h"
+#include "Scripts/GameObjects/Objects/Player/Player.h"
+#include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
+#include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
+#include "Scripts/Main/GameContext.h"
+#include "Scripts/Main/IGameInput.h"
+#include "Scripts/Commons/Colliders/MeshCollider.h"
+
+// コンストラクタ
+GamePlaySceneStateField::GamePlaySceneStateField()
+{
+}
+
+// 開始処理
+void GamePlaySceneStateField::Enter(GamePlaySceneInternals* pInternals)
+{
+}
+
+// 更新処理
+void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float elapsedTime)
+{
+	// NPCの更新
+	pInternals->pNPCManager->SetRotation(pInternals->pPlayer->GetPosition());
+	pInternals->pNPCManager->Update(elapsedTime);
+	pInternals->pNPCManager->SetCursor(*pInternals->pCameraScreen);
+
+	// ゲーム入力
+	auto* pIGameInput = pInternals->gameContext.GetPIGameInput();
+
+	// プレイヤーの更新
+	pInternals->pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
+	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
+	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
+
+	// カメラの更新
+	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());
+	pInternals->pPlayerCamera->Rotate(pIGameInput->GetPlayerCameraRotate());
+	pInternals->pPlayerCamera->MeshCorrect(pInternals->pGround->GetWorldMesh(), pInternals->pPlayer->GetPosition());
+	pInternals->pPlayerCamera->Update(elapsedTime);
+	pInternals->pCameraScreen->UpdateViewMatrix();
+
+	// 話しかけられるNPC
+	const NPC* pFocusedNPC = pInternals->pNPCManager->GetPFocusedNPC();
+	// NPCに話しかけられる状態かつ移動入力がされていないかつインタラクト入力がされたならイベント状態へ
+	if (pFocusedNPC && pIGameInput->GetPlayerMove() == Math::Vector3::Zero && pIGameInput->GetFieldInteract())
+	{
+		SetNextState(std::make_unique<GamePlaySceneStateEvent>(/*pFocusedNPC->GetEventName()*/));
+	}
+}
+
+// 終了処理
+void GamePlaySceneStateField::Exit(GamePlaySceneInternals* pInternals)
+{
+}

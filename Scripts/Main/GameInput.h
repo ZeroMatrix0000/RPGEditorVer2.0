@@ -31,6 +31,9 @@ public:
 	// プレイヤーのジャンプ入力を取得
 	bool          GetPlayerJump()         const override;
 
+	// フィールド上のオブジェクトのインタラクト入力を取得
+	bool GetFieldInteract() const;
+
 
 private:
 

@@ -73,3 +73,9 @@ bool GameInput::GetPlayerJump() const
 {
 	return m_input.GetKeyDown(KeyName::Space);
 }
+
+// フィールド上のオブジェクトのインタラクト入力を取得
+bool GameInput::GetFieldInteract() const
+{
+	return m_input.GetKeyDown(KeyName::Z);
+}

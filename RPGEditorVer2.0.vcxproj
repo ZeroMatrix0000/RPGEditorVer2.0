@@ -202,6 +202,9 @@
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlayScene.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateField.cpp" />
     <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp" />
     <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp" />
@@ -271,6 +274,11 @@
     <ClInclude Include="Scripts\Main\GameInput.h" />
     <ClInclude Include="Scripts\Main\IGameInput.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlayScene.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInternals.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateField.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStates.h" />
     <ClInclude Include="Scripts\Scenes\TitleScene\TitleScene.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.h" />
   </ItemGroup>

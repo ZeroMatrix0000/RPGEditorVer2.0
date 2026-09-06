@@ -1,7 +1,7 @@
 /*
  * FileName:     NPCManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/05
+ * Last Updated: 2026/09/06
  *
  * NPC管理
  */
@@ -47,6 +47,9 @@ public:
 
 	// 当たり判定を取得
 	std::vector<const Math::Box*> GetPBoxes() const;
+
+	// カーソルが合っているNPCを取得
+	const NPC* GetPFocusedNPC() const { return m_pFocusedNPC; }
 
 
 private:

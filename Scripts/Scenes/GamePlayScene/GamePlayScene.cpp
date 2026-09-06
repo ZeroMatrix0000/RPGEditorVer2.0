@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlayScene.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/06
  *
  * ゲームプレイシーン
  */
@@ -9,74 +9,35 @@
 #include "Pch.h"
 #include "GamePlayScene.h"
 
+#include "GamePlaySceneInternals.h"
+#include "States/GamePlaySceneStateField.h"
+#include "Scripts/Main/GameContext.h"
+#include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
+#include "Scripts/Commons/Scenes/ISceneManager.h"
+#include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Systems/IWindowController.h"
 #include "Scripts/Commons/Systems/IInput.h"
-#include "Scripts/Commons/Scenes/ISceneManager.h"
-#include "Scripts/Commons/GameObjects/GameObject.h"
-#include "Scripts/Commons/GameObjects/IGameObjectManager.h"
-#include "Scripts/Commons/Renderings/ICameraScreen.h"
-#include "Scripts/Commons/Renderings/Canvas.h"
-#include "Scripts/Commons/Colliders/BoxCollider.h"
-#include "Scripts/Commons/Colliders/SphereCollider.h"
-#include "Scripts/Commons/Colliders/MeshCollider.h"
-#include "Scripts/GameObjects/Objects/Player/Player.h"
-#include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
-#include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
-#include "Scripts/Main/GameContext.h"
-#include "Scripts/Main/IGameInput.h"
 
  // コンストラクタ
 GamePlayScene::GamePlayScene(const ComponentDesc& desc)
 	: Scene{ desc }
-	, m_pPlayer{}
-	, m_pPlayerCamera{}
-	, m_pNPCManager{}
-	, m_pGround{}
-	, m_pCameraScreen{}
-	, m_pCanvas{}
+	, m_internals{}
+	, m_currentState{}
+	, m_Initializer{}
 {
 }
 
 // 初期化処理
 void GamePlayScene::Initialize(const SceneTransitionData& data)
 {
-	// コンテキスト
-	const auto& gameContext = GetContext();
+	// 内部データを初期化
+	m_internals = std::make_unique<GamePlaySceneInternals>(GetPGameObjects(), GetContext());
 
-	// マウスをループ・非表示
-	gameContext.GetPIInput()->SetMousePositionLoop(true);
-	gameContext.GetPIInput()->DisplayCursor(false);
+	// 初期化
+	m_Initializer(m_internals.get());
 
-	// 出力サイズ
-	const Math::Vector2& outputSize = gameContext.GetPIWindowController()->GetOutputSize();
-
-	// ゲームオブジェクト管理
-	auto* pIGameObjectManager = gameContext.GetPIGameObjectManager();
-
-	pIGameObjectManager->SetPGameObjects(GetPGameObjects());
-	pIGameObjectManager->Load("Scene_GamePlay");
-
-	// プレイヤーを取得
-	m_pPlayer = pIGameObjectManager->Find("Player")->GetComponent<Player>();
-
-	// プレイヤーカメラを取得
-	GameObject* pCamera = pIGameObjectManager->Find("PlayerCamera");
-	m_pCameraScreen = pCamera->GetComponent<Renderings::ICameraScreen>();
-	m_pCameraScreen->UpdateViewMatrix();
-	m_pCameraScreen->SetProjectionMatrix(outputSize);
-	m_pPlayerCamera = pCamera->GetComponent<PlayerCamera>();
-
-	// キャンバスを取得
-	m_pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();
-	m_pCanvas->SetSize(outputSize);
-
-	// NPCマネージャーを取得
-	m_pNPCManager = pIGameObjectManager->Find("NPCManager")->GetComponent<NPCManager>();
-	m_pNPCManager->SetCursor(*m_pCameraScreen);
-
-	// 地面を取得
-	m_pGround = pIGameObjectManager->Find("Ground")->GetComponent<Colliders::MeshCollider>();
-	m_pGround->ApplyTransform();
+	// 現在の状態を初期化
+	SetState(std::make_unique<GamePlaySceneStateField>());
 }
 
 // 更新処理
@@ -88,36 +49,22 @@ void GamePlayScene::Update(float elapsedTime)
 		return;
 	}
 
-	// 入力管理
-	auto* pIInput = GetContext().GetPIInput();
-
 	// F5でシーン移動
-	if (pIInput->GetKeyDown(KeyName::F5))
+	if (GetContext().GetPIInput()->GetKeyDown(KeyName::F5))
 	{
 		GetContext().GetPISceneManager()->SetNextScene<GamePlayScene>();
 		return;
 	}
 
+	// 次の状態に遷移
+	std::unique_ptr<Systems::State<GamePlaySceneInternals>> nextState{ m_currentState->MoveNextState() };
+	if (nextState)
+	{
+		SetState(std::move(nextState));
+	}
 
-	// NPCの更新
-	m_pNPCManager->SetRotation(m_pPlayer->GetPosition());
-	m_pNPCManager->Update(elapsedTime);
-	m_pNPCManager->SetCursor(*m_pCameraScreen);
-
-	// ゲーム入力
-	auto* pIGameInput = GetContext().GetPIGameInput();
-
-	// プレイヤーの更新
-	m_pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
-	m_pPlayer->BoxCorrect(m_pNPCManager->GetPBoxes());
-	m_pPlayer->MeshCorrect(m_pGround->GetWorldMesh());
-
-	// カメラの更新
-	m_pPlayerCamera->SetTarget(m_pPlayer->GetCameraTarget());
-	m_pPlayerCamera->Rotate(pIGameInput->GetPlayerCameraRotate());
-	m_pPlayerCamera->MeshCorrect(m_pGround->GetWorldMesh(), m_pPlayer->GetPosition());
-	m_pPlayerCamera->Update(elapsedTime);
-	m_pCameraScreen->UpdateViewMatrix();
+	// 状態ごとの処理
+	m_currentState->Update(m_internals.get(), elapsedTime);
 }
 
 // 終了処理
@@ -136,8 +83,19 @@ void GamePlayScene::AcceptMessage(const std::string& message)
 		// 出力サイズ
 		const Math::Vector2& outputSize = GetContext().GetPIWindowController()->GetOutputSize();
 		// プロジェクション行列を設定
-		m_pCameraScreen->SetProjectionMatrix(outputSize);
+		m_internals->pCameraScreen->SetProjectionMatrix(outputSize);
 		// キャンバスのサイズを設定
-		m_pCanvas->SetSize(outputSize);
+		m_internals->pCanvas->SetSize(outputSize);
 	}
+}
+
+// 状態を変更
+void GamePlayScene::SetState(std::unique_ptr<Systems::State<GamePlaySceneInternals>> state)
+{
+	if (m_currentState != nullptr)
+	{
+		m_currentState->Exit(m_internals.get());
+	}
+	m_currentState = std::move(state);
+	m_currentState->Enter(m_internals.get());
 }

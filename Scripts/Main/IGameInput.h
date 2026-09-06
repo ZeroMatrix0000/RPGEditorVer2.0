@@ -1,7 +1,7 @@
 /*
  * FileName:     IGameInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/21
+ * Last Updated: 2026/09/06
  *
  * ゲーム入力のインタフェース
  */
@@ -32,5 +32,8 @@ public:
 	virtual bool          GetPlayerDash()         const = 0;
 	// プレイヤーのジャンプ入力を取得
 	virtual bool          GetPlayerJump()         const = 0;
+
+	// フィールド上のオブジェクトのインタラクト入力を取得
+	virtual bool GetFieldInteract() const = 0;
 
 };

@@ -91,6 +91,12 @@
     <Filter Include="Scripts\GameObjects\Objects\NPC">
       <UniqueIdentifier>{c4d5b6a2-1771-40e6-8534-0b0cb2b4b02b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Scenes\GamePlayScene\States">
+      <UniqueIdentifier>{65a4207e-6b6b-4d6b-b167-e739124b0aff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameObjects\UIs\InteractCursor">
+      <UniqueIdentifier>{2388938b-2fba-45de-8d5d-3ca9abd1b8c2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -267,6 +273,18 @@
     </ClCompile>
     <ClCompile Include="Scripts\GameObjects\Objects\NPC\NPCManager.cpp">
       <Filter>Scripts\GameObjects\Objects\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateField.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.cpp">
+      <Filter>Scripts\GameObjects\UIs\InteractCursor</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +574,24 @@
     <ClInclude Include="Scripts\GameObjects\Objects\NPC\NPCManager.h">
       <Filter>Scripts\GameObjects\Objects\NPC</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateField.h">
+      <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInternals.h">
+      <Filter>Scripts\Scenes\GamePlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.h">
+      <Filter>Scripts\GameObjects\UIs\InteractCursor</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.h">
+      <Filter>Scripts\Scenes\GamePlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.h">
+      <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStates.h">
+      <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -608,6 +644,15 @@
       <Filter>Jsons\Prefabs</Filter>
     </None>
     <None Include="Resources\Jsons\Prefabs\Prefab_NPC.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursor.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursorImage.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursorText.json">
       <Filter>Jsons\Prefabs</Filter>
     </None>
   </ItemGroup>
