@@ -88,6 +88,69 @@ void Game::Initialize(const HWND& hWindow)
 	m_resources.LoadModelSources(device, fx, L"Resources\\Models");
 	// Jsonの読み込み
 	m_resources.LoadJsons(L"Resources\\Jsons");
+	m_resources.AddJsonFromStr
+	(
+		"Prefab_ErrorMessage",
+		R"(
+{
+	"Text": {
+		"Str": "",
+		"FontName": "GenEi M Gothic v2",
+		"FontSize": 24.0,
+		"FontColor": {
+			"R": 1.0,
+			"G": 1.0,
+			"B": 0.0,
+			"A": 1.0
+		},
+		"OrderInLayer": 65535
+	},
+	"RectTransform": {
+		"Position": {
+			"X": 10.0,
+			"Y": 10.0
+		},
+		"Size": {
+			"X": 100000.0,
+			"Y": 100000.0
+		},
+		"Pivot": "TopLeft",
+		"Anchor": "TopLeft"
+	}
+}
+		)"
+	);
+	m_resources.AddJsonFromStr
+	(
+		"Prefab_Canvas",
+		R"(
+{
+	"Canvas": {
+	}
+}
+		)"
+	);
+	m_resources.AddJsonFromStr
+	(
+		"Prefab_SceneTransitionAnimation",
+		R"(
+{
+	"Image": {
+		"ImageSourceName": "Box",
+		"Color": {
+			"R": 0.0,
+			"G": 0.0,
+			"B": 0.0,
+			"A": 1.0
+		},
+		"OrderInLayer": 32767
+	},
+	"RectTransform": {
+		"Angle": 15.0
+	}
+}
+		)"
+	);
 	// メッシュの読み込み
 	m_resources.LoadMeshes(L"Resources\\Meshes");
 	// ピクセルシェーダの読み込み

@@ -1,7 +1,7 @@
 /*
  * FileName:     Resources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/29
+ * Last Updated: 2026/09/07
  *
  * リソース管理
  */
@@ -30,6 +30,8 @@ namespace Systems
 		void LoadImageSources(ID3D11Device5* device, const std::wstring& directoryPath);
 		// Jsonを読み込む
 		void LoadJsons(const std::wstring& directoryPath);
+		// Jsonを文字列から追加
+		void AddJsonFromStr(const std::string& jsonName, const std::string& str);
 		// メッシュを読み込む
 		void LoadMeshes(const std::wstring& directoryPath);
 		// ピクセルシェーダを読み込む

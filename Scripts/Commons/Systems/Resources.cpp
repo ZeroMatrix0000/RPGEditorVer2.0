@@ -150,6 +150,24 @@ void Systems::Resources::LoadJsons(const std::wstring& directoryPath)
 	}
 }
 
+// Jsonを文字列から追加
+void Systems::Resources::AddJsonFromStr(const std::string& jsonName, const std::string& str)
+{
+	try
+	{
+		m_jsons.emplace(jsonName, nlohmann::ordered_json::parse(str));
+	}
+	catch (std::exception e)
+	{
+		// エラーメッセージを追加
+		IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+		(
+			L"JSONファイルのフォーマットが正しくありません。 | str: %s",
+			str.c_str()
+		));
+	}
+}
+
 // メッシュを読み込む
 void Systems::Resources::LoadMeshes(const std::wstring& directoryPath)
 {
