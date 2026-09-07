@@ -1,0 +1,16 @@
+{
+	"RectTransform": {
+		"Position": {
+			"X": 0.0,
+			"Y": 300.0
+		},
+		"Size": {
+			"X": 1000.0,
+			"Y": 250.0
+		}
+	},
+	"Image": {
+		"ImageSourceName": "MessageWindow",
+		"OrderInLayer": 10
+	}
+}

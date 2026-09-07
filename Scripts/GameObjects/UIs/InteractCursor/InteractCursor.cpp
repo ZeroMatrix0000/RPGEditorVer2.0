@@ -1,7 +1,7 @@
 /*
  * FileName:     InteractCursor.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/05
+ * Last Updated: 2026/09/07
  *
  * 話しかける・調べる際のカーソル
  */
@@ -87,4 +87,10 @@ void InteractCursor::SetPosition(const Math::Vector2& position)
 
 	m_pTextTransform->SetPosition(position);
 	m_pImageTransform->SetPosition(position);
+}
+
+// キャンバスを取得
+const Renderings::Canvas& InteractCursor::GetCanvas() const
+{
+	return *m_pText->GetPCanvas();
 }

@@ -1,0 +1,18 @@
+{
+	"RectTransform": {
+		"Position": {
+			"X": 0.0,
+			"Y": 300.0
+		},
+		"Size": {
+			"X": 900.0,
+			"Y": 100.0
+		}
+	},
+	"Text": {
+		"Str": "1行目\n2行目\n3行目",
+		"FontSize": 32.0,
+		"FontName": "GenEi M Gothic v2",
+		"OrderInLayer": 10
+	}
+}

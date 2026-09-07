@@ -1,7 +1,7 @@
 /*
  * FileName:     NPCManager.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/05
+ * Last Updated: 2026/09/07
  *
  * NPC管理
  */
@@ -59,11 +59,6 @@ void NPCManager::Update(float elapsedTime)
 		m_pNPCList.at(i)->Update(elapsedTime);
 		m_pInteractCursorList.at(i)->Update(elapsedTime, m_pNPCList.at(i) == m_pFocusedNPC && !m_isHideCursor);
 	}
-
-	for (auto* pNPC : m_pNPCList)
-	{
-		pNPC->Update(elapsedTime);
-	}
 }
 
 // 向きを設定
@@ -117,7 +112,7 @@ void NPCManager::SetCursor(const Renderings::ICameraScreen& iCameraScreen)
 			box.position + box.size * Math::Vector3::Up / 2.0f,
 			iCameraScreen.GetViewMatrix(),
 			iCameraScreen.GetProjectionMatrix(),
-			iCameraScreen.GetOutputSize()
+			m_pInteractCursorList.at(i)->GetCanvas().GetSize()
 		);
 
 		m_pInteractCursorList.at(i)->SetPosition(screenPosition);

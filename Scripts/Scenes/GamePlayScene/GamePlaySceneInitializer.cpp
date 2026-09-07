@@ -52,7 +52,6 @@ void GamePlaySceneInitializer::operator()(GamePlaySceneInternals* pInternals) co
 
 	// NPCマネージャーを取得
 	pInternals->pNPCManager = pIGameObjectManager->Find("NPCManager")->GetComponent<NPCManager>();
-	pInternals->pNPCManager->SetCursor(*pInternals->pCameraScreen);
 
 	// 地面を取得
 	pInternals->pGround = pIGameObjectManager->Find("Ground")->GetComponent<Colliders::MeshCollider>();

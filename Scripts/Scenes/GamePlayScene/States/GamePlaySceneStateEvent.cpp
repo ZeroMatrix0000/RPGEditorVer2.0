@@ -28,9 +28,6 @@ GamePlaySceneStateEvent::GamePlaySceneStateEvent()
 // 開始処理
 void GamePlaySceneStateEvent::Enter(GamePlaySceneInternals* pInternals)
 {
-	// カメラを初期化
-	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());
-
 	// カーソルを隠す
 	pInternals->pNPCManager->HideCursor(true);
 }

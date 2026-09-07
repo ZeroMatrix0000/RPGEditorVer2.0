@@ -1,7 +1,7 @@
 /*
  * FileName:     InteractCursor.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/05
+ * Last Updated: 2026/09/07
  *
  * 話しかける・調べる際のカーソル
  */
@@ -48,6 +48,9 @@ public:
 
 	// 座標を設定
 	void SetPosition(const Math::Vector2& position);
+
+	// キャンバスを取得
+	const Renderings::Canvas& GetCanvas() const;
 
 
 private:

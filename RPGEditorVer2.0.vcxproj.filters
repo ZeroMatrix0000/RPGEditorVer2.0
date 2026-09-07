@@ -103,6 +103,9 @@
     <Filter Include="Scripts\GameObjects\UIs\Z2Talk">
       <UniqueIdentifier>{43853860-14a9-4e45-94fb-e4235e8b4597}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\GameObjects\UIs\MessageWindow">
+      <UniqueIdentifier>{7479daba-28af-447b-be07-c427030b6eb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -297,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp">
       <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\UIs\MessageWindow\MessageWindow.cpp">
+      <Filter>Scripts\GameObjects\UIs\MessageWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -610,6 +616,9 @@
     <ClInclude Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.h">
       <Filter>Scripts\GameObjects\UIs\Z2Talk</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\UIs\MessageWindow\MessageWindow.h">
+      <Filter>Scripts\GameObjects\UIs\MessageWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -671,6 +680,15 @@
       <Filter>Jsons\Prefabs</Filter>
     </None>
     <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursorText.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_MessageWindowBackGround.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_MessageWindowCharacter.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_MessageWindowText.json">
       <Filter>Jsons\Prefabs</Filter>
     </None>
   </ItemGroup>

@@ -13,6 +13,7 @@
 #include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
 #include "Scripts/Commons/Components/RectTransform.h"
 #include "Scripts/Commons/Renderings/ICameraScreen.h"
+#include "Scripts/Commons/Renderings/Canvas.h"
 #include "Scripts/Commons/Renderings/Text.h"
 #include "Scripts/Commons/Systems/JsonSerializer.h"
 
@@ -60,10 +61,10 @@ void Z2Talk::SetPosition(const Math::Box& playerBox, const Renderings::ICameraSc
 
 	Math::Vector2 screenPosition = Math::Geometry::Projection
 	(
-		playerBox.position + playerBox.size * Math::Vector3::Up / 2.0f,
+		playerBox.position - playerBox.size * Math::Vector3::Up / 2.0f,
 		iCameraScreen.GetViewMatrix(),
 		iCameraScreen.GetProjectionMatrix(),
-		iCameraScreen.GetOutputSize()
+		m_pText->GetPCanvas()->GetSize()
 	);
 
 	m_pRectTransform->SetPosition(screenPosition);
