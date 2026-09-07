@@ -73,9 +73,8 @@ void GamePlayScene::Update(float elapsedTime)
 // 終了処理
 void GamePlayScene::Finalize()
 {
-	// マウスをループ解除・表示
+	// マウスをループ解除
 	GetContext().GetPIInput()->SetMousePositionLoop(true);
-	GetContext().GetPIInput()->DisplayCursor(false);
 }
 
 // メッセージを受け取る

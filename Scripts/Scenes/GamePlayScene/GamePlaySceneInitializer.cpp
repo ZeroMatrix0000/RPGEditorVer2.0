@@ -23,9 +23,8 @@
 
 void GamePlaySceneInitializer::operator()(GamePlaySceneInternals* pInternals) const
 {
-	// マウスをループ・非表示
+	// マウスをループ
 	pInternals->gameContext.GetPIInput()->SetMousePositionLoop(true);
-	pInternals->gameContext.GetPIInput()->DisplayCursor(false);
 
 	// 出力サイズ
 	const Math::Vector2& outputSize = pInternals->gameContext.GetPIWindowController()->GetOutputSize();
