@@ -45,6 +45,9 @@ public:
 	// カーソルを設定
 	void SetCursor(const Renderings::ICameraScreen& iCameraScreen);
 
+	// カーソルを隠す
+	void HideCursor(bool isHideCursor) { m_isHideCursor = isHideCursor; }
+
 	// 当たり判定を取得
 	std::vector<const Math::Box*> GetPBoxes() const;
 
@@ -56,6 +59,9 @@ private:
 
 
 	/* メンバ変数 */
+
+	// カーソルを隠しているか
+	bool m_isHideCursor;
 
 	// NPCリスト
 	std::vector<NPC*> m_pNPCList;

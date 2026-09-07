@@ -62,6 +62,7 @@ void Renderings::ImageRenderer::Begin()
 // 描画処理
 void Renderings::ImageRenderer::Draw(const Image* pImage)
 {
+	// 画像名がなければ何もしない
 	if (pImage->GetImageSourceName().empty())
 	{
 		return;

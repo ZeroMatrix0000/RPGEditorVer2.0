@@ -97,6 +97,12 @@
     <Filter Include="Scripts\GameObjects\UIs\InteractCursor">
       <UniqueIdentifier>{2388938b-2fba-45de-8d5d-3ca9abd1b8c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\Scenes\GamePlayScene\Actions">
+      <UniqueIdentifier>{eb95c925-09d2-4399-a129-33bd90b207ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\GameObjects\UIs\Z2Talk">
+      <UniqueIdentifier>{43853860-14a9-4e45-94fb-e4235e8b4597}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -285,6 +291,12 @@
     </ClCompile>
     <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.cpp">
       <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.cpp">
+      <Filter>Scripts\GameObjects\UIs\Z2Talk</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -591,6 +603,12 @@
     </ClInclude>
     <ClInclude Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStates.h">
       <Filter>Scripts\Scenes\GamePlayScene\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Action.h">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.h">
+      <Filter>Scripts\GameObjects\UIs\Z2Talk</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

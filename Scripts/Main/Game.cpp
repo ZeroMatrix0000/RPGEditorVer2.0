@@ -12,6 +12,7 @@
 #include "Scripts/Scenes/Scenes.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 #include "Scripts/GameObjects/UIs/InteractCursor/InteractCursor.h"
+#include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
 #include "Scripts/GameObjects/Objects/Player/Player.h"
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
@@ -287,6 +288,8 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
 	// カーソル
 	m_gameObjectManager.Register<InteractCursor>("InteractCursor");
+	// Z: はなす
+	m_gameObjectManager.Register<Z2Talk>("Z2Talk");
 	// デバッグ用カメラ
 	m_gameObjectManager.Register<DebugCamera>("DebugCamera");
 	// プレイヤー

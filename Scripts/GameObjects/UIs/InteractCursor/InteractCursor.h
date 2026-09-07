@@ -55,10 +55,11 @@ private:
 
 	/* メンバ変数 */
 
-	// 不透明度
-	Limited m_alpha;
 	// 不透明度の速度
 	float m_alphaVelocity;
+
+	// 不透明度
+	Limited m_alpha;
 
 	// テキストのトランスフォーム
 	RectTransform* m_pTextTransform;

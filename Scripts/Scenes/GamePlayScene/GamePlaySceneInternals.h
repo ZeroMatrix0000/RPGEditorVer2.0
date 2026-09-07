@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneInternals.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/06
+ * Last Updated: 2026/09/07
  *
  * ゲームプレイシーンの内部データ
  */
@@ -27,6 +27,7 @@ class GameContext;
 class Player;
 class PlayerCamera;
 class NPCManager;
+class Z2Talk;
 
 // ゲームプレイシーンの内部データ
 struct GamePlaySceneInternals
@@ -42,6 +43,7 @@ struct GamePlaySceneInternals
 		, pPlayerCamera{}
 		, pNPCManager{}
 		, pGround{}
+		, pZ2Talk{}
 		, pCameraScreen{}
 		, pCanvas{}
 	{
@@ -65,6 +67,9 @@ struct GamePlaySceneInternals
 
 	// 地面
 	Colliders::MeshCollider* pGround;
+
+	// Z: はなす
+	Z2Talk* pZ2Talk;
 
 	// カメラ画面
 	Renderings::ICameraScreen* pCameraScreen;

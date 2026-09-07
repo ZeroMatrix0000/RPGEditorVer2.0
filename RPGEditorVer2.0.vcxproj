@@ -193,6 +193,7 @@
     <ClCompile Include="Scripts\GameObjects\Objects\Player\Player.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerCamera.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.cpp" />
+    <ClCompile Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.cpp" />
     <ClCompile Include="Scripts\Main\Game.cpp" />
     <ClCompile Include="Scripts\Main\GameContext.cpp" />
     <ClCompile Include="Scripts\Main\GameInput.cpp" />
@@ -201,6 +202,7 @@
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateIdle.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlayScene.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.cpp" />
@@ -271,8 +273,10 @@
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerParams.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuParams.h" />
+    <ClInclude Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.h" />
     <ClInclude Include="Scripts\Main\GameInput.h" />
     <ClInclude Include="Scripts\Main\IGameInput.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Action.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlayScene.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInternals.h" />

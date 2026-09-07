@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/21
+ * Last Updated: 2026/09/07
  *
  * プレイヤー
  */
@@ -44,8 +44,13 @@ public:
 	// メッシュによる座標補正
 	void MeshCorrect(const Mesh& mesh);
 
+	// 回転を設定
+	void SetRotation(const Math::Quaternion& rotation) { m_rotation.SetTarget(rotation); }
+
 	// 中心座標を取得
 	const Math::Vector3& GetPosition() const;
+	// 当たり判定を取得
+	const Math::Box& GetBox() const;
 
 	// カメラの目標座標を取得
 	Math::Vector3 GetCameraTarget() const;

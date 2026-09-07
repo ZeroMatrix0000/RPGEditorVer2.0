@@ -136,12 +136,14 @@ void Renderings::TextRenderer::Begin()
 // 描画処理
 void Renderings::TextRenderer::Draw(const Text* pText)
 {
-	// テキストの所有者の2Dトランスフォーム
-	const RectTransform* pRectTransform = pText->GetConstPOwner()->GetConstComponent<RectTransform>();
-	if (!pRectTransform)
+	// 空文字列または透明なら何もしない
+	if (pText->GetStr().empty() || pText->GetFontColor().A() == 0.0f)
 	{
 		return;
 	}
+
+	// テキストの所有者の2Dトランスフォーム
+	const RectTransform* pRectTransform = pText->GetConstPOwner()->GetConstComponent<RectTransform>();
 
 	// テキストが映るキャンバス
 	const Canvas* pCanvas = pText->GetPCanvas();

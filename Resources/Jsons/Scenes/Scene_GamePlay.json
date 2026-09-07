@@ -157,5 +157,94 @@
 				"FixedSize": "Vertical"
 			}
 		}
+	},
+	{
+		"Name": "Z2Talk",
+		"Components": {
+			"RectTransform": {
+				"Size": {
+					"X": 1000.0,
+					"Y": 90.0
+				},
+				"Pivot": "BottomCenter",
+				"Anchor": "TopLeft"
+			},
+			"Text": {
+				"Str": "Z: はなす",
+				"FontName": "GenEi M Gothic v2",
+				"FontSize": 32.0,
+				"FontColor": {
+					"R": 1.0,
+					"G": 0.95,
+					"B": 0.8,
+					"A": 1.0
+				},
+				"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
+				"Canvas": "Canvas"
+			},
+			"Z2Talk": {
+				"AlphaVelocity": 8.0
+			}
+		}
+	},
+	{
+		"Name": "MessageWindow",
+		"Components": {
+			"RectTransform": {
+				"Position": {
+					"X": 0.0,
+					"Y": 300.0
+				},
+				"Size": {
+					"X": 1000.0,
+					"Y": 250.0
+				}
+			},
+			"Image": {
+				"ImageSourceName": "MessageWindow",
+				"Canvas": "Canvas"
+			}
+		}
+	},
+	{
+		"Name": "MessageWindowCharacter",
+		"Components": {
+			"RectTransform": {
+				"Position": {
+					"X": 0.0,
+					"Y": 300.0
+				},
+				"Size": {
+					"X": 950.0,
+					"Y": 200.0
+				}
+			},
+			"Text": {
+				"Str": "キャラクター名",
+				"FontName": "GenEi M Gothic v2",
+				"Canvas": "Canvas"
+			}
+		}
+	},
+	{
+		"Name": "MessageWindowText",
+		"Components": {
+			"RectTransform": {
+				"Position": {
+					"X": 0.0,
+					"Y": 300.0
+				},
+				"Size": {
+					"X": 900.0,
+					"Y": 100.0
+				}
+			},
+			"Text": {
+				"Str": "1行目\n2行目\n3行目",
+				"FontSize": 32.0,
+				"FontName": "GenEi M Gothic v2",
+				"Canvas": "Canvas"
+			}
+		}
 	}
 ]

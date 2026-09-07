@@ -21,6 +21,7 @@
 // コンストラクタ
 NPCManager::NPCManager(const ComponentDesc& desc)
 	: Component{ desc }
+	, m_isHideCursor{}
 	, m_pNPCList{}
 	, m_pInteractCursorList{}
 	, m_pFocusedNPC{}
@@ -56,7 +57,7 @@ void NPCManager::Update(float elapsedTime)
 	for (int i = 0; i < m_pNPCList.size(); i++)
 	{
 		m_pNPCList.at(i)->Update(elapsedTime);
-		m_pInteractCursorList.at(i)->Update(elapsedTime, m_pNPCList.at(i) == m_pFocusedNPC);
+		m_pInteractCursorList.at(i)->Update(elapsedTime, m_pNPCList.at(i) == m_pFocusedNPC && !m_isHideCursor);
 	}
 
 	for (auto* pNPC : m_pNPCList)

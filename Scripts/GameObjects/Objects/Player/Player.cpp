@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/07
  * 
  *
  * プレイヤー
@@ -337,6 +337,12 @@ void Player::MeshCorrect(const Mesh& mesh)
 const Math::Vector3& Player::GetPosition() const
 {
 	return m_pBoxCollider->GetWorldBox().position;
+}
+
+// 当たり判定を取得
+const Math::Box& Player::GetBox() const
+{
+	return m_pBoxCollider->GetWorldBox();
 }
 
 // カメラの目標座標を取得

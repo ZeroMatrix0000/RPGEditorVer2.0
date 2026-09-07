@@ -31,4 +31,13 @@ public:
 	// 終了処理
 	void Exit(GamePlaySceneInternals* pInternals) override;
 
+
+private:
+
+
+	/* メンバ関数 */
+
+	// プレイヤーを会話相手の方に向ける
+	void RotatePlayer(GamePlaySceneInternals* pInternals);
+
 };

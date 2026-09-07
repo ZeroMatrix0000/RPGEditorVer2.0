@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/09/07
  *
  * テキスト
  */
@@ -18,9 +18,9 @@
 // コンストラクタ
 Renderings::Text::Text(const ComponentDesc& desc, ITextRenderer* pITextRenderer)
 	: Component{ desc }
-	, m_str{ L"New Text" }
+	, m_str{}
 	, m_fontName{}
-	, m_fontSize{}
+	, m_fontSize{ 24.0f }
 	, m_fontColor{ D2D1::ColorF::White }
 	, m_textAlignment{}
 	, m_paragraphAlignment{}

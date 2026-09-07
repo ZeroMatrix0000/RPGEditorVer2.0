@@ -14,6 +14,7 @@
 #include "Scripts/GameObjects/Objects/Player/Player.h"
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
+#include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/Main/IGameInput.h"
 #include "Scripts/Commons/Colliders/MeshCollider.h"
@@ -50,6 +51,10 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pPlayerCamera->MeshCorrect(pInternals->pGround->GetWorldMesh(), pInternals->pPlayer->GetPosition());
 	pInternals->pPlayerCamera->Update(elapsedTime);
 	pInternals->pCameraScreen->UpdateViewMatrix();
+
+	// はなすの更新
+	pInternals->pZ2Talk->SetPosition(pInternals->pPlayer->GetBox(), *pInternals->pCameraScreen);
+	pInternals->pZ2Talk->Update(elapsedTime, pInternals->pNPCManager->GetPFocusedNPC() != nullptr);
 
 	// 話しかけられるNPC
 	const NPC* pFocusedNPC = pInternals->pNPCManager->GetPFocusedNPC();

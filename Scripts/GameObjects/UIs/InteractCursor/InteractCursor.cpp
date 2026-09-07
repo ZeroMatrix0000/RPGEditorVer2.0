@@ -19,23 +19,23 @@
 // コンストラクタ
 InteractCursor::InteractCursor(const ComponentDesc& desc)
 	: Component{ desc }
-	, m_alpha{}
 	, m_alphaVelocity{}
-	, m_pTextTransform{}
-	, m_pText{}
-	, m_pImageTransform{}
-	, m_pImage{}
+	, m_alpha{}
+	, m_pTextTransform{ GetPOwner()->GetNullReferences<RectTransform>() }
+	, m_pText{ GetPOwner()->GetNullReferences<Renderings::Text>() }
+	, m_pImageTransform{ GetPOwner()->GetNullReferences<RectTransform>() }
+	, m_pImage{ GetPOwner()->GetNullReferences<Renderings::Image>() }
 {
 }
 
 // 初期化処理
 void InteractCursor::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-	m_alpha.Initialize(0.0f, 0.0f, 1.0f);
-
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
 	serializer.AddParameter(&m_alphaVelocity, "AlphaVelocity");
 	serializer.Load(json);
+
+	m_alpha.Initialize(0.0f, 0.0f, 1.0f);
 
 	GameObject* pObj = Instantiate("Prefab_InteractCursorText");
 	m_pTextTransform = pObj->GetComponent<RectTransform>();
@@ -79,6 +79,12 @@ void InteractCursor::SetCanvas(const Renderings::Canvas& canvas)
 // 座標を設定
 void InteractCursor::SetPosition(const Math::Vector2& position)
 {
+	// 透明なら何もしない
+	if (m_alpha == 0.0f)
+	{
+		return;
+	}
+
 	m_pTextTransform->SetPosition(position);
 	m_pImageTransform->SetPosition(position);
 }

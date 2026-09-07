@@ -20,8 +20,8 @@ namespace Libraries
 
 			// コンストラクタ
 			Rect()
-				: position{}
-				, size{}
+				: position{ Math::Vector2::Zero }
+				, size{ Math::Vector2::One * 100.0f }
 			{
 			}
 			// コンストラクタ
