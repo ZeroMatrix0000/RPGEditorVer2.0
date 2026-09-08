@@ -298,12 +298,13 @@
     <ClCompile Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.cpp">
       <Filter>Scripts\GameObjects\UIs\Z2Talk</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp">
-      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
-    </ClCompile>
     <ClCompile Include="Scripts\GameObjects\UIs\MessageWindow\MessageWindow.cpp">
       <Filter>Scripts\GameObjects\UIs\MessageWindow</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -619,25 +620,22 @@
     <ClInclude Include="Scripts\GameObjects\UIs\MessageWindow\MessageWindow.h">
       <Filter>Scripts\GameObjects\UIs\MessageWindow</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.h">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Actions.h">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Jsons\Constants.json">
-      <Filter>Jsons</Filter>
-    </None>
-    <None Include="Resources\Jsons\EventList.json">
-      <Filter>Jsons</Filter>
-    </None>
-    <None Include="Resources\Jsons\Field.json">
-      <Filter>Jsons</Filter>
-    </None>
-    <None Include="Resources\Jsons\Events\TalkTest1.json">
+    <None Include="Resources\Jsons\Events\Event_TalkTest1.json">
       <Filter>Jsons\Events</Filter>
     </None>
-    <None Include="Resources\Jsons\Events\TalkTest2.json">
+    <None Include="Resources\Jsons\Events\Event_TalkTest2.json">
       <Filter>Jsons\Events</Filter>
     </None>
-    <None Include="Resources\Jsons\Events\TalkTest3.json">
+    <None Include="Resources\Jsons\Events\Event_TalkTest3.json">
       <Filter>Jsons\Events</Filter>
     </None>
     <None Include="Resources\Jsons\Scenes\Scene_Title.json">

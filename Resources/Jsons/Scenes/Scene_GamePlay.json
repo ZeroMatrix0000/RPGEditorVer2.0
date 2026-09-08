@@ -68,7 +68,8 @@
 				]
 			},
 			"NPC": {
-				"Name": "テスト"
+				"Name": "テスト",
+				"EventName": "Event_TalkTest1"
 			}
 		}
 	},
@@ -110,7 +111,8 @@
 				]
 			},
 			"NPC": {
-				"Name": "Test"
+				"Name": "Test",
+				"EventName": "Event_TalkTest2"
 			}
 		}
 	},
@@ -192,8 +194,21 @@
 		"Name": "MessageWindow",
 		"Components": {
 			"MessageWindow": {
+				"MoveTime": 0.3,
 				"Canvas": "Canvas"
 			}
+		}
+	},
+	{
+		"Name": "ActionManager",
+		"Components": {
+			"ActionManager": {}
+		}
+	},
+	{
+		"Name": "Action",
+		"Components": {
+			"Action": {}
 		}
 	}
 ]

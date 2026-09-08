@@ -10,6 +10,8 @@
 #include "Game.h"
 
 #include "Scripts/Scenes/Scenes.h"
+#include "Scripts/Scenes/GamePlayScene/Actions/Actions.h"
+#include "Scripts/Scenes/GamePlayScene/Actions/ActionManager.h"
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 #include "Scripts/GameObjects/UIs/InteractCursor/InteractCursor.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
@@ -327,6 +329,13 @@ void Game::RegisterComponents()
 		return std::make_unique<Renderings::CameraScreen<Camera::QuaternionCamera>>(desc);
 	});
 
+	// アクション管理
+	m_componentManager.RegisterCreate<ActionManager>([&](const ComponentDesc& desc)
+	{
+		return std::make_unique<ActionManager>(desc, m_resources);
+	});
+
+
 	// トランスフォーム
 	m_gameObjectManager.Register<Transform>("Transform");
 	// 2D用トランスフォーム
@@ -348,6 +357,10 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<Colliders::BoxCollider>("BoxCollider");
 	m_gameObjectManager.Register<Colliders::SphereCollider>("SphereCollider");
 	m_gameObjectManager.Register<Colliders::MeshCollider>("MeshCollider");
+	// アクション
+	m_gameObjectManager.Register<Action>("Action");
+	// アクション管理
+	m_gameObjectManager.Register<ActionManager>("ActionManager");
 	// 選択メニュー
 	m_gameObjectManager.Register<SelectMenu>("SelectMenu");
 	// カーソル

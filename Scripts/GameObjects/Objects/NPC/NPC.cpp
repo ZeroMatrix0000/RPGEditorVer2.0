@@ -20,6 +20,7 @@
 NPC::NPC(const ComponentDesc& desc)
 	: Component{ desc }
 	, m_name{}
+	, m_eventName{}
 	, m_focusDistance{}
 	, m_baseRotation{}
 	, m_rotation{}
@@ -40,6 +41,7 @@ void NPC::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGam
 
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
 	serializer.AddParameter(&m_name, "Name");
+	serializer.AddParameter(&m_eventName, "EventName");
 	serializer.AddParameter(&m_focusDistance, "FocusDistance");
 	serializer.Load(json);
 }

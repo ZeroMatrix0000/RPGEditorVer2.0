@@ -48,6 +48,8 @@ public:
 
 	// 名前を取得
 	const std::wstring& GetName() const { return m_name; }
+	// イベント名を取得
+	const std::string& GetEventName() const { return m_eventName; }
 	// 会話判定距離を取得
 	float GetFocusDistance() const { return m_focusDistance; }
 
@@ -64,6 +66,8 @@ private:
 
 	// 名前
 	std::wstring m_name;
+	// イベント名
+	std::string m_eventName;
 	// 会話判定距離
 	float m_focusDistance;
 

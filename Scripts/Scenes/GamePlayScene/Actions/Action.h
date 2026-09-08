@@ -8,10 +8,10 @@
 
 #pragma once
 
-class GamePlaySceneInternals;
+#include "Scripts/Commons/Components/Component.h"
 
 // アクション
-class Action
+class Action : public Component
 {
 
 public:
@@ -20,16 +20,19 @@ public:
 	/* メンバ関数 */
 
 	// コンストラクタ
-	Action();
+	Action(const ComponentDesc& desc);
 	// デストラクタ
 	virtual ~Action() = default;
 
+	// 初期化処理
+	void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
+
 	// 開始処理
-	virtual void Enter(GamePlaySceneInternals* pInternals);
+	virtual void Enter();
 	// 更新処理
-	virtual void Update(GamePlaySceneInternals* pInternals, float elapsedTime);
+	virtual void Update(float elapsedTime);
 	// 終了処理
-	virtual void Exit(GamePlaySceneInternals* pInternals);
+	virtual void Exit();
 
 	// 次のアクションに移動するかどうかを取得
 	bool IsNext() const { return m_isNext; }

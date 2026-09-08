@@ -12,18 +12,24 @@
 #include "Scripts/Commons/Systems/IErrorMessage.h"
 
  // コンストラクタ
-Action::Action()
-	: m_isNext{}
+Action::Action(const ComponentDesc& desc)
+	: Component{ desc }
+	, m_isNext{}
+{
+}
+
+// 初期化処理
+void Action::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
 }
 
 // 開始処理
-void Action::Enter(GamePlaySceneInternals* pInternals)
+void Action::Enter()
 {
 }
 
 // 更新処理
-void Action::Update(GamePlaySceneInternals* pInternals, float elapsedTime)
+void Action::Update(float elapsedTime)
 {
 	// 次のアクションに移動
 	GoNext();
@@ -32,6 +38,6 @@ void Action::Update(GamePlaySceneInternals* pInternals, float elapsedTime)
 }
 
 // 終了処理
-void Action::Exit(GamePlaySceneInternals* pInternals)
+void Action::Exit()
 {
 }

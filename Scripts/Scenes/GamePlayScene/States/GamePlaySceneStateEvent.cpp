@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneStateEvent.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/06
+ * Last Updated: 2026/09/08
  *
  * ゲームプレイシーンのイベント状態
  */
@@ -10,12 +10,14 @@
 #include "GamePlaySceneStateEvent.h"
 
 #include "../GamePlaySceneInternals.h"
+#include "../Actions/ActionManager.h"
 #include "GamePlaySceneStates.h"
 #include "Scripts/GameObjects/Objects/Player/Player.h"
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPC.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
+#include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/Main/IGameInput.h"
 #include "Scripts/Commons/Colliders/MeshCollider.h"
@@ -28,8 +30,14 @@ GamePlaySceneStateEvent::GamePlaySceneStateEvent()
 // 開始処理
 void GamePlaySceneStateEvent::Enter(GamePlaySceneInternals* pInternals)
 {
+	// イベントを設定
+	pInternals->pActionManager->LoadEvent(pInternals->pNPCManager->GetPFocusedNPC()->GetEventName());
+
 	// カーソルを隠す
 	pInternals->pNPCManager->HideCursor(true);
+
+	// メッセージウィンドウを出現
+	pInternals->pMessageWindow->Appear(true);
 }
 
 // 更新処理
@@ -57,6 +65,9 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pPlayerCamera->MeshCorrect(pInternals->pGround->GetWorldMesh(), pInternals->pPlayer->GetPosition());
 	pInternals->pPlayerCamera->Update(elapsedTime);
 	pInternals->pCameraScreen->UpdateViewMatrix();
+
+	// メッセージウィンドウの更新
+	pInternals->pMessageWindow->Update(elapsedTime);
 }
 
 // 終了処理

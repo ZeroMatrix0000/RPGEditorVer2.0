@@ -204,6 +204,7 @@
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlayScene.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.cpp" />
@@ -279,6 +280,8 @@
     <ClInclude Include="Scripts\Main\GameInput.h" />
     <ClInclude Include="Scripts\Main\IGameInput.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Action.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Actions.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlayScene.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInternals.h" />
@@ -340,12 +343,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\Jsons\Constants.json" />
-    <None Include="Resources\Jsons\EventList.json" />
-    <None Include="Resources\Jsons\Events\TalkTest1.json" />
-    <None Include="Resources\Jsons\Events\TalkTest2.json" />
-    <None Include="Resources\Jsons\Events\TalkTest3.json" />
-    <None Include="Resources\Jsons\Field.json" />
+    <None Include="Resources\Jsons\Events\Event_TalkTest1.json" />
+    <None Include="Resources\Jsons\Events\Event_TalkTest2.json" />
+    <None Include="Resources\Jsons\Events\Event_TalkTest3.json" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShaders\Test.hlsl">
