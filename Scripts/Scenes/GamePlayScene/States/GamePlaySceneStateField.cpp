@@ -45,6 +45,7 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
 	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
+	pInternals->pPlayer->UpdateModel();
 
 	// カメラの更新
 	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());

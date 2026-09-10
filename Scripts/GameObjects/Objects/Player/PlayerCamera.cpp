@@ -146,3 +146,13 @@ void PlayerCamera::BoxCorrect(const Math::Box& box, const Math::Vector3& centerP
 
 	m_distance = Math::Min(angledDistance, m_distance);
 }
+
+// カメラを移動
+void PlayerCamera::SetPosition(const Math::Vector3& position)
+{
+	Camera::EulerTargetCamera camera = m_camera.GetCurrent();
+	camera.position = position;
+	m_camera.SetValue(camera);
+
+	m_pCameraScreen->SetCamera(m_camera.GetCurrent());
+}

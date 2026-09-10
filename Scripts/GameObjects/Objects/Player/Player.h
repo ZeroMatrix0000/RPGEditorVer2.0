@@ -21,6 +21,8 @@ namespace Colliders
 	class BoxCollider;
 }
 
+class PlayerModel;
+
  // プレイヤー
 class Player : public Component
 {
@@ -43,6 +45,9 @@ public:
 	void BoxCorrect(const std::vector<const Math::Box*>& pBoxes);
 	// メッシュによる座標補正
 	void MeshCorrect(const Mesh& mesh);
+
+	// モデルの更新
+	void UpdateModel();
 
 	// 回転を設定
 	void SetRotation(const Math::Quaternion& rotation) { m_rotation.SetTarget(rotation); }
@@ -98,5 +103,8 @@ private:
 	Colliders::BoxCollider* m_pBoxCollider;
 	// カメラ画面のポインタ
 	const Renderings::CameraScreen<Camera::EulerTargetCamera>* m_pCameraScreen;
+
+	// プレイヤーのモデル
+	PlayerModel* m_pModel;
 
 };

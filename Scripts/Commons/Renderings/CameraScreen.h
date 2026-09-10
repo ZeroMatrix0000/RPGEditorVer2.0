@@ -61,6 +61,12 @@ namespace Renderings
 			m_view = m_camera.CreateViewMatrix();
 		}
 
+		// 座標を設定
+		void SetPosition(const Math::Vector3& position) override
+		{
+			m_camera.position = position;
+		}
+
 		// プロジェクション行列を設定
 		void SetProjectionMatrix(const Math::Vector2& outputSize) override
 		{

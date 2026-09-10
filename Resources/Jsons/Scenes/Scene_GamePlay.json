@@ -6,7 +6,7 @@
 				"Camera": {
 					"Position": {
 						"X": 0.0,
-						"Y": 1.0,
+						"Y": 0.0,
 						"Z": 0.0
 					},
 					"Rotation": {
@@ -25,6 +25,13 @@
 		"Name": "Player",
 		"Prefab": "Prefab_Player",
 		"Components": {
+			"Transform": {
+				"Position": {
+					"X": 0.0,
+					"Y": 0.0,
+					"Z": 2.0
+				}
+			},
 			"Player": {
 				"CameraScreen": "PlayerCamera"
 			}
@@ -162,31 +169,10 @@
 	},
 	{
 		"Name": "Z2Talk",
+		"Prefab": "Prefab_Z2Talk",
 		"Components": {
-			"RectTransform": {
-				"Size": {
-					"X": 1000.0,
-					"Y": 60.0
-				},
-				"Pivot": "TopCenter",
-				"Anchor": "TopLeft"
-			},
 			"Text": {
-				"Str": "Z: はなす",
-				"FontName": "GenEi M Gothic v2",
-				"FontSize": 32.0,
-				"FontColor": {
-					"R": 1.0,
-					"G": 0.95,
-					"B": 0.8,
-					"A": 0.0
-				},
-				"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
-				"ParagraphAlignment": "DWRITE_PARAGRAPH_ALIGNMENT_FAR",
 				"Canvas": "Canvas"
-			},
-			"Z2Talk": {
-				"AlphaVelocity": 8.0
 			}
 		}
 	},

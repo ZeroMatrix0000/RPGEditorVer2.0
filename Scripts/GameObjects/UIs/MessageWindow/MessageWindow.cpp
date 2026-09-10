@@ -1,7 +1,7 @@
 /*
  * FileName:     MessageWindow.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/08
+ * Last Updated: 2026/09/10
  *
  * メッセージウィンドウ
  */
@@ -48,15 +48,18 @@ void MessageWindow::Initalize(const nlohmann::ordered_json& json, IGameObjectFin
 	serializer.Load(json);
 
 	// メッセージウィンドウを生成
-	GameObject* pObj = Instantiate("Prefab_MessageWindowBackGround");
-	m_pBackgroundTransform = pObj->GetComponent<RectTransform>();
-	m_pBackground = pObj->GetComponent<Renderings::Image>();
-	pObj = Instantiate("Prefab_MessageWindowCharacter");
-	m_pCharacterTransform = pObj->GetComponent<RectTransform>();
-	m_pCharacter = pObj->GetComponent<Renderings::Text>();
-	pObj = Instantiate("Prefab_MessageWindowText");
-	m_pTextTransform = pObj->GetComponent<RectTransform>();
-	m_pText = pObj->GetComponent<Renderings::Text>();
+	if (m_pBackgroundTransform == GetPOwner()->GetNullReferences<RectTransform>())
+	{
+		GameObject* pObj = Instantiate("Prefab_MessageWindowBackGround");
+		m_pBackgroundTransform = pObj->GetComponent<RectTransform>();
+		m_pBackground = pObj->GetComponent<Renderings::Image>();
+		pObj = Instantiate("Prefab_MessageWindowCharacter");
+		m_pCharacterTransform = pObj->GetComponent<RectTransform>();
+		m_pCharacter = pObj->GetComponent<Renderings::Text>();
+		pObj = Instantiate("Prefab_MessageWindowText");
+		m_pTextTransform = pObj->GetComponent<RectTransform>();
+		m_pText = pObj->GetComponent<Renderings::Text>();
+	}
 
 	// キャンバスを設定
 	if (pCanvas)

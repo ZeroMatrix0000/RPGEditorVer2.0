@@ -39,6 +39,9 @@ public:
 	// ターゲットの位置を変更
 	void SetTarget(const Math::Vector3& target) { m_target = target; }
 
+	// カメラを移動
+	void SetPosition(const Math::Vector3& position);
+
 
 private:
 

@@ -18,6 +18,7 @@
 #include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
 #include "Scripts/GameObjects/Objects/Player/Player.h"
+#include "Scripts/GameObjects/Objects/Player/PlayerModel.h"
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPC.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
@@ -376,6 +377,7 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<DebugCamera>("DebugCamera");
 	// プレイヤー
 	m_gameObjectManager.Register<Player>("Player");
+	m_gameObjectManager.Register<PlayerModel>("PlayerModel");
 	m_gameObjectManager.Register<PlayerCamera>("PlayerCamera");
 	// NPC管理
 	m_gameObjectManager.Register<NPC>("NPC");

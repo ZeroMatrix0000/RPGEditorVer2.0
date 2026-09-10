@@ -1,8 +1,5 @@
 {
 	"Transform": {},
-	"Model3D": {
-		"ModelSourceName": "Player"
-	},
 	"BoxCollider": {
 		"Position": {
 			"X": 0.0,

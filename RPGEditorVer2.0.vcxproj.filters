@@ -316,6 +316,9 @@
     <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionSetMessageWindowText.cpp">
       <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerModel.cpp">
+      <Filter>Scripts\GameObjects\Objects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -646,6 +649,9 @@
     <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionSetMessageWindowText.h">
       <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerModel.h">
+      <Filter>Scripts\GameObjects\Objects\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -698,6 +704,12 @@
       <Filter>Jsons\Prefabs</Filter>
     </None>
     <None Include="Resources\Jsons\Prefabs\Prefab_MessageWindowText.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_Z2Talk.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_PlayerModel.json">
       <Filter>Jsons\Prefabs</Filter>
     </None>
   </ItemGroup>

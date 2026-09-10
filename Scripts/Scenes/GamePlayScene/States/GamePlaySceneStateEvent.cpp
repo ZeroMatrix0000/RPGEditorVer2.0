@@ -53,6 +53,7 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pPlayer->Update(elapsedTime, Math::Vector3::Zero, false, false);
 	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
+	pInternals->pPlayer->UpdateModel();
 
 	// はなすの更新
 	pInternals->pZ2Talk->SetPosition(pInternals->pPlayer->GetBox(), *pInternals->pCameraScreen);

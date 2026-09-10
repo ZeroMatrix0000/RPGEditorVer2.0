@@ -39,13 +39,15 @@ void GamePlaySceneInitializer::operator()(GamePlaySceneInternals* pInternals) co
 
 	// プレイヤーを取得
 	pInternals->pPlayer = pIGameObjectManager->Find("Player")->GetComponent<Player>();
+	pInternals->pPlayer->UpdateModel();
 
 	// プレイヤーカメラを取得
 	GameObject* pCamera = pIGameObjectManager->Find("PlayerCamera");
 	pInternals->pCameraScreen = pCamera->GetComponent<Renderings::ICameraScreen>();
+	pInternals->pPlayerCamera = pCamera->GetComponent<PlayerCamera>();
+	pInternals->pPlayerCamera->SetPosition(pInternals->pPlayer->GetBox().position);
 	pInternals->pCameraScreen->UpdateViewMatrix();
 	pInternals->pCameraScreen->SetProjectionMatrix(outputSize);
-	pInternals->pPlayerCamera = pCamera->GetComponent<PlayerCamera>();
 
 	// キャンバスを取得
 	pInternals->pCanvas = pIGameObjectManager->Find("Canvas")->GetComponent<Renderings::Canvas>();

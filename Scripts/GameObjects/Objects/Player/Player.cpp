@@ -10,6 +10,7 @@
 #include "Pch.h"
 #include "Player.h"
 
+#include "PlayerModel.h"
 #include "Scripts/Commons/GameObjects/GameObject.h"
 #include "Scripts/Commons/GameObjects/IGameObjectFinder.h"
 #include "Scripts/Commons/Renderings/Model3D.h"
@@ -31,6 +32,7 @@ Player::Player(const ComponentDesc& desc)
 	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pBoxCollider{ GetPOwner()->GetNullReferences<Colliders::BoxCollider>() }
 	, m_pCameraScreen{ GetPOwner()->GetNullReferences<Renderings::CameraScreen<Camera::EulerTargetCamera>>() }
+	, m_pModel{ GetPOwner()->GetNullReferences<PlayerModel>() }
 {
 }
 
@@ -59,12 +61,6 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 	serializer.AddParameter(&m_pCameraScreen, "CameraScreen");
 	serializer.Load(json);
 
-	if (m_pCameraScreen != GetPOwner()->GetNullReferences<Renderings::CameraScreen<Camera::EulerTargetCamera>>())
-	{
-		m_pBoxCollider->AddICameraScreen(*m_pCameraScreen);
-		GetPOwner()->GetComponent<Renderings::Model3D>()->AddICameraScreen(*m_pCameraScreen);
-	}
-
 	m_moveMaxSpeed.Initialize(0.0f, moveMaxSpeed, moveMaxSpeed * m_params.dashRatio);
 
 	m_fallSpeed.Initialize(0.0f, -jumpPower, fallMaxSpeed);
@@ -75,6 +71,20 @@ void Player::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 
 	// 当たり判定の更新
 	m_pBoxCollider->ApplyTransform();
+
+	// モデルの取得
+	if (m_pModel == GetPOwner()->GetNullReferences<PlayerModel>())
+	{
+		GameObject* pObj = Instantiate("Prefab_PlayerModel");
+		m_pModel = pObj->GetComponent<PlayerModel>();
+	}
+
+	// カメラを設定
+	if (m_pCameraScreen != GetPOwner()->GetNullReferences<Renderings::CameraScreen<Camera::EulerTargetCamera>>())
+	{
+		m_pBoxCollider->AddICameraScreen(*m_pCameraScreen);
+		m_pModel->GetPOwner()->GetComponent<Renderings::Model3D>()->AddICameraScreen(*m_pCameraScreen);
+	}
 }
 
 // 更新処理
@@ -139,6 +149,9 @@ void Player::Update(float elapsedTime, const Math::Vector3& move, bool isDash, b
 
 	// 当たり判定の更新
 	m_pBoxCollider->ApplyTransform();
+
+	// モデルの更新
+	m_pModel->Update(elapsedTime);
 }
 
 // 直方体による座標補正
@@ -331,6 +344,12 @@ void Player::MeshCorrect(const Mesh& mesh)
 
 	// 当たり判定の更新
 	m_pBoxCollider->ApplyTransform();
+}
+
+// モデルの更新
+void Player::UpdateModel()
+{
+	m_pModel->SetTransform(*m_pTransform);
 }
 
 // 中心座標を取得

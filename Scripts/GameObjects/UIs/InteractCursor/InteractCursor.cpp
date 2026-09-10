@@ -1,7 +1,7 @@
 /*
  * FileName:     InteractCursor.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/10
  *
  * 話しかける・調べる際のカーソル
  */
@@ -37,15 +37,15 @@ void InteractCursor::Initalize(const nlohmann::ordered_json& json, IGameObjectFi
 
 	m_alpha.Initialize(0.0f, 0.0f, 1.0f);
 
-	GameObject* pObj = Instantiate("Prefab_InteractCursorText");
-	m_pTextTransform = pObj->GetComponent<RectTransform>();
-	m_pText = pObj->GetComponent<Renderings::Text>();
-
-	pObj = Instantiate("Prefab_InteractCursorImage");
-	m_pImageTransform = pObj->GetComponent<RectTransform>();
-
-	Renderings::Image* pImage = pObj->GetComponent<Renderings::Image>();
-	m_pImage = pObj->GetComponent<Renderings::Image>();
+	if (m_pTextTransform == GetPOwner()->GetNullReferences<RectTransform>())
+	{
+		GameObject* pObj = Instantiate("Prefab_InteractCursorText");
+		m_pTextTransform = pObj->GetComponent<RectTransform>();
+		m_pText = pObj->GetComponent<Renderings::Text>();
+		pObj = Instantiate("Prefab_InteractCursorImage");
+		m_pImageTransform = pObj->GetComponent<RectTransform>();
+		m_pImage = pObj->GetComponent<Renderings::Image>();
+	}
 }
 
 // 更新処理

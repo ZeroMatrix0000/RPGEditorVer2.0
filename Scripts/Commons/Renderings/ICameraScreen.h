@@ -1,7 +1,7 @@
 /*
  * FileName:     ICameraScreen.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/04
+ * Last Updated: 2026/09/10
  *
  * カメラ画面のインタフェース
  */
@@ -29,6 +29,9 @@ namespace Renderings
 
 		// ビュー行列を更新
 		virtual void UpdateViewMatrix() = 0;
+
+		// 座標を設定
+		virtual void SetPosition(const Math::Vector3& position) = 0;
 
 		// プロジェクション行列を設定
 		virtual void SetProjectionMatrix(const Math::Vector2& outputSize) = 0;
