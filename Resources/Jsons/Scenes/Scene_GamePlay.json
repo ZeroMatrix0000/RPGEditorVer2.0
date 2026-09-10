@@ -195,6 +195,7 @@
 		"Components": {
 			"MessageWindow": {
 				"MoveTime": 0.3,
+				"TextVelocity": 20.0,
 				"Canvas": "Canvas"
 			}
 		}
@@ -202,13 +203,17 @@
 	{
 		"Name": "ActionManager",
 		"Components": {
-			"ActionManager": {}
-		}
-	},
-	{
-		"Name": "Action",
-		"Components": {
-			"Action": {}
+			"ActionManager": {},
+			"Action": {},
+			"ActionOpenMessageWindow": {
+				"MessageWindow": "MessageWindow"
+			},
+			"ActionCloseMessageWindow": {
+				"MessageWindow": "MessageWindow"
+			},
+			"ActionSetMessageWindowText": {
+				"MessageWindow": "MessageWindow"
+			}
 		}
 	}
 ]

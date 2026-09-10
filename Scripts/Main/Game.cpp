@@ -359,6 +359,9 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<Colliders::MeshCollider>("MeshCollider");
 	// アクション
 	m_gameObjectManager.Register<Action>("Action");
+	m_gameObjectManager.Register<ActionOpenMessageWindow>("ActionOpenMessageWindow");
+	m_gameObjectManager.Register<ActionCloseMessageWindow>("ActionCloseMessageWindow");
+	m_gameObjectManager.Register<ActionSetMessageWindowText>("ActionSetMessageWindowText");
 	// アクション管理
 	m_gameObjectManager.Register<ActionManager>("ActionManager");
 	// 選択メニュー

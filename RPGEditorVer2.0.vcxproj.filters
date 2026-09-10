@@ -304,7 +304,18 @@
     <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp">
       <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionOpenMessageWindow.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionCloseMessageWindow.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionSetMessageWindowText.cpp">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -624,6 +635,15 @@
       <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Actions.h">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionOpenMessageWindow.h">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionCloseMessageWindow.h">
+      <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionSetMessageWindowText.h">
       <Filter>Scripts\Scenes\GamePlayScene\Actions</Filter>
     </ClInclude>
   </ItemGroup>

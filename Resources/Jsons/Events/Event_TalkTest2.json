@@ -1,20 +1,20 @@
 [
 	{
-		"ActionType": "OpenDialogBox",
-		"Parameter": {
+		"ActionType": "OpenMessageWindow",
+		"Params": {
 			"IsWait": true
 		}
 	},
 	{
-		"ActionType": "SetDialogBoxText",
-		"Parameter": {
+		"ActionType": "SetMessageWindowText",
+		"Params": {
 			"Text": "Test",
 			"Character": "Test"
 		}
 	},
 	{
-		"ActionType": "CloseDialogBox",
-		"Parameter": {
+		"ActionType": "CloseMessageWindow",
+		"Params": {
 			"IsWait": true
 		}
 	}

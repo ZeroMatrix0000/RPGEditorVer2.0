@@ -1,7 +1,7 @@
 /*
  * FileName:     MessageWindow.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/08
+ * Last Updated: 2026/09/10
  *
  * メッセージウィンドウ
  */
@@ -41,6 +41,20 @@ public:
 	// 出現
 	void Appear(bool isAppear);
 
+	// テキストを設定
+	void SetText(const std::wstring& text = L"");
+	// テキストを全て表示
+	void DisplayAllText();
+
+	// 話者を設定
+	void SetCharacter(const std::wstring& text = L"");
+
+	// 動いているかどうか
+	bool IsMoving() const { return m_moveRate.IsMoving(); }
+
+	// テキストを全て表示したか
+	bool IsDisplayAllText() const { return m_textCount.IsMax(); }
+
 
 private:
 
@@ -49,6 +63,8 @@ private:
 
 	// 移動時間
 	float m_moveTime;
+	// 1秒に表示される文字数
+	float m_textVelocity;
 
 	// 背景サイズ
 	Math::Vector2 m_backgroundSize;
@@ -64,6 +80,11 @@ private:
 
 	// 移動率
 	Easing::Value<float> m_moveRate;
+
+	// 文字
+	std::wstring m_text;
+	// 文字数カウント
+	Limited m_textCount;
 
 	// 背景のトランスフォーム
 	RectTransform* m_pBackgroundTransform;

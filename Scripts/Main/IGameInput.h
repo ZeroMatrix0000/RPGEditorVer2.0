@@ -1,7 +1,7 @@
 /*
  * FileName:     IGameInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/06
+ * Last Updated: 2026/09/10
  *
  * ゲーム入力のインタフェース
  */
@@ -35,5 +35,8 @@ public:
 
 	// フィールド上のオブジェクトのインタラクト入力を取得
 	virtual bool GetFieldInteract() const = 0;
+
+	// テキスト送り入力
+	virtual bool GetTextScroll() const = 0;
 
 };

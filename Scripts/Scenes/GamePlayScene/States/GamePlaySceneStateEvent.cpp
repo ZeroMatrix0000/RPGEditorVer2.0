@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneStateEvent.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/08
+ * Last Updated: 2026/09/10
  *
  * ゲームプレイシーンのイベント状態
  */
@@ -9,9 +9,9 @@
 #include "Pch.h"
 #include "GamePlaySceneStateEvent.h"
 
+#include "GamePlaySceneStates.h"
 #include "../GamePlaySceneInternals.h"
 #include "../Actions/ActionManager.h"
-#include "GamePlaySceneStates.h"
 #include "Scripts/GameObjects/Objects/Player/Player.h"
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPC.h"
@@ -35,9 +35,6 @@ void GamePlaySceneStateEvent::Enter(GamePlaySceneInternals* pInternals)
 
 	// カーソルを隠す
 	pInternals->pNPCManager->HideCursor(true);
-
-	// メッセージウィンドウを出現
-	pInternals->pMessageWindow->Appear(true);
 }
 
 // 更新処理
@@ -62,12 +59,21 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pZ2Talk->Update(elapsedTime, false);
 
 	// カメラの更新
+	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());
 	pInternals->pPlayerCamera->MeshCorrect(pInternals->pGround->GetWorldMesh(), pInternals->pPlayer->GetPosition());
 	pInternals->pPlayerCamera->Update(elapsedTime);
 	pInternals->pCameraScreen->UpdateViewMatrix();
 
 	// メッセージウィンドウの更新
 	pInternals->pMessageWindow->Update(elapsedTime);
+
+	// アクション管理の更新
+	pInternals->pActionManager->Update(elapsedTime, *pIGameInput);
+	// 全てのアクションが終了したら状態遷移
+	if (pInternals->pActionManager->IsCompleted())
+	{
+		SetNextState(std::make_unique<GamePlaySceneStateField>());
+	}
 }
 
 // 終了処理

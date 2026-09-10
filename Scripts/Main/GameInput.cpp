@@ -1,7 +1,7 @@
 /*
  * FileName:     GameInput.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/21
+ * Last Updated: 2026/09/10
  *
  * ゲームの入力
  */
@@ -78,4 +78,10 @@ bool GameInput::GetPlayerJump() const
 bool GameInput::GetFieldInteract() const
 {
 	return m_input.GetKeyDown(KeyName::Z);
+}
+
+// テキスト送り入力
+bool GameInput::GetTextScroll() const
+{
+	return m_input.GetKeyDown(KeyName::Z) || m_input.GetKeyDown(KeyName::X);
 }

@@ -204,7 +204,10 @@
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateMove.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\DebugCamera\State\DebugCameraStateRotate.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\Action.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionCloseMessageWindow.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionOpenMessageWindow.cpp" />
+    <ClCompile Include="Scripts\Scenes\GamePlayScene\Actions\ActionSetMessageWindowText.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlayScene.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.cpp" />
     <ClCompile Include="Scripts\Scenes\GamePlayScene\States\GamePlaySceneStateEvent.cpp" />
@@ -280,8 +283,11 @@
     <ClInclude Include="Scripts\Main\GameInput.h" />
     <ClInclude Include="Scripts\Main\IGameInput.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Action.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionCloseMessageWindow.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionManager.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionOpenMessageWindow.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\Actions.h" />
+    <ClInclude Include="Scripts\Scenes\GamePlayScene\Actions\ActionSetMessageWindowText.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlayScene.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInitializer.h" />
     <ClInclude Include="Scripts\Scenes\GamePlayScene\GamePlaySceneInternals.h" />

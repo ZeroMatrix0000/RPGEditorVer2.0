@@ -1,7 +1,7 @@
 /*
  * FileName:     GameInput.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/21
+ * Last Updated: 2026/09/10
  *
  * ゲームの入力
  */
@@ -32,7 +32,10 @@ public:
 	bool          GetPlayerJump()         const override;
 
 	// フィールド上のオブジェクトのインタラクト入力を取得
-	bool GetFieldInteract() const;
+	bool GetFieldInteract() const override;
+
+	// テキスト送り入力
+	bool GetTextScroll() const override;
 
 
 private:

@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneStateField.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/06
+ * Last Updated: 2026/09/q0
  *
  * ゲームプレイシーンのフィールド状態
  */
@@ -15,6 +15,7 @@
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
+#include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/Main/IGameInput.h"
 #include "Scripts/Commons/Colliders/MeshCollider.h"
@@ -61,8 +62,11 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 	// NPCに話しかけられる状態かつ移動入力がされていないかつインタラクト入力がされたならイベント状態へ
 	if (pFocusedNPC && pIGameInput->GetPlayerMove() == Math::Vector3::Zero && pIGameInput->GetFieldInteract())
 	{
-		SetNextState(std::make_unique<GamePlaySceneStateEvent>(/*pFocusedNPC->GetEventName()*/));
+		SetNextState(std::make_unique<GamePlaySceneStateEvent>());
 	}
+
+	// メッセージウィンドウの更新
+	pInternals->pMessageWindow->Update(elapsedTime);
 }
 
 // 終了処理

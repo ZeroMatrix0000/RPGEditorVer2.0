@@ -1,7 +1,7 @@
 /*
  * FileName:     Action.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/10
  *
  * アクション
  */
@@ -23,13 +23,18 @@ void Action::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pI
 {
 }
 
+// パラメータを設定
+void Action::SetParams(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
+{
+}
+
 // 開始処理
 void Action::Enter()
 {
 }
 
 // 更新処理
-void Action::Update(float elapsedTime)
+void Action::Update(float elapsedTime, const IGameInput& iGameInput)
 {
 	// 次のアクションに移動
 	GoNext();
@@ -40,4 +45,5 @@ void Action::Update(float elapsedTime)
 // 終了処理
 void Action::Exit()
 {
+	m_isNext = false;
 }
