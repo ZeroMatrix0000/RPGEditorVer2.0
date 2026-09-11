@@ -57,7 +57,7 @@ namespace Scenes
 		/* 定数 */
 
 		// 切り替えにかける時間
-		static constexpr float CHANGE_TIME = 0.5f;
+		static constexpr float CHANGE_TIME = 0.25f;
 
 
 		/* メンバ変数 */

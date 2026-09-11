@@ -94,7 +94,7 @@ void Scenes::SceneTransitionAnimation::SetAnimation(bool isEnter)
 		isEnter ? -1.0f : 0.0f,
 		isEnter ? 0.0f : 1.0f,
 		CHANGE_TIME,
-		Easing::Type::Quart,
+		Easing::Type::Sine,
 		isEnter ? Easing::InOut::Out : Easing::InOut::In
 	);
 }

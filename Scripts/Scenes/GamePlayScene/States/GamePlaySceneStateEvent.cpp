@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneStateEvent.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/10
+ * Last Updated: 2026/09/11
  *
  * ゲームプレイシーンのイベント状態
  */
@@ -53,7 +53,7 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pPlayer->Update(elapsedTime, Math::Vector3::Zero, false, false);
 	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
-	pInternals->pPlayer->UpdateModel();
+	pInternals->pPlayer->UpdateModel(elapsedTime);
 
 	// はなすの更新
 	pInternals->pZ2Talk->SetPosition(pInternals->pPlayer->GetBox(), *pInternals->pCameraScreen);

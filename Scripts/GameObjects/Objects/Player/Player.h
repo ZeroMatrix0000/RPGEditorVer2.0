@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/11
  *
  * プレイヤー
  */
@@ -30,6 +30,17 @@ class Player : public Component
 public:
 
 
+	/* 列挙型 */
+
+	// 落下状態
+	enum class FallState
+	{
+		OnGround,
+		OnAir,
+		Falling
+	};
+
+
 	/* メンバ関数 */
 
 	// コンストラクタ
@@ -47,7 +58,7 @@ public:
 	void MeshCorrect(const Mesh& mesh);
 
 	// モデルの更新
-	void UpdateModel();
+	void UpdateModel(float elapsedTime = 0.0f);
 
 	// 回転を設定
 	void SetRotation(const Math::Quaternion& rotation) { m_rotation.SetTarget(rotation); }
@@ -57,22 +68,20 @@ public:
 	// 当たり判定を取得
 	const Math::Box& GetBox() const;
 
+	// 移動速度の比率を取得
+	float GetMoveVelocityRatio() const;
+
+	// 落下速度
+	float GetFallSpeed() const { return m_fallSpeed; }
+
+	// 落下状態を取得
+	FallState GetFallState() const { return m_fallState; }
+
 	// カメラの目標座標を取得
 	Math::Vector3 GetCameraTarget() const;
 
 
 private:
-
-
-	/* 列挙型 */
-
-	// 落下状態
-	enum class FallState
-	{
-		OnGround,
-		OnAir,
-		Falling
-	};
 
 
 	/* メンバ変数 */

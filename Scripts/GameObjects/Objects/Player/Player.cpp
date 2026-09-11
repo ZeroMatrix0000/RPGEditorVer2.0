@@ -1,7 +1,7 @@
 /*
  * FileName:     Player.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/11
  * 
  *
  * プレイヤー
@@ -116,7 +116,12 @@ void Player::Update(float elapsedTime, const Math::Vector3& move, bool isDash, b
 			m_moveVelocity *= m_moveMaxSpeed;
 		}
 
-		m_rotation.SetTarget(Math::Quaternion::CreateFromAxisAngle(Math::Vector3::UnitY, Math::Arctan2(m_moveVelocity.x, m_moveVelocity.z)));
+		m_rotation.SetTarget
+		(
+			Math::Quaternion::CreateFromAxisAngle(Math::Vector3::UnitY, Math::Arctan2(m_moveVelocity.x, m_moveVelocity.z)),
+			200.0f,
+			25.0f
+		);
 	}
 
 	m_fallSpeed += m_params.fallAcceleration * elapsedTime;
@@ -149,9 +154,6 @@ void Player::Update(float elapsedTime, const Math::Vector3& move, bool isDash, b
 
 	// 当たり判定の更新
 	m_pBoxCollider->ApplyTransform();
-
-	// モデルの更新
-	m_pModel->Update(elapsedTime);
 }
 
 // 直方体による座標補正
@@ -347,9 +349,10 @@ void Player::MeshCorrect(const Mesh& mesh)
 }
 
 // モデルの更新
-void Player::UpdateModel()
+void Player::UpdateModel(float elapsedTime)
 {
 	m_pModel->SetTransform(*m_pTransform);
+	m_pModel->Update(elapsedTime, *this);
 }
 
 // 中心座標を取得
@@ -362,6 +365,12 @@ const Math::Vector3& Player::GetPosition() const
 const Math::Box& Player::GetBox() const
 {
 	return m_pBoxCollider->GetWorldBox();
+}
+
+// 移動速度の比率を取得
+float Player::GetMoveVelocityRatio() const
+{
+	return m_moveVelocity.Length() / m_moveMaxSpeed.GetMin();
 }
 
 // カメラの目標座標を取得

@@ -3,5 +3,11 @@
 	"Model3D": {
 		"ModelSourceName": "Player"
 	},
-	"PlayerModel": {}
+	"PlayerModel": {
+		"BounceTime": 0.25,
+		"BounceHeight": 0.25,
+		"FallSpeedCoefficient": 0.01,
+		"ScalingMax": 0.2,
+		"DashAngleMax": 20.0
+	}
 }

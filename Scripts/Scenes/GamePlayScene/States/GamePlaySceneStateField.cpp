@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneStateField.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/q0
+ * Last Updated: 2026/09/11
  *
  * ゲームプレイシーンのフィールド状態
  */
@@ -45,7 +45,7 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
 	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
-	pInternals->pPlayer->UpdateModel();
+	pInternals->pPlayer->UpdateModel(elapsedTime);
 
 	// カメラの更新
 	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());
