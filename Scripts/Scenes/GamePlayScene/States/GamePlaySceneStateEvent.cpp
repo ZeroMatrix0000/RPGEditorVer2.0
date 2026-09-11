@@ -17,6 +17,7 @@
 #include "Scripts/GameObjects/Objects/NPC/NPC.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
+#include "Scripts/GameObjects/UIs/BlackBelt/BlackBelt.h"
 #include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/Main/IGameInput.h"
@@ -35,6 +36,9 @@ void GamePlaySceneStateEvent::Enter(GamePlaySceneInternals* pInternals)
 
 	// カーソルを隠す
 	pInternals->pNPCManager->HideCursor(true);
+
+	// 黒帯を出現させる
+	pInternals->pBlackBelt->Appear(true);
 }
 
 // 更新処理
@@ -59,6 +63,9 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pZ2Talk->SetPosition(pInternals->pPlayer->GetBox(), *pInternals->pCameraScreen);
 	pInternals->pZ2Talk->Update(elapsedTime, false);
 
+	// 上下の黒帯の更新
+	pInternals->pBlackBelt->Update(elapsedTime);
+
 	// カメラの更新
 	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());
 	pInternals->pPlayerCamera->MeshCorrect(pInternals->pGround->GetWorldMesh(), pInternals->pPlayer->GetPosition());
@@ -82,6 +89,9 @@ void GamePlaySceneStateEvent::Exit(GamePlaySceneInternals* pInternals)
 {
 	// カーソルを表示
 	pInternals->pNPCManager->HideCursor(false);
+
+	// 黒帯を隠す
+	pInternals->pBlackBelt->Appear(false);
 }
 
 // プレイヤーを会話相手の方に向ける

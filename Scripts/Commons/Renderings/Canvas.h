@@ -1,7 +1,7 @@
 /*
  * FileName:     Canvas.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/17
+ * Last Updated: 2026/09/11
  *
  * カメラ画面
  */
@@ -56,9 +56,6 @@ namespace Renderings
 
 		// キャンバスのデフォルトサイズ
 		static constexpr Math::Vector2 DEFAULT_SIZE = Math::Vector2{ 1600.0f, 900.0f };
-
-		// キャンバスサイズの設定方法の文字列
-		static const std::unordered_map<std::string, FixedSize> FIXED_SIZE;
 
 
 		/* メンバ変数 */

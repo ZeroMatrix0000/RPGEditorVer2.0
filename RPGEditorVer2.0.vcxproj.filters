@@ -106,6 +106,9 @@
     <Filter Include="Scripts\GameObjects\UIs\MessageWindow">
       <UniqueIdentifier>{7479daba-28af-447b-be07-c427030b6eb8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts\GameObjects\UIs\BlackBelt">
+      <UniqueIdentifier>{d03a3141-a102-42dc-af80-e6a797ce8139}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Main\WinMain.cpp">
@@ -318,6 +321,9 @@
     </ClCompile>
     <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerModel.cpp">
       <Filter>Scripts\GameObjects\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GameObjects\UIs\BlackBelt\BlackBelt.cpp">
+      <Filter>Scripts\GameObjects\UIs\BlackBelt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +658,9 @@
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerModel.h">
       <Filter>Scripts\GameObjects\Objects\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\GameObjects\UIs\BlackBelt\BlackBelt.h">
+      <Filter>Scripts\GameObjects\UIs\BlackBelt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -710,6 +719,9 @@
       <Filter>Jsons\Prefabs</Filter>
     </None>
     <None Include="Resources\Jsons\Prefabs\Prefab_PlayerModel.json">
+      <Filter>Jsons\Prefabs</Filter>
+    </None>
+    <None Include="Resources\Jsons\Prefabs\Prefab_BlackBeltImage.json">
       <Filter>Jsons\Prefabs</Filter>
     </None>
   </ItemGroup>

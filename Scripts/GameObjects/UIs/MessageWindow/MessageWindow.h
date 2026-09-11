@@ -10,6 +10,12 @@
 
 #include "Scripts/Commons/Components/Component.h"
 
+#include "Scripts/Commons/Components/RectTransform.h"
+#include "Scripts/Commons/Renderings/Canvas.h"
+#include "Scripts/Commons/Renderings/Image.h"
+#include "Scripts/Commons/Renderings/Text.h"
+#include "Scripts/Commons/Systems/JsonSerializer.h"
+
 namespace Components
 {
 	class RectTransform;

@@ -1,7 +1,7 @@
 /*
  * FileName:     MessageWindow.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/10
+ * Last Updated: 2026/09/11
  *
  * メッセージウィンドウ
  */
@@ -38,7 +38,6 @@ MessageWindow::MessageWindow(const ComponentDesc& desc)
 // 初期化処理
 void MessageWindow::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-
 	const Renderings::Canvas* pCanvas = nullptr;
 
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
@@ -96,11 +95,6 @@ void MessageWindow::Update(float elapsedTime)
 	// 移動率
 	float moveRate = m_moveRate.GetMovement();
 
-	if (moveRate == 0.0f)
-	{
-		return;
-	}
-
 	// 透明度を変更
 	Math::Color color = m_pBackground->GetColor();
 	color.w = moveRate;
@@ -112,6 +106,15 @@ void MessageWindow::Update(float elapsedTime)
 	color.w = moveRate;
 	m_pText->SetFontColor(color);
 
+	// 文字数を計算
+	m_textCount += m_textVelocity * elapsedTime;
+
+	// 移動率が 0 なら以降何もしない
+	if (moveRate == 0.0f)
+	{
+		return;
+	}
+
 	// サイズを変更
 	m_pBackgroundTransform->SetSize(Math::Vector2::Lerp(Math::Vector2::Zero, m_backgroundSize, moveRate));
 	m_pCharacterTransform->SetSize(Math::Vector2::Lerp(Math::Vector2::Zero, m_characterSize, moveRate));
@@ -121,8 +124,7 @@ void MessageWindow::Update(float elapsedTime)
 	m_pCharacter->SetFontSize(m_characterFontSize * moveRate);
 	m_pText->SetFontSize(m_textFontSize * moveRate);
 
-	// 文字数を計算
-	m_textCount += m_textVelocity * elapsedTime;
+	// 文字列を変更
 	m_pText->SetStr(m_text.substr(0, Math::RoundInt(m_textCount)));
 }
 

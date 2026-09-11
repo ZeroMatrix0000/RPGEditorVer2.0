@@ -193,6 +193,7 @@
     <ClCompile Include="Scripts\GameObjects\Objects\Player\Player.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerCamera.cpp" />
     <ClCompile Include="Scripts\GameObjects\Objects\Player\PlayerModel.cpp" />
+    <ClCompile Include="Scripts\GameObjects\UIs\BlackBelt\BlackBelt.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\MessageWindow\MessageWindow.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\Z2Talk\Z2Talk.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="Scripts\Scenes\SampleScene\SampleScene.cpp" />
     <ClCompile Include="Scripts\Scenes\TitleScene\TitleScene.cpp" />
     <ClCompile Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenu.cpp" />
+    <None Include="Resources\Jsons\Prefabs\Prefab_BlackBeltImage.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_InteractCursor.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_MessageWindowBackGround.json" />
     <None Include="Resources\Jsons\Prefabs\Prefab_MessageWindowCharacter.json" />
@@ -280,6 +282,7 @@
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerCamera.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerModel.h" />
     <ClInclude Include="Scripts\GameObjects\Objects\Player\PlayerParams.h" />
+    <ClInclude Include="Scripts\GameObjects\UIs\BlackBelt\BlackBelt.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\InteractCursor\InteractCursor.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\MessageWindow\MessageWindow.h" />
     <ClInclude Include="Scripts\GameObjects\UIs\SelectMenu\SelectMenuParams.h" />

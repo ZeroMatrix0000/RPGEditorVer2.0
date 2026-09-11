@@ -12,6 +12,6 @@
 	"Text": {
 		"Str": "キャラクター名",
 		"FontName": "GenEi M Gothic v2",
-		"OrderInLayer": 10
+		"OrderInLayer": 100
 	}
 }

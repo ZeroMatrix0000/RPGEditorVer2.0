@@ -15,6 +15,7 @@
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
+#include "Scripts/GameObjects/UIs/BlackBelt/BlackBelt.h"
 #include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/Main/GameContext.h"
 #include "Scripts/Main/IGameInput.h"
@@ -57,6 +58,9 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 	// はなすの更新
 	pInternals->pZ2Talk->SetPosition(pInternals->pPlayer->GetBox(), *pInternals->pCameraScreen);
 	pInternals->pZ2Talk->Update(elapsedTime, pInternals->pNPCManager->GetPFocusedNPC() != nullptr);
+
+	// 上下の黒帯の更新
+	pInternals->pBlackBelt->Update(elapsedTime);
 
 	// 話しかけられるNPC
 	const NPC* pFocusedNPC = pInternals->pNPCManager->GetPFocusedNPC();

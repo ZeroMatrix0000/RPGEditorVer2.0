@@ -15,6 +15,7 @@
 #include "Scripts/GameObjects/UIs/SelectMenu/SelectMenu.h"
 #include "Scripts/GameObjects/UIs/InteractCursor/InteractCursor.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
+#include "Scripts/GameObjects/UIs/BlackBelt/BlackBelt.h"
 #include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/GameObjects/Objects/DebugCamera/DebugCamera.h"
 #include "Scripts/GameObjects/Objects/Player/Player.h"
@@ -371,6 +372,8 @@ void Game::RegisterComponents()
 	m_gameObjectManager.Register<InteractCursor>("InteractCursor");
 	// Z: はなす
 	m_gameObjectManager.Register<Z2Talk>("Z2Talk");
+	// 上下の黒帯
+	m_gameObjectManager.Register<BlackBelt>("BlackBelt");
 	// メッセージウィンドウ
 	m_gameObjectManager.Register<MessageWindow>("MessageWindow");
 	// デバッグ用カメラ

@@ -1,7 +1,7 @@
 /*
  * FileName:     Canvas.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/09/11
  *
  * カメラ画面
  */
@@ -10,13 +10,6 @@
 #include "Canvas.h"
 
 #include "../Systems/JsonSerializer.h"
-
-const std::unordered_map<std::string, Renderings::Canvas::FixedSize> Renderings::Canvas::FIXED_SIZE =
-{
-	{ "None"      , FixedSize::None       },
-	{ "Horizontal", FixedSize::Horizontal },
-	{ "Vertical"  , FixedSize::Vertical   }
-};
 
 // コンストラクタ
 Renderings::Canvas::Canvas(const ComponentDesc& desc)

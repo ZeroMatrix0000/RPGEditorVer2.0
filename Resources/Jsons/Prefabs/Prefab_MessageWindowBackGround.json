@@ -11,6 +11,6 @@
 	},
 	"Image": {
 		"ImageSourceName": "MessageWindow",
-		"OrderInLayer": 10
+		"OrderInLayer": 100
 	}
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     GamePlaySceneInitializer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/08
+ * Last Updated: 2026/09/11
  *
  * ゲームプレイシーンの初期化関数
  */
@@ -14,6 +14,7 @@
 #include "Scripts/GameObjects/Objects/Player/PlayerCamera.h"
 #include "Scripts/GameObjects/Objects/NPC/NPCManager.h"
 #include "Scripts/GameObjects/UIs/Z2Talk/Z2Talk.h"
+#include "Scripts/GameObjects/UIs/BlackBelt/BlackBelt.h"
 #include "Scripts/GameObjects/UIs/MessageWindow/MessageWindow.h"
 #include "Scripts/Scenes/GamePlayScene/Actions/ActionManager.h"
 #include "Scripts/Main/GameContext.h"
@@ -62,6 +63,10 @@ void GamePlaySceneInitializer::operator()(GamePlaySceneInternals* pInternals) co
 
 	// はなすを取得
 	pInternals->pZ2Talk = pIGameObjectManager->Find("Z2Talk")->GetComponent<Z2Talk>();
+
+	// 上下の黒帯取得
+	pInternals->pBlackBelt = pIGameObjectManager->Find("BlackBelt")->GetComponent<BlackBelt>();
+	pInternals->pBlackBelt->SetWidth(pInternals->pCanvas->GetSize().x);
 
 	// メッセージウィンドウを取得
 	pInternals->pMessageWindow = pIGameObjectManager->Find("MessageWindow")->GetComponent<MessageWindow>();

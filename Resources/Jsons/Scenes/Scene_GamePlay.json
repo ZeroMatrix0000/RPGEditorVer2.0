@@ -177,6 +177,15 @@
 		}
 	},
 	{
+		"Name": "BlackBelt",
+		"Components": {
+			"BlackBelt": {
+				"MoveTime": 0.5,
+				"Canvas": "Canvas"
+			}
+		}
+	},
+	{
 		"Name": "MessageWindow",
 		"Components": {
 			"MessageWindow": {
