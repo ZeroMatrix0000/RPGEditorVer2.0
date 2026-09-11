@@ -114,13 +114,13 @@
 				"Angle": -30.0
 			},
 			"Image": {
-				"ImageSourceName": "DialogBox",
+				"ImageSourceName": "MessageWindow",
 				"Canvas": "Canvas"
 			},
 			"Text": {
 				"Str": "あいうえお",
 				"FontName": "GenEi M Gothic v2",
-				"FontSize": 128.0,
+				"FontSize": 64.0,
 				"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
 				"ParagraphAlignment": "DWRITE_PARAGRAPH_ALIGNMENT_CENTER",
 				"Canvas": "Canvas"
@@ -138,7 +138,7 @@
 				"Angle": 45.0
 			},
 			"Image": {
-				"ImageSourceName": "DialogBox",
+				"ImageSourceName": "MessageWindow",
 				"Color": {
 					"R": 1.0,
 					"G": 0.0,

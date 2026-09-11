@@ -166,7 +166,7 @@ void Game::Initialize(const HWND& hWindow)
 	// ウィンドウ管理の初期化
 	m_windowController.Initialize(hWindow);
 	// 入力の初期化
-	m_input.Initialize();
+	m_input.Initialize(hWindow);
 
 	// コンポーネント管理の初期化
 	m_componentManager.Initialize(&m_gameObjectManager);
@@ -210,7 +210,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// 最初のシーンを設定
-	m_sceneManager.SetFirstScene<TitleScene>();
+	m_sceneManager.SetFirstScene<SampleScene>();
 }
 
 // 更新処理

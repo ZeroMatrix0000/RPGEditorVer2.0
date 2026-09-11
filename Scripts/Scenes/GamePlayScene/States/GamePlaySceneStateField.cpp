@@ -44,8 +44,8 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 
 	// プレイヤーの更新
 	pInternals->pPlayer->Update(elapsedTime, pIGameInput->GetPlayerMove(), pIGameInput->GetPlayerDash(), pIGameInput->GetPlayerJump());
-	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
+	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->UpdateModel(elapsedTime);
 
 	// カメラの更新
@@ -64,8 +64,17 @@ void GamePlaySceneStateField::Update(GamePlaySceneInternals* pInternals, float e
 
 	// 話しかけられるNPC
 	const NPC* pFocusedNPC = pInternals->pNPCManager->GetPFocusedNPC();
-	// NPCに話しかけられる状態かつ移動入力がされていないかつインタラクト入力がされたならイベント状態へ
-	if (pFocusedNPC && pIGameInput->GetPlayerMove() == Math::Vector3::Zero && pIGameInput->GetFieldInteract())
+	// NPCに話しかけられる状態かつ
+	// プレイヤーが地面についているかつ
+	// 移動入力がされていないかつ
+	// インタラクト入力がされたならイベント状態へ
+	if
+	(
+		pFocusedNPC &&
+		pInternals->pPlayer->GetFallState() == Player::FallState::OnGround &&
+		pIGameInput->GetPlayerMove() == Math::Vector3::Zero &&
+		pIGameInput->GetFieldInteract()
+	)
 	{
 		SetNextState(std::make_unique<GamePlaySceneStateEvent>());
 	}

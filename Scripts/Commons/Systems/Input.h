@@ -1,7 +1,7 @@
 /*
  * FileName:     Input.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/29
+ * Last Updated: 2026/09/11
  *
  * 入力管理
  */
@@ -25,7 +25,7 @@ namespace Systems
 		Input();
 
 		// 初期化処理
-		void Initialize();
+		void Initialize(const HWND& hWindow);
 		// 更新処理
 		void Update();
 
@@ -76,6 +76,9 @@ namespace Systems
 
 
 		/* メンバ変数 */
+
+		// ウィンドウへのハンドル
+		HWND m_hWindow;
 
 		// キーボード
 		DirectX::Keyboard        m_keyboard;

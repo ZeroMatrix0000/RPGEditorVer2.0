@@ -55,8 +55,8 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	// プレイヤーの更新
 	RotatePlayer(pInternals);
 	pInternals->pPlayer->Update(elapsedTime, Math::Vector3::Zero, false, false);
-	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->MeshCorrect(pInternals->pGround->GetWorldMesh());
+	pInternals->pPlayer->BoxCorrect(pInternals->pNPCManager->GetPBoxes());
 	pInternals->pPlayer->UpdateModel(elapsedTime);
 
 	// はなすの更新
@@ -67,7 +67,11 @@ void GamePlaySceneStateEvent::Update(GamePlaySceneInternals* pInternals, float e
 	pInternals->pBlackBelt->Update(elapsedTime);
 
 	// カメラの更新
-	pInternals->pPlayerCamera->SetTarget(pInternals->pPlayer->GetCameraTarget());
+	pInternals->pPlayerCamera->SetTarget
+	(
+		(pInternals->pPlayer->GetCameraTarget() + pInternals->pNPCManager->GetPFocusedNPC()->GetBox().position) / 2.0f
+	);
+	pInternals->pPlayerCamera->Rotate(pIGameInput->GetPlayerCameraRotate());
 	pInternals->pPlayerCamera->MeshCorrect(pInternals->pGround->GetWorldMesh(), pInternals->pPlayer->GetPosition());
 	pInternals->pPlayerCamera->Update(elapsedTime);
 	pInternals->pCameraScreen->UpdateViewMatrix();

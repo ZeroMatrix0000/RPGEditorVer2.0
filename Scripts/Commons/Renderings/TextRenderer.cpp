@@ -264,6 +264,20 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 	// 上下配置
 	pTextFormat->SetParagraphAlignment(pText->GetParagraphAlignment());
 
+	// 描画する文字列
+	const std::wstring& str = pText->GetStr();
+	// テキストレイアウト
+	Microsoft::WRL::ComPtr<IDWriteTextLayout> pTextLayout;
+	m_dWriteFactory->CreateTextLayout
+	(
+		str.c_str(),
+		static_cast<UINT32>(str.size()),
+		pTextFormat.Get(),
+		rect.size.x,
+		rect.size.y,
+		pTextLayout.GetAddressOf()
+	);
+
 	// 角度
 	float angle = pRectTransform->GetAngle();
 	// 描画ターゲットを回転
@@ -276,15 +290,16 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 		));
 	}
 
-	// 描画する文字列
-	const std::wstring& str = pText->GetStr();
+	//IDWriteTextRenderer renderer{};
+
+	//pTextLayout->Draw(nullptr, nullptr, rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f);
+
+
 	// 文字列を描画
-	m_renderTarget->DrawTextW
+	m_renderTarget->DrawTextLayout
 	(
-		str.c_str(),
-		static_cast<int>(str.size()),
-		pTextFormat.Get(),
-		rect.CreateD2D1_RECT_F(),
+		D2D1::Point2F(rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f),
+		pTextLayout.Get(),
 		pBrush.Get()
 	);
 

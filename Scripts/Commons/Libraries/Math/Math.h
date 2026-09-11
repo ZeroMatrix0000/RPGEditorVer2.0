@@ -1,7 +1,7 @@
 /*
  * FileName:     Math.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/10
+ * Last Updated: 2026/09/11
  *
  * 数学関係
  */
@@ -88,6 +88,16 @@ namespace Libraries
 			if (min == max) return max;
 			if (x < min)    return x + Math::Ceil((min - x) / (max - min)) * (max - min);
 			if (x > max)    return x - Math::Ceil((x - max) / (max - min)) * (max - min);
+			return x;
+		}
+
+		// 範囲内に周期的に収める
+		constexpr int Cycle(int x, int min, int max)
+		{
+			if (min > max)  return Cycle(x, max, min);
+			if (min == max) return max;
+			if (x < min)    return x + (max - x - 1) / (max - min) * (max - min);
+			if (x > max)    return x - (x - min - 1) / (max - min) * (max - min);
 			return x;
 		}
 

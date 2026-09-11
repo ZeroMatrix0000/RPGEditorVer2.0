@@ -12,6 +12,7 @@
  // コンストラクタ
 Systems::Input::Input()
 	: IInput{}
+	, m_hWindow{}
 	, m_keyboard{}
 	, m_keyboardState{}
 	, m_keyboardStateOld{}
@@ -23,8 +24,10 @@ Systems::Input::Input()
 }
 
 // 初期化処理
-void Systems::Input::Initialize()
+void Systems::Input::Initialize(const HWND& hWindow)
 {
+	m_hWindow = hWindow;
+
 	m_keyboardState = m_keyboard.GetState();
 	m_mouseState    = m_mouse.GetState();
 	MousePositionCorrect();
@@ -87,45 +90,33 @@ void Systems::Input::MousePositionCorrect()
 	// マウス座標をループさせるなら
 	if (m_mousePositionLoop)
 	{
-		// スクリーン幅
-		int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-		// スクリーン高さ
-		int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-		// 座標を変更したか
-		bool isChanged = false;
-		// 画面端にカーソルがある場合反対側に移動
-		if (mousePosition.x == 0)
-		{
-			isChanged = true;
-			mousePosition.x = screenWidth - 2;
-		}
-		if (mousePosition.x == screenWidth - 1)
-		{
-			isChanged = true;
-			mousePosition.x = 1;
-		}
-		if (mousePosition.y == 0)
-		{
-			isChanged = true;
-			mousePosition.y = screenHeight - 2;
-		}
-		if (mousePosition.y == screenHeight - 1)
-		{
-			isChanged = true;
-			mousePosition.y = 1;
-		}
+		// ウィンドウの長方形
+		RECT windowRect{};
 
-		if (isChanged)
-		{
-			// 変更前の座標
-			POINT oldMousePosition{};
-			GetCursorPos(&oldMousePosition);
+		GetWindowRect(m_hWindow, &windowRect);
 
-			SetCursorPos(mousePosition.x, mousePosition.y);
+		// ウィンドウの外にカーソルがある場合ウィンドウ内に収める
+		mousePosition.x = Math::Cycle
+		(
+			static_cast<int>(mousePosition.x),
+			static_cast<int>(windowRect.left) + 1,
+			static_cast<int>(windowRect.right) - 2
+		);
+		mousePosition.y = Math::Cycle
+		(
+			static_cast<int>(mousePosition.y),
+			static_cast<int>(windowRect.top) + 1,
+			static_cast<int>(windowRect.bottom) - 2
+		);
 
-			m_mouseStateOld.x += mousePosition.x - oldMousePosition.x;
-			m_mouseStateOld.y += mousePosition.y - oldMousePosition.y;
-		}
+		// 変更前の座標
+		POINT oldMousePosition{};
+		GetCursorPos(&oldMousePosition);
+		// 座標を変更
+		SetCursorPos(mousePosition.x, mousePosition.y);
+		// 変更した分ずらす
+		m_mouseStateOld.x += mousePosition.x - oldMousePosition.x;
+		m_mouseStateOld.y += mousePosition.y - oldMousePosition.y;
 	}
 
 	m_mouseState.x = mousePosition.x;
