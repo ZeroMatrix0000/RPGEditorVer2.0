@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/14
  *
  * テキスト
  */
@@ -24,6 +24,8 @@ Renderings::Text::Text(const ComponentDesc& desc, ITextRenderer* pITextRenderer)
 	, m_fontColor{ D2D1::ColorF::White }
 	, m_textAlignment{}
 	, m_paragraphAlignment{}
+	, m_outlineWidth{ 0.0f }
+	, m_outlineColor{ D2D1::ColorF::Black }
 	, m_orderInLayer{}
 	, m_pCanvas{}
 	, m_pITextRenderer{ pITextRenderer }
@@ -42,18 +44,16 @@ Renderings::Text::~Text()
 // 初期化処理
 void Renderings::Text::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
-	Math::Color fontColor = Math::Color{ m_fontColor.r, m_fontColor.g, m_fontColor.b, m_fontColor.a };
-
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
 	serializer.AddParameter(&m_str, "Str");
 	serializer.AddParameter(&m_fontName, "FontName");
 	serializer.AddParameter(&m_fontSize, "FontSize");
-	serializer.AddParameter(&fontColor, "FontColor");
+	serializer.AddParameter(&m_fontColor, "FontColor");
 	serializer.AddParameter(&m_textAlignment, "TextAlignment");
 	serializer.AddParameter(&m_paragraphAlignment, "ParagraphAlignment");
+	serializer.AddParameter(&m_outlineWidth, "OutlineWidth");
+	serializer.AddParameter(&m_outlineColor, "OutlineColor");
 	serializer.AddParameter(&m_orderInLayer, "OrderInLayer");
 	serializer.AddParameter(&m_pCanvas, "Canvas");
 	serializer.Load(json);
-
-	SetFontColor(fontColor);
 }

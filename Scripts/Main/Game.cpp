@@ -107,6 +107,7 @@ void Game::Initialize(const HWND& hWindow)
 			"B": 0.0,
 			"A": 1.0
 		},
+		"OutlineWidth": 2.0,
 		"OrderInLayer": 65535
 	},
 	"RectTransform": {
@@ -210,7 +211,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// 最初のシーンを設定
-	m_sceneManager.SetFirstScene<SampleScene>();
+	m_sceneManager.SetFirstScene<TitleScene>();
 }
 
 // 更新処理

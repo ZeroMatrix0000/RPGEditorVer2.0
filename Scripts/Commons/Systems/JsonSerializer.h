@@ -89,6 +89,18 @@ namespace Systems
 		{
 			*ptr = Utility::string2wstring(json.get<std::string>());
 		}
+		// シリアライズ（D2D1::ColorF）
+		template<>
+		static void Serialize(D2D1::ColorF* ptr, const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
+		{
+			*ptr = D2D1::ColorF
+			{
+				json.at("R").get<float>(),
+				json.at("G").get<float>(),
+				json.at("B").get<float>(),
+				json.at("A").get<float>()
+			};
+		}
 		// シリアライズ（Math::Color）
 		template<>
 		static void Serialize(Math::Color* ptr, const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)

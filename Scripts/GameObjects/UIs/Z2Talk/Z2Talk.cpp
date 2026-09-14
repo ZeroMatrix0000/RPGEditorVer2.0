@@ -1,7 +1,7 @@
 /*
  * FileName:     Z2Talk.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/14
  *
  * Z: はなす
  */
@@ -48,6 +48,9 @@ void Z2Talk::Update(float elapsedTime, bool isFocused)
 	Math::Color textColor = m_pText->GetFontColor();
 	textColor.w = m_alpha;
 	m_pText->SetFontColor(textColor);
+	Math::Color outlineColor = m_pText->GetOutlineColor();
+	outlineColor.w = m_alpha;
+	m_pText->SetOutlineColor(outlineColor);
 }
 
 // 座標を設定

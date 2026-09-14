@@ -120,7 +120,7 @@
 			"Text": {
 				"Str": "あいうえお",
 				"FontName": "GenEi M Gothic v2",
-				"FontSize": 64.0,
+				"FontSize": 256.0,
 				"TextAlignment": "DWRITE_TEXT_ALIGNMENT_CENTER",
 				"ParagraphAlignment": "DWRITE_PARAGRAPH_ALIGNMENT_CENTER",
 				"Canvas": "Canvas"

@@ -325,6 +325,9 @@
     <ClCompile Include="Scripts\GameObjects\UIs\BlackBelt\BlackBelt.cpp">
       <Filter>Scripts\GameObjects\UIs\BlackBelt</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\TextOutlineRenderer.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -660,6 +663,9 @@
     </ClInclude>
     <ClInclude Include="Scripts\GameObjects\UIs\BlackBelt\BlackBelt.h">
       <Filter>Scripts\GameObjects\UIs\BlackBelt</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\TextOutlineRenderer.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,7 @@
 #include "Pch.h"
 #include "TextRenderer.h"
 
+#include "TextOutlineRenderer.h"
 #include "Text.h"
 #include "Canvas.h"
 #include "../GameObjects/GameObject.h"
@@ -137,7 +138,7 @@ void Renderings::TextRenderer::Begin()
 void Renderings::TextRenderer::Draw(const Text* pText)
 {
 	// 空文字列または透明なら何もしない
-	if (pText->GetStr().empty() || pText->GetFontColor().A() == 0.0f)
+	if (pText->GetStr().empty())
 	{
 		return;
 	}
@@ -235,15 +236,15 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 	rect.size *= canvasRatio;
 
 	// ブラシ
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> pBrush;
+	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
 	m_renderTarget->CreateSolidColorBrush
 	(
 		pText->GetD2D1FontColor(),
-		pBrush.GetAddressOf()
+		brush.GetAddressOf()
 	);
 
 	// テキストフォーマット
-	Microsoft::WRL::ComPtr<IDWriteTextFormat> pTextFormat;
+	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat;
 	if (FAILED(m_dWriteFactory->CreateTextFormat
 	(
 		pText->GetFontName().c_str(),
@@ -253,29 +254,30 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 		DWRITE_FONT_STRETCH_NORMAL,
 		pText->GetFontSize() * canvasRatio,
 		L"ja-jp",
-		pTextFormat.GetAddressOf()
+		textFormat.GetAddressOf()
 	)))
 	{
 		return;
 	}
 
 	// 左右配置
-	pTextFormat->SetTextAlignment(pText->GetTextAlignment());
+	textFormat->SetTextAlignment(pText->GetTextAlignment());
 	// 上下配置
-	pTextFormat->SetParagraphAlignment(pText->GetParagraphAlignment());
+	textFormat->SetParagraphAlignment(pText->GetParagraphAlignment());
 
 	// 描画する文字列
 	const std::wstring& str = pText->GetStr();
+
 	// テキストレイアウト
-	Microsoft::WRL::ComPtr<IDWriteTextLayout> pTextLayout;
+	Microsoft::WRL::ComPtr<IDWriteTextLayout> textLayout;
 	m_dWriteFactory->CreateTextLayout
 	(
 		str.c_str(),
 		static_cast<UINT32>(str.size()),
-		pTextFormat.Get(),
+		textFormat.Get(),
 		rect.size.x,
 		rect.size.y,
-		pTextLayout.GetAddressOf()
+		textLayout.GetAddressOf()
 	);
 
 	// 角度
@@ -289,21 +291,13 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 			D2D1::Point2F(rect.position.x, rect.position.y)
 		));
 	}
-
-	//IDWriteTextRenderer renderer{};
-
-	//pTextLayout->Draw(nullptr, nullptr, rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f);
-
+	// 移動
 
 	// 文字列を描画
-	m_renderTarget->DrawTextLayout
-	(
-		D2D1::Point2F(rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f),
-		pTextLayout.Get(),
-		pBrush.Get()
-	);
+	TextOutlineRenderer outlineRenderer{ canvasRatio, m_d2DFactory.Get(), m_renderTarget.Get(), *pText };
+	textLayout->Draw(nullptr, &outlineRenderer, rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f);
 
-	// 描画ターゲットの角度を戻す
+	// 描画ターゲットを元に戻す
 	if (angle != 0.0f)
 	{
 		m_renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());

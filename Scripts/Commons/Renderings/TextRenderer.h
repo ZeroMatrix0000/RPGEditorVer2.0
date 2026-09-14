@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ITextRenderer.h"
+#include "TextOutlineRenderer.h"
 
 namespace Renderings
 {

@@ -1,7 +1,7 @@
 /*
  * FileName:     Text.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/05
+ * Last Updated: 2026/09/14
  *
  * テキスト
  */
@@ -49,6 +49,13 @@ namespace Renderings
 		// 段落配置を設定
 		void SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment) { m_paragraphAlignment = paragraphAlignment; }
 
+		// アウトラインの太さを設定
+		void SetOutlineWidth(float outlineWidth) { m_outlineWidth = outlineWidth; }
+		// アウトライン色を設定
+		void SetOutlineColor(const Math::Color& color) { m_outlineColor = D2D1::ColorF{ color.x, color.y, color.z, color.w }; }
+		// アウトライン色を設定
+		void SetOutlineColor(const DirectX::XMVECTORF32& color) { m_outlineColor = D2D1::ColorF{ color.f[0], color.f[1], color.f[2], color.f[3] }; }
+
 		// レイヤー順を設定
 		void SetOrderInLayer(int orderInLayer) { m_orderInLayer = orderInLayer; }
 
@@ -59,9 +66,9 @@ namespace Renderings
 		const std::wstring& GetStr() const { return m_str; }
 
 		// フォント名を取得
-		const std::wstring& GetFontName()  const { return m_fontName; }
+		const std::wstring& GetFontName() const { return m_fontName; }
 		// フォントサイズを取得
-		float               GetFontSize()  const { return m_fontSize; }
+		float GetFontSize() const { return m_fontSize; }
 		// 色を取得
 		Math::Color GetFontColor() const { return Math::Color{ m_fontColor.r, m_fontColor.g, m_fontColor.b, m_fontColor.a }; }
 		// 色を取得
@@ -71,6 +78,13 @@ namespace Renderings
 		DWRITE_TEXT_ALIGNMENT      GetTextAlignment()      const { return m_textAlignment; }
 		// 段落配置を取得
 		DWRITE_PARAGRAPH_ALIGNMENT GetParagraphAlignment() const { return m_paragraphAlignment; }
+		
+		// フォントサイズを取得
+		float GetOutlineWidth() const { return m_outlineWidth; }
+		// 色を取得
+		Math::Color GetOutlineColor() const { return Math::Color{ m_outlineColor.r, m_outlineColor.g, m_outlineColor.b, m_outlineColor.a }; }
+		// 色を取得
+		const D2D1::ColorF& GetD2D1OutlineColor() const { return m_outlineColor; }
 
 		// レイヤー順を取得
 		int GetOrderInLayer() const { return m_orderInLayer; }
@@ -97,6 +111,11 @@ namespace Renderings
 		DWRITE_TEXT_ALIGNMENT      m_textAlignment;
 		// 段落配置
 		DWRITE_PARAGRAPH_ALIGNMENT m_paragraphAlignment;
+
+		// アウトラインの太さ
+		float m_outlineWidth;
+		// アウトライン色
+		D2D1::ColorF m_outlineColor;
 
 		// レイヤー順
 		int m_orderInLayer;
