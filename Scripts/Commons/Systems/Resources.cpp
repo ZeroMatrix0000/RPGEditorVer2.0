@@ -22,7 +22,7 @@ Systems::Resources::Resources()
 }
 
 // モデルを追加
-void Systems::Resources::LoadModelSources(ID3D11Device* device, DirectX::EffectFactory* fx, const std::wstring& directoryPath)
+void Systems::Resources::LoadModelSources(ID3D11Device5* device, DirectX::EffectFactory* fx, const std::wstring& directoryPath)
 {
 	// パスが存在しないなら
 	if (!std::filesystem::exists(directoryPath))
@@ -209,7 +209,7 @@ void Systems::Resources::LoadMeshes(const std::wstring& directoryPath)
 }
 
 // ピクセルシェーダを読み込む
-void Systems::Resources::LoadPixelShaders(ID3D11Device* device, const std::wstring& directoryPath)
+void Systems::Resources::LoadPixelShaders(ID3D11Device5* device, const std::wstring& directoryPath)
 {
 	// パスが存在しないなら
 	if (!std::filesystem::exists(directoryPath))
@@ -231,19 +231,7 @@ void Systems::Resources::LoadPixelShaders(ID3D11Device* device, const std::wstri
 		{
 			try
 			{
-				// ブロブデータ
-				Microsoft::WRL::ComPtr<ID3DBlob> blob;
-				Utility::ThrowIfFailed(D3DReadFileToBlob(entry.path().wstring().c_str(), blob.GetAddressOf()));
-				// ピクセルシェーダ
-				Microsoft::WRL::ComPtr<ID3D11PixelShader> shader;
-				Utility::ThrowIfFailed(device->CreatePixelShader
-				(
-					blob->GetBufferPointer(),
-					blob->GetBufferSize(),
-					nullptr,
-					shader.GetAddressOf()
-				));
-				m_pixelShaders.emplace(entry.path().stem().string(), std::move(shader));
+				m_pixelShaders.emplace(entry.path().stem().string(), Renderings::PixelShader::Create(device, entry.path().wstring()));
 			}
 			catch (std::exception e)
 			{
@@ -331,7 +319,7 @@ const Mesh* Systems::Resources::GetMesh(const std::string& meshName) const
 }
 
 // ピクセルシェーダの取得
-ID3D11PixelShader* Systems::Resources::GetPixelShader(const std::string& shaderName) const
+const Renderings::PixelShader* Systems::Resources::GetPixelShader(const std::string& shaderName) const
 {
 	auto it = m_pixelShaders.find(shaderName);
 	if (it == m_pixelShaders.end())
@@ -345,5 +333,5 @@ ID3D11PixelShader* Systems::Resources::GetPixelShader(const std::string& shaderN
 		return nullptr;
 	}
 
-	return it->second.Get();
+	return &it->second;
 }

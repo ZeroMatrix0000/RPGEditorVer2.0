@@ -1,7 +1,7 @@
 /*
  * FileName:     MeshCollider.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/23
  *
  * メッシュの当たり判定
  */
@@ -20,9 +20,9 @@
 // コンストラクタ
 Colliders::MeshCollider::MeshCollider(const ComponentDesc& desc, Renderings::IColliderRenderer* pIColliderRenderer, const Systems::IResources& iResources)
 	: Component{ desc }
-	, m_meshName{}
 	, m_color{ DirectX::Colors::LightGreen }
 	, m_worldMesh{}
+	, m_pMesh{}
 	, m_pTransform{ GetPOwner()->GetNullReferences<Transform>() }
 	, m_pICameraScreens{}
 	, m_pIColliderRenderer{ pIColliderRenderer }
@@ -44,11 +44,24 @@ void Colliders::MeshCollider::Initalize(const nlohmann::ordered_json& json, IGam
 {
 	m_pTransform = GetPOwner()->GetComponent<Transform>();
 
+	std::string meshName{};
+
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
-	serializer.AddParameter(&m_meshName, "MeshName");
+	serializer.AddParameter(&meshName, "MeshName");
 	serializer.AddParameter(&m_color, "Color");
 	serializer.AddParameter(&m_pICameraScreens, "CameraScreens");
 	serializer.Load(json);
+
+	if (!meshName.empty())
+	{
+		SetMesh(meshName);
+	}
+}
+
+// メッシュを設定
+void Colliders::MeshCollider::SetMesh(const std::string& meshName)
+{
+	m_pMesh = m_refIResources.GetMesh(meshName);
 }
 
 // 映るカメラ画面を追加
@@ -73,13 +86,11 @@ void Colliders::MeshCollider::RemoveICameraScreen(const Renderings::ICameraScree
 // トランスフォームを適用
 void Colliders::MeshCollider::ApplyTransform()
 {
-	const auto* pMesh = m_refIResources.GetMesh(m_meshName);
-
-	if (!pMesh)
+	if (!m_pMesh)
 	{
 		return;
 	}
 
-	m_worldMesh = *pMesh;
+	m_worldMesh = *m_pMesh;
 	m_worldMesh.ApplyMatrix(m_pTransform->CreateWorldMatrix());
 }

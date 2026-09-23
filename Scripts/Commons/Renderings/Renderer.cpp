@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/09/23
  *
  * 描画
  */
@@ -13,10 +13,10 @@
 #include "Text.h"
 
 // コンストラクタ
-Renderings::Renderer::Renderer(const Systems::IResources& iResources)
+Renderings::Renderer::Renderer()
 	: OnlyOne{ typeid(Renderer) }
-	, m_modelRenderer{ iResources }
-	, m_imageRenderer{ iResources }
+	, m_modelRenderer{}
+	, m_imageRenderer{}
 	, m_textRenderer{}
 	, m_colliderRenderer{}
 	, m_renderMode{}

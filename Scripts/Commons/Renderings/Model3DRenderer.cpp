@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/23
  *
  * 3Dモデル描画
  */
@@ -10,18 +10,18 @@
 #include "Model3DRenderer.h"
 
 #include "Model3D.h"
+#include "Model3DSource.h"
 #include "ICameraScreen.h"
 #include "../GameObjects/GameObject.h"
 #include "../Components/Transform.h"
 #include "../Systems/IResources.h"
 
  // コンストラクタ
-Renderings::Model3DRenderer::Model3DRenderer(const Systems::IResources& iResources)
+Renderings::Model3DRenderer::Model3DRenderer()
 	: IModel3DRenderer{}
 	, m_pModels{}
 	, m_pContext{}
 	, m_pCommonStates{}
-	, m_refIResources{ iResources }
 {
 }
 
@@ -38,7 +38,7 @@ void Renderings::Model3DRenderer::Render()
 	for (const auto* pModel : m_pModels)
 	{
 		// モデルソース
-		const Model3DSource* modelSource = m_refIResources.GetModelSource(pModel->GetModelSourceName());
+		const Model3DSource* modelSource = pModel->GetPModelSource();
 		if (!modelSource)
 		{
 			continue;

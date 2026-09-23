@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/04
+ * Last Updated: 2026/09/23
  *
  * 画像
  */
@@ -13,16 +13,19 @@
 #include "../GameObjects/IGameObjectFinder.h"
 #include "../GameObjects/GameObject.h"
 #include "../Renderings/Canvas.h"
+#include "../Systems/IResources.h"
 #include "../Systems/JsonSerializer.h"
 
 // コンストラクタ
-Renderings::Image::Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer)
+Renderings::Image::Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer, const Systems::IResources& iResources)
 	: Component{ desc }
-	, m_imageSourceName{}
 	, m_color{ DirectX::Colors::White }
 	, m_orderInLayer{}
+	, m_pImageSource{}
+	, m_pPixelShader{}
 	, m_pCanvas{}
 	, m_pIImageRenderer{ pIImageRenderer }
+	, m_refIResources{ iResources }
 {
 	// 画像描画にポインタを追加
 	m_pIImageRenderer->AddPImage(this);
@@ -38,13 +41,37 @@ Renderings::Image::~Image()
 // 初期化処理
 void Renderings::Image::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
+	std::string imageSourceName{};
+	std::string pixelShaderName{};
+
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
-	serializer.AddParameter(&m_imageSourceName, "ImageSourceName");
+	serializer.AddParameter(&imageSourceName, "ImageSourceName");
 	serializer.AddParameter(&m_color, "Color");
-	serializer.AddParameter(&m_pixelShaderName, "PixelShaderName");
+	serializer.AddParameter(&pixelShaderName, "PixelShaderName");
 	serializer.AddParameter(&m_orderInLayer, "OrderInLayer");
 	serializer.AddParameter(&m_pCanvas, "Canvas");
 	serializer.Load(json);
+
+	if (!imageSourceName.empty())
+	{
+		SetImageSource(imageSourceName);
+	}
+	if (!pixelShaderName.empty())
+	{
+		SetPixelShader(pixelShaderName);
+	}
+}
+
+// 画像ソースを設定
+void Renderings::Image::SetImageSource(const std::string& imageSourceName)
+{
+	m_pImageSource = m_refIResources.GetImageSource(imageSourceName);
+}
+
+// ピクセルシェーダを設定
+void Renderings::Image::SetPixelShader(const std::string& pixelShaderName)
+{
+	m_pPixelShader = m_refIResources.GetPixelShader(pixelShaderName);
 }
 
 // 画像サイズを取得

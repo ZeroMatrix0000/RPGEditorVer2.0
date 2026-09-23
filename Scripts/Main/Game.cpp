@@ -1,7 +1,7 @@
 /*
  * FileName:     Game.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/07
+ * Last Updated: 2026/09/23
  *
  * ゲーム
  */
@@ -40,7 +40,7 @@ Game::Game()
 	, m_hWindow{}
 	, m_deviceResources{}
 	, m_renderingResources{}
-	, m_renderer{ m_resources }
+	, m_renderer{}
 	, m_resources{}
 	, m_timer{}
 	, m_windowController{}
@@ -297,12 +297,12 @@ void Game::RegisterComponents()
 	// 3Dモデル
 	m_componentManager.RegisterCreate<Renderings::Model3D>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Renderings::Model3D>(desc, &m_renderer.GetIModelRenderer());
+		return std::make_unique<Renderings::Model3D>(desc, &m_renderer.GetIModelRenderer(), m_resources);
 	});
 	// 画像
 	m_componentManager.RegisterCreate<Renderings::Image>([&](const ComponentDesc& desc)
 	{
-		return std::make_unique<Renderings::Image>(desc, &m_renderer.GetIImageRenderer());
+		return std::make_unique<Renderings::Image>(desc, &m_renderer.GetIImageRenderer(), m_resources);
 	});
 	// テキスト
 	m_componentManager.RegisterCreate<Renderings::Text>([&](const ComponentDesc& desc)

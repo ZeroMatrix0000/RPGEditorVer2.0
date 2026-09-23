@@ -9,6 +9,9 @@
 #pragma once
 
 #include "IResources.h"
+#include "../Renderings/Model3DSource.h"
+#include "../Renderings/ImageSource.h"
+#include "../Renderings/PixelShader.h"
 
 namespace Systems
 {
@@ -25,7 +28,7 @@ namespace Systems
 		Resources();
 
 		// モデルを読み込む
-		void LoadModelSources(ID3D11Device* device, DirectX::EffectFactory* fx, const std::wstring& directoryPath);
+		void LoadModelSources(ID3D11Device5* device, DirectX::EffectFactory* fx, const std::wstring& directoryPath);
 		// 画像を読み込む
 		void LoadImageSources(ID3D11Device5* device, const std::wstring& directoryPath);
 		// Jsonを読み込む
@@ -35,7 +38,7 @@ namespace Systems
 		// メッシュを読み込む
 		void LoadMeshes(const std::wstring& directoryPath);
 		// ピクセルシェーダを読み込む
-		void LoadPixelShaders(ID3D11Device* device, const std::wstring& directoryPath);
+		void LoadPixelShaders(ID3D11Device5* device, const std::wstring& directoryPath);
 
 		// モデルの取得
 		const Renderings::Model3DSource* GetModelSource(const std::string& modelName)  const override;
@@ -46,7 +49,7 @@ namespace Systems
 		// Jsonの取得
 		const Mesh*                      GetMesh(const std::string& meshName)          const override;
 		// ピクセルシェーダの取得
-		ID3D11PixelShader*               GetPixelShader(const std::string& shaderName) const override;
+		const Renderings::PixelShader*   GetPixelShader(const std::string& shaderName) const override;
 
 
 	private:
@@ -65,7 +68,7 @@ namespace Systems
 		// メッシュリスト
 		std::unordered_map<std::string, Mesh> m_meshes;
 		// ピクセルシェーダリスト
-		std::unordered_map<std::string, Microsoft::WRL::ComPtr<ID3D11PixelShader>> m_pixelShaders;
+		std::unordered_map<std::string, Renderings::PixelShader> m_pixelShaders;
 
 	};
 }

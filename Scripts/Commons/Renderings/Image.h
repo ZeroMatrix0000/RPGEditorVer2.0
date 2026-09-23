@@ -1,7 +1,7 @@
 /*
  * FileName:     Image.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/29
+ * Last Updated: 2026/09/23
  *
  * 画像
  */
@@ -10,8 +10,15 @@
 
 #include "../Components/Component.h"
 
+namespace Systems
+{
+	class IResources;
+}
+
 namespace Renderings
 {
+	class ImageSource;
+	class PixelShader;
 	class Canvas;
 	class IImageRenderer;
 
@@ -25,39 +32,38 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer);
+		Image(const ComponentDesc& desc, IImageRenderer* pIImageRenderer, const Systems::IResources& iResources);
 		// デストラクタ
 		~Image();
 
 		// 初期化処理
 		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
-		// 画像ソース名を設定
-		void SetImageSourceName(const std::string& imageSourceName) { m_imageSourceName = imageSourceName; }
 		// 色を設定
 		void SetColor(const Math::Color& color) { m_color = color; }
 		// 色を設定
 		void SetColor(const DirectX::XMVECTORF32& color) { m_color = color; }
 
-		// ピクセルシェーダ名を設定
-		void SetPixelShaderName(const std::string& pixelShaderName) { m_pixelShaderName = pixelShaderName; }
-
 		// レイヤー順を設定
 		void SetOrderInLayer(int orderInLayer) { m_orderInLayer = orderInLayer; }
 
+		// 画像ソースを設定
+		void SetImageSource(const std::string& imageSourceName);
+		// ピクセルシェーダを設定
+		void SetPixelShader(const std::string& pixelShaderName);
+
 		// キャンバスを設定
 		void SetCanvas(const Canvas& canvas) { m_pCanvas = &canvas; }
-
-		// 画像ソース名を取得
-		const std::string& GetImageSourceName() const { return m_imageSourceName; }
 		// 色を取得
 		const Math::Color& GetColor() const { return m_color; }
 
-		// ピクセルシェーダ名を取得
-		const std::string& GetPixelShaderName() const { return m_pixelShaderName; }
-
 		// レイヤー順を取得
 		int GetOrderInLayer() const { return m_orderInLayer; }
+
+		// 画像ソース名を取得
+		const Renderings::ImageSource* GetPImageSource() const { return m_pImageSource; }
+		// ピクセルシェーダ名を取得
+		const Renderings::PixelShader* GetPPixelShader() const { return m_pPixelShader; }
 
 		// キャンバスのポインタを取得
 		const Canvas* GetPCanvas() const { return m_pCanvas; }
@@ -71,22 +77,25 @@ namespace Renderings
 
 		/* メンバ変数 */
 
-		// 画像ソース名
-		std::string m_imageSourceName;
 		// 色
 		Math::Color m_color;
 
-		// ピクセルシェーダ名
-		std::string m_pixelShaderName;
-
 		// レイヤー順
 		int m_orderInLayer;
+
+		// 画像ソース
+		const Renderings::ImageSource* m_pImageSource;
+		// ピクセルシェーダ
+		const Renderings::PixelShader* m_pPixelShader;
 
 		// キャンバスのポインタ
 		const Canvas* m_pCanvas;
 
 		// 画像描画インタフェースのポインタ
 		IImageRenderer* m_pIImageRenderer;
+
+		// リソース管理
+		const Systems::IResources& m_refIResources;
 
 	};
 }

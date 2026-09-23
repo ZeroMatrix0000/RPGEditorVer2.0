@@ -1,7 +1,7 @@
 /*
  * FileName:     IResources.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/29
+ * Last Updated: 2026/09/23
  *
  * リソースのインタフェース
  */
@@ -9,8 +9,13 @@
 #pragma once
 
 #include "OnlyOne.h"
-#include "../Renderings/Model3DSource.h"
-#include "../Renderings/ImageSource.h"
+
+namespace Renderings
+{
+	class Model3DSource;
+	class ImageSource;
+	class PixelShader;
+}
 
 namespace Systems
 {
@@ -40,7 +45,7 @@ namespace Systems
 		// メッシュの取得
 		virtual const Mesh*                      GetMesh(const std::string& meshName)          const = 0;
 		// ピクセルシェーダの取得
-		virtual ID3D11PixelShader*               GetPixelShader(const std::string& shaderName) const = 0;
+		virtual const Renderings::PixelShader*   GetPixelShader(const std::string& shaderName) const = 0;
 
 	};
 }

@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/23
  *
  * 3Dモデル
  */
@@ -10,8 +10,14 @@
 
 #include "../Components/Component.h"
 
+namespace Systems
+{
+	class IResources;
+}
+
 namespace Renderings
 {
+	class Model3DSource;
 	class ICameraScreen;
 	class IModel3DRenderer;
 
@@ -25,23 +31,23 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer);
+		Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer, const Systems::IResources& iResources);
 		// デストラクタ
 		~Model3D();
 
 		// 初期化処理
 		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
-		// モデルソース名を設定
-		void SetModelSourceName(const std::string& modelSourceName) { m_modelSourceName = modelSourceName; }
+		// モデルソースを設定
+		void SetModelSource(const std::string& modelSourceName);
 
 		// 映るカメラ画面を追加
 		void AddICameraScreen(const ICameraScreen& iCameraScreen);
 		// 映るカメラ画面を削除
 		void RemoveICameraScreen(const ICameraScreen& iCameraScreen);
 
-		// モデルソース名を取得
-		const std::string& GetModelSourceName() const { return m_modelSourceName; }
+		// モデルソースを取得
+		const Renderings::Model3DSource* GetPModelSource() const { return m_pModelSource; }
 
 		// 映るカメラ画面のポインタリストを取得
 		const std::vector<const ICameraScreen*>& GetPICameraScreens() const { return m_pICameraScreens; }
@@ -52,14 +58,17 @@ namespace Renderings
 
 		/* メンバ変数 */
 
-		// モデルソース名
-		std::string m_modelSourceName;
+		// モデルソース
+		const Renderings::Model3DSource* m_pModelSource;
 
 		// 映るカメラ画面のポインタリスト
 		std::vector<const ICameraScreen*> m_pICameraScreens;
 
 		// モデル描画インタフェースのポインタ
 		IModel3DRenderer* m_pIModelRenderer;
+
+		// リソース管理
+		const Systems::IResources& m_refIResources;
 
 	};
 }

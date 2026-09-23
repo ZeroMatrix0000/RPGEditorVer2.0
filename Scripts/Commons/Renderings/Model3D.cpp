@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3D.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/23
  *
  * 3Dモデル
  */
@@ -13,13 +13,15 @@
 #include "../GameObjects/GameObject.h"
 #include "../GameObjects/IGameObjectFinder.h"
 #include "../Renderings/CameraScreen.h"
+#include "../Systems/IResources.h"
 #include "../Systems/JsonSerializer.h"
 
-Renderings::Model3D::Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer)
+Renderings::Model3D::Model3D(const ComponentDesc& desc, IModel3DRenderer* pIModelRenderer, const Systems::IResources& iResources)
 	: Component{ desc }
-	, m_modelSourceName{}
+	, m_pModelSource{}
 	, m_pICameraScreens{}
 	, m_pIModelRenderer{ pIModelRenderer }
+	, m_refIResources{ iResources }
 {
 	// 描画者にモデルを追加
 	m_pIModelRenderer->AddPModel(this);
@@ -35,10 +37,23 @@ Renderings::Model3D::~Model3D()
 // 初期化処理
 void Renderings::Model3D::Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder)
 {
+	std::string modelSourceName{};
+
 	Systems::JsonSerializer serializer{ pIGameObjectFinder };
-	serializer.AddParameter(&m_modelSourceName, "ModelSourceName");
+	serializer.AddParameter(&modelSourceName, "ModelSourceName");
 	serializer.AddParameter(&m_pICameraScreens, "CameraScreens");
 	serializer.Load(json);
+
+	if (!modelSourceName.empty())
+	{
+		SetModelSource(modelSourceName);
+	}
+}
+
+// モデルソースを設定
+void Renderings::Model3D::SetModelSource(const std::string& modelSourceName)
+{
+	m_pModelSource = m_refIResources.GetModelSource(modelSourceName);
 }
 
 // 映るカメラ画面を追加

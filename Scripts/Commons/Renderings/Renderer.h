@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/09/23
  *
  * 描画
  */
@@ -31,7 +31,7 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Renderer(const Systems::IResources& iResources);
+		Renderer();
 
 		// 初期化処理
 		void Initialize

@@ -1,7 +1,7 @@
 /*
  * FileName:     Model3DRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/23
  *
  * 3Dモデル描画
  */
@@ -27,7 +27,7 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		Model3DRenderer(const Systems::IResources& iResources);
+		Model3DRenderer();
 
 		// 初期化処理
 		void Initialize(ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
@@ -52,9 +52,6 @@ namespace Renderings
 		ID3D11DeviceContext4* m_pContext;
 		// コモンステートのポインタ
 		const DirectX::CommonStates* m_pCommonStates;
-
-		// リソースのインタフェースの参照
-		const Systems::IResources& m_refIResources;
 
 	};
 }

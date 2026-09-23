@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/09/23
  *
  * 画像描画
  */
@@ -10,6 +10,7 @@
 #include "ImageRenderer.h"
 
 #include "ImageSource.h"
+#include "PixelShader.h"
 #include "Image.h"
 #include "Canvas.h"
 #include "../Systems/IResources.h"
@@ -17,7 +18,7 @@
 #include "../Components/RectTransform.h"
 
 // コンストラクタ
-Renderings::ImageRenderer::ImageRenderer(const Systems::IResources& iResources)
+Renderings::ImageRenderer::ImageRenderer()
 	: IImageRenderer{}
 	, m_constBuffer{}
 	, m_constBufferDesc{}
@@ -25,7 +26,6 @@ Renderings::ImageRenderer::ImageRenderer(const Systems::IResources& iResources)
 	, m_pImages{}
 	, m_pContext{}
 	, m_pCommonStates{}
-	, m_refIResources{ iResources }
 {
 }
 
@@ -62,14 +62,8 @@ void Renderings::ImageRenderer::Begin()
 // 描画処理
 void Renderings::ImageRenderer::Draw(const Image* pImage)
 {
-	// 画像名がなければ何もしない
-	if (pImage->GetImageSourceName().empty())
-	{
-		return;
-	}
-
 	// 画像ソース
-	const ImageSource* pImageSource = m_refIResources.GetImageSource(pImage->GetImageSourceName());
+	const ImageSource* pImageSource = pImage->GetPImageSource();
 	if (!pImageSource)
 	{
 		return;
@@ -178,12 +172,12 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 	rect.size *= canvasRatio;
 
 	// ピクセルシェーダ
-	ID3D11PixelShader* pPixelShader = pImage->GetPixelShaderName().empty() ? nullptr : m_refIResources.GetPixelShader(pImage->GetPixelShaderName());
+	const Renderings::PixelShader* pPixelShader = pImage->GetPPixelShader();
 	
 	if (pPixelShader)
 	{
 		// ピクセルシェーダシェーダを設定
-		m_pContext->PSSetShader(pPixelShader, nullptr, 0);
+		m_pContext->PSSetShader(pPixelShader->GetD3DShader(), nullptr, 0);
 		// 定数バッファ
 		m_constBufferDesc.textureSize = GetImageSize(pImage);
 		m_pContext->UpdateSubresource(m_constBuffer.Get(), 0, nullptr, &m_constBufferDesc, 0, 0);
@@ -240,7 +234,7 @@ void Renderings::ImageRenderer::RemovePImage(const Image* pImage)
 Math::Vector2 Renderings::ImageRenderer::GetImageSize(const Image* pImage) const
 {
 	// 画像ソース
-	const ImageSource* pImageSource = m_refIResources.GetImageSource(pImage->GetImageSourceName());
+	const ImageSource* pImageSource = pImage->GetPImageSource();
 	if (!pImageSource)
 	{
 		return Math::Vector2::Zero;

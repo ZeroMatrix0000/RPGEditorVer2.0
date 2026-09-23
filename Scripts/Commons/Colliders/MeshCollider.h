@@ -1,7 +1,7 @@
 /*
  * FileName:     MeshCollider.h
  * Author:       Takao Hayata
- * Last Updated: 2026/08/22
+ * Last Updated: 2026/09/23
  *
  * メッシュの当たり判定
  */
@@ -43,12 +43,13 @@ namespace Colliders
 		// 初期化処理
 		void Initalize(const nlohmann::ordered_json& json, IGameObjectFinder* pIGameObjectFinder) override;
 
-		// メッシュを設定
-		void SetMeshName(const std::string& meshName) { m_meshName = meshName; }
 		// 色を設定
 		void SetColor(const Math::Color& color) { m_color = color; }
 		// 色を設定
 		void SetColor(const DirectX::XMVECTORF32& color) { m_color = color; }
+
+		// メッシュを設定
+		void SetMesh(const std::string& meshName);
 
 		// 映るカメラ画面を追加
 		void AddICameraScreen(const Renderings::ICameraScreen& iCameraScreen);
@@ -72,14 +73,14 @@ namespace Colliders
 
 		/* メンバ変数 */
 
-		// メッシュ名
-		std::string m_meshName;
-
 		// 色
 		Math::Color m_color;
 
 		// ワールドメッシュ
 		Mesh m_worldMesh;
+
+		// メッシュのポインタ
+		const Mesh* m_pMesh;
 
 		// トランスフォーム
 		Transform* m_pTransform;

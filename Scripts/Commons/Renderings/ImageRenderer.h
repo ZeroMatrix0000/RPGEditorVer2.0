@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/31
+ * Last Updated: 2026/09/23
  *
  * 画像描画
  */
@@ -27,7 +27,7 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		ImageRenderer(const Systems::IResources& iResources);
+		ImageRenderer();
 
 		// 初期化処理
 		void Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates);
@@ -91,9 +91,6 @@ namespace Renderings
 
 		// コモンステート
 		const DirectX::CommonStates* m_pCommonStates;
-
-		// リソースのインタフェースの参照
-		const Systems::IResources& m_refIResources;
 
 	};
 }
