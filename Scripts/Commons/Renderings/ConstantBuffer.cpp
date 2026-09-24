@@ -48,6 +48,13 @@ void Renderings::ConstantBuffer::Initialize(ID3DBlob* pBlob)
 
 			// 変数バッファ
 			D3D11_SHADER_VARIABLE_DESC variableDesc{};
+			Utility::ThrowIfFailed(variable->GetDesc(&variableDesc));
+
+			m_variables.emplace
+			(
+				variableDesc.Name,
+				Variable{ variableDesc.StartOffset, variableDesc.Size }
+			);
 		}
 	}
 }
