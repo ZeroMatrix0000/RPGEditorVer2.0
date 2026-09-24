@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/23
+ * Last Updated: 2026/09/24
  *
  * 描画
  */
@@ -40,12 +40,6 @@ void Renderings::Renderer::Initialize
 	m_textRenderer.Initialize(pSwapChain);
 	// 当たり判定描画の初期化
 	m_colliderRenderer.Initialize(pDevice, pContext, commonStates);
-}
-
-// 更新処理
-void Renderings::Renderer::Update(float elapsedTime)
-{
-	m_imageRenderer.Update(elapsedTime);
 }
 
 // 描画処理

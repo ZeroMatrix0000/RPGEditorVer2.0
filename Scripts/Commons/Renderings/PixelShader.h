@@ -28,6 +28,8 @@ namespace Renderings
 
 		// シェーダを取得
 		auto* GetD3DShader() const { return m_d3dShader.Get(); }
+		// 定数バッファを取得
+		auto* GetConstantBuffer() const { return m_constantBuffer.get(); }
 
 		/* 静的関数 */
 
@@ -44,7 +46,7 @@ namespace Renderings
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> m_d3dShader;
 
 		// 定数バッファ
-		ConstantBuffer m_constantBuffer;
+		std::unique_ptr<ConstantBuffer> m_constantBuffer;
 
 	};
 }

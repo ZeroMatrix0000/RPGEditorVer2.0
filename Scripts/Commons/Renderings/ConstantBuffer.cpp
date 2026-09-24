@@ -1,7 +1,7 @@
 /*
  * FileName:     ConstantBuffer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/23
+ * Last Updated: 2026/09/24
  *
  * 定数バッファ
  */
@@ -13,6 +13,7 @@
 Renderings::ConstantBuffer::ConstantBuffer()
 	: m_data{}
 	, m_variables{}
+	, m_buffer{}
 {
 }
 
@@ -41,6 +42,8 @@ void Renderings::ConstantBuffer::Initialize(ID3DBlob* pBlob)
 		D3D11_SHADER_BUFFER_DESC bufferDesc{};
 		Utility::ThrowIfFailed(buffer->GetDesc(&bufferDesc));
 
+		m_data.resize(m_data.size() + bufferDesc.Size);
+
 		for (UINT j = 0; j < bufferDesc.Variables; j++)
 		{
 			// 変数
@@ -50,6 +53,7 @@ void Renderings::ConstantBuffer::Initialize(ID3DBlob* pBlob)
 			D3D11_SHADER_VARIABLE_DESC variableDesc{};
 			Utility::ThrowIfFailed(variable->GetDesc(&variableDesc));
 
+			// 変数リストに追加
 			m_variables.emplace
 			(
 				variableDesc.Name,

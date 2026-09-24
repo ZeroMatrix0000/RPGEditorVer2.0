@@ -1,7 +1,7 @@
 /*
  * FileName:     TitleScene.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/27
+ * Last Updated: 2026/09/24
  *
  * タイトルシーン
  */
@@ -16,6 +16,7 @@ namespace Components
 }
 namespace Renderings
 {
+	class Image;
 	class Canvas;
 	template<typename TCamera> requires IsSame
 	<
@@ -72,6 +73,8 @@ private:
 
 	// タイトル
 	RectTransform* m_pTitle;
+	// タイトル画像
+	Renderings::Image* m_pTitleImage;
 	// タイトルの基準位置
 	Math::Vector2 m_titlePosition;
 	// タイトルの移動周期

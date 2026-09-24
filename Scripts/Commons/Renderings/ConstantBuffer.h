@@ -1,12 +1,14 @@
 /*
  * FileName:     ConstantBuffer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/23
+ * Last Updated: 2026/09/24
  *
  * 定数バッファ
  */
 
 #pragma once
+
+#include "../Systems/IErrorMessage.h"
 
 namespace Renderings
 {
@@ -23,6 +25,49 @@ namespace Renderings
 
 		// 初期化処理
 		void Initialize(ID3DBlob* pBlob);
+
+		// 値を変更
+		template<typename T>
+		void SetVariable(const std::string& name, T value)
+		{
+			auto it = m_variables.find(name);
+			if (it == m_variables.end() || it->second.size != sizeof(T))
+			{
+				// エラーメッセージを追加
+				Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"変数が見つかりません。 | name: %s",
+					Utility::string2wstring(name).c_str()
+				));
+				return;
+			}
+
+			std::memcpy(m_data.data() + it->second.offset, &value, sizeof(T));
+		}
+
+		// 値を取得
+		template<typename T>
+		T GetVariable(const std::string& name) const
+		{
+			auto it = m_variables.find(name);
+			if (it == m_variables.end() || it->second.size != sizeof(T))
+			{
+				// エラーメッセージを追加
+				Systems::IErrorMessage::GetInstance()->AddMessage(Utility::FormatWString
+				(
+					L"変数が見つかりません。 | name: %s",
+					Utility::string2wstring(name).c_str()
+				));
+				return T{};
+			}
+
+			T temp{};
+			std::memcpy(&temp, m_data.data() + it->second.offset, sizeof(T));
+			return temp;
+		}
+
+		// データの大きさを取得
+		const std::vector<std::byte>& GetData() const { return m_data; }
 
 
 	private:
@@ -46,6 +91,9 @@ namespace Renderings
 
 		// 変数リスト
 		std::unordered_map<std::string, Variable> m_variables;
+
+		// バッファ
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_buffer;
 
 	};
 }

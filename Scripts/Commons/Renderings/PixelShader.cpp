@@ -32,7 +32,8 @@ void Renderings::PixelShader::Initialize(ID3D11Device5* device, const std::wstri
 		m_d3dShader.GetAddressOf()
 	));
 
-	m_constantBuffer.Initialize(blob.Get());
+	m_constantBuffer = std::make_unique<ConstantBuffer>();
+	m_constantBuffer->Initialize(blob.Get());
 }
 
 // 生成

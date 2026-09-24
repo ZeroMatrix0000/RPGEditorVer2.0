@@ -1,7 +1,7 @@
 /*
  * FileName:     ImageRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/09/23
+ * Last Updated: 2026/09/24
  *
  * 画像描画
  */
@@ -20,10 +20,9 @@
 // コンストラクタ
 Renderings::ImageRenderer::ImageRenderer()
 	: IImageRenderer{}
-	, m_constBuffer{}
-	, m_constBufferDesc{}
 	, m_spriteBatch{}
 	, m_pImages{}
+	, m_pDevice{}
 	, m_pContext{}
 	, m_pCommonStates{}
 {
@@ -32,20 +31,10 @@ Renderings::ImageRenderer::ImageRenderer()
 // 初期化処理
 void Renderings::ImageRenderer::Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, const DirectX::CommonStates& commonStates)
 {
+	m_pDevice = pDevice;
 	m_pContext = pContext;
 	m_pCommonStates = &commonStates;
 	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(pContext);
-
-	// 定数バッファの詳細
-	CD3D11_BUFFER_DESC cbDesc{ sizeof(ConstBufferDesc), D3D11_BIND_CONSTANT_BUFFER };
-	// 定数バッファの作成
-	Utility::ThrowIfFailed(pDevice->CreateBuffer(&cbDesc, nullptr, m_constBuffer.GetAddressOf()));
-}
-
-// 更新処理
-void Renderings::ImageRenderer::Update(float elapsedTime)
-{
-	m_constBufferDesc.time += elapsedTime;
 }
 
 // 描画開始
@@ -176,12 +165,19 @@ void Renderings::ImageRenderer::Draw(const Image* pImage)
 	
 	if (pPixelShader)
 	{
-		// ピクセルシェーダシェーダを設定
-		m_pContext->PSSetShader(pPixelShader->GetD3DShader(), nullptr, 0);
+		auto& data = pPixelShader->GetConstantBuffer()->GetData();
+
+		// 定数バッファの詳細
+		CD3D11_BUFFER_DESC cbDesc{ static_cast<UINT>(data.size()), D3D11_BIND_CONSTANT_BUFFER };
+
 		// 定数バッファ
-		m_constBufferDesc.textureSize = GetImageSize(pImage);
-		m_pContext->UpdateSubresource(m_constBuffer.Get(), 0, nullptr, &m_constBufferDesc, 0, 0);
-		m_pContext->PSSetConstantBuffers(0, 1, m_constBuffer.GetAddressOf());
+		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
+		Utility::ThrowIfFailed(m_pDevice->CreateBuffer(&cbDesc, nullptr, buffer.GetAddressOf()));
+
+		// ピクセルシェーダを設定
+		m_pContext->PSSetShader(pPixelShader->GetD3DShader(), nullptr, 0);
+		m_pContext->UpdateSubresource(buffer.Get(), 0, nullptr, data.data(), 0, 0);
+		m_pContext->PSSetConstantBuffers(0, 1, buffer.GetAddressOf());
 	}
 
 	// 描画
