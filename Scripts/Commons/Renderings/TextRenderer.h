@@ -28,7 +28,13 @@ namespace Renderings
 		TextRenderer();
 
 		// 初期化処理
-		void Initialize(IDXGISwapChain4* pSwapChain, const PixelShader* pOutlineShader);
+		void Initialize
+		(
+			ID3D11Device5*        pDevice,
+			ID3D11DeviceContext4* pContext,
+			IDXGISwapChain4*      pSwapChain,
+			const PixelShader*    pOutlineShader
+		);
 		// フォントコレクションの作成
 		void CreateFontCollection(const std::wstring& directoryPath);
 
@@ -75,6 +81,11 @@ namespace Renderings
 
 		// テキストのポインタリスト
 		std::vector<const Text*> m_pTexts;
+
+		// デバイス
+		ID3D11Device5* m_pDevice;
+		// デバイスコンテキスト
+		ID3D11DeviceContext4* m_pContext;
 
 		// アウトラインシェーダ
 		const Renderings::PixelShader* m_pOutlineShader;

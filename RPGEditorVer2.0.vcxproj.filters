@@ -328,8 +328,12 @@
     <ClCompile Include="Scripts\Commons\Renderings\TextOutlineRenderer.cpp">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Commons\Renderings\ConstantBuffer.cpp" />
-    <ClCompile Include="Scripts\Commons\Renderings\PixelShader.cpp" />
+    <ClCompile Include="Scripts\Commons\Renderings\PixelShader.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Commons\Renderings\ConstantBuffer.cpp">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Pch.h" />
@@ -669,8 +673,12 @@
     <ClInclude Include="Scripts\Commons\Renderings\TextOutlineRenderer.h">
       <Filter>Scripts\Commons\Renderings</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\Commons\Renderings\ConstantBuffer.h" />
-    <ClInclude Include="Scripts\Commons\Renderings\PixelShader.h" />
+    <ClInclude Include="Scripts\Commons\Renderings\PixelShader.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Commons\Renderings\ConstantBuffer.h">
+      <Filter>Scripts\Commons\Renderings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

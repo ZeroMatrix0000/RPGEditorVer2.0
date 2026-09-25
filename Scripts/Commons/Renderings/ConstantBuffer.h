@@ -1,7 +1,7 @@
 /*
  * FileName:     ConstantBuffer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/24
+ * Last Updated: 2026/09/25
  *
  * 定数バッファ
  */
@@ -66,7 +66,7 @@ namespace Renderings
 			return temp;
 		}
 
-		// データの大きさを取得
+		// データを取得
 		const std::vector<std::byte>& GetData() const { return m_data; }
 
 

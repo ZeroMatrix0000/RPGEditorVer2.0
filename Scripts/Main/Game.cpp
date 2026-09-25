@@ -82,12 +82,6 @@ void Game::Initialize(const HWND& hWindow)
 	// エフェクトファクトリー
 	auto* fx = m_renderingResources.GetEffectFactory();
 
-	// 描画の初期化
-	m_renderer.Initialize(device, context, swapChain, commonStates);
-	// テキスト描画を初期化
-	m_renderer.CreateFontCollection(L"Resources\\Fonts");
-	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain(), m_resources.GetPixelShader("TextOutline"));
-
 	// 画像の読み込み
 	m_resources.LoadImageSources(device, L"Resources\\Images");
 	// モデルソースの読み込み
@@ -162,6 +156,12 @@ void Game::Initialize(const HWND& hWindow)
 	m_resources.LoadMeshes(L"Resources\\Meshes");
 	// ピクセルシェーダの読み込み
 	m_resources.LoadPixelShaders(device, L"Resources\\Shaders\\PixelShaders");
+
+	// 描画の初期化
+	m_renderer.Initialize(device, context, swapChain, commonStates);
+	// テキスト描画を初期化
+	m_renderer.InitializeTextRenderer(device, context, swapChain, m_resources.GetPixelShader("TextOutline"));
+	m_renderer.CreateFontCollection(L"Resources\\Fonts");
 
 	// タイマーの初期化
 	m_timer.Initialize();
@@ -285,8 +285,15 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	m_deviceResources.OnWindowSizeChanged(outputSize);
 	m_windowController.SetOutputSize(outputSize);
 
+	// デバイス
+	auto* device = m_deviceResources.GetD3DDevice();
+	// コンテキスト
+	auto* context = m_deviceResources.GetD3DContext();
+	// スワップチェイン
+	auto* swapChain = m_deviceResources.GetSwapChain();
+
 	// テキスト描画を初期化
-	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain(), m_resources.GetPixelShader("TextOutline"));
+	m_renderer.InitializeTextRenderer(device, context, swapChain, m_resources.GetPixelShader("TextOutline"));
 
 	m_sceneManager.OnWindowSizeChanged(outputSize);
 }

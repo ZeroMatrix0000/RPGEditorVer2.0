@@ -12,6 +12,7 @@
 #include "TextOutlineRenderer.h"
 #include "Text.h"
 #include "Canvas.h"
+#include "PixelShader.h"
 #include "../GameObjects/GameObject.h"
 #include "../Components/RectTransform.h"
 #include "../Systems/IErrorMessage.h"
@@ -25,12 +26,17 @@ Renderings::TextRenderer::TextRenderer()
 	, m_fontCollection{}
 	, m_strokeStyle{}
 	, m_pTexts{}
+	, m_pDevice{}
+	, m_pContext{}
+	, m_pOutlineShader{}
 {
 }
 
 // 初期化処理
-void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain, const Renderings::PixelShader* pOutlineShader)
+void Renderings::TextRenderer::Initialize(ID3D11Device5* pDevice, ID3D11DeviceContext4* pContext, IDXGISwapChain4* pSwapChain, const Renderings::PixelShader* pOutlineShader)
 {
+	m_pDevice = pDevice;
+	m_pContext = pContext;
 	m_pOutlineShader = pOutlineShader;
 
 	// Direct2Dファクトリー
@@ -304,28 +310,22 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 		pText->GetD2D1FontColor(),
 		textBrush.GetAddressOf()
 	);
-	// アウトラインブラシ
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> outlineBrush;
-	m_renderTarget->CreateSolidColorBrush
-	(
-		pText->GetD2D1OutlineColor(),
-		outlineBrush.GetAddressOf()
-	);
 
-	// 文字列を描画
-	TextOutlineRenderer outlineRenderer
-	{
-		canvasRatio,
-		m_d2DFactory.Get(),
-		m_renderTarget.Get(),
-		textBrush.Get(),
-		outlineBrush.Get(),
-		m_strokeStyle.Get(),
-		*pText
-	};
+	//// 文字列を描画
+	//TextOutlineRenderer outlineRenderer
+	//{
+	//	canvasRatio,
+	//	m_d2DFactory.Get(),
+	//	m_renderTarget.Get(),
+	//	textBrush.Get(),
+	//	outlineBrush.Get(),
+	//	m_strokeStyle.Get(),
+	//	*pText
+	//};
 	//outlineRenderer.Begin();
 	//textLayout->Draw(nullptr, &outlineRenderer, rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f);
 	//outlineRenderer.End();
+
 	m_renderTarget->DrawTextLayout
 	(
 		D2D1::Point2F(rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f),
@@ -344,8 +344,30 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 // 描画終了
 void Renderings::TextRenderer::End()
 {
+	// ピクセルシェーダを設定
+	m_pContext->PSSetShader(m_pOutlineShader->GetD3DShader(), nullptr, 0);
+
+	auto& data = m_pOutlineShader->GetConstantBuffer()->GetData();
+
+	if (data.size() != 0)
+	{
+
+		// 定数バッファの詳細
+		CD3D11_BUFFER_DESC cbDesc{ static_cast<UINT>(data.size()), D3D11_BIND_CONSTANT_BUFFER };
+
+		// 定数バッファ
+		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
+		Utility::ThrowIfFailed(m_pDevice->CreateBuffer(&cbDesc, nullptr, buffer.GetAddressOf()));
+
+		// 定数バッファを設定
+		m_pContext->UpdateSubresource(buffer.Get(), 0, nullptr, data.data(), 0, 0);
+		m_pContext->PSSetConstantBuffers(0, 1, buffer.GetAddressOf());
+	}
+
 	// 描画終了
 	m_renderTarget->EndDraw();
+
+	m_pContext->PSSetShader(nullptr, nullptr, 0);
 }
 
 // リセット

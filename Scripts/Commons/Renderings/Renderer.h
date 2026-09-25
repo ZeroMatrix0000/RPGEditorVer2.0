@@ -1,7 +1,7 @@
 /*
  * FileName:     Renderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/24
+ * Last Updated: 2026/09/25
  *
  * 描画
  */
@@ -51,7 +51,13 @@ namespace Renderings
 		// テキスト描画のリセット
 		void ResetTextRenderer();
 		// テキスト描画の初期化
-		void InitializeTextRenderer(IDXGISwapChain4* pSwapChain, const PixelShader* pOutlineShader);
+		void InitializeTextRenderer
+		(
+			ID3D11Device5*        pDevice,
+			ID3D11DeviceContext4* pContext,
+			IDXGISwapChain4*      pSwapChain,
+			const PixelShader*    pOutlineShader
+		);
 
 		// 描画モードを返る
 		void ChangeRenderMode();

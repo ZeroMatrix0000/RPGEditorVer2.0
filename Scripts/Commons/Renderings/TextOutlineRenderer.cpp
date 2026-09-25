@@ -133,28 +133,28 @@ void Renderings::TextOutlineRenderer::Begin()
 // 描画終了
 void Renderings::TextOutlineRenderer::End()
 {
-	//m_sink->Close();
+	m_sink->Close();
 
-	//// 古い座標系
-	//D2D_MATRIX_3X2_F oldMatrix{};
-	//m_pRenderTarget->GetTransform(&oldMatrix);
+	// 古い座標系
+	D2D_MATRIX_3X2_F oldMatrix{};
+	m_pRenderTarget->GetTransform(&oldMatrix);
 
-	//// 座標系を移動
-	//m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Translation(
-	//	100.0f,
-	//	100.0f
-	//) * oldMatrix);
+	// 座標系を移動
+	m_pRenderTarget->SetTransform(D2D1::Matrix3x2F::Translation(
+		100.0f,
+		100.0f
+	) * oldMatrix);
 
-	//// アウトラインの描画
-	//if (m_refText.GetOutlineWidth() != 0.0f)
-	//{
-	//	m_pRenderTarget->DrawGeometry(m_geometry.Get(), m_pOutlineBrush, m_refText.GetOutlineWidth() * m_canvasRatio, m_pStrokeStyle);
-	//}
+	// アウトラインの描画
+	if (m_refText.GetOutlineWidth() != 0.0f)
+	{
+		m_pRenderTarget->DrawGeometry(m_geometry.Get(), m_pOutlineBrush, m_refText.GetOutlineWidth() * m_canvasRatio, m_pStrokeStyle);
+	}
 
-	//m_pRenderTarget->FillGeometry(m_geometry.Get(), m_pTextBrush);
+	m_pRenderTarget->FillGeometry(m_geometry.Get(), m_pTextBrush);
 
-	//// 座標系を戻す
-	//m_pRenderTarget->SetTransform(oldMatrix);
+	// 座標系を戻す
+	m_pRenderTarget->SetTransform(oldMatrix);
 }
 
 // ピクセルスナップ設定
