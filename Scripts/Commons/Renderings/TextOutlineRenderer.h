@@ -1,7 +1,7 @@
 /*
  * FileName:     TextOutLineRenderer.h
  * Author:       Takao Hayata
- * Last Updated: 2026/09/14
+ * Last Updated: 2026/09/25
  *
  * テキストのアウトライン描画
  */
@@ -22,7 +22,16 @@ namespace Renderings
 		/* メンバ関数 */
 
 		// コンストラクタ
-		TextOutlineRenderer(float canvasRatio, ID2D1Factory* pFactory, ID2D1RenderTarget* pRenderTarget, const Text& text);
+		TextOutlineRenderer
+		(
+			float                 canvasRatio,
+			ID2D1Factory*         pFactory,
+			ID2D1RenderTarget*    pRenderTarget,
+			ID2D1SolidColorBrush* pTextBrush,
+			ID2D1SolidColorBrush* pOutlineBrush,
+			ID2D1StrokeStyle*     pStrokeStyle,
+			const Text&           text
+		);
 
 		// 描画
 		HRESULT STDMETHODCALLTYPE DrawGlyphRun
@@ -38,7 +47,7 @@ namespace Renderings
 
 		HRESULT DrawInlineObject
 		(
-			void* clientDrawingContext,
+			void*                clientDrawingContext,
 			FLOAT                originX,
 			FLOAT                originY,
 			IDWriteInlineObject* inlineObject,
@@ -85,7 +94,68 @@ namespace Renderings
 		ULONG AddRef() override { return 0; }
 		ULONG Release() override { return 0; }
 
+		// 描画開始
+		void Begin();
+		// 描画終了
+		void End();
+
 	private:
+
+
+		/* 構造体 */
+
+		// グリフのキー
+		struct GlyphKey
+		{
+			// フォントの顔
+			IDWriteFontFace* fontFace{};
+			// グリフ番号
+			UINT16 glyphIndex{};
+			// フォントサイズ
+			float fontSize{};
+			// 垂直書き込みかどうか
+			bool isSideways{};
+
+			bool operator==(const GlyphKey& glyphKey) const
+			{
+				return
+					fontFace == glyphKey.fontFace &&
+					glyphIndex == glyphKey.glyphIndex &&
+					fontSize == glyphKey.fontSize &&
+					isSideways == glyphKey.isSideways
+				;
+			}
+		};
+
+		// グリフキーのハッシュ関数
+		struct GlyphKeyHash
+		{
+			size_t operator()(const GlyphKey& glyphKey) const
+			{
+				size_t seed = 0;
+				HashCombine(&seed, glyphKey.fontFace);
+				HashCombine(&seed, glyphKey.glyphIndex);
+				HashCombine(&seed, glyphKey.fontSize);
+				HashCombine(&seed, glyphKey.isSideways);
+				return seed;
+			}
+
+		private:
+
+			// ハッシュ合成
+			template<typename T>
+			static void HashCombine(size_t* pSeed, const T& value)
+			{
+				// 0x9e3779b9 = 2^32 / φ
+				*pSeed ^= std::hash<T>{}(value) + 0x9e3779b9 + (*pSeed << 6) + (*pSeed >> 2);
+			}
+		};
+
+
+		/* 静的変数 */
+
+		// グリフのキャッシュ
+		static std::unordered_map<GlyphKey, Microsoft::WRL::ComPtr<ID2D1PathGeometry>, GlyphKeyHash> s_glyphCache;
 
 
 		/* メンバ関数 */
@@ -97,8 +167,25 @@ namespace Renderings
 			BOOL* isDisabled
 		) override;
 
+		// グリフの取得
+		ID2D1PathGeometry* GetGlyphGeometry
+		(
+			IDWriteFontFace* fontFace,
+			UINT16 glyphIndex,
+			float fontSize,
+			bool isSideways
+		);
+
+		// グリフの描画
+		void DrawGlyphGeometry(ID2D1PathGeometry* pGeometry, const Math::Vector2& position);
+
 
 		/* メンバ変数 */
+
+		// ジオメトリ
+		Microsoft::WRL::ComPtr<ID2D1PathGeometry> m_geometry;
+		// 曲線
+		Microsoft::WRL::ComPtr<ID2D1GeometrySink> m_sink;
 
 		// キャンバスの表示倍率
 		float m_canvasRatio;
@@ -108,6 +195,13 @@ namespace Renderings
 
 		// 描画ターゲットのポインタ
 		ID2D1RenderTarget* m_pRenderTarget;
+
+		// テキストブラシ
+		ID2D1SolidColorBrush* m_pTextBrush;
+		// アウトラインブラシ
+		ID2D1SolidColorBrush* m_pOutlineBrush;
+		// 線のスタイル
+		ID2D1StrokeStyle* m_pStrokeStyle;
 
 		// テキストのポインタ
 		const Text& m_refText;

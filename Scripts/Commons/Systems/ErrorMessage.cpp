@@ -1,7 +1,7 @@
 /*
  * FileName:     ErrorMessage.h
  * Author:       Takao Hayata
- * Last Updated: 2026/07/24
+ * Last Updated: 2026/09/25
  *
  * エラーメッセージ
  */
@@ -19,19 +19,19 @@
 Systems::ErrorMessage::ErrorMessage()
 	: IErrorMessage{}
 	, m_messages{}
-	, m_messageCount{}
 	, m_textComponent{}
 	, m_displayTime{}
+	, m_displayMax{}
 	, m_isActive{}
+	, m_isChanged{}
 {
 }
 
 // 初期化処理
-void Systems::ErrorMessage::Initialize(float displayTime, bool isActive)
+void Systems::ErrorMessage::Initialize(float displayTime, size_t displayMax, bool isActive)
 {
-	m_messageCount = 0;
-
 	m_displayTime = displayTime;
+	m_displayMax = displayMax;
 
 	m_isActive = isActive;
 }
@@ -39,15 +39,6 @@ void Systems::ErrorMessage::Initialize(float displayTime, bool isActive)
 // 更新処理
 void Systems::ErrorMessage::Update(float elapsedTime)
 {
-	// メッセージ数が変わったら表示を適用
-	if (m_messageCount != m_messages.size())
-	{
-		m_messageCount = m_messages.size();
-		ApplyDisplayText();
-	}
-
-	// メッセージのどれかを消したか
-	bool isErased = false;
 
 	for (int i = 0; i < m_messages.size(); i++)
 	{
@@ -56,15 +47,16 @@ void Systems::ErrorMessage::Update(float elapsedTime)
 		if (m_messages.at(i).timer.IsMax())
 		{
 			auto it = m_messages.begin() + i;
-			isErased = true;
+			m_isChanged = true;
 			m_messages.erase(it);
 			i--;
 		}
 	}
 
-	// メッセージがどれか消えていたら表示を適用
-	if (isErased)
+	// 変更があれば表示を適用
+	if (m_isChanged)
 	{
+		m_isChanged = false;
 		ApplyDisplayText();
 	}
 }
@@ -91,7 +83,14 @@ void Systems::ErrorMessage::AddMessage(const std::wstring& text)
 		return;
 	}
 
+	m_isChanged = true;
 	m_messages.push_back(MessageData{ text, Limited::Create(0.0f, 0.0f, m_displayTime) });
+
+	// 最大数を超えるなら先頭を削除
+	if (m_messages.size() > m_displayMax)
+	{
+		m_messages.erase(m_messages.begin());
+	}
 }
 
 // 表示を適用

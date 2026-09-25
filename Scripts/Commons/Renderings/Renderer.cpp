@@ -36,8 +36,6 @@ void Renderings::Renderer::Initialize
 	m_modelRenderer.Initialize(pContext, commonStates);
 	// 画像描画の初期化
 	m_imageRenderer.Initialize(pDevice, pContext, commonStates);
-	// テキスト描画の初期化
-	m_textRenderer.Initialize(pSwapChain);
 	// 当たり判定描画の初期化
 	m_colliderRenderer.Initialize(pDevice, pContext, commonStates);
 }
@@ -146,9 +144,9 @@ void Renderings::Renderer::ResetTextRenderer()
 }
 
 // テキスト描画の初期化
-void Renderings::Renderer::InitializeTextRenderer(IDXGISwapChain4* pSwapChain)
+void Renderings::Renderer::InitializeTextRenderer(IDXGISwapChain4* pSwapChain, const PixelShader* pOutlineShader)
 {
-	m_textRenderer.Initialize(pSwapChain);
+	m_textRenderer.Initialize(pSwapChain, pOutlineShader);
 }
 
 // 描画モードを返る

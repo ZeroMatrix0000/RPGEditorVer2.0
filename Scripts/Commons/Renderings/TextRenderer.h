@@ -13,6 +13,8 @@
 
 namespace Renderings
 {
+	class PixelShader;
+	
 	// テキスト描画
 	class TextRenderer : public ITextRenderer
 	{
@@ -26,7 +28,7 @@ namespace Renderings
 		TextRenderer();
 
 		// 初期化処理
-		void Initialize(IDXGISwapChain4* pSwapChain);
+		void Initialize(IDXGISwapChain4* pSwapChain, const PixelShader* pOutlineShader);
 		// フォントコレクションの作成
 		void CreateFontCollection(const std::wstring& directoryPath);
 
@@ -68,8 +70,14 @@ namespace Renderings
 		// フォントコレクション
 		Microsoft::WRL::ComPtr<IDWriteFontCollection3> m_fontCollection;
 
+		// 線のスタイル
+		Microsoft::WRL::ComPtr<ID2D1StrokeStyle> m_strokeStyle;
+
 		// テキストのポインタリスト
 		std::vector<const Text*> m_pTexts;
+
+		// アウトラインシェーダ
+		const Renderings::PixelShader* m_pOutlineShader;
 
 	};
 }

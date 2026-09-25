@@ -1,7 +1,7 @@
 /*
  * FileName:     TextRenderer.cpp
  * Author:       Takao Hayata
- * Last Updated: 2026/07/23
+ * Last Updated: 2026/09/25
  *
  * テキスト描画
  */
@@ -23,20 +23,23 @@ Renderings::TextRenderer::TextRenderer()
 	, m_dWriteFactory{}
 	, m_renderTarget{}
 	, m_fontCollection{}
+	, m_strokeStyle{}
 	, m_pTexts{}
 {
 }
 
 // 初期化処理
-void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain)
+void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain, const Renderings::PixelShader* pOutlineShader)
 {
+	m_pOutlineShader = pOutlineShader;
+
 	// Direct2Dファクトリー
 	if (m_d2DFactory.Get() == nullptr)
 	{
 		Utility::ThrowIfFailed(D2D1CreateFactory
 		(
 			D2D1_FACTORY_TYPE_SINGLE_THREADED,
-			m_d2DFactory.ReleaseAndGetAddressOf()
+			m_d2DFactory.GetAddressOf()
 		));
 	}
 
@@ -47,7 +50,7 @@ void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain)
 		(
 			DWRITE_FACTORY_TYPE_SHARED,
 			__uuidof(IDWriteFactory8),
-			reinterpret_cast<IUnknown**>(m_dWriteFactory.ReleaseAndGetAddressOf())
+			reinterpret_cast<IUnknown**>(m_dWriteFactory.GetAddressOf())
 		));
 	}
 
@@ -56,14 +59,24 @@ void Renderings::TextRenderer::Initialize(IDXGISwapChain4* pSwapChain)
 	Utility::ThrowIfFailed(pSwapChain->GetBuffer(0, IID_PPV_ARGS(pBackBuffer.GetAddressOf())));
 
 	// プロパティ
-	D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties
+	D2D1_RENDER_TARGET_PROPERTIES targetProps = D2D1::RenderTargetProperties
 	(
 		D2D1_RENDER_TARGET_TYPE_DEFAULT,
 		D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED)
 	);
 
 	// レンダーターゲット
-	Utility::ThrowIfFailed(m_d2DFactory->CreateDxgiSurfaceRenderTarget(pBackBuffer.Get(), &props, m_renderTarget.GetAddressOf()));
+	Utility::ThrowIfFailed(m_d2DFactory->CreateDxgiSurfaceRenderTarget(pBackBuffer.Get(), &targetProps, m_renderTarget.ReleaseAndGetAddressOf()));
+
+	// 線のスタイルの詳細（角を丸める）
+	D2D1_STROKE_STYLE_PROPERTIES strokeStyleProps{};
+	strokeStyleProps.lineJoin = D2D1_LINE_JOIN_ROUND;
+	m_d2DFactory.Get()->CreateStrokeStyle(
+		strokeStyleProps,
+		nullptr,
+		0,
+		m_strokeStyle.ReleaseAndGetAddressOf()
+	);
 }
 
 // フォントコレクションの作成
@@ -235,14 +248,6 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 	rect.position *= canvasRatio;
 	rect.size *= canvasRatio;
 
-	// ブラシ
-	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> brush;
-	m_renderTarget->CreateSolidColorBrush
-	(
-		pText->GetD2D1FontColor(),
-		brush.GetAddressOf()
-	);
-
 	// テキストフォーマット
 	Microsoft::WRL::ComPtr<IDWriteTextFormat> textFormat;
 	if (FAILED(m_dWriteFactory->CreateTextFormat
@@ -291,11 +296,42 @@ void Renderings::TextRenderer::Draw(const Text* pText)
 			D2D1::Point2F(rect.position.x, rect.position.y)
 		));
 	}
-	// 移動
+
+	// テキストブラシ
+	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> textBrush;
+	m_renderTarget->CreateSolidColorBrush
+	(
+		pText->GetD2D1FontColor(),
+		textBrush.GetAddressOf()
+	);
+	// アウトラインブラシ
+	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush> outlineBrush;
+	m_renderTarget->CreateSolidColorBrush
+	(
+		pText->GetD2D1OutlineColor(),
+		outlineBrush.GetAddressOf()
+	);
 
 	// 文字列を描画
-	TextOutlineRenderer outlineRenderer{ canvasRatio, m_d2DFactory.Get(), m_renderTarget.Get(), *pText };
-	textLayout->Draw(nullptr, &outlineRenderer, rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f);
+	TextOutlineRenderer outlineRenderer
+	{
+		canvasRatio,
+		m_d2DFactory.Get(),
+		m_renderTarget.Get(),
+		textBrush.Get(),
+		outlineBrush.Get(),
+		m_strokeStyle.Get(),
+		*pText
+	};
+	//outlineRenderer.Begin();
+	//textLayout->Draw(nullptr, &outlineRenderer, rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f);
+	//outlineRenderer.End();
+	m_renderTarget->DrawTextLayout
+	(
+		D2D1::Point2F(rect.position.x - rect.size.x / 2.0f, rect.position.y - rect.size.y / 2.0f),
+		textLayout.Get(),
+		textBrush.Get()
+	);
 
 	// 描画ターゲットを元に戻す
 	if (angle != 0.0f)

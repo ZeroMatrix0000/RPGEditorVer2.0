@@ -21,6 +21,8 @@ namespace Systems
 
 namespace Renderings
 {
+	class PixelShader;
+
 	// 描画
 	class Renderer : public Systems::OnlyOne
 	{
@@ -49,7 +51,7 @@ namespace Renderings
 		// テキスト描画のリセット
 		void ResetTextRenderer();
 		// テキスト描画の初期化
-		void InitializeTextRenderer(IDXGISwapChain4* pSwapChain);
+		void InitializeTextRenderer(IDXGISwapChain4* pSwapChain, const PixelShader* pOutlineShader);
 
 		// 描画モードを返る
 		void ChangeRenderMode();

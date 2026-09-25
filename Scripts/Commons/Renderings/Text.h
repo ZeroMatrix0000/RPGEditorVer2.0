@@ -79,11 +79,11 @@ namespace Renderings
 		// 段落配置を取得
 		DWRITE_PARAGRAPH_ALIGNMENT GetParagraphAlignment() const { return m_paragraphAlignment; }
 		
-		// フォントサイズを取得
+		// アウトラインの太さを取得
 		float GetOutlineWidth() const { return m_outlineWidth; }
-		// 色を取得
+		// アウトライン色を取得
 		Math::Color GetOutlineColor() const { return Math::Color{ m_outlineColor.r, m_outlineColor.g, m_outlineColor.b, m_outlineColor.a }; }
-		// 色を取得
+		// アウトライン色を取得
 		const D2D1::ColorF& GetD2D1OutlineColor() const { return m_outlineColor; }
 
 		// レイヤー順を取得

@@ -61,7 +61,7 @@ void Game::Initialize(const HWND& hWindow)
 	m_hWindow = hWindow;
 
 	// エラーメッセージの初期化
-	m_errorMessage.Initialize(5.0f, true);
+	m_errorMessage.Initialize(5.0f, 20, true);
 
 	// デバイスリソースの初期化
 	m_deviceResources.Initialize(hWindow);
@@ -84,7 +84,9 @@ void Game::Initialize(const HWND& hWindow)
 
 	// 描画の初期化
 	m_renderer.Initialize(device, context, swapChain, commonStates);
+	// テキスト描画を初期化
 	m_renderer.CreateFontCollection(L"Resources\\Fonts");
+	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain(), m_resources.GetPixelShader("TextOutline"));
 
 	// 画像の読み込み
 	m_resources.LoadImageSources(device, L"Resources\\Images");
@@ -211,6 +213,7 @@ void Game::Initialize(const HWND& hWindow)
 	);
 
 	// 最初のシーンを設定
+	//m_sceneManager.SetFirstScene<SampleScene>();
 	m_sceneManager.SetFirstScene<TitleScene>();
 }
 
@@ -283,7 +286,7 @@ void Game::OnWindowSizeChanged(const Math::Vector2Int& outputSize)
 	m_windowController.SetOutputSize(outputSize);
 
 	// テキスト描画を初期化
-	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain());
+	m_renderer.InitializeTextRenderer(m_deviceResources.GetSwapChain(), m_resources.GetPixelShader("TextOutline"));
 
 	m_sceneManager.OnWindowSizeChanged(outputSize);
 }
